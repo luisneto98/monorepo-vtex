@@ -1,0 +1,743 @@
+Meet Meeting
+qua., 24 de set. de 2025
+
+0:00 - Luis Alves
+o objetivo de pegar uma plataforma digital limitada, acessar todas as informações, habilitar a gestão de conteúdo e comunicação em tempo real. Teve um ponto aqui que além daqueles que a gente discutiu, que eu adicionei, que foi... Acho que não está aqui. Mas um dos pontos que eu adicionei foi essa visão de que vai se alterar ao decorrer do tempo. Tudo aquilo que vai ser mostrado vai se adequar ao decorrer do tempo para a fase que eles estiveram. Acredito que já está aqui no documento. Contexto. Acho que aquilo básico mesmo que a gente já viu. Vamos baixar aqui para os requisitos. Eu tentei dar uma expandida legal nos requisitos para a gente ter algo bem mais sólido mesmo. A plataforma deve fornecer multilíngua e detecção automática de roma e troca manual. O sistema deve exibir a gênero completa com filtros por tema, palestrante, palco, data, horário e texto. Faz sentido esse filtro? Sim. Acho que qualquer coisa que vocês virem aqui que não faz sentido, a gente pode ir discutindo. O website deve apresentar fiz detalhados de palestrantes, com o Rio, voto, empresa, cargo e seções vinculadas.
+
+1:56 - Gustavo Fernandez
+É importante, eu vou trazendo os pontos aqui, mais que experiência do que aconteceu no passado. É importante, por exemplo, até essas informações assim de perfil de palestrante, por exemplo, a gente tem as internacionalizações. Então, tipo, o nome da empresa não, o nome da empresa é único, mas o cargo dele de engenheiro software engineer tem mudanças. Então, esse ponto é relevante. A priorização desses palestrantes na página e o destaque para marcar quais palestrantes vão aparecer na home, elas importam. Então, tipo, quem é o primeiro participante, segundo, terceiro, quarto, quinto. Quais palestrantes que tiverem marcado como destaque lá dentro do back-office são os que vão aparecer na home, respeitando a ordem que está aqui.
+
+3:11 - Luis Alves
+Isso.
+
+3:12 - Palestrante Não Identificado
+Aqui, esse RF4, mesma coisa.
+
+3:20 - Gustavo Fernandez
+A ordem das cotas importa. A ordem dos patrocinadores dentro das cotas também importa. Raissa, eu não lembro disso, me ajuda aqui. Ano passado, a gente trouxe a página de patrocinadores. Eu não lembro se a gente fez ela com sanfona, que o cara clicava, abria, e eles pediram para tirar isso, não foi? Então, tem que ser aberto toda essa página de patrocinadores. Tipo, não pode ser, clica e ele vai abrindo em lote. Clica na cota, ele abre os patrocinadores daquela cota. Tem que ser tudo expansivo, tudo aberto já. Todos visíveis, na prioridade que foi colocada. E a gente tem um volume elevado. Então, ano passado a gente teve um problema, por exemplo, a gente estava mostrando 100 patrocinadores e no final do evento, sei lá, tinha 200, 250 patrocinadores cadastrados no banco. A gente tem que se atentar no site nisso e fazer um... Não dá pra ser paginação 1, 2, 3, vai ter que ser uma paginação por scroll ali.
+
+4:50 - Palestrante Não Identificado
+Isso pra patrocinador e pra palestrante também.
+
+4:53 - Gustavo Fernandez
+E pra palestrante isso também vale, porque o volume é grande.
+
+4:57 - Luis Alves
+Então a gente tá falando que todos os CRUDs, em teoria, devem ter uns CRUDs Então, quem for trabalhar de informação dentro do site, a gente deve trabalhar com a ideia de escritor, certo?
+
+5:09 - Gustavo Fernandez
+Pelo menos palestrantes e patrocinadores, sim, porque o volume é grande. Acho que depende do conteúdo, né? Tipo, a Fusana Fábio não vai pesar tanto, mas palestrantes e patrocinadores são... Só trazendo isso porque, assim, não é 10, 15. A gente tinha uma visão que seria um negócio desse ano passado. Na prática, deu tipo... A gente teve um bug que deu que, cara, a partir do palestrante, Estava acho que no 125, estava aparecendo só 100 no site. A gente foi ver a paginação que estava limitando.
+
+5:40 - Charles Muzykant
+Uma coisa que a gente fez ali na Brint foi, não sei se cabe aqui falar isso, mas a gente colocou uma busca e filtro por segmento, no caso dos patrocinadores. Dos palestrantes, foi um pouco diferente lá, ficou dentro de programação. Daí a gente fez um pouco diferente. Na Brint. A gente não exibiu todos os palestrantes, né, de forma aleatória, porque eles estão separados por destaque na Rômico.
+
+6:09 - Gustavo Fernandez
+Aqui a gente tem que ir na página de... Isso foi até um ponto que eu estava discutindo com o Luccas ontem, faz sentido termos campos de buscas nesses campos, até porque às vezes os caras querem encontrar um palestrante que é E aí, a partir do palestrante, eles chegam nas palestras que aquele palestrante vai estar dando Então, as buscas e os filtros precisam existir aqui nessas páginas E para patrocinador, eu vejo que os campos de busca têm que existir Eles podem ser menores, eu posso buscar pelo nome do patrocinador Ou eu posso buscar pela tag do patrocinador O patrocinador que está envolvido com essa e com essa determinada tag.
+
+6:56 - Charles Muzykant
+Dá pra gente também fazer o seguinte, ao invés de ter paginação, eu que posso ser um pouco mais difícil, a gente tem aquele sisteminha de ele vai carregando, sabe?
+
+7:08 - Gustavo Fernandez
+Aí quando ele chegar no ponto...
+
+7:10 - Charles Muzykant
+É o scroll infinito. Pra não conseguir chegar no rodapé, a gente coloca um botãozinho lá, carregar mais, entendeu?
+
+7:18 - Gustavo Fernandez
+Não, é scroll infinito, cara. Você não pode esconder, aqui é é um resíduo, cara. Resíduo do contrato de assinatura do Vitex na venda de patrocínio. Você não pode esconder, seja em paginação ou botão, ou agrupando por categorias, o patrocinador.
+
+7:36 - Palestrante Não Identificado
+Você vai rolando a página, você vai carregando.
+
+7:39 - Gustavo Fernandez
+Você tem que colocar um scroll infinito só pra não virar aquele problema. A página tá lenta pra abrir, porque tem 250 patrocinadores lá, mas tem que ser nenhum tipo de ação, não pode ter clique.
+
+7:54 - Luccas Evans
+Uma dúvida Gustavo, a gente não vai exibir isso na página principal, né? Vai ser uma página separada, senão isso mata qualquer página principal.
+
+8:01 - Gustavo Fernandez
+Isso, tem a home e a home vai estar lá, a gente vai ter uma sessão lá que a gente vai trazer, por exemplo, os palestrantes que estão em destaque vão aparecer nesta página da home e vai ter um botão lá, tipo ver todos, alguma coisa assim, o cara quer que eu vá lá e ele vai para a página de para os patrocinadores, aí lá é scroll infinito lá.
+
+8:22 - Luis Alves
+Para os patrocinadores, acho que tem algum ponto aí, os patrocinadores provavelmente vão ter que aparecer na home, né?
+
+8:30 - Gustavo Fernandez
+Deixa eu ver também o que foi no passado, mas eu acho.
+
+8:34 - Charles Muzykant
+Colocava os logos deles. Eu mandei aqui ó, da Brint como é que é, que a gente fez, e tem a home também, se você clicar em home ali, você vai ver como é que foi a parte dos expositores. A gente colocou um carrossel porque, como são muitos e para não dar briga, a gente colocou tudo lá em carrossel. Daí ele fica girando de forma mais rápida.
+
+9:00 - Raissa Antunes
+Você lembra como que era o Vitex no ano passado?
+
+9:03 - Raissa Antunes
+O Vitex no ano passado a gente fez de duas formas. A gente primeiro colocou só os logos e tinha uma página que tinha as categorias. Depois eles pediram para tirar o e deixar só um botão, patrocinadores. E aí você clicava no botão e ia pra página. Então a gente teve esses dois formatos.
+
+9:23 - Gustavo Fernandez
+Justamente, e esse segundo formato foi o final, justamente por conta de você não poder discriminar. Todos eles. Um patrocinador está aparecendo na home e o outro não está aparecendo na home.
+
+9:33 - Raissa Antunes
+Esse negócio de patrocinador e palestrante, gente, é muito chato. Porque eles reclamam com a VTex, eles têm ciúmes se um logo aparece e o outro não. Então, que a gente puder já pensar nisso agora, é melhor.
+
+9:48 - Luis Alves
+Tá. Então, basicamente, o que a gente vai trabalhar é... Rapinho, Charles. O que a gente vai trabalhar é, na home, a gente vai fazer o redirecionamento para páginas de patrocinadores. E na página de patrocinadores, a gente vai fazer... Utilizar scroll infinito, coordenação baseada em conta. Se for Diamond, primeiro, Gold, segundo, Silver, A ordenação das cotas importa, porque eles criam cotas.
+
+10:13 - Gustavo Fernandez
+Às vezes eles vão lá e criam a cota de organizadores e a gente quer jogar esse primeiro na véspera do evento. Então a gente vai ter que ter no back office a criação do grupo cotas e definir a prioridade entre as cotas.
+
+10:29 - Luis Alves
+E aí dentro de uma cota a gente vai ter o piloto lá do patrocinador definindo a ordem de prioridade dele dentro daquela cota Então para a back office a gente vai ter que ter a opção de fazer cruz também de cota, de cota não, de cota, ou seja, se é diamond, gold, silver, conseguir adicionar mais outras ali e dentro de cada uma poder adicionar o patrocinador. Isso, beleza? E também fazer uma ordenação tanto de cotas como de patrocinadores.
+
+11:05 - Palestrante Não Identificado
+Exato.
+
+11:07 - Charles Muzykant
+Ali dessa questão dos que vocês estão falando patrocinadores são expositores né Raissa? Isso. São os expositores né. Pelo menos da BRINCH funcionou com eles ali né. Tipo se aquele carrossel que daí vai exibir todo mundo ali. Eu não sei como isso pode ficar pesado. No caso da BRINCH...
+
+11:28 - Gustavo Fernandez
+Não é nem questão de ficar pesado. A questão é regulamentar a regulação deles lá. Não pode ter patrocinador aparecendo na home e outros não. Ah, vamos fazer um scroll infinito. Cara, são 250 patrocinadores. Por mais que você vá ter paginação no scroll infinito lá, o patrocinador 249 vai ter que ficar esperando a página ficar rodando pra ele aparecer. Então, em Vtex não dá pra colocar carrossel de patrocinadores na home.
+
+12:00 - Raissa Antunes
+É, eu seguiria com algo que eles já pediram no ano ano passado que foi essa.
+
+12:07 - Gustavo Fernandez
+A gente já aprendeu ano passado como é que rolou e que foi isso.
+
+12:15 - Charles Muzykant
+Fechou aqui, patrocinadores e...
+
+12:17 - Charles Muzykant
+Uma coisa, Luis, não vai ter uma descrição desse expositor que é o patrocinador? Quando clicar na logo dele?
+
+12:27 - Gustavo Fernandez
+Não, vai ter a categoria e vai ter o clique Quando clicar ali, a gente vai para a página daquele expositor ali, daquele patrocinador, vai para a página daquele patrocinador. E aí, nesta página, a gente tem que trazer lá o nome do patrocinador, uma mini bio do patrocinador, pode ter algum espaço que ele vai subir algum conteúdo em vídeo, foto, algum conteúdo em arquivo, os links de rede social, algum dado dele tem que ter. E aí esse conteúdo desse patrocinador tem que poder ser gerenciável por ele, que aqui é aquela área do expositor que a gente vai ter lá na fase 2. Ele próprio poder entrar, ele próprio poder alterar o conteúdo dele, poder subir o arquivo, ele poder subir algumas informações lá dentro. A ideia é que cada um passe a ter a sua página interna lá dentro do site de Vitex.
+
+13:26 - Luis Alves
+Entendeu isso? Então, ao criar um patrocinador, eu também estou criando uma conta para ele, em que ele vai poder acessar o sistema e poder gerenciar os dados deles lá dentro, certo?
+
+13:38 - Gustavo Fernandez
+Isso. Provavelmente, em back-office, quando a gente estiver fazendo o cadastro de um patrocinador, a gente vai ter que informar um e-mail de um administrador, alguma coisa assim, daquele patrocinador. E aí, esse patrocinador passa a ser um perfil de usuário lá dentro, para ele poder fazer essas alterações dos dados ali relativos ao stand dele ali. Vamos lá. Luis, só deixar mais um ponto registrado aqui. A gente, na hora de cadastrar um patrocinador... Estou falando de back-office lá, mas a IAA nos ajuda a levar o palácio. Na hora de cadastrar um patrocinador dentro a gente vai ter um limitador da quantidade de posts que aquele patrocinador vai poder fazer. E aí a gente pode pensar em colocar isso, um default na cota. Essa cota aqui tem dois posts, três posts, cinco posts. E aí quando a gente está cadastrando o patrocinador, ele puxa o default da cota, mas esse default pode ser atualizado. Então, por exemplo, A minha cota me dá direito a dois posts dentro de Vtex, ok. Aí eu fui cadastrado, eu tenho direito da minha área, depois, quando eu tiver expositor, eu vou poder fazer dois posts no feed. Aí eu fiz uma negociação comercial e eu comprei mais dois posts no feed. Aí a minha cota me dá direito a dois, mas aí alguém vai ter que entrar lá e dizer, ó, patrocinador da empresa X, vou dar um editar aqui, vou transformar agora de dois, vou falar que ele tem direito Até quatro posts ali.
+
+15:20 - Palestrante Não Identificado
+Beleza.
+
+15:20 - Luis Alves
+Apenas administradores podem fazer a alteração da cota.
+
+15:25 - Gustavo Fernandez
+Exato. Cadastro de patrocinador e essas coisas de cota e tudo mais é somente o usuário administrador que pode operar esse conteúdo.
+
+15:36 - Luis Alves
+Podemos seguir a dica 5?
+
+15:39 - Palestrante Não Identificado
+Vamos.
+
+15:39 - Luis Alves
+O website deverá fornecer área de imprensa com download de press release logos e materiais oficiais. Tá certo?
+
+15:50 - Palestrante Não Identificado
+Isso.
+
+15:50 - Gustavo Fernandez
+Essa página provavelmente entra alguma informação de contato também. Coisas do tipo, falar com nós entra em contato com, sei lá, assessoria, arroba vtex, umas coisas assim.
+
+16:11 - Luis Alves
+ou integração para a Google Maps.
+
+16:15 - Gustavo Fernandez
+Isso aí.
+
+16:17 - Charles Muzykant
+Desculpa, Gustavo Luis. Ali da imprensa, não vai ter questão de credenciamento também aqui, Raissa? A parte de quem é da imprensa ter um formulário para preencher, não?
+
+16:36 - Palestrante Não Identificado
+Não.
+
+16:36 - Gustavo Fernandez
+Essa parte do mapa, Luis, é importante a gente considerar que ela pode ser inativada do site, então geralmente o mapa do evento ele fica pronto nas vésperas do evento.
+
+16:55 - Luis Alves
+Todas as sessões elas podem ser ativadas e desativadas. Beleza, RF7, a plataforma deve implementar um pack categorizado como busca organização ou categorias?
+
+17:08 - Gustavo Fernandez
+Consideraria na página de FAQ, a gente tem um campo de busca, para poder buscar por uma pergunta específica, alguma coisa assim, e eu consideraria aqui a mesma lógica que a gente está colocando de ordenação, poder ordenar categorias e ordenar as perguntas lá dentro. É importante, dentro das respostas da FAQ, que a gente tenha um mínimo editor de ele ali no sentido dele. Colocar texto, colocar negrito, colocar bullet point e colocar link. Não precisa ser nada do tipo subir imagens, subir umas coisas, subir um vídeo, um negócio muito louco assim, mas umas coisas, pelo menos um link, um bullet point é legal porque começa a falar aquelas coisas. Se você não consegue comprar seu ingresso, clica aqui para ir até a página de tiqueira e tal, aí o cara vai lá e bota um Beleza.
+
+18:05 - Luis Alves
+RF8. O sistema deve processar por um válido de contato com copiamento automático por tipo de solicitação. Isso aqui eu acho que já vai para um lado mais complexo do que a gente imagina. É, não.
+
+18:20 - Gustavo Fernandez
+Não é isso aí, cara. A gente vai ter um fale conosco ali.
+
+18:26 - Raissa Antunes
+A gente tem o botão de WhatsApp, né?
+
+18:32 - Gustavo Fernandez
+É, a gente tem uma página de Fálico Nosco. Nessa página de Fálico Nosco a gente tem lá um formulário que o cara pode preencher e entrar em contato.
+
+18:43 - Luis Alves
+Ele vai cair tudo no mesmo lugar.
+
+18:46 - Gustavo Fernandez
+É, deixa eu ver hoje como é que foi aqui.
+
+18:50 - Gustavo Fernandez
+A gente tem uma página de Fálico Nosco. Nessa página de Fálico Nosco a gente tem esses dados de contato.
+
+19:00 - Charles Muzykant
+O Fale Conosco, que tem lá o contato, ele tá linkado direto numa planilha, tá ligado? Tipo, numa planilha do Excel. Cagadaça isso, cara.
+
+19:07 - Gustavo Fernandez
+O que a gente quer mudar pra esse ano é isso aqui. Ou a gente leva esse dado de Fale Conosco pra dentro do BackOffice e o cliente passa a ter acesso a todo mundo que solicitou contato por lá. Ou a gente faz alguma integração com algum sistema que eles tenham lá e a gente entrega nisso. Planilha foi o que deu. Fazer com o framer, mas não podemos fazer isso.
+
+19:29 - Charles Muzykant
+É, tipo assim, lá, foi feito lá com o Chico, né? Só que eu acho que ele fez dessa forma porque provavelmente eles queriam alguma personalização do formulário. Então, eu acho que acabar usando o embed de formulário não vai rolar com eles. Tipo, que nem do HubSpot, entendeu? A gente vai ter que criar o formulário e conectar Não tem personalização, cara.
+
+19:56 - Gustavo Fernandez
+Ou a gente... Ou a gente faz um formulário e a gente salva isso na nossa própria base e entrega dentro do back-office todo mundo que preencheu o formulário. Ou eles vão disponibilizar alguma ferramenta que eu não sei qual é, a gente vai descobrir mais para adiante. E quando preencher esse formulário, a gente faz uma integração e manda esse dado para um CRM qualquer que eles queiram trabalhar lá. E aí, por lá vai ser construído. Para protótipo, prototipar com o formulário dentro do próprio sistema, que até a gente tem essa definição.
+
+20:28 - Charles Muzykant
+Mas sabe qual que é o problema, Gustavo? A Raissa acabou de me passar uma demanda para eu ajustar no Framer, justamente do formulário, que eles querem que quando trocar do português para o espanhol ou do português para o inglês, o texto que está no formulário, o nome fica name, por exemplo.
+
+20:47 - Gustavo Fernandez
+Se a gente fizer esse embed, a gente não vai conseguir fazer considera que a gente vai fazer o protótipo do formulário feito por nós, não sendo o INBEC aí como isso vai se integrar, depois a gente conversa porque a gente não sabe nem no que que a gente vai se integrar então o formulário tem que ser nosso já só deixa esse alerta aí, essa observação porque eles são bem chatos com essa parte aí para me defender dessa parte hoje a gente tá no framer que a tecnologia permitiu, não tem nenhum requisito deles que venha disso, cara. Luis, só um ponto aqui, a gente tem as páginas legais ali também, cara. Política de privacidade, termos, os negócios de cookies.
+
+21:39 - Luis Alves
+Vou correr até o final, Gustavo, porque é esse requisito, então.
+
+21:46 - Luis Alves
+O app deve espelhar todo o conteúdo público do website em formato otimizado para mobile.
+
+21:59 - Luis Alves
+RF10. O sistema deve permitir a visualização de agenda em formato vista e calendário. Calendário.
+
+22:12 - Palestrante Não Identificado
+Calendário, não.
+
+22:16 - Gustavo Fernandez
+É isso.
+
+22:19 - Palestrante Não Identificado
+Calendário, não.
+
+22:22 - Luis Alves
+WebDV também dá busca integrada através de agenda, palestrantes, patrocinadores, IPAC.
+
+22:40 - Gustavo Fernandez
+Mas eu preciso fazer uma busca integrada? Eu acho que a gente pode ter busca individual por coisa. Tem uma busca dentro da página de agenda, tem outra busca dentro da página de palestrantes. Eu estou dentro de uma agenda, quando eu estiver buscando dentro da agenda, faz sentido quando eu jogar o nome de um palestrante lá que eu consigo encontrar aquela palestra. Mas não é uma busca integrada que eu tenho um campo de busca na home do aplicativo e qualquer coisa que o Luis vai escrever lá, ela vai buscar e vai trazer.
+
+23:16 - Luis Alves
+E adiciona ali palco também, Luis?
+
+23:20 - Palestrante Não Identificado
+Palco?
+
+23:20 - Palestrante Não Identificado
+É, esse é...
+
+23:22 - Palestrante Não Identificado
+Esse aqui é fase 1.
+
+23:25 - Raissa Antunes
+Palco é a área alugada.
+
+23:29 - Palestrante Não Identificado
+Ah, tá.
+
+23:30 - Palestrante Não Identificado
+Verdade.
+
+23:31 - Palestrante Não Identificado
+É...
+
+23:31 - Luis Alves
+Integrada no sistema deve receber e processar Rf13, o app deve permitir navegação offline de conteúdo levemente carregado.
+
+23:42 - Gustavo Fernandez
+Só uma consideração aqui no Rf12, é importante a gente ter lá no aplicativo aquele histórico de notificações que foi enviado para aquele cara, aquela timeline de todas as notificações que ele já recebeu.
+
+24:01 - Luis Alves
+Pessoal, se vocês quiserem, comentando aí também depois de eu deixar passar.
+
+24:11 - Palestrante Não Identificado
+Beleza.
+
+24:12 - Luis Alves
+Fase 2, eu acho que a gente pode pular por enquanto. Vocês acham que a gente toca agora nisso?
+
+24:26 - Gustavo Fernandez
+Fase 1, tá. Ponto importante aqui, dentro do aplicativo, a gente precisa ter aquelas páginas legais também, termo de uso, política de privacidade, página de... Termo de uso, política de privacidade vai precisar ter dentro do aplicativo, e um ponto importante aqui da gente entender quando a gente estiver finalizando todo esse rolê de fase 1, é como é a entrada da fase 2, como vai ser a jornada das pessoas publicaram o aplicativo, mas ainda não fizeram o processo de cadastro. Como é que vai ser essa experiência para não ter cenário do tipo, ah, vem a fase 2, é a primeira página atrás de cadastro.
+
+25:22 - Luis Alves
+Vou dar uma passada rápida aqui. Então acho que a gente não deve ser convictado pelo trabalho dos convidados. O sistema deve validar a ingressa através de código QR Code para desbloquear o modo participante.
+
+25:37 - Palestrante Não Identificado
+O app deve capturar interesses e...
+
+25:40 - Luis Alves
+Olha isso aqui é interessante. Isso aqui eu acho que é a resposta da pergunta, não é? O modo não deve desbloquear a faixa de participante. O modo participante. O app deve capturar interesses referências durante o ponto hoje para personalização. O sistema deve permitir favoritar palestras e criar agenda pessoal com detecção de conflitos. O app deve habilitar chat moderado, canal geral e mensagens manualmente. O sistema deve permitir envio de mensagens para patrocinadores através de populares específicos. O app deve integrar mapa interativo do evento em ambiente de solução externa. O sistema deve gerenciar feed social com posts, postings e comentários. Ambiente de palco ao vivo. O sistema deve gerenciar Q&A moderado com votação de perguntas por relevância. O app deve aplicar precisos de satisfação específicas por palestra. O sistema deve executar enquetes em tempo real durante as apresentações. O app deve integrar com serviços de tradução simultânea. O sistema deve gerar e disponibilizar resumos em PDF O percurso administrativo, o sistema deve autenticar administradores com recuperações sem rejecionizações. O percurso deve fornecer clute completo para palestrantes com campo tipo, prescrição, palestrante, horário, palco, textos e idioma. O sistema deve gerenciar clute de palestrantes, nome, bio, foto, empresa, cargo, redes sociais, O Luis, volta rapidão, só um pouquinho ali no IR.
+
+27:51 - Gustavo Fernandez
+O Backoffice deve fornecer recrute completo para palestras, campo, título, descrição, palestrantes, palestrantes no plural, tá certo, porque vai ter mais de um palestrante no lado, horário, palco, tag, está pondo o idioma que vai ser realizada aquela palestra, beleza. Na palestra a gente vai ter também um de quem é o patrocinador daquela palestra.
+
+28:19 - Luis Alves
+Pode acontecer de terem palestras que são patrocinadas e eles querem exibir essa palestra aqui, tem um logozinho deste ou destes patrocinadores aqui. Entre esses são o grupo de palestrantes.
+
+28:42 - Palestrante Não Identificado
+Mais alguma coisa?
+
+28:44 - Gustavo Fernandez
+Não, é isso.
+
+28:46 - Luis Alves
+O back-office deve administrar para os assinatores com cota, logo, descrição, ordem de exibição, links. É aquilo que a gente falou mais no anterior, né?
+
+29:04 - Gustavo Fernandez
+Vai ter as informações do... Palestrante, qualidade de ordenação dele, a quantidade de posts que ele pode ter no feed, talvez ele tenha mais algumas informações de link de rede social com alguns metadados que a gente vai colocar ali para poder permitir criar a página dele lá dentro do site, dentro do site do app.
+
+29:36 - Charles Muzykant
+Ali não deveria ter... Eu não sei se a gente tá confundindo entre patrocinadores e expositores. É a mesma coisa, tá, Charles?
+
+29:45 - Raissa Antunes
+É que lá em Abrinth eles chamam de outra coisa e aqui é do outro nome.
+
+29:53 - Charles Muzykant
+Tá. Porque aí eu colocaria também um campo só pra auxiliar eles local do stand. Vai dar uma opção aqui, tá?
+
+30:02 - Gustavo Fernandez
+É, isso é uma coisa E vai, talvez, dependendo do que a gente propor lá no mapa, pode fazer sentido, porque daí eu quero ir até lá, eu clico no botão aqui que me abre o mapa já, o local daquele expositor. Aliás, estamos falando de essa semana ainda mesmo, desse mapa, hein? Pode ser um check-in branco lá para o Morasco.
+
+30:28 - Luis Alves
+Ué, como assim? Tu passou o check-in?
+
+30:31 - Gustavo Fernandez
+Passei um check-in branco e eu falei que essa semana a gente ia mostrar alguma coisa de Mapa pra ele. Eu achei que você tinha... Passei um check-in branco e eu falei que essa semana a gente ia mostrar alguma coisa de Mapa pra ele.
+
+30:39 - Raissa Antunes
+Passei um check-in branco e eu falei que essa semana a gente ia mostrar alguma coisa de Mapa pra ele.
+
+30:42 - Gustavo Fernandez
+Passei um check-in branco e eu falei que essa semana a gente ia mostrar alguma coisa de Mapa pra ele.
+
+30:46 - Charles Muzykant
+Passei um check-in branco e eu falei que essa semana a gente ia mostrar alguma coisa de Mapa pra ele.
+
+30:49 - Raissa Antunes
+Passei um check-in branco e eu falei que essa semana a gente ia mostrar alguma coisa de Mapa pra ele.
+
+30:52 - Luis Alves
+Passei um check-in branco e eu falei que essa semana a gente ia mostrar alguma coisa de Mapa pra ele. Passei um check-in branco e eu falei que essa semana a gente ia mostrar alguma coisa de Mapa pra ele. Passe com mensagens customizadas e ativação agendada.
+
+31:03 - Gustavo Fernandez
+Cara, isso de ter ativação agendada é do caralho, porque o que acontece é, hoje à meia-noite vamos liberar a página de palestrantes, e aí fica ou eu ou a Raissa brigando com o sono aqui até a meia-noite.
+
+31:20 - Raissa Antunes
+Então eu vou tirar isso aqui, cara.
+
+31:24 - Luis Alves
+Ai, Luísa, hoje eu sofri muito no evento passado.
+
+31:30 - Raissa Antunes
+Se o Saca estivesse aqui, ele ia falar que nem da Brint.
+
+31:38 - Charles Muzykant
+Ah, deixa os caras lá na mão e ativar essa sessão aí.
+
+31:47 - Charles Muzykant
+Na verdade, não é os caras.
+
+31:53 - Luis Alves
+Deve criar, agendar e enviar push notifications para todos os usuários do app. O sistema deve gerenciar o dispositivo de acesso.
+
+32:11 - Gustavo Fernandez
+Admin, produtor, moderador, suporte.
+
+32:15 - Gustavo Fernandez
+É um produtor, né?
+
+32:17 - Luis Alves
+Um patrocinador. Vamos trabalhar só com o patrocinador aqui, né? Estou muito feliz. Acho que ainda é melhor não estar falando filhos de gente, assim.
+
+32:31 - Palestrante Não Identificado
+Beleza.
+
+32:32 - Luis Alves
+O mercado se deve adormecer ao piloto de gestão de assets, margens, PBRs, logos, com otimização automática. Eu coloquei essa otimização automática, mesmo que seja um trabalho a mais, pra gente ter menos trabalho de...
+
+32:49 - Gustavo Fernandez
+Otimizar a imagem, você disse, quando fez o upload? É, porque... Cara, ano passado tinha imagem com 40mb do patrocinador acompanhado de um quadro que o site estava...
+
+32:59 - Luis Alves
+A gente não vai ter tempo de ficar fazendo otimização de imagem pra poder subir, então é melhor a gente pensar em deixar já dos sistemas.
+
+33:08 - Gustavo Fernandez
+Faz sentido aqui, porque aí você viu lembro disso aqui ano passado.
+
+33:13 - Charles Muzykant
+Dá para colocar de repente uma indicação junto, tipo um link, para a pessoa ir para o TINI, TINI PNG?
+
+33:21 - Gustavo Fernandez
+Não, não é ele não, é automático aqui, utilizar.
+
+33:25 - Luis Alves
+Eu trabalho mais, mas aqui vale a pena. Eu vou aqui para acrescer o site.
+
+33:31 - Charles Muzykant
+Vale, com certeza.
+
+33:32 - Charles Muzykant
+Tá aí a ideia, se não der tempo.
+
+33:36 - Luis Alves
+Sim, sim. O sistema deve se de participantes, palestrantes e patrocinadores em CSV e Excel? Cara, não. É até um problema você colocar isso, cara.
+
+33:46 - Gustavo Fernandez
+É isso que eu ia falar. Se você pôr isso aqui em segurança, vai entrar e falar que você está extraindo dados dentro do sistema em massa, não pode ser assim.
+
+33:58 - Raissa Antunes
+Seria mais fácil, claro, porque, por exemplo, a FAQ eles fazem no Excel e aí depois você tem que ficar passando para o back-office.
+
+34:08 - Gustavo Fernandez
+Mas eu acho que...
+
+34:11 - Luis Alves
+Mas aqui é exportar isso, não é importar. Ah, tá. Entendi. Portal no expositor. Portal deve permitir...
+
+34:22 - Gustavo Fernandez
+Luis, Luis, culpa de cortar, é só um ponto aqui, cara, eu acho que vale a pena colocar um requisito aqui para a gente fazer um, no mínimo, uns logs de quem cadastrou, editou, removeu certas coisas lá de dentro?
+
+34:45 - Luis Alves
+Isso é uma historia, já tem.
+
+34:48 - Palestrante Não Identificado
+Ah, beleza.
+
+34:49 - Luis Alves
+O portal deve permitir noviar o topo das ações com tendenciais específicos, o sistema deve abrir a edição de perfil próprio, descrição, rumos, contatos, materiais, o portal deve receber em notas de mensagem para os participantes. O sistema deve permitir publicação limitada de posts no feed por cota de patrocínio. O portal deve gerenciar QR codes para captura de leads no restante. O sistema deve fornecer 12 cométricas.
+
+35:23 - Gustavo Fernandez
+29 pode tirar fora. É coletor de leads.
+
+35:29 - Luis Alves
+Então, o RF39 sai.
+
+35:33 - Palestrante Não Identificado
+Integrações analíticas.
+
+35:35 - Luis Alves
+O sistema deve integrar com a PDF de quinta-feira para validar a atualização de ingressos em tempo real. A plataforma deve integrar relatórios de engajamento, páginas mais vistas, palavras e textos populares, horário de um pico. O e-mail post deve permitir dashboard em tempo real durante o evento com métricas principais. O sistema deve exportar dados para ferramentas de BI através de APIs ou WebRais.
+
+36:19 - Gustavo Fernandez
+A partir da integração com a etiqueteira, Luis, o que a gente fez ano passado, como a gente está falando de evento sensível, A gente fez um formato que do nosso lado a gente tinha uma fila, que toda vez que o ingresso era comprado, editado ou excluído lá por parte da etiqueteira, eles mandavam esse evento pra gente, a gente botava isso em fila pra não perder o dado, processava essa fila com essa informação aqui pra dentro, e aí a partir dali o sistema nosso tinha a independência de lidar com quem tinha ou quem não tinha ingresso Rolam algumas operações lá, do tipo o cara compra ingresso e não sinaliza quem que vai ser o usuário daquele ingresso, aí depois o cara coloca o usuário, ou então muda o proprietário do ingresso de um pra outro, ou o cara cancela a compra. Então tem alguns cenários assim lá que acontecem do lado deles, e o que a gente foi numa linha do evento passado foi isso, da gente receber essa informação isolada, Caiu a etiqueteira no dia do evento. A gente tá blindado aqui do nosso lado.
+
+37:31 - Palestrante Não Identificado
+Faz sentido.
+
+37:32 - Luis Alves
+Requisitos não funcionais. Acho que a gente pode pular aqui. Alguns que fazem sentido. 5 mil usuários. Provavelmente a gente vai estar falando de uns 20 mil aí concorrentes. Ano passado foram 13 mil.
+
+37:46 - Gustavo Fernandez
+13 mil usuários. E tem um ponto. 13 mil usuários são dois dias de de evento, e evento tem uma característica que desses 100% de usuários que vão chegar, considerando que são 13 mil, 10% vem um dia antes do evento, os outros 90% provavelmente vão vir nas primeiras duas horas e nas pós-duas horas que antecede a abertura do evento. Então, se o evento tá 10 horas da manhã, das 8 Principalmente entre o horário das nove e meia e das dez e meia, é o horário que você vai ter o pico de gente baixando, logando, acessando.
+
+38:31 - Palestrante Não Identificado
+Beleza.
+
+38:31 - Luis Alves
+Isso aqui eu acho que é um negócio que vale a pena também a gente ver, para a gente dar atenção. Então, a gente vai estar trabalhando. Vamos trabalhar com uma casa aqui de 20 mil usuários, pensando em, sei lá, mil requisições por minuto.
+
+38:50 - Gustavo Fernandez
+Não chega a ter tanta requisição assim pelo comportamento do aplicativo. O que a gente percebe, porque no final do dia é um aplicativo que muito se faz navegação lá dentro. O que tem um pouquinho mais de coisa acontecendo em real time ali, é chate.
+
+39:11 - Luis Alves
+Mas eu sempre gosto de trabalhar com a loucura aqui.
+
+39:16 - Gustavo Fernandez
+Só pra você ter como base, cara, no passado quando a gente tinha pico dava tipo 2 mil usuários, 1.500 usuários simultaneamente no app. Uma base de 13 mil cadastrados, mais ou menos. É por tempo, a gente ficava monitorando pelo Firebase lá. Cara, sempre era em torno disso, que às vezes 700, 800, 1.000, 1.200, 1.300. Ele dá pico quando você tem uma palestra internacional e é o principal colestrante. Ano passado foi tipo, a última palestra de encerramento do evento. A gente já tinha ido embora, tava quase dormindo lá no evento. Daqui a pouco começou a fazer assim, ó, tá toda gente acessando, acessando, acessando. Porque a tradução simultânea ficava dentro do app. Aí vai todo mundo acessar o app pra consumir aquele recurso. Mas não é o público que interage muito não, tá? O chat foi bem, muito pouco usado. O feed médio, Vai de chat mesmo, cara, sem TV? Pesquisa também.
+
+40:15 - Raissa Antunes
+Eu acho que não chegou a ter 100 mensagens trocadas no chat, cara.
+
+40:22 - Luis Alves
+É um aplicativo mais pra consulta, né? O pessoal entra muito pra consultar. Beleza. É isso, então. LGPD. Como é que é isso?
+
+40:34 - Palestrante Não Identificado
+Qual?
+
+40:35 - Luis Alves
+JWT. Criptografia. Beleza. Ah, isso aqui é o sistema deve conhecer log de auditoria vergente para todas as ações administrativas e modificações de dados. Isso aqui é um esquema que, por exemplo, a gente já tem no Events. Eu acho que o Easy também já tem algo disso.
+
+40:59 - Luis Alves
+É a auditoria lá.
+
+41:01 - Luis Alves
+Conhecer funcionalidades degradadas, content-line...
+
+41:06 - Palestrante Não Identificado
+RateLimit, proteção DDoS, para todos os informes públicos.
+
+41:10 - Luis Alves
+Umas coisinhas aqui que eu já estou caminhando com o Obed também, para a gente já precisar fazer uma reunião lá corretinha, a gente já está bem...
+
+41:25 - Gustavo Fernandez
+RateLimit, DDoS, upload de arquivo malicioso. Já falei por ele também, Curso.
+
+41:32 - Luis Alves
+Como a gente usa S3, não há um problema para a gente ativar os seus.
+
+41:44 - Gustavo Fernandez
+Criptografia de dados, dados em repouso.
+
+41:49 - Luis Alves
+Visão geral do Coex. A experiência dos usuários será centralizada em simplicidade e eficiência. Uma reação intuitiva que minimize cliques para acessar informações críticas do evento. A interface priorizará hierarquia visual clara com cards informativos, tipografia legível e espaçamento generoso para facilitar a leitura em dispositivos móveis. O design seguirá princípios de Progressive Disclosure, assim deve ser visto, revelando funcionalidades avançadas conforme o usuário evoluir de visitante para participante qualidade.
+
+42:31 - Palestrante Não Identificado
+Paradigmas de interação principais.
+
+42:33 - Luis Alves
+Navegação por gestos, busca contextual, interação por guidelines, feedback visual imediato, modo offline first.
+
+42:44 - Gustavo Fernandez
+Uma consideração que eu lembrei aqui, Luis, ano passado, foi falado muito em a gente ter a internacionalização como uma dentro do app e não puxar o nativo do celular. Não sei se é possível isso, tipo, a gente ter... Eu acho que quando o cara compra o ingresso, ele diz qual que é o idioma de preferência dele, alguma coisa assim. E aí a gente... Como é que traria isso pra dizer, ó, esse usuário aqui... Ou ele poder trocar dentro do próprio aplicativo, que eu quero ver a versão toda em inglês, versão em espanhol, e não Eu vou precisar trocar a língua do telefone para poder ver o dado alterado.
+
+43:32 - Luis Alves
+Eu acho que é tranquilo ter um botão de configuração para isso.
+
+43:38 - Gustavo Fernandez
+E aqui eu vou dar um desejável, tá? Mas no Push Notification, se existir uma forma da gente... Existir uma forma que você torne não complexa a funcionalidade, onde eu consigo cadastrar um push em português, inglês, espanhol. Do envio, ele me diz, daquela base de usuários cadastrados, quem tem que receber em português, quem tem que receber em inglês, quem tem que receber em espanhol. Que?
+
+44:06 - Luis Alves
+Seria uma funcionalidade massa. O que?
+
+44:09 - Palestrante Não Identificado
+O...
+
+44:09 - Luis Alves
+Push. Push.
+
+44:10 - Palestrante Não Identificado
+Cara...
+
+44:10 - Luis Alves
+Gustavo, eu acho que...
+
+44:12 - Luis Alves
+São coisas aí que a gente pode tentar trazer para o Mavic 2. Nesse momento, eu fingiria que a gente se fez de bobo aqui. Não sabe disso então. Tá bom.
+
+44:34 - Gustavo Fernandez
+como se eles fossem fingir de bobo e que não vão fazer.
+
+44:40 - Luis Alves
+Eu vou precisar sair aqui. Alguém consegue continuar tocando aqui?
+
+44:45 - Luis Alves
+Indo nesse processo aqui até o final do jogo.
+
+44:50 - Gustavo Fernandez
+Cara, mas tem mais coisa aí, Luis?
+
+44:53 - Luis Alves
+Porque depois começa a entrar coisa técnica.
+
+44:57 - Palestrante Não Identificado
+É isso.
+
+44:58 - Luis Alves
+É, mas eu acho que tem a estratégia de desenvolvimento que vai ser aqui. Basicamente, o que a gente vai fazer de início é traçar uma estrutura aqui do back-office primeiro. Fazer o desenvolvimento do app ali também nesse mesmo sentido. E aí para o app do quadro a gente faz a integração do website do logo com o back-end já criado ali do back-office. E depois a gente faz a customização do app que a gente tem. Então provavelmente eu sento ali com o Charles e a gente pega o que a gente tem de realidade visual do site Já para atualizar, o V0 lá não aceita React Native.
+
+46:04 - Charles Muzykant
+Ah, então eu acho que tem um outro que aceita.
+
+46:09 - Luis Alves
+É um nome parecido com o que tu usa para fazer conversão do Figma para o Flow. É o Builder, né? É alguma coisa assim.
+
+46:19 - Charles Muzykant
+Tem o Builder também, eu tenho que ver.
+
+46:22 - Charles Muzykant
+Eu estou olhando o Réplica, se ele passa.
+
+46:25 - Luis Alves
+Mas não foca nisso, porque o ideal É, fazer o app e a gente altera o layout junto, entendeu? Tá. E aí depois, customização do backoffice. Eu botei por último porque vamos supor que não deu tempo, cara.
+
+46:42 - Gustavo Fernandez
+A ideia é funcional.
+
+46:44 - Gustavo Fernandez
+Nem precisa de ter backoffice. Aqui vai ter o cliente. Esquece.
+
+46:48 - Luis Alves
+Fala que não precisa, mas vai ter o...
+
+46:52 - Luis Alves
+Só coisa simples ali.
+
+46:53 - Luis Alves
+Colocar uma logo, colocar um... E aí... Deploy, otimizações, e aí a gente fecha a fase 1. Aí aqui tem um detalhamento de cada um desses cards, cada um desses apples, pra trabalhar lá no app. Mas, é basicamente isso.
+
+47:09 - Luis Alves
+Então, cara, acho que é isso.
+
+47:11 - Gustavo Fernandez
+Luis, vamos pegar agora depois a transcrição, jogar lá, e aí solta uma V2. Pode ser. Aí em cima dessa V2 a gente...
+
+47:20 - Luis Alves
+Aí a V2 já volta pra vocês, vocês já vão me passando. Que precisa ser atualizado, que eu acho que a gente já vai encurtar bastante as coisas aqui.
+
+47:30 - Gustavo Fernandez
+É, curtando e aí já dá pra gente começar a fazer o exercício com o Luccas de fazer a limpeza. Isso. Pra gente chegar na versão que a gente vai mandar pro cliente da sexta.
+
+47:40 - Charles Muzykant
+Uma coisa que eu falei com o Luis, é a gente tendo isso aí que tudo redondinho.
+
+47:45 - Charles Muzykant
+O cara não tem como ficar mais limpezaçainha aqui, galera.
+
+47:48 - Charles Muzykant
+Pode ir, pode ir, eu vou comentar aqui com o Gustavo. Tchau, tchau. Tchau, tchau. Uma coisa que eu falei ali com o Luis é tendo tudo redondinho, tipo, separado por sessão, né. Então vamos supor, eu tenho uma home. O que eu tenho dentro da home? Isso depois que a gente vai fazer lá na etapa de UX, né. E com isso eu já consigo produzir o markdown e mandar pra AI, aí eu já consigo fazer ali. Até eu mandei ali pra ti, né, o que eu fiz com o V0, eu montei ali e ela já conseguiu fazer bem direitinho. A minha dúvida, Raissa, é como a gente tá lidando a Malta, que é uma agência, né? Se eles não vão criar o figma disso. Não.
+
+48:35 - Gustavo Fernandez
+É o cliente só aprova o layout que tá lá e lida e segue. Não tem pegado nenhum.
+
+48:43 - Charles Muzykant
+Pra comentar, tá ligado? Tipo assim, ah, quero comentar aqui, quero...
+
+48:48 - Raissa Antunes
+Vamos fazer isso em reunião, tá?
+
+48:51 - Raissa Antunes
+Charles, a gente apresenta, pega os feedbacks e a gente mesmo consolida isso e faz... Se soltar pra eles vai ser uma loucura. Não, claro, claro.
+
+49:02 - Charles Muzykant
+O máximo que eu vou fazer de figma é um rascunho, tá? Estrutural, com base nas referências, até que tu comentou ali que eles mandaram, né? É só mas eu vou fazer isso lá antes do pontapé. Eu preciso saber o que vai ter dentro da home, eu preciso saber em cada página o que vai ter claramente, entendeu? Pra que eu possa montar esse wireframe bem debaixo de fidelidade, que é um rascunho mesmo.
+
+49:29 - Raissa Antunes
+Eu vou te mandar o que eles já mandaram e aí eu acho que é válido uma reunião ali de você fazer o entendimento e uma reunião de trabalho mesmo, pra gente ir lá e refletir. Terminar essas páginas com eles.
+
+49:43 - Palestrante Não Identificado
+No wireframe, tu acha?
+
+49:45 - Charles Muzykant
+Oi? No wireframe, fazer um refinamento com eles?
+
+49:48 - Raissa Antunes
+Não, acho que fazer o estudo do que eles mandaram, ver se você tem alguma dúvida, se vale uma reunião com eles, e aí depois ir pra montagem.
+
+50:01 - Charles Muzykant
+Ah tá, achei que era pra mandar wireframe pra eles, não. Não, não, não. Tranquilo. Mas com isso, Aí eu vou pegar essas referências, vou pegar o Airframe, vou pegar o Markdown que eu vou montar com base no documento do Luccas e aí eu vou ter a primeira estrutura e aí eu vou vim refinando esse site, tá? A mesma coisa vai ser pro app, tá? Mas focando no site eu vou fazer dessa forma, só pra explicar aqui.
+
+50:30 - Raissa Antunes
+Pessoal, duas coisas que eu preciso de vocês. A primeira, ontem eu mandei o link o link da API lá do aplicativo que eles querem integrar. Queria que alguém técnico ali desse uma olhada. Aí, Luccas, vou pedir pra você puxar isso ali com o pessoal, que eu preciso de um entendimento de vocês, se dá pra gente integrar. Qual é o esforço, mais ou menos, disso pra gente poder partir pra uma proposta comercial? Pra mandar aí...
+
+51:02 - Palestrante Não Identificado
+Isso.
+
+51:03 - Raissa Antunes
+Aí só me passa uma expectativa de quando vocês conseguem me dar essa devolutiva, porque o Moura me perguntou isso no grupo e agora me chamou no privado aqui perguntando até quando que eu passo essa expectativa para ele.
+
+51:18 - Palestrante Não Identificado
+Beleza, pode deixar.
+
+51:19 - Raissa Antunes
+Outro ponto também... Esqueci.
+
+51:20 - Gustavo Fernandez
+Eles estão pondo uma reunião hoje para as duas horas, eu não sei bem o que é a pauta aqui, se é para apresentar tecnologia para VTex, então tem uma galera de VTex aqui.
+
+51:34 - Raissa Antunes
+Ele acabou de me mandar aqui no privado, mandei um invite às duas horas, consegue confirmar com o Gustavo?
+
+51:43 - Gustavo Fernandez
+Eu acho que é, eu acho que talvez é isso.
+
+51:48 - Raissa Antunes
+Vocês conseguiriam entrar também, Raissa e Luccas?
+
+51:51 - Raissa Antunes
+Eu consigo, tá?
+
+51:53 - Luccas Evans
+Eu acho que eu consigo um pouquinho atrasado, mas eu entro.
+
+51:58 - Gustavo Fernandez
+12h30, tá? 12h30 tem uma outra reunião aqui, vou ter que... Mas eu já avisei o Moraes também.
+
+52:03 - Palestrante Não Identificado
+Falei, cara, posso estar 12h30 só.
+
+52:05 - Gustavo Fernandez
+Ah. Vou tentar falar no começo ali, só aí.
+
+52:08 - Raissa Antunes
+O outro assunto é para formalizar o material que a gente apresentou ontem. Eles estão cobrando também, mandar um e-mail ali formalizando o kick-off. Entregar para eles ali o material. Beleza, eu faço assim e venho para eles também.
+
+52:19 - Luccas Evans
+Vou só verificar aqui com o Saca se tem alguma coisa para a gente mudar, mas eu acho que não. E aí eu já mando para eles por e-mail então. Só uma dúvida. Pelo que eu falei com o Saca, eu posso mandar tudo só para o Morástico e ele faz esse redirecionamento para internos ali? Ou vocês querem que eu coloque uma lista de pessoas aqui para estarem recebendo essas confirmações?
+
+52:43 - Gustavo Fernandez
+Cara, eu usaria uma lista, porque...
+
+52:45 - Gustavo Fernandez
+A lista do que estava na reunião ontem, cara.
+
+52:48 - Raissa Antunes
+Que se ela não pudesse ficar com aquela coisa de não receber, não compartilhar comigo...
+
+52:54 - Gustavo Fernandez
+Bruna, Rodrigo... Essa lei aqui e o morástico.
+
+52:58 - Raissa Antunes
+Fechou, então mando pra eles.
+
+52:59 - Palestrante Não Identificado
+Valeu, pessoal.
+
+53:00 - Raissa Antunes
+Bora, vamos almoçar, que daqui a pouco tem mais. Tô baixando, Charles, o material que eles mandaram pra mandar ali no banco.
+
+53:09 - Charles Muzykant
+Não, não, eu quero te pedir se tu consegue com a Fmall, tá lá o banner, tá?
+
+53:15 - Gustavo Fernandez
+Aqui é outra coisa, tá, pessoal, pode vir.
+
+53:18 - Luccas Evans
+Ah, então tchau, bora almoçar, fui. Valeu.
+
+53:21 - Palestrante Não Identificado
+Valeu, pessoal.
+
+53:21 - Charles Muzykant
+Valeu, Charles, valeu.
+
+53:23 - Charles Muzykant
+Tchau, tchau.
+
+53:23 - Charles Muzykant
+Porque lembra que eu te pedi naquele dia porque ia acontecer isso. Eu tinha até comentado contigo. Isso vai acontecer se... Eu não sei porque no notebook dela cortou aquilo porque eu testei no meu aqui e ficou bem quadrado. Tem que ver qual que é a resolução dela e aí o framer não conseguiu fazer a leitura.
+
+53:44 - Raissa Antunes
+Mas eu peço um planer maior que 1920?
+
+53:47 - Charles Muzykant
+Não tem nenhuma medida exata? A largura, a largura, a altura, beleza. Tá, pode manter aquilo ali. Preciso de uma largura que se encaixe ali até uns dois mil e pouco, quase três mil de largura. Por quê? Porque se não, lá o enquadramento... Porque imagina, aquilo ali é tipo um background, entendeu? Não, eu entendi. O mini palco é exatamente o que você precisa.
+
+54:09 - Raissa Antunes
+Porque se eu falar assim, ah, maior que isso, cara, eles...
+
+54:13 - Charles Muzykant
+Três mil por mil e oitenta. Tá.
+
+54:15 - Raissa Antunes
+Três mil por mil e oitenta.
+
+54:17 - Charles Muzykant
+Não vai ter monitor maior que isso. Pra eu poder testar aqui. Eu vou tentar fazer com o que eu tenho ali, mas a última vez que eu tentei, o framer não estava funcionando direito a parte de ele esticar, não estava conseguindo fazer porque a imagem é 1920, entendeu?
+
+54:39 - Raissa Antunes
+Beleza, eu peço aqui pra ele. Fechou.
+
+54:42 - Palestrante Não Identificado
+Valeu, tchau tchau.
+
+54:44 - Palestrante Não Identificado
+Valeu, tchau tchau.
