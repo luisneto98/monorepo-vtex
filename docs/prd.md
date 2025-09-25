@@ -20,14 +20,13 @@ A plataforma VTEX DAY 26 endereça pontos críticos de dor no gerenciamento de e
 | Data | Versão | Descrição | Autor |
 |------|--------|-----------|-------|
 | 24/09/2025 | 1.0 | Criação inicial do PRD baseado no Brief do Projeto | John (PM) |
-| 24/09/2025 | 1.1 | Atualização baseada em feedback da reunião de revisão | John (PM) |
 
 ## Requisitos
 
 ### Requisitos Funcionais
 
 #### Website e Core
-- **RF1:** A plataforma deve fornecer um website responsivo multilíngue (PT-BR, EN, ES) com detecção automática de idioma e troca manual
+- **RF1:** A plataforma deve fornecer um website responsivo multilíngue (PT-BR, EN) com detecção automática de idioma e troca manual
 - **RF2:** O sistema deve exibir agenda completa com filtros por tema, palestrante, palco, data, horário e tags
 - **RF3:** O website deve apresentar perfis detalhados de palestrantes com bio, foto, empresa, cargo (internacionalizado), sessões vinculadas, priorização de exibição e marcação de destaque para home
 - **RF4:** O sistema deve exibir patrocinadores organizados por cota configurável (Diamond, Gold, Silver, etc.) com logos, descrições, links e ordenação customizável tanto entre cotas quanto dentro de cada cota. Implementar scroll infinito para grandes volumes (250+ patrocinadores). Na home, usar apenas botão de redirecionamento para página de patrocinadores
@@ -61,14 +60,14 @@ A plataforma VTEX DAY 26 endereça pontos críticos de dor no gerenciamento de e
 - **RF25:** O sistema deve gerar e disponibilizar resumos em PDF das palestras
 
 #### Backoffice Administrativo
-- **RF26:** O sistema deve autenticar administradores com recuperação de senha e gestão de sessões
+- **RF26:** O sistema deve autenticar administradores com recuperação de senha e gestão de sessões, será obrigatório que os usuários administradores tenham uma senha forte (12+ caracteres, letras maiúsculas, letras minúsculas, números, símbolos, aleatória) e ao se cadastrarem eles irão receber um link que expira após determinado período para criação da senha
 - **RF27:** O backoffice deve fornecer CRUD completo para palestras com campos: título, descrição, palestrantes (múltiplos), horário, palco, tags, idioma, patrocinadores da palestra
 - **RF28:** O sistema deve gerenciar CRUD de palestrantes: nome, bio, foto, empresa, cargo, redes sociais, palestras vinculadas
 - **RF29:** O backoffice deve administrar patrocinadores com cota configurável, logo, descrição, ordem de exibição, links, e-mail do administrador do patrocinador, quantidade de posts permitidos no feed (herdado da cota mas editável), local do stand, links de redes sociais. Incluir CRUD de cotas com ordenação
 - **RF30:** O sistema deve controlar visibilidade de TODAS as seções (on/off/em breve) com mensagens customizadas e ativação agendada automática por data/hora
 - **RF31:** O backoffice deve criar, agendar e enviar push notifications para todos usuários do app
-- **RF32:** O sistema deve gerenciar múltiplos perfis de acesso (admin, produtor, moderador, suporte)
-- **RF33:** O backoffice deve fornecer upload e gestão de assets (imagens, PDFs, logos) com otimização automática
+- **RF32:** O sistema deve gerenciar múltiplos perfis de acesso (admin, produtor, moderador, patrocinador, cliente)
+- **RF33:** O backoffice deve fornecer upload e gestão de assets (imagens, PDFs, logos) com otimização automática para qualquer upload feito no backoffice
 - **RF34:** O sistema deve registrar logs de auditoria para todas as operações de cadastro, edição e exclusão com identificação do usuário
 
 #### Portal do Expositor (Fase 2)
@@ -83,12 +82,11 @@ A plataforma VTEX DAY 26 endereça pontos críticos de dor no gerenciamento de e
 - **RF41:** A plataforma deve implementar Google Tag Manager e Analytics em todas as páginas
 - **RF42:** O sistema deve gerar relatórios de engajamento: páginas mais vistas, palestrantes populares, horários de pico
 - **RF43:** O backoffice deve exibir dashboard em tempo real durante o evento com métricas principais
-- **RF44:** O sistema deve exportar dados para ferramentas de BI através de APIs ou webhooks
 
 #### Páginas Adicionais
-- **RF45:** O sistema deve incluir páginas legais: política de privacidade, termos de uso, política de cookies
-- **RF46:** Implementar preferência de idioma por usuário no app (não depender do idioma do dispositivo)
-- **RF47:** Push notifications com suporte multilíngue baseado na preferência do usuário (MVP2)
+- **RF44:** O sistema deve incluir páginas legais: política de privacidade, termos de uso, política de cookies
+- **RF45:** Implementar preferência de idioma por usuário no app (não depender do idioma do dispositivo)
+- **RF46:** Push notifications com suporte multilíngue baseado na preferência do usuário
 
 ### Requisitos Não Funcionais
 
@@ -701,7 +699,7 @@ Para que o sistema suporte o evento.
 **Riscos Identificados:**
 - Timeline de 8 semanas é agressivo mas viável com equipe dedicada
 - Integração com Lovable pode apresentar desafios técnicos
-- Performance sob carga de 5000 usuários precisa validação antecipada
+- Performance sob carga de 20000 usuários totais com picos de 2000 simultâneos precisa validação antecipada
 
 ### Prontidão Técnica
 
