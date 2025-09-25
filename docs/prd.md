@@ -20,6 +20,7 @@ A plataforma VTEX DAY 26 endereça pontos críticos de dor no gerenciamento de e
 | Data | Versão | Descrição | Autor |
 |------|--------|-----------|-------|
 | 24/09/2025 | 1.0 | Criação inicial do PRD baseado no Brief do Projeto | John (PM) |
+| 24/09/2025 | 1.1 | Atualização baseada em feedback da reunião de revisão | John (PM) |
 
 ## Requisitos
 
@@ -28,21 +29,22 @@ A plataforma VTEX DAY 26 endereça pontos críticos de dor no gerenciamento de e
 #### Website e Core
 - **RF1:** A plataforma deve fornecer um website responsivo multilíngue (PT-BR, EN, ES) com detecção automática de idioma e troca manual
 - **RF2:** O sistema deve exibir agenda completa com filtros por tema, palestrante, palco, data, horário e tags
-- **RF3:** O website deve apresentar perfis detalhados de palestrantes com bio, foto, empresa, cargo e sessões vinculadas
-- **RF4:** O sistema deve exibir patrocinadores organizados por cota (Diamond, Gold, Silver) com logos, descrições e links
-- **RF5:** O website deve fornecer área de imprensa com download de press releases, logos e materiais oficiais
-- **RF6:** O sistema deve disponibilizar mapa estático do local com integração para Google/Apple Maps
-- **RF7:** A plataforma deve implementar FAQ categorizado com busca e navegação por categorias
-- **RF8:** O sistema deve processar formulário de contato com roteamento automático por tipo de solicitação
+- **RF3:** O website deve apresentar perfis detalhados de palestrantes com bio, foto, empresa, cargo (internacionalizado), sessões vinculadas, priorização de exibição e marcação de destaque para home
+- **RF4:** O sistema deve exibir patrocinadores organizados por cota configurável (Diamond, Gold, Silver, etc.) com logos, descrições, links e ordenação customizável tanto entre cotas quanto dentro de cada cota. Implementar scroll infinito para grandes volumes (250+ patrocinadores). Na home, usar apenas botão de redirecionamento para página de patrocinadores
+- **RF5:** O website deve fornecer área de imprensa com download de press releases, logos e materiais oficiais, incluindo informações de contato (assessoria@vtex.com)
+- **RF6:** O sistema deve disponibilizar mapa estático do local com integração para Google/Apple Maps. Esta seção pode ser ativada/desativada conforme disponibilidade do material
+- **RF7:** A plataforma deve implementar FAQ categorizado com busca, navegação por categorias, ordenação customizável de categorias e perguntas, e editor rich text básico para respostas (negrito, bullets, links)
+- **RF8:** O sistema deve processar formulário de contato próprio (não embed) com suporte multilíngue nos campos, salvando dados no backend para consulta no backoffice. Preparar para futura integração com CRM externo
 
 #### Aplicativo Mobile - Modo Visitante
 - **RF9:** O app deve espelhar todo conteúdo público do website em formato otimizado para mobile
 - **RF10:** O sistema deve permitir visualização de agenda em formato lista e calendário (horário de Brasília GMT-3)
-- **RF11:** O app deve implementar busca integrada através de agenda, palestrantes, patrocinadores e FAQ
-- **RF12:** O sistema deve receber e processar push notifications gerais do backoffice
+- **RF11:** O app deve implementar busca contextual por seção (agenda, palestrantes, patrocinadores, FAQ) - não busca integrada global
+- **RF12:** O sistema deve receber e processar push notifications gerais do backoffice com histórico de notificações recebidas no app
 - **RF13:** O app deve permitir navegação offline de conteúdo previamente carregado
 
 #### Aplicativo Mobile - Modo Participante (Fase 2)
+- **IMPORTANTE:** Incluir páginas legais no app (termos de uso, política de privacidade). Design da entrada da Fase 2 sem forçar cadastro imediato
 - **RF14:** O sistema deve validar ingressos através de código/QR code para desbloquear modo participante
 - **RF15:** O app deve capturar interesses e preferências durante onboarding para personalização
 - **RF16:** O sistema deve permitir favoritar palestras e criar agenda pessoal com detecção de conflitos
@@ -60,35 +62,39 @@ A plataforma VTEX DAY 26 endereça pontos críticos de dor no gerenciamento de e
 
 #### Backoffice Administrativo
 - **RF26:** O sistema deve autenticar administradores com recuperação de senha e gestão de sessões
-- **RF27:** O backoffice deve fornecer CRUD completo para palestras com campos: título, descrição, palestrantes, horário, palco, tags, idioma
+- **RF27:** O backoffice deve fornecer CRUD completo para palestras com campos: título, descrição, palestrantes (múltiplos), horário, palco, tags, idioma, patrocinadores da palestra
 - **RF28:** O sistema deve gerenciar CRUD de palestrantes: nome, bio, foto, empresa, cargo, redes sociais, palestras vinculadas
-- **RF29:** O backoffice deve administrar patrocinadores com cota, logo, descrição, ordem de exibição, links
-- **RF30:** O sistema deve controlar visibilidade de seções (on/off/em breve) com mensagens customizadas e ativação agendada
+- **RF29:** O backoffice deve administrar patrocinadores com cota configurável, logo, descrição, ordem de exibição, links, e-mail do administrador do patrocinador, quantidade de posts permitidos no feed (herdado da cota mas editável), local do stand, links de redes sociais. Incluir CRUD de cotas com ordenação
+- **RF30:** O sistema deve controlar visibilidade de TODAS as seções (on/off/em breve) com mensagens customizadas e ativação agendada automática por data/hora
 - **RF31:** O backoffice deve criar, agendar e enviar push notifications para todos usuários do app
 - **RF32:** O sistema deve gerenciar múltiplos perfis de acesso (admin, produtor, moderador, suporte)
 - **RF33:** O backoffice deve fornecer upload e gestão de assets (imagens, PDFs, logos) com otimização automática
-- **RF34:** O sistema deve exportar listas de participantes, palestrantes e patrocinadores em CSV/Excel
+- **RF34:** O sistema deve registrar logs de auditoria para todas as operações de cadastro, edição e exclusão com identificação do usuário
 
 #### Portal do Expositor (Fase 2)
 - **RF35:** O portal deve permitir login autônomo para patrocinadores com credenciais específicas
 - **RF36:** O sistema deve habilitar edição de perfil próprio: descrição, logo, contatos, materiais
 - **RF37:** O portal deve receber e gerenciar inbox de mensagens/leads dos participantes
 - **RF38:** O sistema deve permitir publicação limitada de posts no feed (quota por cota de patrocínio)
-- **RF39:** O portal deve gerar QR codes únicos para captura de leads no stand
-- **RF40:** O sistema deve fornecer dashboard com métricas: visualizações, mensagens recebidas, leads capturados
+- **RF39:** O sistema deve fornecer dashboard com métricas: visualizações, mensagens recebidas
 
 #### Integrações e Analytics
-- **RF41:** O sistema deve integrar com API da ticketeira para validação de ingressos em tempo real
-- **RF42:** A plataforma deve implementar Google Tag Manager e Analytics em todas as páginas
-- **RF43:** O sistema deve gerar relatórios de engajamento: páginas mais vistas, palestrantes populares, horários de pico
-- **RF44:** O backoffice deve exibir dashboard em tempo real durante o evento com métricas principais
-- **RF45:** O sistema deve exportar dados para ferramentas de BI através de APIs ou webhooks
+- **RF40:** O sistema deve integrar com API da ticketeira usando fila de eventos (compra/edição/cancelamento) para manter independência operacional
+- **RF41:** A plataforma deve implementar Google Tag Manager e Analytics em todas as páginas
+- **RF42:** O sistema deve gerar relatórios de engajamento: páginas mais vistas, palestrantes populares, horários de pico
+- **RF43:** O backoffice deve exibir dashboard em tempo real durante o evento com métricas principais
+- **RF44:** O sistema deve exportar dados para ferramentas de BI através de APIs ou webhooks
+
+#### Páginas Adicionais
+- **RF45:** O sistema deve incluir páginas legais: política de privacidade, termos de uso, política de cookies
+- **RF46:** Implementar preferência de idioma por usuário no app (não depender do idioma do dispositivo)
+- **RF47:** Push notifications com suporte multilíngue baseado na preferência do usuário (MVP2)
 
 ### Requisitos Não Funcionais
 
 - **RNF1:** O website deve alcançar First Contentful Paint < 1.5s e Time to Interactive < 3.5s em redes 4G
 - **RNF2:** Os aplicativos móveis devem inicializar em < 2 segundos e responder a ações locais em < 1 segundo em dispositivos de 2019 em diante
-- **RNF3:** A plataforma deve suportar 5.000 usuários concorrentes com 99.9% de uptime durante o período de 3 dias do evento
+- **RNF3:** A plataforma deve suportar 20.000 usuários totais com picos de 2.000 usuários simultâneos, especialmente nas 2 horas antes da abertura do evento. 99.9% de uptime durante o período de 3 dias
 - **RNF4:** Todas as APIs devem responder dentro de 200ms no percentil 95 sob condições normais de carga
 - **RNF5:** O sistema deve cumprir com requisitos LGPD para coleta de dados, armazenamento e gerenciamento de consentimento do usuário
 - **RNF6:** A plataforma deve implementar autenticação OAuth 2.0/JWT com controle de acesso baseado em papéis para usuários do backoffice
@@ -314,11 +320,11 @@ Eu quero gerenciar palestrantes com suas informações,
 Para que apareçam corretamente no site e app.
 
 **Critérios de Aceitação:**
-1. Listagem com busca, paginação e filtros
-2. Formulário com campos: nome, bio, foto, empresa, cargo, links sociais
+1. Listagem com busca, paginação, filtros e ordenação customizável
+2. Formulário com campos: nome, bio, foto, empresa, cargo (internacionalizado), links sociais
 3. Upload de foto com preview e validação de tamanho
 4. Suporte multilíngue (PT/EN/ES) com tabs
-5. Validação de campos obrigatórios
+5. Sistema de marcação de palestrante em destaque para home
 6. Confirmação antes de deletar
 
 #### Story 2.3: Gestão de Palestras/Sessões
@@ -329,23 +335,24 @@ Para que participantes vejam horários e informações corretas.
 **Critérios de Aceitação:**
 1. CRUD completo com título, descrição, data/hora, duração
 2. Seleção múltipla de palestrantes (many-to-many)
-3. Campos: palco/sala, capacidade, tags, nível técnico
-4. Sistema de tags com autocomplete
+3. Campos: palco/sala, capacidade, tags, nível técnico, idioma
+4. Vinculação de patrocinadores à palestra
 5. Validação de conflitos de horário por palco
-6. Preview de como aparecerá na agenda
+6. Preview de como aparecerá na agenda com logo do patrocinador
 
-#### Story 2.4: Gestão de Patrocinadores
+#### Story 2.4: Gestão de Cotas e Patrocinadores
 Como administrador,
-Eu quero gerenciar patrocinadores por nível de cota,
+Eu quero gerenciar cotas e patrocinadores com ordenação flexível,
 Para que sejam exibidos com destaque apropriado.
 
 **Critérios de Aceitação:**
-1. CRUD com níveis: Diamond, Gold, Silver
-2. Upload de logo com redimensionamento automático
-3. Campos: nome, descrição, website, ordem de exibição
-4. Drag-and-drop para reordenar dentro do nível
-5. Preview de como aparecerá no site
-6. Contador de views/cliques (preparar campo)
+1. CRUD de cotas com ordenação customizável e limite de posts padrão
+2. CRUD de patrocinadores vinculados às cotas
+3. Upload de logo com redimensionamento e otimização automática
+4. Campos: nome, descrição, website, e-mail admin, local do stand, redes sociais
+5. Ordenação customizável entre cotas e dentro de cada cota
+6. Limite de posts no feed (herdado da cota mas editável por admin)
+7. Criação automática de conta para o patrocinador
 
 #### Story 2.5: Gestão de FAQ
 Como produtor de conteúdo,
@@ -408,8 +415,8 @@ Eu quero ver informações principais do evento,
 Para que possa me orientar rapidamente.
 
 **Critérios de Aceitação:**
-1. Cards de destaque (próximas palestras, speakers principais)
-2. Informações básicas do evento
+1. Cards de destaque (próximas palestras, speakers marcados como destaque)
+2. Botão de redirecionamento para página de patrocinadores (sem logos na home)
 3. Links rápidos para seções importantes
 4. Pull-to-refresh funcional
 5. Skeleton loading durante carregamento
@@ -421,12 +428,12 @@ Eu quero visualizar toda programação do evento,
 Para que possa planejar minha participação.
 
 **Critérios de Aceitação:**
-1. Visualização por dia com tabs
-2. Cards de sessão com hora, título, palestrante, sala
+1. Visualização por dia com tabs (sem visualização de calendário)
+2. Cards de sessão com hora, título, palestrante, sala, patrocinador
 3. Filtros por palco, tema, palestrante
-4. Busca por texto em título/descrição
+4. Busca contextual por texto em título/descrição/palestrante
 5. Indicador visual de sessões acontecendo agora
-6. Scroll infinito com paginação
+6. Scroll infinito com paginação para grandes volumes
 
 #### Story 3.4: Detalhes e Perfis
 Como visitante,
@@ -447,11 +454,11 @@ Eu quero buscar informações e tirar dúvidas,
 Para que encontre o que preciso rapidamente.
 
 **Critérios de Aceitação:**
-1. Busca global com debounce
-2. Resultados agrupados por tipo (palestras, speakers, FAQ)
-3. FAQ em accordion expandível
-4. Categorias de FAQ navegáveis
-5. Indicador de "pergunta útil"
+1. Busca contextual por seção (não global)
+2. Resultados relevantes à seção atual
+3. FAQ em accordion expandível com ordenação customizada
+4. Categorias de FAQ navegáveis e ordenáveis
+5. Editor rich text básico para respostas (negrito, bullets, links)
 6. Cache de buscas recentes
 
 #### Story 3.6: Push Notifications e Offline
@@ -491,8 +498,8 @@ Para que a integração seja simples.
 **Critérios de Aceitação:**
 1. Endpoints GET públicos sem autenticação
 2. Responses em formato esperado pelo Lovable
-3. Imagens servidas com URLs absolutas
-4. Paginação compatível com componentes Lovable
+3. Imagens servidas com URLs absolutas e otimizadas
+4. Paginação compatível (scroll infinito para patrocinadores/palestrantes)
 5. Filtros via query parameters
 6. Rate limiting apropriado para tráfego público
 
@@ -641,11 +648,11 @@ Eu quero validar performance sob carga,
 Para que o sistema suporte o evento.
 
 **Critérios de Aceitação:**
-1. Testes simulando 1000 usuários simultâneos
-2. Identificação de bottlenecks
-3. Otimização de queries lentas
-4. Cache Redis configurado
-5. Rate limiting calibrado
+1. Testes simulando 2000 usuários simultâneos (pico esperado)
+2. Simulação do padrão de acesso: 90% nas 2h antes do evento
+3. Otimização de queries lentas e imagens
+4. Cache Redis configurado para dados frequentes
+5. Rate limiting calibrado para picos
 6. Documentação de capacidade máxima
 
 ## Relatório de Validação do Checklist
