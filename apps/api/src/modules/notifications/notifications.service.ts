@@ -5,12 +5,12 @@ export class NotificationsService {
   private readonly logger = new Logger(NotificationsService.name);
 
   async sendEmail(to: string, subject: string, body: string): Promise<void> {
-    this.logger.log(`Sending email to ${to}: ${subject}`);
+    this.logger.log(`Sending email to ${to}: ${subject} - Body: ${body}`);
     // TODO: Implement email sending logic (SendGrid, AWS SES, etc.)
   }
 
   async sendPushNotification(userId: string, title: string, message: string): Promise<void> {
-    this.logger.log(`Sending push notification to user ${userId}: ${title}`);
+    this.logger.log(`Sending push notification to user ${userId}: ${title} - Message: ${message}`);
     // TODO: Implement push notification logic (FCM, APNS, etc.)
   }
 
@@ -20,7 +20,7 @@ export class NotificationsService {
   }
 
   async broadcastNotification(title: string, message: string): Promise<void> {
-    this.logger.log(`Broadcasting notification: ${title}`);
+    this.logger.log(`Broadcasting notification: ${title} - Message: ${message}`);
     // TODO: Implement broadcast logic
   }
 }

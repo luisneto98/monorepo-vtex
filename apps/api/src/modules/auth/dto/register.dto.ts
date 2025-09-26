@@ -12,10 +12,10 @@ import { UserRole } from '@shared/types/user.types';
 
 class ProfileDto {
   @IsString()
-  firstName: string;
+  firstName!: string;
 
   @IsString()
-  lastName: string;
+  lastName!: string;
 
   @IsString()
   @IsOptional()
@@ -28,11 +28,11 @@ class ProfileDto {
 
 export class RegisterDto {
   @IsEmail({}, { message: 'Please provide a valid email address' })
-  email: string;
+  email!: string;
 
   @IsString()
   @MinLength(12, { message: 'Password must be at least 12 characters long' })
-  password: string;
+  password!: string;
 
   @IsEnum(UserRole, { message: 'Invalid role' })
   @IsOptional()
@@ -41,5 +41,5 @@ export class RegisterDto {
   @ValidateNested()
   @Type(() => ProfileDto)
   @IsObject()
-  profile: ProfileDto;
+  profile!: ProfileDto;
 }

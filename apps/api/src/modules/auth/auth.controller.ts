@@ -3,7 +3,6 @@ import {
   Post,
   Body,
   UseGuards,
-  Request,
   Get,
   HttpCode,
   HttpStatus,
@@ -13,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { Response, Request as ExpressRequest } from 'express';
 import { AuthService } from './auth.service';
-import { LoginDto, RefreshTokenDto } from './dto/login.dto';
+import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
 import { Public } from '@common/decorators/public.decorator';
@@ -98,7 +97,7 @@ export class AuthController {
   private setRefreshTokenCookie(response: Response, refreshToken: string) {
     const cookieOptions = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: process.env['NODE_ENV'] === 'production',
       sameSite: 'strict' as const,
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       path: '/auth/refresh',
@@ -110,7 +109,7 @@ export class AuthController {
   private clearRefreshTokenCookie(response: Response) {
     response.cookie('refreshToken', '', {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: process.env['NODE_ENV'] === 'production',
       sameSite: 'strict' as const,
       expires: new Date(0),
       path: '/auth/refresh',
@@ -118,6 +117,6 @@ export class AuthController {
   }
 
   private extractRefreshTokenFromCookie(request: ExpressRequest): string | null {
-    return request.cookies?.refreshToken || null;
+    return request.cookies?.['refreshToken'] || null;
   }
 }

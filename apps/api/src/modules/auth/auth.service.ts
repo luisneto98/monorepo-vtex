@@ -50,7 +50,7 @@ export class AuthService {
         id: user._id.toString(),
         email: user.email,
         role: user.role,
-        name: user.name,
+        name: `${user.profile?.firstName || ''} ${user.profile?.lastName || ''}`.trim() || 'User',
       },
     };
   }
@@ -79,12 +79,12 @@ export class AuthService {
         _id: user._id,
         email: user.email,
         role: user.role,
-        name: user.name,
+        profile: user.profile,
       });
 
       // Update refresh token in database
       const hashedRefreshToken = await this.hashRefreshToken(tokens.refreshToken);
-      await this.usersService.updateRefreshToken(user._id, hashedRefreshToken);
+      await this.usersService.updateRefreshToken(user._id.toString(), hashedRefreshToken);
 
       return {
         accessToken: tokens.accessToken,
@@ -95,11 +95,11 @@ export class AuthService {
           id: user._id.toString(),
           email: user.email,
           role: user.role,
-          name: user.name,
+          name: `${user.profile?.firstName || ''} ${user.profile?.lastName || ''}`.trim() || 'User',
         },
       };
     } catch (error) {
-      this.logger.error('Refresh token validation failed', error.stack);
+      this.logger.error('Refresh token validation failed', error instanceof Error ? error.stack : error);
       throw new UnauthorizedException('Invalid refresh token');
     }
   }
@@ -138,12 +138,14 @@ export class AuthService {
 
   private getAccessTokenExpiresInSeconds(): number {
     const expiration = this.configService.get<string>('jwt.accessExpiration');
+    if (!expiration) return 900; // Default to 15 minutes
+
     // Parse duration string (e.g., '15m', '1h', '7d') to seconds
     const match = expiration.match(/^(\d+)([smhd])$/);
     if (!match) return 900; // Default to 15 minutes
 
     const [, value, unit] = match;
-    const multipliers = { s: 1, m: 60, h: 3600, d: 86400 };
+    const multipliers: Record<string, number> = { s: 1, m: 60, h: 3600, d: 86400 };
     return parseInt(value) * multipliers[unit];
   }
 
@@ -164,7 +166,7 @@ export class AuthService {
       },
     };
 
-    const user = await this.usersService.create(userDto);
+    await this.usersService.create(userDto);
 
     // Login the newly registered user
     return this.login({ email: registerDto.email, password: registerDto.password });

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
+import request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import { UsersService } from '../../src/modules/users/users.service';
 import * as bcrypt from 'bcrypt';
@@ -116,7 +116,7 @@ describe('Auth Endpoints (Integration)', () => {
       jest.spyOn(usersService, 'findByEmail').mockResolvedValue(mockUser as any);
       jest.spyOn(usersService, 'findById').mockResolvedValue(mockUser as any);
       jest.spyOn(usersService, 'updateRefreshToken').mockImplementation(
-        async (userId, token) => {
+        async (_userId, token) => {
           mockUser.refreshToken = token;
         }
       );
