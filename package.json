@@ -20,7 +20,6 @@
     "test:cov": "npm run test:cov --workspaces --if-present",
     "lint": "eslint \"{apps,packages}/**/*.ts\" --fix",
     "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
-    "prepare": "husky install",
     "docker:up": "docker-compose -f infrastructure/docker/docker-compose.yml up -d",
     "docker:down": "docker-compose -f infrastructure/docker/docker-compose.yml down",
     "docker:logs": "docker-compose -f infrastructure/docker/docker-compose.yml logs -f"

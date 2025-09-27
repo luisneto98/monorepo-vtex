@@ -20,8 +20,14 @@ export class UsersService {
     return this.userModel.find().select('-password').exec();
   }
 
-  async findById(id: string): Promise<UserDocument> {
-    const user = await this.userModel.findById(id).select('-password').exec();
+  async findById(id: string, includeRefreshToken = false): Promise<UserDocument> {
+    const query = this.userModel.findById(id);
+    if (includeRefreshToken) {
+      query.select('+refreshToken');
+    } else {
+      query.select('-password');
+    }
+    const user = await query.exec();
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
@@ -29,7 +35,7 @@ export class UsersService {
   }
 
   async findByEmail(email: string): Promise<UserDocument> {
-    return this.userModel.findOne({ email }).exec();
+    return this.userModel.findOne({ email }).select('+password +refreshToken').exec();
   }
 
   async update(id: string, updateUserDto: any): Promise<UserDocument> {

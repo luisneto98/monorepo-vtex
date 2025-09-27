@@ -1,45 +1,38 @@
-import { BaseEntity } from './common.types';
+import type { BaseEntity } from './common.types';
 
-export enum SponsorTier {
-  DIAMOND = 'diamond',
-  PLATINUM = 'platinum',
-  GOLD = 'gold',
-  SILVER = 'silver',
-  BRONZE = 'bronze'
-}
-
-export interface SponsorContact {
+export interface SponsorTier extends BaseEntity {
   name: string;
-  email: string;
-  phone?: string;
-  position?: string;
+  displayName: {
+    'pt-BR': string;
+    'en': string;
+  };
+  order: number;
+  maxPosts: number;
 }
 
-export interface SponsorBenefits {
-  boothSize?: string;
-  speakingSlots: number;
-  workshopSlots: number;
-  logoPlacement: string[];
-  attendeePassCount: number;
-  socialMediaMentions: number;
-  postLimit: number;
+export interface SponsorSocialLinks {
+  linkedin?: string;
+  instagram?: string;
+  facebook?: string;
 }
 
 export interface Sponsor extends BaseEntity {
   name: string;
-  tier: SponsorTier;
-  logo: string;
-  website: string;
+  slug: string;
   description: {
-    pt: string;
-    en: string;
-    es: string;
+    'pt-BR': string;
+    'en': string;
   };
-  contact: SponsorContact;
-  benefits: SponsorBenefits;
-  isActive: boolean;
-  contractStartDate: Date;
-  contractEndDate: Date;
-  amountPaid: number;
-  posts: string[];
+  logoUrl: string;
+  tier: string;
+  orderInTier: number;
+  websiteUrl: string;
+  standLocation?: string;
+  adminEmail: string;
+  contactEmail?: string;
+  socialLinks?: SponsorSocialLinks;
+  maxPosts?: number;
+  postsUsed: number;
+  tags: string[];
+  isVisible: boolean;
 }

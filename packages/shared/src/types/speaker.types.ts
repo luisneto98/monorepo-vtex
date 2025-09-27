@@ -1,4 +1,4 @@
-import { BaseEntity } from './common.types';
+import type { BaseEntity } from './common.types';
 
 export interface SpeakerSocialLinks {
   linkedin?: string;
@@ -8,20 +8,22 @@ export interface SpeakerSocialLinks {
 }
 
 export interface Speaker extends BaseEntity {
-  firstName: string;
-  lastName: string;
-  email: string;
+  name: string;
   bio: {
-    pt: string;
-    en: string;
-    es: string;
+    'pt-BR': string;
+    'en': string;
   };
+  photoUrl: string;
   company: string;
-  position: string;
-  profileImage: string;
+  position: {
+    'pt-BR': string;
+    'en': string;
+  };
   socialLinks: SpeakerSocialLinks;
-  sessions: string[];
+  priority: number;
   isHighlight: boolean;
-  isActive: boolean;
-  tags: string[];
+  isVisible: boolean;
 }
+
+export type CreateSpeakerDto = Omit<Speaker, keyof BaseEntity | 'priority'>;
+export type UpdateSpeakerDto = Partial<Omit<Speaker, keyof BaseEntity>>;

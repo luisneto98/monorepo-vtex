@@ -50,7 +50,7 @@ export class AuthService {
         id: user._id.toString(),
         email: user.email,
         role: user.role,
-        name: `${user.profile?.firstName || ''} ${user.profile?.lastName || ''}`.trim() || 'User',
+        name: user.profile?.name || 'User',
       },
     };
   }
@@ -63,7 +63,7 @@ export class AuthService {
       });
 
       // Find user and validate refresh token
-      const user = await this.usersService.findById(payload.sub);
+      const user = await this.usersService.findById(payload.sub, true);
       if (!user || !user.refreshToken) {
         throw new UnauthorizedException('Invalid refresh token');
       }
@@ -95,11 +95,14 @@ export class AuthService {
           id: user._id.toString(),
           email: user.email,
           role: user.role,
-          name: `${user.profile?.firstName || ''} ${user.profile?.lastName || ''}`.trim() || 'User',
+          name: user.profile?.name || 'User',
         },
       };
     } catch (error) {
-      this.logger.error('Refresh token validation failed', error instanceof Error ? error.stack : error);
+      this.logger.error(
+        'Refresh token validation failed',
+        error instanceof Error ? error.stack : error,
+      );
       throw new UnauthorizedException('Invalid refresh token');
     }
   }

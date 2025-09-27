@@ -1,50 +1,81 @@
-import { BaseEntity } from './common.types';
+import type { BaseEntity } from './common.types';
 
-export enum SessionType {
-  KEYNOTE = 'keynote',
-  WORKSHOP = 'workshop',
-  PANEL = 'panel',
-  NETWORKING = 'networking',
-  BREAK = 'break'
-}
+export const SessionType = {
+  KEYNOTE: 'keynote',
+  TALK: 'talk',
+  PANEL: 'panel',
+  WORKSHOP: 'workshop',
+  NETWORKING: 'networking',
+  BREAK: 'break'
+} as const;
 
-export enum SessionStatus {
-  SCHEDULED = 'scheduled',
-  LIVE = 'live',
-  COMPLETED = 'completed',
-  CANCELLED = 'cancelled'
-}
+export type SessionType = typeof SessionType[keyof typeof SessionType];
+
+export const SessionStage = {
+  PRINCIPAL: 'principal',
+  INOVACAO: 'inovacao',
+  TECH: 'tech',
+  STARTUP: 'startup',
+  WORKSHOP_A: 'workshop_a',
+  WORKSHOP_B: 'workshop_b'
+} as const;
+
+export type SessionStage = typeof SessionStage[keyof typeof SessionStage];
 
 export interface SessionTranslation {
   title: string;
   description: string;
-  tags: string[];
 }
 
-export interface SessionSchedule {
-  date: Date;
+
+export interface ISession extends Omit<BaseEntity, '_id'> {
+  _id: string;
+  title: {
+    'pt-BR': string;
+    'en': string;
+  };
+  description: {
+    'pt-BR': string;
+    'en': string;
+  };
+  type?: SessionType;
   startTime: Date;
   endTime: Date;
-  room?: string;
-  floor?: string;
+  stage: string; // Changed from SessionStage enum to string for flexibility
+  speakerIds: string[];
+  sponsorIds?: string[];
+  tags: string[];
+  capacity?: number;
+  registeredCount?: number;
+  isHighlight: boolean;
+  isVisible: boolean;
+  technicalLevel?: 'beginner' | 'intermediate' | 'advanced';
+  language?: 'pt-BR' | 'en' | 'es';
+  streamUrl?: string;
+  materials?: {
+    title: string;
+    url: string;
+    type: 'pdf' | 'video' | 'link';
+  }[];
 }
 
-export interface Session extends BaseEntity {
-  type: SessionType;
-  status: SessionStatus;
-  translations: {
-    pt: SessionTranslation;
-    en: SessionTranslation;
-    es: SessionTranslation;
+// Alias for backwards compatibility
+export type Session = ISession;
+
+// Response types for API
+export interface ISessionResponse {
+  success: boolean;
+  data: ISession;
+}
+
+export interface ISessionListResponse {
+  success: boolean;
+  data: ISession[];
+  metadata?: {
+    total: number;
+    page: number;
+    limit: number;
+    hasNext: boolean;
+    hasPrev: boolean;
   };
-  speakers: string[];
-  schedule: SessionSchedule;
-  capacity?: number;
-  registeredCount: number;
-  streamUrl?: string;
-  recordingUrl?: string;
-  materials?: string[];
-  isHighlight: boolean;
-  allowQuestions: boolean;
-  requiresRegistration: boolean;
 }

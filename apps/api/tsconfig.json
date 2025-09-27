@@ -11,7 +11,7 @@
     "target": "ES2022",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
@@ -21,9 +21,9 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@shared/*": ["../../packages/shared/src/*"],
-      "@modules/*": ["src/modules/*"],
-      "@common/*": ["src/common/*"]
+      "@shared/*": ["../../../packages/shared/src/*"],
+      "@modules/*": ["modules/*"],
+      "@common/*": ["common/*"]
     }
   },
   "include": ["src/**/*", "tests/**/*"],

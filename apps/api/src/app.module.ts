@@ -11,6 +11,7 @@ import { SpeakersModule } from './modules/speakers/speakers.module';
 import { SponsorsModule } from './modules/sponsors/sponsors.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { DatabaseModule } from './modules/database/database.module';
+import { FaqModule } from './modules/faq/faq.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -32,6 +33,7 @@ import configuration from './config/configuration';
     SpeakersModule,
     SponsorsModule,
     NotificationsModule,
+    FaqModule,
   ],
   providers: [
     {

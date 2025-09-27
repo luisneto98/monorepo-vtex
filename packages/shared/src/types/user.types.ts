@@ -8,23 +8,18 @@ export enum UserRole {
 }
 
 export interface UserProfile {
-  firstName: string;
-  lastName: string;
+  name: string;
+  phone?: string;
   company?: string;
   position?: string;
-  bio?: string;
-  profileImage?: string;
-  phoneNumber?: string;
-  linkedinUrl?: string;
-  twitterHandle?: string;
+  photoUrl?: string;
+  language?: 'pt-BR' | 'en';
 }
 
 export interface UserPreferences {
-  language: 'pt' | 'en' | 'es';
-  timezone: string;
-  emailNotifications: boolean;
-  pushNotifications: boolean;
-  sessionReminders: boolean;
+  interests?: string[];
+  notificationsEnabled?: boolean;
+  favoriteSessionIds?: string[];
 }
 
 export interface User extends BaseEntity {
@@ -34,7 +29,7 @@ export interface User extends BaseEntity {
   profile: UserProfile;
   preferences: UserPreferences;
   isActive: boolean;
-  isEmailVerified: boolean;
+  isValidated: boolean;
   lastLogin?: Date;
   refreshToken?: string;
 }
