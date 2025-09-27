@@ -9,6 +9,7 @@ import { SponsorTiers } from '@/pages/SponsorTiers';
 import { Sponsors } from '@/pages/Sponsors';
 import { FaqCategories } from '@/pages/FaqCategories';
 import { Faqs } from '@/pages/Faqs';
+import VisibilityControl from '@/pages/VisibilityControl';
 
 function App() {
   useEffect(() => {
@@ -28,7 +29,7 @@ function App() {
           <Route path="/sponsors" element={<Sponsors />} />
           <Route path="/faq-categories" element={<FaqCategories />} />
           <Route path="/faq" element={<Faqs />} />
-          <Route path="/visibility" element={<div className="p-6">Visibilidade (Em breve)</div>} />
+          <Route path="/visibility" element={<VisibilityControl />} />
           <Route path="/notifications" element={<div className="p-6">Notificações (Em breve)</div>} />
         </Route>
       </Routes>

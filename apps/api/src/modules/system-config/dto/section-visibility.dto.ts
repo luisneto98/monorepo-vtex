@@ -3,7 +3,7 @@ import { Type } from 'class-transformer';
 
 @ValidatorConstraint({ name: 'isWithin30Days', async: false })
 class IsWithin30DaysConstraint implements ValidatorConstraintInterface {
-  validate(dateString: string, args: ValidationArguments) {
+  validate(dateString: string, _args: ValidationArguments) {
     const date = new Date(dateString);
     const now = new Date();
     const thirtyDaysFromNow = new Date();
@@ -12,7 +12,7 @@ class IsWithin30DaysConstraint implements ValidatorConstraintInterface {
     return date > now && date <= thirtyDaysFromNow;
   }
 
-  defaultMessage(args: ValidationArguments) {
+  defaultMessage(_args: ValidationArguments) {
     return 'Scheduled activation must be between now and 30 days from now';
   }
 }

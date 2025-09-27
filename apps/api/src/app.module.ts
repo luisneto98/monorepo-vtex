@@ -12,6 +12,8 @@ import { SponsorsModule } from './modules/sponsors/sponsors.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { DatabaseModule } from './modules/database/database.module';
 import { FaqModule } from './modules/faq/faq.module';
+import { SystemConfigModule } from './modules/system-config/system-config.module';
+import { SchedulersModule } from './common/schedulers/schedulers.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -34,6 +36,8 @@ import configuration from './config/configuration';
     SponsorsModule,
     NotificationsModule,
     FaqModule,
+    SystemConfigModule,
+    SchedulersModule,
   ],
   providers: [
     {

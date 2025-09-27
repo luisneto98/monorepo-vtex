@@ -39,7 +39,7 @@ export class SystemConfigController {
   @Put()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.SUPER_ADMIN)
-  @Throttle(10, 60) // Rate limit: 10 requests per minute
+  @Throttle({ default: { limit: 10, ttl: 60000 } }) // Rate limit: 10 requests per minute
   @HttpCode(HttpStatus.OK)
   async updateConfig(
     @Body() updateDto: UpdateSystemConfigDto,
@@ -52,7 +52,7 @@ export class SystemConfigController {
   @Patch('section/:section')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.SUPER_ADMIN)
-  @Throttle(10, 60) // Rate limit: 10 requests per minute
+  @Throttle({ default: { limit: 10, ttl: 60000 } }) // Rate limit: 10 requests per minute
   async updateSection(
     @Param('section') section: SectionName,
     @Body() updateDto: UpdateSectionVisibilityDto,
