@@ -5,3 +5,4 @@ export * from './types/sponsor.types';
 export * from './types/common.types';
 export * from './types/system-config.types';
 export * from './types/faq.types';
+export * from './types/event-settings';

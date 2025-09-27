@@ -13,6 +13,7 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
 import { DatabaseModule } from './modules/database/database.module';
 import { FaqModule } from './modules/faq/faq.module';
 import { SystemConfigModule } from './modules/system-config/system-config.module';
+import { EventSettingsModule } from './modules/event-settings/event-settings.module';
 import { SchedulersModule } from './common/schedulers/schedulers.module';
 import configuration from './config/configuration';
 
@@ -37,6 +38,7 @@ import configuration from './config/configuration';
     NotificationsModule,
     FaqModule,
     SystemConfigModule,
+    EventSettingsModule,
     SchedulersModule,
   ],
   providers: [
