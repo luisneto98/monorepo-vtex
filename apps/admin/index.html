@@ -4,7 +4,34 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="">
     <title>admin</title>
+    <!-- Leaflet CSS with SRI -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"
+      integrity="sha512-Zcn6bjR/8RZbLEpLIeOwNtzREBAJnUKESxces60Mpoj+2okopSAcSUIUOseddDm0cxnGQzxIR7vJgsLZbdLE3w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer" />
+    <!-- Preload Leaflet marker images with SRI -->
+    <link
+      rel="preload"
+      as="image"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png"
+      integrity="sha384-B8Bx5PCMQbYRr8QChS6p5vNECYs2nD3V7slY8USc7Xp5Rw5lOoYL2o0VpVuW7mZH"
+      crossorigin="anonymous">
+    <link
+      rel="preload"
+      as="image"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png"
+      integrity="sha384-gneIFVp3mlb7mJMmGtm7Ls3wC5t2rXl6L3UKq7XRb5YhMkKFCqFJRYoaAbBjdECN"
+      crossorigin="anonymous">
+    <link
+      rel="preload"
+      as="image"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png"
+      integrity="sha384-sZMhVwWaLVppKNUkFMNPL8h3OLvYYNfJ0RxW0aA5E5XhT+6yLZ5h0W2yZf0SNIYM"
+      crossorigin="anonymous">
   </head>
   <body>
     <div id="root"></div>

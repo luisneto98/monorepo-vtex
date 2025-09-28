@@ -44,3 +44,5 @@ export interface EventSettings {
   updatedAt?: Date | string;
   updatedBy?: string;
 }
+
+export type UpdateEventSettingsDto = Omit<EventSettings, '_id' | 'updatedAt' | 'updatedBy'>;

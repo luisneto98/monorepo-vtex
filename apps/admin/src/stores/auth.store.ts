@@ -48,6 +48,12 @@ export const useAuthStore = create<AuthState>()(
               isLoading: false,
               error: null,
             });
+
+            console.log('Login successful. State updated:', {
+              user,
+              isAuthenticated: true,
+              token: accessToken ? 'Token set' : 'No token'
+            });
           } else {
             set({
               isLoading: false,
@@ -75,9 +81,18 @@ export const useAuthStore = create<AuthState>()(
 
       checkAuth: () => {
         const token = apiService.getToken();
-        if (!token) {
+        const currentState = useAuthStore.getState();
+
+        // If we have a token and a user, we're authenticated
+        if (token && currentState.user) {
+          set({ isAuthenticated: true });
+        }
+        // If no token, clear authentication
+        else if (!token) {
           set({ isAuthenticated: false, user: null });
         }
+        // If token exists but no user, keep current state
+        // (might be in the process of fetching user data)
       },
 
       clearError: () => set({ error: null }),

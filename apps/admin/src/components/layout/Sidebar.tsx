@@ -12,6 +12,7 @@ import {
   ChevronRight,
   Layers,
   FolderOpen,
+  Settings,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -21,6 +22,7 @@ interface SidebarProps {
 
 const menuItems = [
   { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { path: '/event-settings', label: 'Configurações', icon: Settings },
   { path: '/speakers', label: 'Palestrantes', icon: Users },
   { path: '/sessions', label: 'Palestras', icon: Calendar },
   { path: '/sponsor-tiers', label: 'Cotas', icon: Layers },
