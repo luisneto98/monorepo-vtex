@@ -6,3 +6,5 @@ export * from './types/common.types';
 export * from './types/system-config.types';
 export * from './types/faq.types';
 export * from './types/event-settings';
+export * from './types/press-materials';
+export * from './types/news-releases';

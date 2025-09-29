@@ -2,6 +2,7 @@ import { Check } from 'lucide-react';
 
 interface CheckboxProps {
   checked?: boolean | 'indeterminate';
+  indeterminate?: boolean;
   onCheckedChange?: (checked: boolean) => void;
   disabled?: boolean;
   className?: string;
@@ -10,13 +11,14 @@ interface CheckboxProps {
 
 export const Checkbox = ({
   checked = false,
+  indeterminate = false,
   onCheckedChange,
   disabled = false,
   className = '',
   'aria-label': ariaLabel
 }: CheckboxProps) => {
   const isChecked = checked === true;
-  const isIndeterminate = checked === 'indeterminate';
+  const isIndeterminate = checked === 'indeterminate' || indeterminate;
 
   const handleClick = () => {
     if (!disabled && onCheckedChange) {

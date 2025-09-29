@@ -3,7 +3,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { Connection, Model } from 'mongoose';
 import { getConnectionToken, getModelToken } from '@nestjs/mongoose';
-import { Speaker, SpeakerSchema, SpeakerDocument } from '@api/modules/speakers/schemas/speaker.schema';
+import {
+  Speaker,
+  SpeakerSchema,
+  SpeakerDocument,
+} from '@api/modules/speakers/schemas/speaker.schema';
 
 describe('SpeakerSchema', () => {
   let mongod: MongoMemoryServer;
@@ -47,14 +51,14 @@ describe('SpeakerSchema', () => {
         name: 'Test Speaker',
         bio: {
           'pt-BR': 'Short bio',
-          'en': 'Short bio'
+          en: 'Short bio',
         },
         photoUrl: 'https://example.com/photo.jpg',
         company: 'Test Company',
         position: {
           'pt-BR': 'Desenvolvedor',
-          'en': 'Developer'
-        }
+          en: 'Developer',
+        },
       });
 
       await expect(shortBio.save()).rejects.toThrow();
@@ -63,14 +67,14 @@ describe('SpeakerSchema', () => {
         name: 'Test Speaker 2',
         bio: {
           'pt-BR': 'A'.repeat(501),
-          'en': 'A'.repeat(501)
+          en: 'A'.repeat(501),
         },
         photoUrl: 'https://example.com/photo.jpg',
         company: 'Test Company',
         position: {
           'pt-BR': 'Desenvolvedor',
-          'en': 'Developer'
-        }
+          en: 'Developer',
+        },
       });
 
       await expect(longBio.save()).rejects.toThrow();
@@ -81,14 +85,14 @@ describe('SpeakerSchema', () => {
         name: 'AB',
         bio: {
           'pt-BR': 'A'.repeat(100),
-          'en': 'A'.repeat(100)
+          en: 'A'.repeat(100),
         },
         photoUrl: 'https://example.com/photo.jpg',
         company: 'Test Company',
         position: {
           'pt-BR': 'Desenvolvedor',
-          'en': 'Developer'
-        }
+          en: 'Developer',
+        },
       });
 
       await expect(shortName.save()).rejects.toThrow();
@@ -99,18 +103,18 @@ describe('SpeakerSchema', () => {
         name: 'Test Speaker',
         bio: {
           'pt-BR': 'A'.repeat(100),
-          'en': 'A'.repeat(100)
+          en: 'A'.repeat(100),
         },
         photoUrl: 'https://example.com/photo.jpg',
         company: 'Test Company',
         position: {
           'pt-BR': 'Desenvolvedor',
-          'en': 'Developer'
+          en: 'Developer',
         },
         socialLinks: {
           linkedin: 'not-a-url',
-          twitter: 'not-a-url'
-        }
+          twitter: 'not-a-url',
+        },
       });
 
       await expect(invalidUrls.save()).rejects.toThrow();
@@ -119,21 +123,21 @@ describe('SpeakerSchema', () => {
         name: 'Test Speaker',
         bio: {
           'pt-BR': 'A'.repeat(100),
-          'en': 'A'.repeat(100)
+          en: 'A'.repeat(100),
         },
         photoUrl: 'https://example.com/photo.jpg',
         company: 'Test Company',
         position: {
           'pt-BR': 'Desenvolvedor',
-          'en': 'Developer'
+          en: 'Developer',
         },
         socialLinks: {
           linkedin: 'https://www.linkedin.com/in/johndoe',
           twitter: 'https://twitter.com/johndoe',
           instagram: 'https://www.instagram.com/johndoe',
           github: 'https://github.com/johndoe',
-          website: 'https://johndoe.com'
-        }
+          website: 'https://johndoe.com',
+        },
       });
 
       const saved = await validUrls.save();
@@ -145,14 +149,14 @@ describe('SpeakerSchema', () => {
         name: 'Test Speaker',
         bio: {
           'pt-BR': 'A'.repeat(100),
-          'en': 'A'.repeat(100)
+          en: 'A'.repeat(100),
         },
         photoUrl: 'not-a-url',
         company: 'Test Company',
         position: {
           'pt-BR': 'Desenvolvedor',
-          'en': 'Developer'
-        }
+          en: 'Developer',
+        },
       });
 
       await expect(invalidUrl.save()).rejects.toThrow();
@@ -165,14 +169,14 @@ describe('SpeakerSchema', () => {
         name: '  Test Speaker  ',
         bio: {
           'pt-BR': '  ' + 'A'.repeat(100) + '  ',
-          'en': '  ' + 'B'.repeat(100) + '  '
+          en: '  ' + 'B'.repeat(100) + '  ',
         },
         photoUrl: 'https://example.com/photo.jpg',
         company: '  Test Company  ',
         position: {
           'pt-BR': '  Desenvolvedor  ',
-          'en': '  Developer  '
-        }
+          en: '  Developer  ',
+        },
       });
 
       const saved = await speaker.save();
@@ -191,14 +195,14 @@ describe('SpeakerSchema', () => {
         name: 'Test Speaker',
         bio: {
           'pt-BR': 'A'.repeat(100),
-          'en': 'B'.repeat(100)
+          en: 'B'.repeat(100),
         },
         photoUrl: 'https://example.com/photo.jpg',
         company: 'Test Company',
         position: {
           'pt-BR': 'Desenvolvedor',
-          'en': 'Developer'
-        }
+          en: 'Developer',
+        },
       });
 
       const saved = await speaker.save();
@@ -215,15 +219,15 @@ describe('SpeakerSchema', () => {
         name: 'Normal Speaker',
         bio: {
           'pt-BR': 'A'.repeat(100),
-          'en': 'B'.repeat(100)
+          en: 'B'.repeat(100),
         },
         photoUrl: 'https://example.com/photo.jpg',
         company: 'Test Company',
         position: {
           'pt-BR': 'Desenvolvedor',
-          'en': 'Developer'
+          en: 'Developer',
         },
-        priority: 50
+        priority: 50,
       });
 
       const savedNormal = await normalSpeaker.save();
@@ -233,16 +237,16 @@ describe('SpeakerSchema', () => {
         name: 'Highlight Speaker',
         bio: {
           'pt-BR': 'A'.repeat(100),
-          'en': 'B'.repeat(100)
+          en: 'B'.repeat(100),
         },
         photoUrl: 'https://example.com/photo.jpg',
         company: 'Test Company',
         position: {
           'pt-BR': 'Desenvolvedor',
-          'en': 'Developer'
+          en: 'Developer',
         },
         priority: 50,
-        isHighlight: true
+        isHighlight: true,
       });
 
       const savedHighlight = await highlightSpeaker.save();
@@ -256,14 +260,14 @@ describe('SpeakerSchema', () => {
         name: 'Test Speaker',
         bio: {
           'pt-BR': 'Bio em português'.padEnd(100, '!'),
-          'en': 'Bio in English'.padEnd(100, '!')
+          en: 'Bio in English'.padEnd(100, '!'),
         },
         photoUrl: 'https://example.com/photo.jpg',
         company: 'Test Company',
         position: {
           'pt-BR': 'Desenvolvedor',
-          'en': 'Developer'
-        }
+          en: 'Developer',
+        },
       });
 
       const saved = await speaker.save();
@@ -276,14 +280,14 @@ describe('SpeakerSchema', () => {
         name: 'Test Speaker',
         bio: {
           'pt-BR': 'A'.repeat(100),
-          'en': 'B'.repeat(100)
+          en: 'B'.repeat(100),
         },
         photoUrl: 'https://example.com/photo.jpg',
         company: 'Test Company',
         position: {
           'pt-BR': 'Desenvolvedor',
-          'en': 'Developer'
-        }
+          en: 'Developer',
+        },
       });
 
       const saved = await speaker.save();

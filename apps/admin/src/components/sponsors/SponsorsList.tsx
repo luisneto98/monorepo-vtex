@@ -64,7 +64,7 @@ export function SponsorsList({ onEdit, onDelete, onAdd, onDuplicate, onSelection
     hasPrev: false,
   });
 
-  const [searchDebounce, setSearchDebounce] = useState<NodeJS.Timeout | null>(null);
+  const [searchDebounce, setSearchDebounce] = useState<number | null>(null);
 
   const fetchSponsors = useCallback(async () => {
     try {

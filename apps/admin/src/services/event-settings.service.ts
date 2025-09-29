@@ -1,5 +1,5 @@
 import { apiService } from './api.service';
-import type { EventSettings, UpdateEventSettingsDto } from '@vtexday26/shared';
+import type { EventSettings, UpdateEventSettingsDto } from '@shared/types/event-settings';
 
 export class EventSettingsService {
   private readonly baseURL = '/event-settings';

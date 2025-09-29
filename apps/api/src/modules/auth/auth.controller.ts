@@ -10,13 +10,7 @@ import {
   Req,
   UnauthorizedException,
 } from '@nestjs/common';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiBody,
-  ApiBearerAuth,
-} from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
 import { Response, Request as ExpressRequest } from 'express';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -42,18 +36,18 @@ export class AuthController {
       admin: {
         value: {
           email: 'admin@vtexday.com',
-          password: 'SecurePassword123!'
+          password: 'SecurePassword123!',
         },
-        description: 'Admin user login'
+        description: 'Admin user login',
       },
       regular: {
         value: {
           email: 'user@example.com',
-          password: 'UserPassword456!'
+          password: 'UserPassword456!',
         },
-        description: 'Regular user login'
-      }
-    }
+        description: 'Regular user login',
+      },
+    },
   })
   @ApiResponse({
     status: 200,
@@ -64,10 +58,10 @@ export class AuthController {
         user: {
           id: '507f1f77bcf86cd799439011',
           email: 'admin@vtexday.com',
-          role: 'admin'
-        }
-      }
-    }
+          role: 'admin',
+        },
+      },
+    },
   })
   @ApiResponse({
     status: 401,
@@ -76,9 +70,9 @@ export class AuthController {
       example: {
         statusCode: 401,
         message: 'Invalid credentials',
-        error: 'Unauthorized'
-      }
-    }
+        error: 'Unauthorized',
+      },
+    },
   })
   @ApiResponse({
     status: 429,
@@ -87,9 +81,9 @@ export class AuthController {
       example: {
         statusCode: 429,
         message: 'ThrottlerException: Too Many Requests',
-        error: 'Too Many Requests'
-      }
-    }
+        error: 'Too Many Requests',
+      },
+    },
   })
   async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) response: Response) {
     const authResult = await this.authService.login(loginDto);
@@ -116,10 +110,10 @@ export class AuthController {
         user: {
           id: '507f1f77bcf86cd799439011',
           email: 'admin@vtexday.com',
-          role: 'admin'
-        }
-      }
-    }
+          role: 'admin',
+        },
+      },
+    },
   })
   @ApiResponse({
     status: 401,
@@ -128,9 +122,9 @@ export class AuthController {
       example: {
         statusCode: 401,
         message: 'Invalid or expired refresh token',
-        error: 'Unauthorized'
-      }
-    }
+        error: 'Unauthorized',
+      },
+    },
   })
   async refresh(@Req() request: ExpressRequest, @Res({ passthrough: true }) response: Response) {
     const refreshToken = this.extractRefreshTokenFromCookie(request);
@@ -156,11 +150,11 @@ export class AuthController {
   @ApiOperation({ summary: 'Logout user and invalidate tokens' })
   @ApiResponse({
     status: 204,
-    description: 'Logout successful'
+    description: 'Logout successful',
   })
   @ApiResponse({
     status: 401,
-    description: 'Unauthorized - Invalid or missing JWT token'
+    description: 'Unauthorized - Invalid or missing JWT token',
   })
   async logout(@CurrentUser() user: any, @Res({ passthrough: true }) response: Response) {
     await this.authService.logout(user.sub);
@@ -182,13 +176,13 @@ export class AuthController {
       example: {
         id: '507f1f77bcf86cd799439011',
         email: 'admin@vtexday.com',
-        role: 'admin'
-      }
-    }
+        role: 'admin',
+      },
+    },
   })
   @ApiResponse({
     status: 401,
-    description: 'Unauthorized - Invalid or missing JWT token'
+    description: 'Unauthorized - Invalid or missing JWT token',
   })
   getProfile(@CurrentUser() user: any) {
     return {
@@ -210,11 +204,11 @@ export class AuthController {
           password: 'SecurePassword123!',
           name: 'João Silva',
           company: 'VTEX',
-          phone: '+5511999999999'
+          phone: '+5511999999999',
         },
-        description: 'New user registration'
-      }
-    }
+        description: 'New user registration',
+      },
+    },
   })
   @ApiResponse({
     status: 201,
@@ -225,10 +219,10 @@ export class AuthController {
         user: {
           id: '507f1f77bcf86cd799439011',
           email: 'newuser@example.com',
-          role: 'user'
-        }
-      }
-    }
+          role: 'user',
+        },
+      },
+    },
   })
   @ApiResponse({
     status: 400,
@@ -237,9 +231,9 @@ export class AuthController {
       example: {
         statusCode: 400,
         message: ['email must be an email', 'password is too weak'],
-        error: 'Bad Request'
-      }
-    }
+        error: 'Bad Request',
+      },
+    },
   })
   @ApiResponse({
     status: 409,
@@ -248,9 +242,9 @@ export class AuthController {
       example: {
         statusCode: 409,
         message: 'Email already registered',
-        error: 'Conflict'
-      }
-    }
+        error: 'Conflict',
+      },
+    },
   })
   async register(@Body() registerDto: RegisterDto, @Res({ passthrough: true }) response: Response) {
     const authResult = await this.authService.register(registerDto);

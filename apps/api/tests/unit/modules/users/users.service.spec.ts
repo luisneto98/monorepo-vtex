@@ -101,9 +101,7 @@ describe('UsersService', () => {
         }),
       } as any);
 
-      await expect(service.findById('nonexistent')).rejects.toThrow(
-        NotFoundException,
-      );
+      await expect(service.findById('nonexistent')).rejects.toThrow(NotFoundException);
     });
   });
 
@@ -149,9 +147,7 @@ describe('UsersService', () => {
         exec: jest.fn().mockResolvedValue(mockUser),
       } as any);
 
-      await expect(
-        service.create({ email: mockUser.email }),
-      ).rejects.toThrow(ConflictException);
+      await expect(service.create({ email: mockUser.email })).rejects.toThrow(ConflictException);
     });
   });
 
@@ -170,9 +166,7 @@ describe('UsersService', () => {
         exec: jest.fn().mockResolvedValue({ deletedCount: 0 }),
       } as any);
 
-      await expect(service.remove('nonexistent')).rejects.toThrow(
-        NotFoundException,
-      );
+      await expect(service.remove('nonexistent')).rejects.toThrow(NotFoundException);
     });
   });
 });

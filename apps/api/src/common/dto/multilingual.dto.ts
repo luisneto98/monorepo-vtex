@@ -4,7 +4,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 export class MultilingualTextDto {
   @ApiProperty({
     description: 'Text in Brazilian Portuguese',
-    example: 'Texto em português'
+    example: 'Texto em português',
   })
   @IsString()
   @IsNotEmpty()
@@ -12,7 +12,7 @@ export class MultilingualTextDto {
 
   @ApiProperty({
     description: 'Text in English',
-    example: 'Text in English'
+    example: 'Text in English',
   })
   @IsString()
   @IsNotEmpty()
@@ -20,7 +20,7 @@ export class MultilingualTextDto {
 
   @ApiPropertyOptional({
     description: 'Text in Spanish',
-    example: 'Texto en español'
+    example: 'Texto en español',
   })
   @IsOptional()
   @IsString()

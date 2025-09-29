@@ -66,7 +66,9 @@ export class SponsorTiersService {
     return response.json();
   }
 
-  static async createSponsorTier(tier: Omit<SponsorTier, '_id' | 'createdAt' | 'updatedAt'>): Promise<ISponsorTierResponse> {
+  static async createSponsorTier(
+    tier: Omit<SponsorTier, '_id' | 'createdAt' | 'updatedAt'>,
+  ): Promise<ISponsorTierResponse> {
     const response = await fetch(`${API_URL}/sponsors/tiers`, {
       method: 'POST',
       headers: this.getAuthHeaders(),
@@ -81,7 +83,10 @@ export class SponsorTiersService {
     return response.json();
   }
 
-  static async updateSponsorTier(id: string, tier: Partial<SponsorTier>): Promise<ISponsorTierResponse> {
+  static async updateSponsorTier(
+    id: string,
+    tier: Partial<SponsorTier>,
+  ): Promise<ISponsorTierResponse> {
     const response = await fetch(`${API_URL}/sponsors/tiers/${id}`, {
       method: 'PATCH',
       headers: this.getAuthHeaders(),

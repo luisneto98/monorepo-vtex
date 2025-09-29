@@ -54,14 +54,14 @@ export class SpeakersController {
         data: {
           _id: '507f1f77bcf86cd799439011',
           name: 'Carlos Eduardo Silva',
-          bio: { 'pt-BR': 'Biografia...', 'en': 'Biography...' },
+          bio: { 'pt-BR': 'Biografia...', en: 'Biography...' },
           photoUrl: 'https://cdn.vtexday.com/speakers/carlos.jpg',
           company: 'VTEX',
           socialLinks: { linkedin: 'https://linkedin.com/in/carlos' },
-          isHighlight: true
-        }
-      }
-    }
+          isHighlight: true,
+        },
+      },
+    },
   })
   @SwaggerApiResponse({ status: 400, description: 'Validation error' })
   @SwaggerApiResponse({ status: 401, description: 'Unauthorized' })
@@ -75,11 +75,33 @@ export class SpeakersController {
   @Public()
   @ApiOperation({ summary: 'List all speakers with filters and pagination' })
   @ApiQuery({ name: 'page', required: false, type: Number, example: 1, description: 'Page number' })
-  @ApiQuery({ name: 'limit', required: false, type: Number, example: 20, description: 'Items per page' })
-  @ApiQuery({ name: 'sort', required: false, type: String, example: '-priority,name', description: 'Sort fields' })
-  @ApiQuery({ name: 'search', required: false, type: String, description: 'Search in name, bio, company' })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    type: Number,
+    example: 20,
+    description: 'Items per page',
+  })
+  @ApiQuery({
+    name: 'sort',
+    required: false,
+    type: String,
+    example: '-priority,name',
+    description: 'Sort fields',
+  })
+  @ApiQuery({
+    name: 'search',
+    required: false,
+    type: String,
+    description: 'Search in name, bio, company',
+  })
   @ApiQuery({ name: 'company', required: false, type: String, description: 'Filter by company' })
-  @ApiQuery({ name: 'isHighlight', required: false, type: Boolean, description: 'Filter highlight speakers' })
+  @ApiQuery({
+    name: 'isHighlight',
+    required: false,
+    type: Boolean,
+    description: 'Filter highlight speakers',
+  })
   @ApiQuery({ name: 'tags', required: false, type: [String], description: 'Filter by tags' })
   @SwaggerApiResponse({
     status: 200,
@@ -91,13 +113,13 @@ export class SpeakersController {
           {
             _id: '507f1f77bcf86cd799439011',
             name: 'Carlos Silva',
-            bio: { 'pt-BR': 'Bio...', 'en': 'Bio...' },
+            bio: { 'pt-BR': 'Bio...', en: 'Bio...' },
             photoUrl: 'https://cdn.vtexday.com/speakers/carlos.jpg',
             company: 'VTEX',
-            position: { 'pt-BR': 'CTO', 'en': 'CTO' },
+            position: { 'pt-BR': 'CTO', en: 'CTO' },
             socialLinks: { linkedin: 'https://linkedin.com' },
-            isHighlight: true
-          }
+            isHighlight: true,
+          },
         ],
         metadata: {
           total: 50,
@@ -105,10 +127,10 @@ export class SpeakersController {
           limit: 20,
           totalPages: 3,
           hasNext: true,
-          hasPrev: false
-        }
-      }
-    }
+          hasPrev: false,
+        },
+      },
+    },
   })
   async findAll(@Query() filterDto: SpeakerFilterDto) {
     const result = await this.speakersService.findAll(filterDto);
@@ -128,14 +150,14 @@ export class SpeakersController {
           {
             _id: '507f1f77bcf86cd799439011',
             name: 'Carlos Silva',
-            bio: { 'pt-BR': 'Bio...', 'en': 'Bio...' },
+            bio: { 'pt-BR': 'Bio...', en: 'Bio...' },
             photoUrl: 'https://cdn.vtexday.com/speakers/carlos.jpg',
             company: 'VTEX',
-            isHighlight: true
-          }
-        ]
-      }
-    }
+            isHighlight: true,
+          },
+        ],
+      },
+    },
   })
   async findHighlights() {
     const speakers = await this.speakersService.findHighlights();
@@ -155,16 +177,16 @@ export class SpeakersController {
         data: {
           _id: '507f1f77bcf86cd799439011',
           name: 'Carlos Silva',
-          bio: { 'pt-BR': 'Biografia completa...', 'en': 'Full biography...' },
+          bio: { 'pt-BR': 'Biografia completa...', en: 'Full biography...' },
           photoUrl: 'https://cdn.vtexday.com/speakers/carlos.jpg',
           company: 'VTEX',
-          position: { 'pt-BR': 'CTO', 'en': 'CTO' },
+          position: { 'pt-BR': 'CTO', en: 'CTO' },
           socialLinks: { linkedin: 'https://linkedin.com/in/carlos', twitter: '@carlos' },
           isHighlight: true,
-          sessions: ['507f1f77bcf86cd799439012']
-        }
-      }
-    }
+          sessions: ['507f1f77bcf86cd799439012'],
+        },
+      },
+    },
   })
   @SwaggerApiResponse({ status: 404, description: 'Speaker not found' })
   async findOne(@Param('id') id: string) {
@@ -188,10 +210,10 @@ export class SpeakersController {
         data: {
           _id: '507f1f77bcf86cd799439011',
           name: 'Carlos Silva Updated',
-          updatedAt: '2025-11-26T10:00:00Z'
-        }
-      }
-    }
+          updatedAt: '2025-11-26T10:00:00Z',
+        },
+      },
+    },
   })
   @SwaggerApiResponse({ status: 400, description: 'Validation error' })
   @SwaggerApiResponse({ status: 401, description: 'Unauthorized' })
@@ -234,10 +256,10 @@ export class SpeakersController {
         data: {
           _id: '507f1f77bcf86cd799439011',
           name: 'Carlos Silva',
-          deletedAt: null
-        }
-      }
-    }
+          deletedAt: null,
+        },
+      },
+    },
   })
   @SwaggerApiResponse({ status: 401, description: 'Unauthorized' })
   @SwaggerApiResponse({ status: 403, description: 'Forbidden' })

@@ -13,14 +13,35 @@ export class SessionsService {
 
   async create(createSessionDto: CreateSessionDto): Promise<SessionDocument> {
     // Check for conflicts (same stage and overlapping time)
-    await this.checkTimeConflict(createSessionDto.startTime, createSessionDto.endTime, createSessionDto.stage);
+    await this.checkTimeConflict(
+      createSessionDto.startTime,
+      createSessionDto.endTime,
+      createSessionDto.stage,
+    );
 
     const createdSession = new this.sessionModel(createSessionDto);
     return createdSession.save();
   }
 
   async findAll(filterDto: SessionFilterDto): Promise<PaginatedResponse<SessionDocument>> {
-    const { page = 1, limit = 20, sort, search, startDate, endDate, stage, type, tags, speakerId, sponsorId, isHighlight, isVisible, isLive, isUpcoming, isPast } = filterDto;
+    const {
+      page = 1,
+      limit = 20,
+      sort,
+      search,
+      startDate,
+      endDate,
+      stage,
+      type,
+      tags,
+      speakerId,
+      sponsorId,
+      isHighlight,
+      isVisible,
+      isLive,
+      isUpcoming,
+      isPast,
+    } = filterDto;
 
     const query: any = { deletedAt: null };
 
@@ -227,7 +248,12 @@ export class SessionsService {
     return session.save();
   }
 
-  private async checkTimeConflict(startTime: Date, endTime: Date, stage: string, excludeId?: string): Promise<void> {
+  private async checkTimeConflict(
+    startTime: Date,
+    endTime: Date,
+    stage: string,
+    excludeId?: string,
+  ): Promise<void> {
     const query: any = {
       stage,
       deletedAt: null,
@@ -247,7 +273,7 @@ export class SessionsService {
 
     if (conflictingSession) {
       throw new ConflictException(
-        `Time conflict: Another session is scheduled at the same stage "${stage}" during this time period`
+        `Time conflict: Another session is scheduled at the same stage "${stage}" during this time period`,
       );
     }
   }

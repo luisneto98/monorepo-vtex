@@ -16,7 +16,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { RefreshCw, Monitor, Smartphone, Tablet } from 'lucide-react';
-import type { SystemConfig } from '@vtexday26/shared';
+import type { SystemConfig } from '@shared/types/system-config.types';
 
 interface PreviewPanelProps {
   config: SystemConfig | null;

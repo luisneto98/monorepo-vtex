@@ -62,9 +62,13 @@ export const faqService = {
 
   // Note: Order updates should be done through the regular update endpoint
   async updateOrder(id: string, order: number): Promise<Faq> {
-    const { data } = await axios.patch(`${API_URL}/faq/${id}`, { order }, {
-      headers: getAuthHeader(),
-    });
+    const { data } = await axios.patch(
+      `${API_URL}/faq/${id}`,
+      { order },
+      {
+        headers: getAuthHeader(),
+      },
+    );
     // Handle nested data structure
     return data.data?.data || data.data || data;
   },

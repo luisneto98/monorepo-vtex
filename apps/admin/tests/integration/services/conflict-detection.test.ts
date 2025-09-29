@@ -21,7 +21,7 @@ describe('Conflict Detection Integration Tests', () => {
 
       const mockConflict = {
         _id: '123',
-        title: { 'pt-BR': 'Conflito', 'en': 'Conflict' },
+        title: { 'pt-BR': 'Conflito', en: 'Conflict' },
         startTime: new Date('2025-09-27T10:30:00'),
         endTime: new Date('2025-09-27T11:30:00'),
         stage: 'Main Stage',
@@ -76,7 +76,7 @@ describe('Conflict Detection Integration Tests', () => {
 
       const mockConflict = {
         _id: '456',
-        title: { 'pt-BR': 'Outra Palestra', 'en': 'Another Session' },
+        title: { 'pt-BR': 'Outra Palestra', en: 'Another Session' },
         startTime: new Date('2025-09-27T14:30:00'),
         endTime: new Date('2025-09-27T15:30:00'),
         stage: 'Main Stage',
@@ -131,7 +131,7 @@ describe('Conflict Detection Integration Tests', () => {
 
       const mockConflict = {
         _id: '789',
-        title: { 'pt-BR': 'Mesma Hora', 'en': 'Same Time' },
+        title: { 'pt-BR': 'Mesma Hora', en: 'Same Time' },
         startTime: new Date('2025-09-27T10:00:00'),
         endTime: new Date('2025-09-27T11:00:00'),
         stage: 'Main Stage',
@@ -162,7 +162,7 @@ describe('Conflict Detection Integration Tests', () => {
 
       const mockConflict = {
         _id: '111',
-        title: { 'pt-BR': 'Overlap Início', 'en': 'Start Overlap' },
+        title: { 'pt-BR': 'Overlap Início', en: 'Start Overlap' },
         startTime: new Date('2025-09-27T10:00:00'),
         endTime: new Date('2025-09-27T11:00:00'),
         stage: 'Main Stage',
@@ -191,7 +191,7 @@ describe('Conflict Detection Integration Tests', () => {
 
       const mockConflict = {
         _id: '222',
-        title: { 'pt-BR': 'Overlap Fim', 'en': 'End Overlap' },
+        title: { 'pt-BR': 'Overlap Fim', en: 'End Overlap' },
         startTime: new Date('2025-09-27T10:00:00'),
         endTime: new Date('2025-09-27T11:00:00'),
         stage: 'Main Stage',
@@ -220,7 +220,7 @@ describe('Conflict Detection Integration Tests', () => {
 
       const mockConflict = {
         _id: '333',
-        title: { 'pt-BR': 'Sessão Maior', 'en': 'Larger Session' },
+        title: { 'pt-BR': 'Sessão Maior', en: 'Larger Session' },
         startTime: new Date('2025-09-27T10:00:00'),
         endTime: new Date('2025-09-27T11:00:00'),
         stage: 'Main Stage',
@@ -273,21 +273,21 @@ describe('Conflict Detection Integration Tests', () => {
       const mockConflicts = [
         {
           _id: '444',
-          title: { 'pt-BR': 'Conflito 1', 'en': 'Conflict 1' },
+          title: { 'pt-BR': 'Conflito 1', en: 'Conflict 1' },
           startTime: new Date('2025-09-27T10:30:00'),
           endTime: new Date('2025-09-27T11:00:00'),
           stage: 'Main Stage',
         },
         {
           _id: '555',
-          title: { 'pt-BR': 'Conflito 2', 'en': 'Conflict 2' },
+          title: { 'pt-BR': 'Conflito 2', en: 'Conflict 2' },
           startTime: new Date('2025-09-27T11:00:00'),
           endTime: new Date('2025-09-27T11:30:00'),
           stage: 'Main Stage',
         },
         {
           _id: '666',
-          title: { 'pt-BR': 'Conflito Speaker', 'en': 'Speaker Conflict' },
+          title: { 'pt-BR': 'Conflito Speaker', en: 'Speaker Conflict' },
           startTime: new Date('2025-09-27T11:00:00'),
           endTime: new Date('2025-09-27T12:00:00'),
           stage: 'Workshop Room',

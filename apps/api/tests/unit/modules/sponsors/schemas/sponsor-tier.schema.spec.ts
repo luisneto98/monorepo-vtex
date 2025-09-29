@@ -1,7 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { SponsorTier, SponsorTierDocument } from '../../../../../src/modules/sponsors/schemas/sponsor-tier.schema';
+import {
+  SponsorTier,
+  SponsorTierDocument,
+} from '../../../../../src/modules/sponsors/schemas/sponsor-tier.schema';
 
 describe('SponsorTier Schema', () => {
   // Using model for schema testing
@@ -33,7 +36,7 @@ describe('SponsorTier Schema', () => {
         name: 'Diamond',
         displayName: {
           'pt-BR': 'Diamante',
-          'en': 'Diamond',
+          en: 'Diamond',
         },
         order: 1,
         maxPosts: 20,
@@ -108,7 +111,7 @@ describe('SponsorTier Schema', () => {
     it('should support pt-BR and en display names', () => {
       const displayName = {
         'pt-BR': 'Diamante',
-        'en': 'Diamond',
+        en: 'Diamond',
       };
 
       expect(displayName['pt-BR']).toBeDefined();

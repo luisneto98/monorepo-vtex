@@ -17,9 +17,9 @@ describe('AuthService', () => {
     name: 'Admin User',
     isActive: true,
     refreshToken: '$2b$10$hashedRefreshTokenHere',
-    toObject: function() {
+    toObject: function () {
       return { ...this };
-    }
+    },
   };
 
   const mockUsersService = {
@@ -88,26 +88,26 @@ describe('AuthService', () => {
     it('should throw UnauthorizedException when user not found', async () => {
       mockUsersService.findByEmail.mockResolvedValue(null);
 
-      await expect(
-        service.validateUser('nonexistent@example.com', 'password123'),
-      ).rejects.toThrow(UnauthorizedException);
+      await expect(service.validateUser('nonexistent@example.com', 'password123')).rejects.toThrow(
+        UnauthorizedException,
+      );
     });
 
     it('should throw UnauthorizedException when user is inactive', async () => {
       mockUsersService.findByEmail.mockResolvedValue({ ...mockUser, isActive: false });
 
-      await expect(
-        service.validateUser('admin@example.com', 'password123'),
-      ).rejects.toThrow(UnauthorizedException);
+      await expect(service.validateUser('admin@example.com', 'password123')).rejects.toThrow(
+        UnauthorizedException,
+      );
     });
 
     it('should throw UnauthorizedException when password is invalid', async () => {
       mockUsersService.findByEmail.mockResolvedValue(mockUser);
       jest.spyOn(bcrypt, 'compare').mockImplementation(() => Promise.resolve(false));
 
-      await expect(
-        service.validateUser('admin@example.com', 'wrongpassword'),
-      ).rejects.toThrow(UnauthorizedException);
+      await expect(service.validateUser('admin@example.com', 'wrongpassword')).rejects.toThrow(
+        UnauthorizedException,
+      );
     });
   });
 
@@ -162,9 +162,7 @@ describe('AuthService', () => {
 
       mockJwtService.verifyAsync.mockRejectedValue(new Error('Invalid token'));
 
-      await expect(service.refreshTokens(refreshToken)).rejects.toThrow(
-        UnauthorizedException,
-      );
+      await expect(service.refreshTokens(refreshToken)).rejects.toThrow(UnauthorizedException);
     });
 
     it('should throw UnauthorizedException when user not found', async () => {
@@ -174,9 +172,7 @@ describe('AuthService', () => {
       mockJwtService.verifyAsync.mockResolvedValue(payload);
       mockUsersService.findById.mockResolvedValue(null);
 
-      await expect(service.refreshTokens(refreshToken)).rejects.toThrow(
-        UnauthorizedException,
-      );
+      await expect(service.refreshTokens(refreshToken)).rejects.toThrow(UnauthorizedException);
     });
 
     it('should throw UnauthorizedException when refresh token does not match', async () => {
@@ -187,9 +183,7 @@ describe('AuthService', () => {
       mockUsersService.findById.mockResolvedValue(mockUser);
       jest.spyOn(bcrypt, 'compare').mockImplementation(() => Promise.resolve(false));
 
-      await expect(service.refreshTokens(refreshToken)).rejects.toThrow(
-        UnauthorizedException,
-      );
+      await expect(service.refreshTokens(refreshToken)).rejects.toThrow(UnauthorizedException);
     });
   });
 
@@ -199,10 +193,7 @@ describe('AuthService', () => {
 
       await service.logout(mockUser._id);
 
-      expect(mockUsersService.updateRefreshToken).toHaveBeenCalledWith(
-        mockUser._id,
-        null,
-      );
+      expect(mockUsersService.updateRefreshToken).toHaveBeenCalledWith(mockUser._id, null);
     });
   });
 });

@@ -38,10 +38,11 @@ class SpeakersService {
     if (filters.sort) params.append('sort', filters.sort);
     if (filters.search) params.append('search', filters.search);
     if (filters.company) params.append('company', filters.company);
-    if (filters.isHighlight !== undefined) params.append('isHighlight', filters.isHighlight.toString());
+    if (filters.isHighlight !== undefined)
+      params.append('isHighlight', filters.isHighlight.toString());
 
     const response = await axios.get(`${API_URL}/speakers?${params}`, {
-      headers: this.getAuthHeader()
+      headers: this.getAuthHeader(),
     });
 
     // Handle API response format: { data: { success: true, data: [...], metadata: {...} } }
@@ -50,7 +51,7 @@ class SpeakersService {
 
   async getSpeaker(id: string): Promise<Speaker> {
     const response = await axios.get(`${API_URL}/speakers/${id}`, {
-      headers: this.getAuthHeader()
+      headers: this.getAuthHeader(),
     });
     // Handle nested response structure
     return response.data.data?.data || response.data.data || response.data;
@@ -58,7 +59,7 @@ class SpeakersService {
 
   async createSpeaker(data: CreateSpeakerDto): Promise<Speaker> {
     const response = await axios.post(`${API_URL}/speakers`, data, {
-      headers: this.getAuthHeader()
+      headers: this.getAuthHeader(),
     });
     // Handle nested response structure
     return response.data.data?.data || response.data.data || response.data;
@@ -66,7 +67,7 @@ class SpeakersService {
 
   async updateSpeaker(id: string, data: UpdateSpeakerDto): Promise<Speaker> {
     const response = await axios.patch(`${API_URL}/speakers/${id}`, data, {
-      headers: this.getAuthHeader()
+      headers: this.getAuthHeader(),
     });
     // Handle nested response structure
     return response.data.data?.data || response.data.data || response.data;
@@ -74,7 +75,7 @@ class SpeakersService {
 
   async deleteSpeaker(id: string): Promise<void> {
     await axios.delete(`${API_URL}/speakers/${id}`, {
-      headers: this.getAuthHeader()
+      headers: this.getAuthHeader(),
     });
   }
 
@@ -85,8 +86,8 @@ class SpeakersService {
     const response = await axios.post(`${API_URL}/upload/speaker-photo`, formData, {
       headers: {
         ...this.getAuthHeader(),
-        'Content-Type': 'multipart/form-data'
-      }
+        'Content-Type': 'multipart/form-data',
+      },
     });
     // Handle nested response structure
     return response.data.data || response.data;

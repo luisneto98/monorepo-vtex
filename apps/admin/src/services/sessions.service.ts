@@ -56,7 +56,9 @@ export class SessionsService {
     return response.json();
   }
 
-  static async createSession(session: Omit<ISession, '_id' | 'createdAt' | 'updatedAt'>): Promise<ISessionResponse> {
+  static async createSession(
+    session: Omit<ISession, '_id' | 'createdAt' | 'updatedAt'>,
+  ): Promise<ISessionResponse> {
     const response = await fetch(`${API_URL}/sessions`, {
       method: 'POST',
       headers: this.getAuthHeaders(),
@@ -151,7 +153,10 @@ export class SessionsService {
     return response.json();
   }
 
-  static async bulkUpdateVisibility(ids: string[], isVisible: boolean): Promise<{ success: boolean; updated: number }> {
+  static async bulkUpdateVisibility(
+    ids: string[],
+    isVisible: boolean,
+  ): Promise<{ success: boolean; updated: number }> {
     const response = await fetch(`${API_URL}/sessions/bulk-visibility`, {
       method: 'POST',
       headers: this.getAuthHeaders(),

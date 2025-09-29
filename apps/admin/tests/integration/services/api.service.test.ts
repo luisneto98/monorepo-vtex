@@ -44,9 +44,9 @@ describe('apiService', () => {
       expect.objectContaining({
         headers: expect.objectContaining({
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer auth-token',
+          Authorization: 'Bearer auth-token',
         }),
-      })
+      }),
     );
 
     expect(result).toEqual({ success: true, data: { test: 'data' } });
@@ -69,7 +69,7 @@ describe('apiService', () => {
         headers: expect.objectContaining({
           'Content-Type': 'application/json',
         }),
-      })
+      }),
     );
   });
 

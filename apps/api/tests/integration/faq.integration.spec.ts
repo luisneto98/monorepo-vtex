@@ -16,41 +16,43 @@ describe('FAQ Integration Tests', () => {
   const testUser = {
     _id: '507f1f77bcf86cd799439020',
     email: 'admin@vtexday.com',
-    role: 'super_admin'
+    role: 'super_admin',
   };
 
   const createFaqCategoryDto = {
     name: {
       'pt-BR': 'Geral',
-      'en': 'General'
+      en: 'General',
     },
     description: {
       'pt-BR': 'Perguntas gerais sobre o evento',
-      'en': 'General questions about the event'
+      en: 'General questions about the event',
     },
-    priority: 1
+    priority: 1,
   };
 
   const createFaqDto = {
     question: {
       'pt-BR': 'Como comprar ingressos?',
-      'en': 'How to buy tickets?'
+      en: 'How to buy tickets?',
     },
     answer: {
       'pt-BR': 'Você pode comprar ingressos através do nosso site oficial.',
-      'en': 'You can buy tickets through our official website.'
+      en: 'You can buy tickets through our official website.',
     },
-    tags: ['tickets', 'purchase']
+    tags: ['tickets', 'purchase'],
   };
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
-        MongooseModule.forRoot(process.env['MONGODB_TEST_URI'] || 'mongodb://localhost:27017/vtex-day-test'),
+        MongooseModule.forRoot(
+          process.env['MONGODB_TEST_URI'] || 'mongodb://localhost:27017/vtex-day-test',
+        ),
         DatabaseModule,
         AuthModule,
-        FaqModule
-      ]
+        FaqModule,
+      ],
     }).compile();
 
     app = moduleFixture.createNestApplication();
@@ -59,7 +61,7 @@ describe('FAQ Integration Tests', () => {
     authToken = jwtService.sign({
       sub: testUser._id,
       email: testUser.email,
-      role: testUser.role
+      role: testUser.role,
     });
 
     await app.init();
@@ -82,13 +84,13 @@ describe('FAQ Integration Tests', () => {
         const categoryDto = {
           name: {
             'pt-BR': 'Palestrantes',
-            'en': 'Speakers'
+            en: 'Speakers',
           },
           description: {
             'pt-BR': 'Perguntas sobre palestrantes',
-            'en': 'Questions about speakers'
+            en: 'Questions about speakers',
           },
-          priority: 2
+          priority: 2,
         };
 
         const response = await request(app.getHttpServer())
@@ -118,8 +120,8 @@ describe('FAQ Integration Tests', () => {
             ...createFaqCategoryDto,
             name: {
               'pt-BR': 'Geral', // Already exists
-              'en': 'General'
-            }
+              en: 'General',
+            },
           })
           .expect(409);
       });
@@ -127,9 +129,7 @@ describe('FAQ Integration Tests', () => {
 
     describe('GET /faq/categories', () => {
       it('should return all FAQ categories (public endpoint)', async () => {
-        const response = await request(app.getHttpServer())
-          .get('/faq/categories')
-          .expect(200);
+        const response = await request(app.getHttpServer()).get('/faq/categories').expect(200);
 
         expect(response.body.success).toBe(true);
         expect(Array.isArray(response.body.data)).toBe(true);
@@ -143,8 +143,8 @@ describe('FAQ Integration Tests', () => {
           priority: 5,
           description: {
             'pt-BR': 'Descrição atualizada',
-            'en': 'Updated description'
-          }
+            en: 'Updated description',
+          },
         };
 
         const response = await request(app.getHttpServer())
@@ -170,9 +170,7 @@ describe('FAQ Integration Tests', () => {
   describe('FAQ Items', () => {
     describe('GET /faq', () => {
       it('should return paginated FAQ list (public endpoint)', async () => {
-        const response = await request(app.getHttpServer())
-          .get('/faq')
-          .expect(200);
+        const response = await request(app.getHttpServer()).get('/faq').expect(200);
 
         expect(response.body).toHaveProperty('success', true);
         expect(response.body).toHaveProperty('data');
@@ -191,17 +189,13 @@ describe('FAQ Integration Tests', () => {
       });
 
       it('should apply search filter correctly', async () => {
-        const response = await request(app.getHttpServer())
-          .get('/faq?search=ingresso')
-          .expect(200);
+        const response = await request(app.getHttpServer()).get('/faq?search=ingresso').expect(200);
 
         expect(response.body.success).toBe(true);
       });
 
       it('should apply pagination correctly', async () => {
-        const response = await request(app.getHttpServer())
-          .get('/faq?page=1&limit=5')
-          .expect(200);
+        const response = await request(app.getHttpServer()).get('/faq?page=1&limit=5').expect(200);
 
         expect(response.body.metadata.page).toBe(1);
         expect(response.body.metadata.limit).toBe(5);
@@ -212,7 +206,7 @@ describe('FAQ Integration Tests', () => {
       it('should create a new FAQ (admin only)', async () => {
         const faqDto = {
           ...createFaqDto,
-          category: faqCategoryId
+          category: faqCategoryId,
         };
 
         const response = await request(app.getHttpServer())
@@ -234,7 +228,7 @@ describe('FAQ Integration Tests', () => {
           .post('/faq')
           .send({
             ...createFaqDto,
-            category: faqCategoryId
+            category: faqCategoryId,
           })
           .expect(401);
       });
@@ -242,9 +236,9 @@ describe('FAQ Integration Tests', () => {
       it('should validate required fields', async () => {
         const invalidDto = {
           question: {
-            'pt-BR': '' // Empty question
+            'pt-BR': '', // Empty question
           },
-          category: faqCategoryId
+          category: faqCategoryId,
         };
 
         await request(app.getHttpServer())
@@ -260,7 +254,7 @@ describe('FAQ Integration Tests', () => {
           .set('Authorization', `Bearer ${authToken}`)
           .send({
             ...createFaqDto,
-            category: '507f1f77bcf86cd799439999' // Non-existent category
+            category: '507f1f77bcf86cd799439999', // Non-existent category
           })
           .expect(404);
       });
@@ -277,17 +271,15 @@ describe('FAQ Integration Tests', () => {
             ...createFaqDto,
             question: {
               'pt-BR': 'Pergunta para teste de detalhes?',
-              'en': 'Question for detail test?'
+              en: 'Question for detail test?',
             },
-            category: faqCategoryId
+            category: faqCategoryId,
           });
         faqId = response.body.data._id;
       });
 
       it('should return FAQ details by id and increment view count (public endpoint)', async () => {
-        const response = await request(app.getHttpServer())
-          .get(`/faq/${faqId}`)
-          .expect(200);
+        const response = await request(app.getHttpServer()).get(`/faq/${faqId}`).expect(200);
 
         expect(response.body.success).toBe(true);
         expect(response.body.data).toHaveProperty('_id', faqId);
@@ -297,17 +289,13 @@ describe('FAQ Integration Tests', () => {
         expect(response.body.data.viewCount).toBe(1);
 
         // Second request should increment view count
-        const secondResponse = await request(app.getHttpServer())
-          .get(`/faq/${faqId}`)
-          .expect(200);
+        const secondResponse = await request(app.getHttpServer()).get(`/faq/${faqId}`).expect(200);
 
         expect(secondResponse.body.data.viewCount).toBe(2);
       });
 
       it('should return 404 for non-existent FAQ', async () => {
-        await request(app.getHttpServer())
-          .get('/faq/507f1f77bcf86cd799439999')
-          .expect(404);
+        await request(app.getHttpServer()).get('/faq/507f1f77bcf86cd799439999').expect(404);
       });
     });
 
@@ -322,9 +310,9 @@ describe('FAQ Integration Tests', () => {
             ...createFaqDto,
             question: {
               'pt-BR': 'Pergunta para teste de atualização?',
-              'en': 'Question for update test?'
+              en: 'Question for update test?',
             },
-            category: faqCategoryId
+            category: faqCategoryId,
           });
         faqId = response.body.data._id;
       });
@@ -332,7 +320,7 @@ describe('FAQ Integration Tests', () => {
       it('should update FAQ (admin only)', async () => {
         const updateDto = {
           priority: 200,
-          tags: ['updated', 'test']
+          tags: ['updated', 'test'],
         };
 
         const response = await request(app.getHttpServer())
@@ -373,9 +361,9 @@ describe('FAQ Integration Tests', () => {
             ...createFaqDto,
             question: {
               'pt-BR': 'Pergunta para teste de exclusão?',
-              'en': 'Question for delete test?'
+              en: 'Question for delete test?',
             },
-            category: faqCategoryId
+            category: faqCategoryId,
           });
         faqId = response.body.data._id;
       });
@@ -390,15 +378,11 @@ describe('FAQ Integration Tests', () => {
         expect(response.body.success).toBe(true);
 
         // Verify FAQ is no longer accessible via public endpoint
-        await request(app.getHttpServer())
-          .get(`/faq/${faqId}`)
-          .expect(404);
+        await request(app.getHttpServer()).get(`/faq/${faqId}`).expect(404);
       });
 
       it('should reject request without authentication', async () => {
-        await request(app.getHttpServer())
-          .delete(`/faq/${faqId}`)
-          .expect(401);
+        await request(app.getHttpServer()).delete(`/faq/${faqId}`).expect(401);
       });
 
       it('should return 404 for non-existent FAQ', async () => {
@@ -421,9 +405,9 @@ describe('FAQ Integration Tests', () => {
             ...createFaqDto,
             question: {
               'pt-BR': 'Pergunta para teste de restauração?',
-              'en': 'Question for restore test?'
+              en: 'Question for restore test?',
             },
-            category: faqCategoryId
+            category: faqCategoryId,
           });
         faqId = createResponse.body.data._id;
 
@@ -442,15 +426,11 @@ describe('FAQ Integration Tests', () => {
         expect(response.body.success).toBe(true);
 
         // Verify FAQ is accessible again via public endpoint
-        await request(app.getHttpServer())
-          .get(`/faq/${faqId}`)
-          .expect(200);
+        await request(app.getHttpServer()).get(`/faq/${faqId}`).expect(200);
       });
 
       it('should reject request without authentication', async () => {
-        await request(app.getHttpServer())
-          .post(`/faq/${faqId}/restore`)
-          .expect(401);
+        await request(app.getHttpServer()).post(`/faq/${faqId}/restore`).expect(401);
       });
     });
 
@@ -463,14 +443,14 @@ describe('FAQ Integration Tests', () => {
           .send({
             question: {
               'pt-BR': 'Onde fica o evento VTEX Day?',
-              'en': 'Where is the VTEX Day event located?'
+              en: 'Where is the VTEX Day event located?',
             },
             answer: {
               'pt-BR': 'O evento será realizado no Centro de Convenções de São Paulo.',
-              'en': 'The event will be held at the São Paulo Convention Center.'
+              en: 'The event will be held at the São Paulo Convention Center.',
             },
             category: faqCategoryId,
-            tags: ['location', 'venue', 'address']
+            tags: ['location', 'venue', 'address'],
           });
       });
 
@@ -501,14 +481,14 @@ describe('FAQ Integration Tests', () => {
           .send({
             question: {
               'pt-BR': 'Pergunta específica da categoria?',
-              'en': 'Category specific question?'
+              en: 'Category specific question?',
             },
             answer: {
               'pt-BR': 'Resposta específica da categoria.',
-              'en': 'Category specific answer.'
+              en: 'Category specific answer.',
             },
             category: faqCategoryId,
-            tags: ['category-specific']
+            tags: ['category-specific'],
           });
       });
 
@@ -538,13 +518,13 @@ describe('FAQ Integration Tests', () => {
           .send({
             name: {
               'pt-BR': 'Categoria Vazia',
-              'en': 'Empty Category'
+              en: 'Empty Category',
             },
             description: {
               'pt-BR': 'Categoria sem perguntas',
-              'en': 'Category without questions'
+              en: 'Category without questions',
             },
-            priority: 100
+            priority: 100,
           });
         emptyCategoryId = response.body.data._id;
       });
@@ -566,9 +546,7 @@ describe('FAQ Integration Tests', () => {
       });
 
       it('should reject request without authentication', async () => {
-        await request(app.getHttpServer())
-          .delete(`/faq/categories/${emptyCategoryId}`)
-          .expect(401);
+        await request(app.getHttpServer()).delete(`/faq/categories/${emptyCategoryId}`).expect(401);
       });
     });
   });

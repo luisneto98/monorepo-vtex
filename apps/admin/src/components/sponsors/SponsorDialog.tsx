@@ -58,7 +58,7 @@ export function SponsorDialog({ sponsor, open, onOpenChange, onSuccess }: Sponso
       console.log('Raw API response:', response);
 
       // Handle nested data structure from API response
-      const tiersData = response.data?.data || response.data || [];
+      const tiersData = response?.data || response || [];
       console.log('Extracted tiers data:', tiersData);
 
       setAvailableTiers(Array.isArray(tiersData) ? tiersData : []);

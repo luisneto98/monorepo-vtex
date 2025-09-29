@@ -11,31 +11,32 @@ describe('SpeakersService', () => {
     _id: '507f1f77bcf86cd799439011',
     name: 'John Doe',
     bio: {
-      'pt-BR': 'Biografia em português do palestrante com mais de cem caracteres para atender ao requisito mínimo de comprimento',
-      'en': 'Speaker biography in English with more than one hundred characters to meet the minimum length requirement'
+      'pt-BR':
+        'Biografia em português do palestrante com mais de cem caracteres para atender ao requisito mínimo de comprimento',
+      en: 'Speaker biography in English with more than one hundred characters to meet the minimum length requirement',
     },
     photoUrl: 'https://example.com/photo.jpg',
     company: 'Tech Corp',
     position: {
       'pt-BR': 'Diretor de Tecnologia',
-      'en': 'Technology Director'
+      en: 'Technology Director',
     },
     socialLinks: {
       linkedin: 'https://linkedin.com/in/johndoe',
-      twitter: 'https://twitter.com/johndoe'
+      twitter: 'https://twitter.com/johndoe',
     },
     isHighlight: false,
     isVisible: true,
     priority: 100,
     tags: ['AI', 'Cloud'],
     deletedAt: null,
-    save: jest.fn().mockResolvedValue(this)
+    save: jest.fn().mockResolvedValue(this),
   };
 
   const mockSpeakerModel = jest.fn().mockImplementation((dto) => ({
     ...mockSpeaker,
     ...dto,
-    save: jest.fn().mockResolvedValue({ ...mockSpeaker, ...dto })
+    save: jest.fn().mockResolvedValue({ ...mockSpeaker, ...dto }),
   })) as any;
 
   mockSpeakerModel.findOne = jest.fn();
@@ -49,9 +50,9 @@ describe('SpeakersService', () => {
         SpeakersService,
         {
           provide: getModelToken(Speaker.name),
-          useValue: mockSpeakerModel
-        }
-      ]
+          useValue: mockSpeakerModel,
+        },
+      ],
     }).compile();
 
     service = module.get<SpeakersService>(SpeakersService);
@@ -66,17 +67,18 @@ describe('SpeakersService', () => {
       const createDto = {
         name: 'Jane Smith',
         bio: {
-          'pt-BR': 'Biografia em português do palestrante com mais de cem caracteres para atender ao requisito mínimo de comprimento',
-          'en': 'Speaker biography in English with more than one hundred characters to meet the minimum length requirement',
-          'es': 'Biografía del ponente en español con más de cien caracteres para cumplir con el requisito de longitud mínima'
+          'pt-BR':
+            'Biografia em português do palestrante com mais de cem caracteres para atender ao requisito mínimo de comprimento',
+          en: 'Speaker biography in English with more than one hundred characters to meet the minimum length requirement',
+          es: 'Biografía del ponente en español con más de cien caracteres para cumplir con el requisito de longitud mínima',
         },
         photoUrl: 'https://example.com/jane.jpg',
         company: 'Innovation Inc',
         position: {
           'pt-BR': 'CEO',
-          'en': 'CEO',
-          'es': 'CEO'
-        }
+          en: 'CEO',
+          es: 'CEO',
+        },
       };
 
       mockSpeakerModel.findOne.mockResolvedValue(null);
@@ -85,7 +87,7 @@ describe('SpeakersService', () => {
 
       expect(mockSpeakerModel.findOne).toHaveBeenCalledWith({
         name: createDto.name,
-        deletedAt: null
+        deletedAt: null,
       });
       expect(result).toBeDefined();
     });
@@ -95,16 +97,16 @@ describe('SpeakersService', () => {
         name: 'John Doe',
         bio: {
           'pt-BR': 'Bio em português',
-          'en': 'Bio in English',
-          'es': 'Bio en español'
+          en: 'Bio in English',
+          es: 'Bio en español',
         },
         photoUrl: 'https://example.com/photo.jpg',
         company: 'Tech Corp',
         position: {
           'pt-BR': 'CTO',
-          'en': 'CTO',
-          'es': 'CTO'
-        }
+          en: 'CTO',
+          es: 'CTO',
+        },
       };
 
       mockSpeakerModel.findOne.mockResolvedValue(mockSpeaker);
@@ -119,7 +121,7 @@ describe('SpeakersService', () => {
         page: 1,
         limit: 10,
         search: '',
-        sort: '-createdAt'
+        sort: '-createdAt',
       };
 
       const speakers = [mockSpeaker];
@@ -127,7 +129,7 @@ describe('SpeakersService', () => {
         sort: jest.fn().mockReturnThis(),
         skip: jest.fn().mockReturnThis(),
         limit: jest.fn().mockReturnThis(),
-        exec: jest.fn().mockResolvedValue(speakers)
+        exec: jest.fn().mockResolvedValue(speakers),
       });
       mockSpeakerModel.countDocuments.mockResolvedValue(1);
 
@@ -141,8 +143,8 @@ describe('SpeakersService', () => {
           page: 1,
           limit: 10,
           hasNext: false,
-          hasPrev: false
-        }
+          hasPrev: false,
+        },
       });
     });
 
@@ -151,14 +153,14 @@ describe('SpeakersService', () => {
         page: 1,
         limit: 20,
         isHighlight: true,
-        tags: ['AI', 'Cloud']
+        tags: ['AI', 'Cloud'],
       };
 
       mockSpeakerModel.find.mockReturnValue({
         sort: jest.fn().mockReturnThis(),
         skip: jest.fn().mockReturnThis(),
         limit: jest.fn().mockReturnThis(),
-        exec: jest.fn().mockResolvedValue([])
+        exec: jest.fn().mockResolvedValue([]),
       });
       mockSpeakerModel.countDocuments.mockResolvedValue(0);
 
@@ -167,7 +169,7 @@ describe('SpeakersService', () => {
       expect(mockSpeakerModel.find).toHaveBeenCalledWith({
         deletedAt: null,
         isHighlight: true,
-        tags: { $in: ['AI', 'Cloud'] }
+        tags: { $in: ['AI', 'Cloud'] },
       });
     });
   });
@@ -175,7 +177,7 @@ describe('SpeakersService', () => {
   describe('findById', () => {
     it('should return a speaker by id', async () => {
       mockSpeakerModel.findOne.mockReturnValue({
-        exec: jest.fn().mockResolvedValue(mockSpeaker)
+        exec: jest.fn().mockResolvedValue(mockSpeaker),
       });
 
       const result = await service.findById('507f1f77bcf86cd799439011');
@@ -183,13 +185,13 @@ describe('SpeakersService', () => {
       expect(result).toEqual(mockSpeaker);
       expect(mockSpeakerModel.findOne).toHaveBeenCalledWith({
         _id: '507f1f77bcf86cd799439011',
-        deletedAt: null
+        deletedAt: null,
       });
     });
 
     it('should throw NotFoundException if speaker not found', async () => {
       mockSpeakerModel.findOne.mockReturnValue({
-        exec: jest.fn().mockResolvedValue(null)
+        exec: jest.fn().mockResolvedValue(null),
       });
 
       await expect(service.findById('507f1f77bcf86cd799439011')).rejects.toThrow(NotFoundException);
@@ -199,17 +201,15 @@ describe('SpeakersService', () => {
   describe('update', () => {
     it('should update a speaker', async () => {
       const updateDto = {
-        company: 'New Company'
+        company: 'New Company',
       };
 
       const existingSpeaker = {
         ...mockSpeaker,
-        save: jest.fn().mockResolvedValue({ ...mockSpeaker, ...updateDto })
+        save: jest.fn().mockResolvedValue({ ...mockSpeaker, ...updateDto }),
       };
 
-      mockSpeakerModel.findOne
-        .mockResolvedValueOnce(existingSpeaker)
-        .mockResolvedValueOnce(null);
+      mockSpeakerModel.findOne.mockResolvedValueOnce(existingSpeaker).mockResolvedValueOnce(null);
 
       const result = await service.update('507f1f77bcf86cd799439011', updateDto);
 
@@ -220,7 +220,9 @@ describe('SpeakersService', () => {
     it('should throw NotFoundException if speaker not found', async () => {
       mockSpeakerModel.findOne.mockResolvedValue(null);
 
-      await expect(service.update('507f1f77bcf86cd799439011', {})).rejects.toThrow(NotFoundException);
+      await expect(service.update('507f1f77bcf86cd799439011', {})).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -231,7 +233,7 @@ describe('SpeakersService', () => {
         deletedAt: null as any,
         deleteReason: null as any,
         deletedBy: null as any,
-        save: jest.fn().mockResolvedValue(mockSpeaker)
+        save: jest.fn().mockResolvedValue(mockSpeaker),
       };
 
       mockSpeakerModel.findOne.mockResolvedValue(speaker);
@@ -257,7 +259,7 @@ describe('SpeakersService', () => {
         deletedAt: new Date(),
         deletedBy: 'userId',
         deleteReason: 'Test',
-        save: jest.fn().mockResolvedValue(mockSpeaker)
+        save: jest.fn().mockResolvedValue(mockSpeaker),
       };
 
       mockSpeakerModel.findOne.mockResolvedValue(deletedSpeaker);
@@ -283,7 +285,7 @@ describe('SpeakersService', () => {
 
       mockSpeakerModel.find.mockReturnValue({
         sort: jest.fn().mockReturnThis(),
-        exec: jest.fn().mockResolvedValue(highlights)
+        exec: jest.fn().mockResolvedValue(highlights),
       });
 
       const result = await service.findHighlights();
@@ -292,7 +294,7 @@ describe('SpeakersService', () => {
       expect(mockSpeakerModel.find).toHaveBeenCalledWith({
         isHighlight: true,
         isVisible: true,
-        deletedAt: null
+        deletedAt: null,
       });
     });
   });

@@ -1,13 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import {
-  IsBoolean,
-  IsOptional,
-  IsNumber,
-  Min,
-  ValidateNested,
-  IsMongoId,
-} from 'class-validator';
+import { IsBoolean, IsOptional, IsNumber, Min, ValidateNested, IsMongoId } from 'class-validator';
 import { MultilingualTextDto } from '@common/dto/multilingual.dto';
 
 export class UpdateFaqDto {
@@ -15,9 +8,9 @@ export class UpdateFaqDto {
     description: 'FAQ question in multiple languages',
     example: {
       'pt-BR': 'Como posso participar do evento?',
-      'en': 'How can I participate in the event?'
+      en: 'How can I participate in the event?',
     },
-    type: MultilingualTextDto
+    type: MultilingualTextDto,
   })
   @IsOptional()
   @ValidateNested()
@@ -28,9 +21,9 @@ export class UpdateFaqDto {
     description: 'FAQ answer in multiple languages (supports HTML)',
     example: {
       'pt-BR': '<p>Você pode se inscrever através do nosso site oficial.</p>',
-      'en': '<p>You can register through our official website.</p>'
+      en: '<p>You can register through our official website.</p>',
     },
-    type: MultilingualTextDto
+    type: MultilingualTextDto,
   })
   @IsOptional()
   @ValidateNested()
@@ -39,7 +32,7 @@ export class UpdateFaqDto {
 
   @ApiPropertyOptional({
     description: 'MongoDB ID of the FAQ category',
-    example: '507f1f77bcf86cd799439015'
+    example: '507f1f77bcf86cd799439015',
   })
   @IsOptional()
   @IsMongoId()
@@ -48,7 +41,7 @@ export class UpdateFaqDto {
   @ApiPropertyOptional({
     description: 'Display order within category',
     example: 1,
-    minimum: 1
+    minimum: 1,
   })
   @IsOptional()
   @IsNumber()
@@ -58,7 +51,7 @@ export class UpdateFaqDto {
   @ApiPropertyOptional({
     description: 'Number of times FAQ has been viewed',
     example: 150,
-    minimum: 0
+    minimum: 0,
   })
   @IsOptional()
   @IsNumber()
@@ -68,7 +61,7 @@ export class UpdateFaqDto {
   @ApiPropertyOptional({
     description: 'FAQ visibility status',
     type: Boolean,
-    example: true
+    example: true,
   })
   @IsOptional()
   @IsBoolean()

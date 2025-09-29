@@ -1,18 +1,27 @@
-import type { ReactNode } from 'react';
+import { forwardRef, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
 interface CardProps {
   children: ReactNode;
   className?: string;
+  style?: React.CSSProperties;
 }
 
-export function Card({ children, className }: CardProps) {
-  return (
-    <div className={cn('bg-white rounded-lg shadow-sm border border-gray-200', className)}>
-      {children}
-    </div>
-  );
-}
+export const Card = forwardRef<HTMLDivElement, CardProps>(
+  ({ children, className, style }, ref) => {
+    return (
+      <div
+        ref={ref}
+        style={style}
+        className={cn('bg-white rounded-lg shadow-sm border border-gray-200', className)}
+      >
+        {children}
+      </div>
+    );
+  }
+);
+
+Card.displayName = 'Card';
 
 interface CardHeaderProps {
   children: ReactNode;
@@ -60,4 +69,17 @@ interface CardContentProps {
 
 export function CardContent({ children, className }: CardContentProps) {
   return <div className={cn('px-6 py-4', className)}>{children}</div>;
+}
+
+interface CardFooterProps {
+  children: ReactNode;
+  className?: string;
+}
+
+export function CardFooter({ children, className }: CardFooterProps) {
+  return (
+    <div className={cn('px-6 py-3 border-t border-gray-200 bg-gray-50', className)}>
+      {children}
+    </div>
+  );
 }

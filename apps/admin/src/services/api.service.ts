@@ -42,7 +42,7 @@ class ApiService {
   private async fetchCsrfToken() {
     try {
       const response = await fetch(`${this.baseUrl}/csrf-token`, {
-        credentials: 'include'
+        credentials: 'include',
       });
       if (response.ok) {
         const data = await response.json();
@@ -77,10 +77,7 @@ class ApiService {
     return this.token;
   }
 
-  private async request<T>(
-    endpoint: string,
-    options: RequestInit = {}
-  ): Promise<ApiResponse<T>> {
+  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<ApiResponse<T>> {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       ...(options.headers as Record<string, string>),
@@ -214,8 +211,13 @@ class ApiService {
     window.location.href = '/login';
   }
 
-  async get<T>(endpoint: string, params?: Record<string, string | number | boolean>): Promise<ApiResponse<T>> {
-    const url = params ? `${endpoint}?${new URLSearchParams(Object.entries(params).reduce((acc, [key, value]) => ({ ...acc, [key]: String(value) }), {})).toString()}` : endpoint;
+  async get<T>(
+    endpoint: string,
+    params?: Record<string, string | number | boolean>,
+  ): Promise<ApiResponse<T>> {
+    const url = params
+      ? `${endpoint}?${new URLSearchParams(Object.entries(params).reduce((acc, [key, value]) => ({ ...acc, [key]: String(value) }), {})).toString()}`
+      : endpoint;
     return this.request<T>(url);
   }
 
@@ -244,6 +246,26 @@ class ApiService {
       method: 'PATCH',
       body: JSON.stringify(data),
     });
+  }
+
+  get apiBaseUrl(): string {
+    return this.baseUrl;
+  }
+
+  getHeaders(): Record<string, string> {
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+
+    if (this.token) {
+      headers['Authorization'] = `Bearer ${this.token}`;
+    }
+
+    if (this.csrfToken) {
+      headers['X-CSRF-Token'] = this.csrfToken;
+    }
+
+    return headers;
   }
 }
 

@@ -6,10 +6,10 @@ export const SessionType = {
   PANEL: 'panel',
   WORKSHOP: 'workshop',
   NETWORKING: 'networking',
-  BREAK: 'break'
+  BREAK: 'break',
 } as const;
 
-export type SessionType = typeof SessionType[keyof typeof SessionType];
+export type SessionType = (typeof SessionType)[keyof typeof SessionType];
 
 export const SessionStage = {
   PRINCIPAL: 'principal',
@@ -17,26 +17,25 @@ export const SessionStage = {
   TECH: 'tech',
   STARTUP: 'startup',
   WORKSHOP_A: 'workshop_a',
-  WORKSHOP_B: 'workshop_b'
+  WORKSHOP_B: 'workshop_b',
 } as const;
 
-export type SessionStage = typeof SessionStage[keyof typeof SessionStage];
+export type SessionStage = (typeof SessionStage)[keyof typeof SessionStage];
 
 export interface SessionTranslation {
   title: string;
   description: string;
 }
 
-
 export interface ISession extends Omit<BaseEntity, '_id'> {
   _id: string;
   title: {
     'pt-BR': string;
-    'en': string;
+    en: string;
   };
   description: {
     'pt-BR': string;
-    'en': string;
+    en: string;
   };
   type?: SessionType;
   startTime: Date;

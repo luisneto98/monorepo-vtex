@@ -46,3 +46,18 @@ export const DropdownMenuLabel = ({ children, className }: any) => (
     {children}
   </div>
 );
+
+export const DropdownMenuCheckboxItem = ({ children, checked, onCheckedChange, className }: any) => (
+  <button
+    onClick={() => onCheckedChange?.(!checked)}
+    className={`w-full px-4 py-2 text-left hover:bg-gray-100 flex items-center ${className || ''}`}
+  >
+    <input
+      type="checkbox"
+      checked={checked}
+      onChange={() => {}}
+      className="mr-2"
+    />
+    {children}
+  </button>
+);

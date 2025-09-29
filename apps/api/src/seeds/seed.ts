@@ -17,7 +17,7 @@ async function bootstrap() {
 
     // Check if super admin already exists
     const existingAdmin = await userModel.findOne({
-      email: 'admin@vtexday.com.br'
+      email: 'admin@vtexday.com.br',
     });
 
     if (existingAdmin) {
@@ -36,15 +36,15 @@ async function bootstrap() {
           phone: '+5511999999999',
           company: 'VTEX',
           position: 'System Administrator',
-          language: 'pt-BR'
+          language: 'pt-BR',
         },
         preferences: {
           interests: [],
           notificationsEnabled: true,
-          favoriteSessionIds: []
+          favoriteSessionIds: [],
         },
         isActive: true,
-        isValidated: true
+        isValidated: true,
       });
 
       await adminUser.save();
@@ -62,7 +62,6 @@ async function bootstrap() {
     console.log('Email: admin@vtexday.com.br');
     console.log('Password: VtexDay2026@Admin');
     console.log('');
-
   } catch (error) {
     console.error('❌ Seed failed:', error);
     process.exit(1);

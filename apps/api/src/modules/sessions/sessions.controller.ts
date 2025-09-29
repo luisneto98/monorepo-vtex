@@ -53,18 +53,18 @@ export class SessionsController {
         success: true,
         data: {
           _id: '507f1f77bcf86cd799439011',
-          title: { 'pt-BR': 'Keynote de Abertura', 'en': 'Opening Keynote' },
-          description: { 'pt-BR': 'Descrição...', 'en': 'Description...' },
+          title: { 'pt-BR': 'Keynote de Abertura', en: 'Opening Keynote' },
+          description: { 'pt-BR': 'Descrição...', en: 'Description...' },
           startTime: '2025-11-26T09:00:00Z',
           endTime: '2025-11-26T10:00:00Z',
           stage: 'principal',
           type: 'keynote',
           speakers: ['507f1f77bcf86cd799439012'],
           capacity: 500,
-          isHighlight: true
-        }
-      }
-    }
+          isHighlight: true,
+        },
+      },
+    },
   })
   @SwaggerApiResponse({ status: 400, description: 'Validation error or session conflict' })
   @SwaggerApiResponse({ status: 401, description: 'Unauthorized' })
@@ -78,47 +78,62 @@ export class SessionsController {
   @Public()
   @ApiOperation({
     summary: 'List sessions with advanced filtering',
-    description: 'Get event sessions filtered by date, stage, type, tags, and speakers'
+    description: 'Get event sessions filtered by date, stage, type, tags, and speakers',
   })
   @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
   @ApiQuery({ name: 'limit', required: false, type: Number, example: 20 })
   @ApiQuery({ name: 'sort', required: false, type: String, example: 'startTime,-priority' })
-  @ApiQuery({ name: 'search', required: false, type: String, description: 'Search in title and description' })
+  @ApiQuery({
+    name: 'search',
+    required: false,
+    type: String,
+    description: 'Search in title and description',
+  })
   @ApiQuery({
     name: 'startDate',
     required: false,
     type: String,
     example: '2025-11-26',
-    description: 'Filter sessions starting from this date'
+    description: 'Filter sessions starting from this date',
   })
   @ApiQuery({
     name: 'endDate',
     required: false,
     type: String,
     example: '2025-11-28',
-    description: 'Filter sessions ending before this date'
+    description: 'Filter sessions ending before this date',
   })
   @ApiQuery({
     name: 'stage',
     required: false,
     enum: ['principal', 'inovacao', 'tech', 'startup', 'workshop_a', 'workshop_b'],
-    description: 'Filter by stage/room'
+    description: 'Filter by stage/room',
   })
   @ApiQuery({
     name: 'type',
     required: false,
     enum: ['keynote', 'talk', 'panel', 'workshop', 'networking', 'break'],
-    description: 'Filter by session type'
+    description: 'Filter by session type',
   })
   @ApiQuery({
     name: 'tags',
     required: false,
     type: [String],
     example: ['AI', 'B2B'],
-    description: 'Filter by tags (comma-separated)'
+    description: 'Filter by tags (comma-separated)',
   })
-  @ApiQuery({ name: 'speakerId', required: false, type: String, description: 'Filter by speaker ID' })
-  @ApiQuery({ name: 'isHighlight', required: false, type: Boolean, description: 'Filter highlight sessions' })
+  @ApiQuery({
+    name: 'speakerId',
+    required: false,
+    type: String,
+    description: 'Filter by speaker ID',
+  })
+  @ApiQuery({
+    name: 'isHighlight',
+    required: false,
+    type: Boolean,
+    description: 'Filter highlight sessions',
+  })
   @SwaggerApiResponse({
     status: 200,
     description: 'List of sessions with pagination',
@@ -128,15 +143,15 @@ export class SessionsController {
         data: [
           {
             _id: '507f1f77bcf86cd799439011',
-            title: { 'pt-BR': 'Keynote de Abertura', 'en': 'Opening Keynote' },
+            title: { 'pt-BR': 'Keynote de Abertura', en: 'Opening Keynote' },
             startTime: '2025-11-26T09:00:00Z',
             endTime: '2025-11-26T10:00:00Z',
             stage: 'principal',
             type: 'keynote',
             speakers: [{ _id: '507f1f77bcf86cd799439012', name: 'Carlos Silva' }],
             capacity: 500,
-            registrationCount: 350
-          }
+            registrationCount: 350,
+          },
         ],
         metadata: {
           total: 45,
@@ -144,10 +159,10 @@ export class SessionsController {
           limit: 20,
           totalPages: 3,
           hasNext: true,
-          hasPrev: false
-        }
-      }
-    }
+          hasPrev: false,
+        },
+      },
+    },
   })
   async findAll(@Query() filterDto: SessionFilterDto) {
     const result = await this.sessionsService.findAll(filterDto);
@@ -166,15 +181,15 @@ export class SessionsController {
         data: [
           {
             _id: '507f1f77bcf86cd799439011',
-            title: { 'pt-BR': 'Keynote Principal', 'en': 'Main Keynote' },
+            title: { 'pt-BR': 'Keynote Principal', en: 'Main Keynote' },
             startTime: '2025-11-26T09:00:00Z',
             stage: 'principal',
             type: 'keynote',
-            isHighlight: true
-          }
-        ]
-      }
-    }
+            isHighlight: true,
+          },
+        ],
+      },
+    },
   })
   async findHighlights() {
     const sessions = await this.sessionsService.findHighlights();
@@ -193,15 +208,15 @@ export class SessionsController {
         data: [
           {
             _id: '507f1f77bcf86cd799439011',
-            title: { 'pt-BR': 'Sessão Atual', 'en': 'Current Session' },
+            title: { 'pt-BR': 'Sessão Atual', en: 'Current Session' },
             startTime: '2025-11-26T14:00:00Z',
             endTime: '2025-11-26T15:00:00Z',
             stage: 'tech',
-            isLive: true
-          }
-        ]
-      }
-    }
+            isLive: true,
+          },
+        ],
+      },
+    },
   })
   async findLiveSessions() {
     const sessions = await this.sessionsService.findLiveSessions();
@@ -220,25 +235,21 @@ export class SessionsController {
         success: true,
         data: {
           _id: '507f1f77bcf86cd799439011',
-          title: { 'pt-BR': 'Título da Sessão', 'en': 'Session Title' },
-          description: { 'pt-BR': 'Descrição completa...', 'en': 'Full description...' },
+          title: { 'pt-BR': 'Título da Sessão', en: 'Session Title' },
+          description: { 'pt-BR': 'Descrição completa...', en: 'Full description...' },
           startTime: '2025-11-26T14:00:00Z',
           endTime: '2025-11-26T15:00:00Z',
           stage: 'principal',
           type: 'talk',
-          speakers: [
-            { _id: '507f1f77bcf86cd799439012', name: 'Speaker Name', company: 'VTEX' }
-          ],
+          speakers: [{ _id: '507f1f77bcf86cd799439012', name: 'Speaker Name', company: 'VTEX' }],
           sponsors: ['507f1f77bcf86cd799439013'],
           capacity: 200,
           registrationCount: 150,
           tags: ['AI', 'Innovation'],
-          materials: [
-            { type: 'slides', url: 'https://cdn.vtexday.com/slides.pdf' }
-          ]
-        }
-      }
-    }
+          materials: [{ type: 'slides', url: 'https://cdn.vtexday.com/slides.pdf' }],
+        },
+      },
+    },
   })
   @SwaggerApiResponse({ status: 404, description: 'Session not found' })
   async findOne(@Param('id') id: string) {
@@ -261,11 +272,11 @@ export class SessionsController {
         success: true,
         data: {
           _id: '507f1f77bcf86cd799439011',
-          title: { 'pt-BR': 'Título Atualizado', 'en': 'Updated Title' },
-          updatedAt: '2025-11-26T10:00:00Z'
-        }
-      }
-    }
+          title: { 'pt-BR': 'Título Atualizado', en: 'Updated Title' },
+          updatedAt: '2025-11-26T10:00:00Z',
+        },
+      },
+    },
   })
   @SwaggerApiResponse({ status: 400, description: 'Validation error or session conflict' })
   @SwaggerApiResponse({ status: 401, description: 'Unauthorized' })
@@ -288,11 +299,7 @@ export class SessionsController {
   @SwaggerApiResponse({ status: 401, description: 'Unauthorized' })
   @SwaggerApiResponse({ status: 403, description: 'Forbidden' })
   @SwaggerApiResponse({ status: 404, description: 'Session not found' })
-  async remove(
-    @Param('id') id: string,
-    @Req() req: Request,
-    @Query('reason') reason?: string
-  ) {
+  async remove(@Param('id') id: string, @Req() req: Request, @Query('reason') reason?: string) {
     const userId = (req as any).user?.id;
     await this.sessionsService.remove(id, reason, userId);
   }
@@ -311,11 +318,11 @@ export class SessionsController {
         success: true,
         data: {
           _id: '507f1f77bcf86cd799439011',
-          title: { 'pt-BR': 'Sessão Restaurada', 'en': 'Restored Session' },
-          deletedAt: null
-        }
-      }
-    }
+          title: { 'pt-BR': 'Sessão Restaurada', en: 'Restored Session' },
+          deletedAt: null,
+        },
+      },
+    },
   })
   @SwaggerApiResponse({ status: 401, description: 'Unauthorized' })
   @SwaggerApiResponse({ status: 403, description: 'Forbidden' })

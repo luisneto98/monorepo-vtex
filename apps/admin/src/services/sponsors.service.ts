@@ -67,7 +67,9 @@ export class SponsorsService {
     return response.json();
   }
 
-  static async createSponsor(sponsor: Omit<Sponsor, '_id' | 'createdAt' | 'updatedAt'>): Promise<ISponsorResponse> {
+  static async createSponsor(
+    sponsor: Omit<Sponsor, '_id' | 'createdAt' | 'updatedAt'>,
+  ): Promise<ISponsorResponse> {
     const response = await fetch(`${API_URL}/sponsors`, {
       method: 'POST',
       headers: this.getAuthHeaders(),
@@ -119,7 +121,10 @@ export class SponsorsService {
   }
 
   // Bulk actions
-  static async bulkUpdateVisibility(ids: string[], visible: boolean): Promise<{ success: boolean }> {
+  static async bulkUpdateVisibility(
+    ids: string[],
+    visible: boolean,
+  ): Promise<{ success: boolean }> {
     const response = await fetch(`${API_URL}/sponsors/bulk/visibility`, {
       method: 'PATCH',
       headers: this.getAuthHeaders(),
@@ -162,7 +167,10 @@ export class SponsorsService {
   }
 
   // Export functionality
-  static async exportSponsors(ids: string[], format: 'csv' | 'excel'): Promise<string | ArrayBuffer> {
+  static async exportSponsors(
+    ids: string[],
+    format: 'csv' | 'excel',
+  ): Promise<string | ArrayBuffer> {
     const response = await fetch(`${API_URL}/sponsors/export`, {
       method: 'POST',
       headers: this.getAuthHeaders(),

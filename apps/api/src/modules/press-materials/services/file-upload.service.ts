@@ -1,0 +1,144 @@
+import { Injectable, BadRequestException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import {
+  S3Client,
+  PutObjectCommand,
+  DeleteObjectCommand,
+  GetObjectCommand,
+} from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { v4 as uuidv4 } from 'uuid';
+import { createS3Client, getS3BucketName, S3_CONFIG } from '../../../config/s3.config';
+import { SanitizationUtil } from '../../../common/utils/sanitization.util';
+import { FileMetadata, FileUploadResponse, PressMaterialType } from '@vtexday26/shared';
+
+@Injectable()
+export class FileUploadService {
+  private s3Client: S3Client;
+  private bucketName: string;
+
+  constructor(configService: ConfigService) {
+    this.s3Client = createS3Client(configService);
+    this.bucketName = getS3BucketName(configService);
+  }
+
+  async uploadFile(
+    file: Express.Multer.File,
+    materialType: PressMaterialType,
+    uploadedBy: string,
+  ): Promise<FileUploadResponse> {
+    this.validateFile(file, materialType);
+
+    const fileExtension = file.originalname.split('.').pop()?.toLowerCase();
+    const fileKey = this.generateFileKey(materialType, fileExtension);
+
+    try {
+      await this.s3Client.send(
+        new PutObjectCommand({
+          Bucket: this.bucketName,
+          Key: fileKey,
+          Body: file.buffer,
+          ContentType: file.mimetype,
+          Metadata: {
+            uploadedBy,
+            originalName: SanitizationUtil.sanitizeFilePath(file.originalname),
+            materialType,
+          },
+        }),
+      );
+
+      const metadata: FileMetadata = {
+        size: file.size,
+        format: fileExtension || '',
+      };
+
+      const fileUrl = `https://${this.bucketName}.s3.amazonaws.com/${fileKey}`;
+
+      return {
+        fileUrl,
+        metadata,
+      };
+    } catch (error) {
+      console.error('S3 upload error:', error);
+      throw new BadRequestException('Failed to upload file to S3');
+    }
+  }
+
+  async deleteFile(fileUrl: string): Promise<void> {
+    try {
+      const fileKey = this.extractKeyFromUrl(fileUrl);
+      await this.s3Client.send(
+        new DeleteObjectCommand({
+          Bucket: this.bucketName,
+          Key: fileKey,
+        }),
+      );
+    } catch (error) {
+      console.error('S3 delete error:', error);
+      throw new BadRequestException('Failed to delete file from S3');
+    }
+  }
+
+  async generateSignedUrl(fileUrl: string, expiresIn = S3_CONFIG.URL_EXPIRY): Promise<string> {
+    try {
+      const fileKey = this.extractKeyFromUrl(fileUrl);
+      const command = new GetObjectCommand({
+        Bucket: this.bucketName,
+        Key: fileKey,
+      });
+
+      return await getSignedUrl(this.s3Client, command, { expiresIn });
+    } catch (error) {
+      console.error('S3 signed URL error:', error);
+      throw new BadRequestException('Failed to generate signed URL');
+    }
+  }
+
+  private validateFile(file: Express.Multer.File, materialType: PressMaterialType): void {
+    if (!file) {
+      throw new BadRequestException('No file provided');
+    }
+
+    // Sanitize filename to prevent path traversal
+    const sanitizedFilename = SanitizationUtil.sanitizeFilePath(file.originalname);
+    const fileExtension = sanitizedFilename.split('.').pop()?.toLowerCase();
+    const allowedFormats = S3_CONFIG.ALLOWED_FORMATS[materialType];
+
+    if (!fileExtension || !allowedFormats.includes(fileExtension)) {
+      throw new BadRequestException(
+        `Invalid file format for ${materialType}. Allowed formats: ${allowedFormats.join(', ')}`,
+      );
+    }
+
+    const maxSize =
+      materialType === 'video' ? S3_CONFIG.MAX_FILE_SIZE.video : S3_CONFIG.MAX_FILE_SIZE.default;
+
+    if (file.size > maxSize) {
+      throw new BadRequestException(
+        `File size exceeds maximum allowed size of ${maxSize / (1024 * 1024)}MB`,
+      );
+    }
+  }
+
+  private generateFileKey(materialType: PressMaterialType, extension: string | undefined): string {
+    const year = new Date().getFullYear();
+    const uuid = uuidv4();
+    // Sanitize extension to prevent path traversal
+    const safeExtension = extension ? SanitizationUtil.sanitizeFilePath(extension) : '';
+    return `press-materials/${year}/${materialType}/${uuid}.${safeExtension}`;
+  }
+
+  private extractKeyFromUrl(fileUrl: string): string {
+    // Sanitize file URL to prevent path traversal
+    const sanitizedUrl = SanitizationUtil.sanitizeFilePath(fileUrl);
+
+    const urlParts = sanitizedUrl.split('.amazonaws.com/');
+    if (urlParts.length !== 2) {
+      const pathParts = sanitizedUrl.split('/');
+      const key = pathParts.slice(3).join('/');
+      // Additional validation to ensure key doesn't contain path traversal
+      return SanitizationUtil.sanitizeFilePath(key);
+    }
+    return SanitizationUtil.sanitizeFilePath(urlParts[1]);
+  }
+}

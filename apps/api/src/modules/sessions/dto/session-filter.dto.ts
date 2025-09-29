@@ -1,5 +1,13 @@
 import { Type, Transform } from 'class-transformer';
-import { IsOptional, IsDate, IsString, IsEnum, IsArray, IsBoolean, IsMongoId } from 'class-validator';
+import {
+  IsOptional,
+  IsDate,
+  IsString,
+  IsEnum,
+  IsArray,
+  IsBoolean,
+  IsMongoId,
+} from 'class-validator';
 import { PaginationDto } from '@common/dto/pagination.dto';
 import { SessionType, SessionStage } from '@shared/types/session.types';
 

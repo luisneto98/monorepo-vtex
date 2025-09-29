@@ -21,15 +21,15 @@ describe('Sponsors Service Integration', () => {
       socialLinks: {
         linkedin: 'https://linkedin.com/company/sponsor-a',
         instagram: 'https://instagram.com/sponsor-a',
-        facebook: 'https://facebook.com/sponsor-a'
+        facebook: 'https://facebook.com/sponsor-a',
       },
       maxPosts: 10,
       postsUsed: 3,
       tags: ['tech', 'innovation'],
       isVisible: true,
       createdAt: '2025-01-01T00:00:00Z',
-      updatedAt: '2025-01-01T00:00:00Z'
-    }
+      updatedAt: '2025-01-01T00:00:00Z',
+    },
   ];
 
   beforeEach(() => {
@@ -46,7 +46,7 @@ describe('Sponsors Service Integration', () => {
         data: mockSponsors,
         total: 1,
         page: 1,
-        limit: 10
+        limit: 10,
       });
 
       const result = await sponsorsService.getSponsors({ page: 1, limit: 10 });
@@ -65,7 +65,9 @@ describe('Sponsors Service Integration', () => {
     });
 
     it('filters sponsors by visibility', async () => {
-      vi.spyOn(apiService, 'get').mockResolvedValue({ data: mockSponsors.filter(s => s.isVisible) });
+      vi.spyOn(apiService, 'get').mockResolvedValue({
+        data: mockSponsors.filter((s) => s.isVisible),
+      });
 
       await sponsorsService.getSponsors({ isVisible: true });
 
@@ -87,7 +89,7 @@ describe('Sponsors Service Integration', () => {
       slug: 'new-sponsor',
       tier: 'silver',
       adminEmail: 'admin@newsponsor.com',
-      websiteUrl: 'https://newsponsor.com'
+      websiteUrl: 'https://newsponsor.com',
     };
 
     it('creates a new sponsor', async () => {
@@ -102,7 +104,9 @@ describe('Sponsors Service Integration', () => {
 
     it('auto-generates slug if not provided', async () => {
       const sponsorWithoutSlug = { ...newSponsor, slug: undefined };
-      vi.spyOn(apiService, 'post').mockResolvedValue({ data: { ...sponsorWithoutSlug, slug: 'new-sponsor' } });
+      vi.spyOn(apiService, 'post').mockResolvedValue({
+        data: { ...sponsorWithoutSlug, slug: 'new-sponsor' },
+      });
 
       const result = await sponsorsService.createSponsor(sponsorWithoutSlug);
 
@@ -112,14 +116,18 @@ describe('Sponsors Service Integration', () => {
     it('validates unique slug', async () => {
       vi.spyOn(apiService, 'post').mockRejectedValue(new Error('Slug already exists'));
 
-      await expect(sponsorsService.createSponsor(newSponsor)).rejects.toThrow('Slug already exists');
+      await expect(sponsorsService.createSponsor(newSponsor)).rejects.toThrow(
+        'Slug already exists',
+      );
     });
 
     it('validates email format', async () => {
       const invalidSponsor = { ...newSponsor, adminEmail: 'invalid-email' };
       vi.spyOn(apiService, 'post').mockRejectedValue(new Error('Invalid email format'));
 
-      await expect(sponsorsService.createSponsor(invalidSponsor)).rejects.toThrow('Invalid email format');
+      await expect(sponsorsService.createSponsor(invalidSponsor)).rejects.toThrow(
+        'Invalid email format',
+      );
     });
   });
 
@@ -139,7 +147,7 @@ describe('Sponsors Service Integration', () => {
     it('updates sponsor tier and resets order', async () => {
       const updates = { tier: 'silver' };
       vi.spyOn(apiService, 'put').mockResolvedValue({
-        data: { ...mockSponsors[0], tier: 'silver', orderInTier: 999 }
+        data: { ...mockSponsors[0], tier: 'silver', orderInTier: 999 },
       });
 
       const result = await sponsorsService.updateSponsor('1', updates);
@@ -173,7 +181,7 @@ describe('Sponsors Service Integration', () => {
 
       expect(apiService.put).toHaveBeenCalledWith('/sponsors/bulk', {
         ids: ['1', '2'],
-        updates: { isVisible: false }
+        updates: { isVisible: false },
       });
     });
 
@@ -184,34 +192,41 @@ describe('Sponsors Service Integration', () => {
 
       expect(apiService.put).toHaveBeenCalledWith('/sponsors/bulk', {
         ids: ['1', '2', '3'],
-        updates: { tier: 'bronze' }
+        updates: { tier: 'bronze' },
       });
     });
   });
 
   describe('duplicateSponsor', () => {
     it('duplicates a sponsor with new name', async () => {
-      const duplicated = { ...mockSponsors[0], _id: '2', name: 'Sponsor A (Copy)', slug: 'sponsor-a-copy' };
+      const duplicated = {
+        ...mockSponsors[0],
+        _id: '2',
+        name: 'Sponsor A (Copy)',
+        slug: 'sponsor-a-copy',
+      };
       vi.spyOn(apiService, 'post').mockResolvedValue({ data: duplicated });
 
       const result = await sponsorsService.duplicateSponsor('1', { name: 'Sponsor A (Copy)' });
 
-      expect(apiService.post).toHaveBeenCalledWith('/sponsors/1/duplicate', { name: 'Sponsor A (Copy)' });
+      expect(apiService.post).toHaveBeenCalledWith('/sponsors/1/duplicate', {
+        name: 'Sponsor A (Copy)',
+      });
       expect(result._id).not.toBe('1');
       expect(result.name).toBe('Sponsor A (Copy)');
     });
 
     it('duplicates with selective fields', async () => {
       vi.spyOn(apiService, 'post').mockResolvedValue({
-        data: { ...mockSponsors[0], _id: '2', socialLinks: undefined }
+        data: { ...mockSponsors[0], _id: '2', socialLinks: undefined },
       });
 
       await sponsorsService.duplicateSponsor('1', {
-        excludeFields: ['socialLinks', 'standLocation']
+        excludeFields: ['socialLinks', 'standLocation'],
       });
 
       expect(apiService.post).toHaveBeenCalledWith('/sponsors/1/duplicate', {
-        excludeFields: ['socialLinks', 'standLocation']
+        excludeFields: ['socialLinks', 'standLocation'],
       });
     });
   });
@@ -225,7 +240,7 @@ describe('Sponsors Service Integration', () => {
 
       expect(apiService.get).toHaveBeenCalledWith('/sponsors/export', {
         params: { format: 'csv' },
-        responseType: 'blob'
+        responseType: 'blob',
       });
     });
 
@@ -237,7 +252,7 @@ describe('Sponsors Service Integration', () => {
 
       expect(apiService.get).toHaveBeenCalledWith('/sponsors/export', {
         params: { format: 'excel' },
-        responseType: 'blob'
+        responseType: 'blob',
       });
     });
 
@@ -248,7 +263,7 @@ describe('Sponsors Service Integration', () => {
 
       expect(apiService.get).toHaveBeenCalledWith('/sponsors/export', {
         params: { format: 'csv', tier: 'gold', isVisible: true },
-        responseType: 'blob'
+        responseType: 'blob',
       });
     });
   });
@@ -261,7 +276,7 @@ describe('Sponsors Service Integration', () => {
         visible: 45,
         hidden: 5,
         totalPosts: 150,
-        averagePostsUsed: 3
+        averagePostsUsed: 3,
       };
 
       vi.spyOn(apiService, 'get').mockResolvedValue({ data: stats });
@@ -282,14 +297,16 @@ describe('Sponsors Service Integration', () => {
 
       expect(apiService.put).toHaveBeenCalledWith('/sponsors/1/order', {
         tier: 'gold',
-        orderInTier: 3
+        orderInTier: 3,
       });
     });
 
     it('handles order conflicts', async () => {
       vi.spyOn(apiService, 'put').mockRejectedValue(new Error('Order conflict'));
 
-      await expect(sponsorsService.updateSponsorOrder('1', 'gold', 1)).rejects.toThrow('Order conflict');
+      await expect(sponsorsService.updateSponsorOrder('1', 'gold', 1)).rejects.toThrow(
+        'Order conflict',
+      );
     });
   });
 
@@ -307,19 +324,21 @@ describe('Sponsors Service Integration', () => {
     it('handles sponsor not found in trash', async () => {
       vi.spyOn(apiService, 'post').mockRejectedValue(new Error('Sponsor not found in trash'));
 
-      await expect(sponsorsService.recoverDeletedSponsor('999')).rejects.toThrow('Sponsor not found in trash');
+      await expect(sponsorsService.recoverDeletedSponsor('999')).rejects.toThrow(
+        'Sponsor not found in trash',
+      );
     });
   });
 
   describe('getArchivedSponsors', () => {
     it('fetches archived sponsors', async () => {
-      const archived = mockSponsors.map(s => ({ ...s, isArchived: true }));
+      const archived = mockSponsors.map((s) => ({ ...s, isArchived: true }));
       vi.spyOn(apiService, 'get').mockResolvedValue({ data: archived });
 
       const result = await sponsorsService.getArchivedSponsors();
 
       expect(apiService.get).toHaveBeenCalledWith('/sponsors/archived');
-      expect(result.every(s => s.isArchived)).toBe(true);
+      expect(result.every((s) => s.isArchived)).toBe(true);
     });
   });
 });

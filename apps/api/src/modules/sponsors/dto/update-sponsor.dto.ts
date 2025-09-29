@@ -21,7 +21,7 @@ export class UpdateSponsorDto {
   @ApiPropertyOptional({
     description: 'Sponsor company name',
     example: 'VTEX',
-    maxLength: 100
+    maxLength: 100,
   })
   @IsOptional()
   @IsString()
@@ -31,7 +31,7 @@ export class UpdateSponsorDto {
   @ApiPropertyOptional({
     description: 'URL-friendly identifier',
     example: 'vtex',
-    pattern: '^[a-z0-9-]+$'
+    pattern: '^[a-z0-9-]+$',
   })
   @IsOptional()
   @IsString()
@@ -42,9 +42,9 @@ export class UpdateSponsorDto {
     description: 'Sponsor description in multiple languages',
     example: {
       'pt-BR': 'Líder em plataforma de comércio digital',
-      'en': 'Leader in digital commerce platform'
+      en: 'Leader in digital commerce platform',
     },
-    type: MultilingualTextDto
+    type: MultilingualTextDto,
   })
   @IsOptional()
   @ValidateNested()
@@ -54,7 +54,7 @@ export class UpdateSponsorDto {
   @ApiPropertyOptional({
     description: 'URL to sponsor logo image',
     example: 'https://cdn.vtexday.com/sponsors/vtex-logo.svg',
-    format: 'url'
+    format: 'url',
   })
   @IsOptional()
   @IsUrl()
@@ -62,7 +62,7 @@ export class UpdateSponsorDto {
 
   @ApiPropertyOptional({
     description: 'MongoDB ID of the sponsor tier',
-    example: '507f1f77bcf86cd799439014'
+    example: '507f1f77bcf86cd799439014',
   })
   @IsOptional()
   @IsMongoId()
@@ -71,7 +71,7 @@ export class UpdateSponsorDto {
   @ApiPropertyOptional({
     description: 'Display order within the tier',
     example: 1,
-    minimum: 1
+    minimum: 1,
   })
   @IsOptional()
   @IsNumber()
@@ -81,7 +81,7 @@ export class UpdateSponsorDto {
   @ApiPropertyOptional({
     description: 'Sponsor website URL',
     example: 'https://vtex.com',
-    format: 'url'
+    format: 'url',
   })
   @IsOptional()
   @IsUrl()
@@ -90,7 +90,7 @@ export class UpdateSponsorDto {
   @ApiPropertyOptional({
     description: 'Physical stand location at the event',
     example: 'Hall A, Stand 42',
-    maxLength: 100
+    maxLength: 100,
   })
   @IsOptional()
   @IsString()
@@ -100,7 +100,7 @@ export class UpdateSponsorDto {
   @ApiPropertyOptional({
     description: 'Admin contact email',
     example: 'admin@vtex.com',
-    format: 'email'
+    format: 'email',
   })
   @IsOptional()
   @IsEmail()
@@ -109,7 +109,7 @@ export class UpdateSponsorDto {
   @ApiPropertyOptional({
     description: 'General contact email',
     example: 'contact@vtex.com',
-    format: 'email'
+    format: 'email',
   })
   @IsOptional()
   @IsEmail()
@@ -117,7 +117,7 @@ export class UpdateSponsorDto {
 
   @ApiPropertyOptional({
     description: 'Social media profile links',
-    type: SponsorSocialLinksDto
+    type: SponsorSocialLinksDto,
   })
   @IsOptional()
   @ValidateNested()
@@ -127,7 +127,7 @@ export class UpdateSponsorDto {
   @ApiPropertyOptional({
     description: 'Maximum number of posts allowed',
     example: 10,
-    minimum: 0
+    minimum: 0,
   })
   @IsOptional()
   @IsNumber()
@@ -137,7 +137,7 @@ export class UpdateSponsorDto {
   @ApiPropertyOptional({
     description: 'Number of posts already used',
     example: 3,
-    minimum: 0
+    minimum: 0,
   })
   @IsOptional()
   @IsNumber()
@@ -147,7 +147,7 @@ export class UpdateSponsorDto {
   @ApiPropertyOptional({
     description: 'Tags for categorization',
     type: [String],
-    example: ['technology', 'ecommerce', 'platform']
+    example: ['technology', 'ecommerce', 'platform'],
   })
   @IsOptional()
   @IsArray()
@@ -157,7 +157,7 @@ export class UpdateSponsorDto {
   @ApiPropertyOptional({
     description: 'Sponsor visibility status',
     type: Boolean,
-    example: true
+    example: true,
   })
   @IsOptional()
   @IsBoolean()

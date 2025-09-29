@@ -13,13 +13,13 @@ describe('SponsorsService', () => {
     name: 'Diamond',
     description: {
       'pt-BR': 'Patrocinador Diamante',
-      'en': 'Diamond Sponsor'
+      en: 'Diamond Sponsor',
     },
     priority: 1,
     benefits: ['Logo principal', 'Estande premium'],
     maxSponsors: 3,
     price: 50000,
-    isActive: true
+    isActive: true,
   };
 
   const mockSponsor = {
@@ -27,36 +27,36 @@ describe('SponsorsService', () => {
     name: 'Tech Corp',
     description: {
       'pt-BR': 'Empresa de tecnologia líder',
-      'en': 'Leading technology company'
+      en: 'Leading technology company',
     },
     logoUrl: 'https://example.com/logo.png',
     websiteUrl: 'https://techcorp.com',
     tier: mockSponsorTier._id,
     contactInfo: {
       email: 'contact@techcorp.com',
-      phone: '+55 11 99999-9999'
+      phone: '+55 11 99999-9999',
     },
     socialLinks: {
       linkedin: 'https://linkedin.com/company/techcorp',
-      twitter: 'https://twitter.com/techcorp'
+      twitter: 'https://twitter.com/techcorp',
     },
     tags: ['Technology', 'SaaS'],
     isVisible: true,
     priority: 100,
     deletedAt: null,
-    save: jest.fn().mockResolvedValue(this)
+    save: jest.fn().mockResolvedValue(this),
   };
 
   const mockSponsorModel = jest.fn().mockImplementation((dto) => ({
     ...mockSponsor,
     ...dto,
-    save: jest.fn().mockResolvedValue({ ...mockSponsor, ...dto })
+    save: jest.fn().mockResolvedValue({ ...mockSponsor, ...dto }),
   })) as any;
 
   const mockSponsorTierModel = jest.fn().mockImplementation((dto) => ({
     ...mockSponsorTier,
     ...dto,
-    save: jest.fn().mockResolvedValue({ ...mockSponsorTier, ...dto })
+    save: jest.fn().mockResolvedValue({ ...mockSponsorTier, ...dto }),
   })) as any;
 
   mockSponsorModel.findOne = jest.fn();
@@ -76,13 +76,13 @@ describe('SponsorsService', () => {
         SponsorsService,
         {
           provide: getModelToken(Sponsor.name),
-          useValue: mockSponsorModel
+          useValue: mockSponsorModel,
         },
         {
           provide: getModelToken(SponsorTier.name),
-          useValue: mockSponsorTierModel
-        }
-      ]
+          useValue: mockSponsorTierModel,
+        },
+      ],
     }).compile();
 
     service = module.get<SponsorsService>(SponsorsService);
@@ -98,14 +98,14 @@ describe('SponsorsService', () => {
         name: 'New Sponsor',
         description: {
           'pt-BR': 'Novo patrocinador',
-          'en': 'New sponsor'
+          en: 'New sponsor',
         },
         logoUrl: 'https://example.com/new-logo.png',
         websiteUrl: 'https://newsponsor.com',
         tier: mockSponsorTier._id,
         contactInfo: {
-          email: 'contact@newsponsor.com'
-        }
+          email: 'contact@newsponsor.com',
+        },
       };
 
       mockSponsorModel.findOne.mockResolvedValue(null);
@@ -116,11 +116,11 @@ describe('SponsorsService', () => {
 
       expect(mockSponsorModel.findOne).toHaveBeenCalledWith({
         name: createDto.name,
-        deletedAt: null
+        deletedAt: null,
       });
       expect(mockSponsorTierModel.findOne).toHaveBeenCalledWith({
         _id: createDto.tier,
-        isActive: true
+        isActive: true,
       });
       expect(result).toBeDefined();
     });
@@ -130,14 +130,14 @@ describe('SponsorsService', () => {
         name: 'Tech Corp',
         description: {
           'pt-BR': 'Empresa existente',
-          'en': 'Existing company'
+          en: 'Existing company',
         },
         logoUrl: 'https://example.com/logo.png',
         websiteUrl: 'https://techcorp.com',
         tier: mockSponsorTier._id,
         contactInfo: {
-          email: 'contact@techcorp.com'
-        }
+          email: 'contact@techcorp.com',
+        },
       };
 
       mockSponsorModel.findOne.mockResolvedValue(mockSponsor);
@@ -150,14 +150,14 @@ describe('SponsorsService', () => {
         name: 'New Sponsor',
         description: {
           'pt-BR': 'Novo patrocinador',
-          'en': 'New sponsor'
+          en: 'New sponsor',
         },
         logoUrl: 'https://example.com/logo.png',
         websiteUrl: 'https://newsponsor.com',
         tier: 'nonexistent-tier-id',
         contactInfo: {
-          email: 'contact@newsponsor.com'
-        }
+          email: 'contact@newsponsor.com',
+        },
       };
 
       mockSponsorModel.findOne.mockResolvedValue(null);
@@ -172,7 +172,7 @@ describe('SponsorsService', () => {
       const filterDto = {
         page: 1,
         limit: 10,
-        sort: '-priority'
+        sort: '-priority',
       };
 
       const sponsors = [mockSponsor];
@@ -181,7 +181,7 @@ describe('SponsorsService', () => {
         sort: jest.fn().mockReturnThis(),
         skip: jest.fn().mockReturnThis(),
         limit: jest.fn().mockReturnThis(),
-        exec: jest.fn().mockResolvedValue(sponsors)
+        exec: jest.fn().mockResolvedValue(sponsors),
       });
       mockSponsorModel.countDocuments.mockResolvedValue(1);
 
@@ -195,8 +195,8 @@ describe('SponsorsService', () => {
           page: 1,
           limit: 10,
           hasNext: false,
-          hasPrev: false
-        }
+          hasPrev: false,
+        },
       });
     });
 
@@ -205,7 +205,7 @@ describe('SponsorsService', () => {
         page: 1,
         limit: 20,
         tier: 'Diamond',
-        tags: ['Technology', 'SaaS']
+        tags: ['Technology', 'SaaS'],
       };
 
       mockSponsorModel.find.mockReturnValue({
@@ -213,7 +213,7 @@ describe('SponsorsService', () => {
         sort: jest.fn().mockReturnThis(),
         skip: jest.fn().mockReturnThis(),
         limit: jest.fn().mockReturnThis(),
-        exec: jest.fn().mockResolvedValue([])
+        exec: jest.fn().mockResolvedValue([]),
       });
       mockSponsorModel.countDocuments.mockResolvedValue(0);
 
@@ -222,7 +222,7 @@ describe('SponsorsService', () => {
       expect(mockSponsorModel.find).toHaveBeenCalledWith({
         deletedAt: null,
         tier: 'Diamond',
-        tags: { $in: ['Technology', 'SaaS'] }
+        tags: { $in: ['Technology', 'SaaS'] },
       });
     });
   });
@@ -231,7 +231,7 @@ describe('SponsorsService', () => {
     it('should return a sponsor by id', async () => {
       mockSponsorModel.findOne.mockReturnValue({
         populate: jest.fn().mockReturnThis(),
-        exec: jest.fn().mockResolvedValue(mockSponsor)
+        exec: jest.fn().mockResolvedValue(mockSponsor),
       });
 
       const result = await service.findSponsorById('507f1f77bcf86cd799439013');
@@ -239,34 +239,34 @@ describe('SponsorsService', () => {
       expect(result).toEqual(mockSponsor);
       expect(mockSponsorModel.findOne).toHaveBeenCalledWith({
         _id: '507f1f77bcf86cd799439013',
-        deletedAt: null
+        deletedAt: null,
       });
     });
 
     it('should throw NotFoundException if sponsor not found', async () => {
       mockSponsorModel.findOne.mockReturnValue({
         populate: jest.fn().mockReturnThis(),
-        exec: jest.fn().mockResolvedValue(null)
+        exec: jest.fn().mockResolvedValue(null),
       });
 
-      await expect(service.findSponsorById('507f1f77bcf86cd799439013')).rejects.toThrow(NotFoundException);
+      await expect(service.findSponsorById('507f1f77bcf86cd799439013')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
   describe('update', () => {
     it('should update a sponsor', async () => {
       const updateDto = {
-        websiteUrl: 'https://newtechcorp.com'
+        websiteUrl: 'https://newtechcorp.com',
       };
 
       const existingSponsor = {
         ...mockSponsor,
-        save: jest.fn().mockResolvedValue({ ...mockSponsor, ...updateDto })
+        save: jest.fn().mockResolvedValue({ ...mockSponsor, ...updateDto }),
       };
 
-      mockSponsorModel.findOne
-        .mockResolvedValueOnce(existingSponsor)
-        .mockResolvedValueOnce(null);
+      mockSponsorModel.findOne.mockResolvedValueOnce(existingSponsor).mockResolvedValueOnce(null);
 
       const result = await service.updateSponsor('507f1f77bcf86cd799439013', updateDto);
 
@@ -277,7 +277,9 @@ describe('SponsorsService', () => {
     it('should throw NotFoundException if sponsor not found', async () => {
       mockSponsorModel.findOne.mockResolvedValue(null);
 
-      await expect(service.updateSponsor('507f1f77bcf86cd799439013', {})).rejects.toThrow(NotFoundException);
+      await expect(service.updateSponsor('507f1f77bcf86cd799439013', {})).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -288,7 +290,7 @@ describe('SponsorsService', () => {
         deletedAt: null as any,
         deleteReason: null as any,
         deletedBy: null as any,
-        save: jest.fn().mockResolvedValue(mockSponsor)
+        save: jest.fn().mockResolvedValue(mockSponsor),
       };
 
       mockSponsorModel.findOne.mockResolvedValue(sponsor);
@@ -303,7 +305,9 @@ describe('SponsorsService', () => {
     it('should throw NotFoundException if sponsor not found', async () => {
       mockSponsorModel.findOne.mockResolvedValue(null);
 
-      await expect(service.removeSponsor('507f1f77bcf86cd799439013')).rejects.toThrow(NotFoundException);
+      await expect(service.removeSponsor('507f1f77bcf86cd799439013')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -314,7 +318,7 @@ describe('SponsorsService', () => {
         deletedAt: new Date(),
         deletedBy: 'userId',
         deleteReason: 'Test',
-        save: jest.fn().mockResolvedValue(mockSponsor)
+        save: jest.fn().mockResolvedValue(mockSponsor),
       };
 
       mockSponsorModel.findOne.mockResolvedValue(deletedSponsor);
@@ -330,7 +334,9 @@ describe('SponsorsService', () => {
     it('should throw NotFoundException if deleted sponsor not found', async () => {
       mockSponsorModel.findOne.mockResolvedValue(null);
 
-      await expect(service.restoreSponsor('507f1f77bcf86cd799439013')).rejects.toThrow(NotFoundException);
+      await expect(service.restoreSponsor('507f1f77bcf86cd799439013')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -340,8 +346,8 @@ describe('SponsorsService', () => {
         {
           _id: mockSponsorTier._id,
           tier: mockSponsorTier,
-          sponsors: [mockSponsor]
-        }
+          sponsors: [mockSponsor],
+        },
       ];
 
       mockSponsorModel.aggregate.mockResolvedValue(tierGroups);
@@ -360,12 +366,12 @@ describe('SponsorsService', () => {
           name: 'Gold',
           description: {
             'pt-BR': 'Patrocinador Ouro',
-            'en': 'Gold Sponsor'
+            en: 'Gold Sponsor',
           },
           priority: 2,
           benefits: ['Logo médio', 'Estande padrão'],
           maxSponsors: 5,
-          price: 25000
+          price: 25000,
         };
 
         mockSponsorTierModel.findOne.mockResolvedValue(null);
@@ -373,7 +379,7 @@ describe('SponsorsService', () => {
         const result = await service.createTier(createTierDto);
 
         expect(mockSponsorTierModel.findOne).toHaveBeenCalledWith({
-          name: createTierDto.name
+          name: createTierDto.name,
         });
         expect(result).toBeDefined();
       });
@@ -383,12 +389,12 @@ describe('SponsorsService', () => {
           name: 'Diamond',
           description: {
             'pt-BR': 'Patrocinador Diamante',
-            'en': 'Diamond Sponsor'
+            en: 'Diamond Sponsor',
           },
           priority: 1,
           benefits: ['Logo principal'],
           maxSponsors: 3,
-          price: 50000
+          price: 50000,
         };
 
         mockSponsorTierModel.findOne.mockResolvedValue(mockSponsorTier);
@@ -403,7 +409,7 @@ describe('SponsorsService', () => {
 
         mockSponsorTierModel.find.mockReturnValue({
           sort: jest.fn().mockReturnThis(),
-          exec: jest.fn().mockResolvedValue(tiers)
+          exec: jest.fn().mockResolvedValue(tiers),
         });
 
         const result = await service.findAllSponsorsTiers();
@@ -416,12 +422,12 @@ describe('SponsorsService', () => {
     describe('updateTier', () => {
       it('should update a sponsor tier', async () => {
         const updateTierDto = {
-          price: 60000
+          price: 60000,
         };
 
         const existingTier = {
           ...mockSponsorTier,
-          save: jest.fn().mockResolvedValue({ ...mockSponsorTier, ...updateTierDto })
+          save: jest.fn().mockResolvedValue({ ...mockSponsorTier, ...updateTierDto }),
         };
 
         mockSponsorTierModel.findOne.mockResolvedValue(existingTier);
@@ -435,7 +441,9 @@ describe('SponsorsService', () => {
       it('should throw NotFoundException if tier not found', async () => {
         mockSponsorTierModel.findOne.mockResolvedValue(null);
 
-        await expect(service.updateSponsorTier('507f1f77bcf86cd799439014', {})).rejects.toThrow(NotFoundException);
+        await expect(service.updateSponsorTier('507f1f77bcf86cd799439014', {})).rejects.toThrow(
+          NotFoundException,
+        );
       });
     });
 
@@ -444,7 +452,7 @@ describe('SponsorsService', () => {
         const tier = {
           ...mockSponsorTier,
           isActive: true,
-          save: jest.fn().mockResolvedValue({ ...mockSponsorTier, isActive: false })
+          save: jest.fn().mockResolvedValue({ ...mockSponsorTier, isActive: false }),
         };
 
         mockSponsorTierModel.findOne.mockResolvedValue(tier);
@@ -460,7 +468,9 @@ describe('SponsorsService', () => {
         mockSponsorTierModel.findOne.mockResolvedValue(mockSponsorTier);
         mockSponsorModel.countDocuments.mockResolvedValue(1);
 
-        await expect(service.removeTier('507f1f77bcf86cd799439014')).rejects.toThrow(ConflictException);
+        await expect(service.removeTier('507f1f77bcf86cd799439014')).rejects.toThrow(
+          ConflictException,
+        );
       });
     });
   });

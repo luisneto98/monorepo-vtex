@@ -16,7 +16,7 @@ import { systemConfigService } from '@/services/system-config.service';
 import VisibilityControls from '@/components/visibility/VisibilityControls';
 import AuditLogViewer from '@/components/visibility/AuditLogViewer';
 import PreviewPanel from '@/components/visibility/PreviewPanel';
-import type { SystemConfig } from '@vtexday26/shared';
+import type { SystemConfig } from '@shared/types/system-config.types';
 
 export default function VisibilityControl() {
   const [config, setConfig] = useState<SystemConfig | null>(null);

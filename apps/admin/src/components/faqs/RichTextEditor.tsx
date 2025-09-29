@@ -127,7 +127,7 @@ export function RichTextEditor({ content, onChange, placeholder = 'Write your an
     return null;
   }
 
-  const characterCount = editor.storage.characterCount || editor.state.doc.textContent.length;
+  const characterCount = (editor.storage as any).characterCount || editor.state.doc.textContent.length;
   const wordCount = editor.state.doc.textContent.split(/\s+/).filter(word => word.length > 0).length;
 
   return (

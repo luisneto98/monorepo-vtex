@@ -11,11 +11,11 @@ describe('SessionsService', () => {
     _id: '507f1f77bcf86cd799439012',
     title: {
       'pt-BR': 'Palestra sobre IA',
-      'en': 'AI Presentation'
+      en: 'AI Presentation',
     },
     description: {
       'pt-BR': 'Descrição detalhada da palestra sobre inteligência artificial',
-      'en': 'Detailed description of artificial intelligence presentation'
+      en: 'Detailed description of artificial intelligence presentation',
     },
     startTime: new Date('2025-11-26T10:00:00Z'),
     endTime: new Date('2025-11-26T11:00:00Z'),
@@ -27,13 +27,13 @@ describe('SessionsService', () => {
     isVisible: true,
     priority: 100,
     deletedAt: null,
-    save: jest.fn().mockResolvedValue(this)
+    save: jest.fn().mockResolvedValue(this),
   };
 
   const mockSessionModel = jest.fn().mockImplementation((dto) => ({
     ...mockSession,
     ...dto,
-    save: jest.fn().mockResolvedValue({ ...mockSession, ...dto })
+    save: jest.fn().mockResolvedValue({ ...mockSession, ...dto }),
   })) as any;
 
   mockSessionModel.findOne = jest.fn();
@@ -48,9 +48,9 @@ describe('SessionsService', () => {
         SessionsService,
         {
           provide: getModelToken(Session.name),
-          useValue: mockSessionModel
-        }
-      ]
+          useValue: mockSessionModel,
+        },
+      ],
     }).compile();
 
     service = module.get<SessionsService>(SessionsService);
@@ -65,17 +65,17 @@ describe('SessionsService', () => {
       const createDto = {
         title: {
           'pt-BR': 'Nova Palestra',
-          'en': 'New Presentation'
+          en: 'New Presentation',
         },
         description: {
           'pt-BR': 'Descrição da nova palestra',
-          'en': 'New presentation description'
+          en: 'New presentation description',
         },
         startTime: new Date('2025-11-26T14:00:00Z'),
         endTime: new Date('2025-11-26T15:00:00Z'),
         stage: 'secundario',
         sessionType: 'talk',
-        speakers: ['507f1f77bcf86cd799439011']
+        speakers: ['507f1f77bcf86cd799439011'],
       };
 
       mockSessionModel.findOne.mockResolvedValue(null);
@@ -86,7 +86,7 @@ describe('SessionsService', () => {
         stage: createDto.stage,
         startTime: { $lte: createDto.endTime },
         endTime: { $gte: createDto.startTime },
-        deletedAt: null
+        deletedAt: null,
       });
       expect(result).toBeDefined();
     });
@@ -95,17 +95,17 @@ describe('SessionsService', () => {
       const createDto = {
         title: {
           'pt-BR': 'Palestra Conflitante',
-          'en': 'Conflicting Session'
+          en: 'Conflicting Session',
         },
         description: {
           'pt-BR': 'Descrição',
-          'en': 'Description'
+          en: 'Description',
         },
         startTime: new Date('2025-11-26T10:30:00Z'),
         endTime: new Date('2025-11-26T11:30:00Z'),
         stage: 'principal',
         sessionType: 'talk',
-        speakers: ['507f1f77bcf86cd799439011']
+        speakers: ['507f1f77bcf86cd799439011'],
       };
 
       mockSessionModel.findOne.mockResolvedValue(mockSession);
@@ -119,7 +119,7 @@ describe('SessionsService', () => {
       const filterDto = {
         page: 1,
         limit: 10,
-        sort: '-startTime'
+        sort: '-startTime',
       };
 
       const sessions = [mockSession];
@@ -128,7 +128,7 @@ describe('SessionsService', () => {
         sort: jest.fn().mockReturnThis(),
         skip: jest.fn().mockReturnThis(),
         limit: jest.fn().mockReturnThis(),
-        exec: jest.fn().mockResolvedValue(sessions)
+        exec: jest.fn().mockResolvedValue(sessions),
       });
       mockSessionModel.countDocuments.mockResolvedValue(1);
 
@@ -142,8 +142,8 @@ describe('SessionsService', () => {
           page: 1,
           limit: 10,
           hasNext: false,
-          hasPrev: false
-        }
+          hasPrev: false,
+        },
       });
     });
 
@@ -153,7 +153,7 @@ describe('SessionsService', () => {
         limit: 20,
         startDate: '2025-11-26',
         endDate: '2025-11-28',
-        stage: 'principal'
+        stage: 'principal',
       };
 
       mockSessionModel.find.mockReturnValue({
@@ -161,7 +161,7 @@ describe('SessionsService', () => {
         sort: jest.fn().mockReturnThis(),
         skip: jest.fn().mockReturnThis(),
         limit: jest.fn().mockReturnThis(),
-        exec: jest.fn().mockResolvedValue([])
+        exec: jest.fn().mockResolvedValue([]),
       });
       mockSessionModel.countDocuments.mockResolvedValue(0);
 
@@ -171,9 +171,9 @@ describe('SessionsService', () => {
         deletedAt: null,
         startTime: {
           $gte: new Date('2025-11-26T00:00:00.000Z'),
-          $lte: new Date('2025-11-28T23:59:59.999Z')
+          $lte: new Date('2025-11-28T23:59:59.999Z'),
         },
-        stage: 'principal'
+        stage: 'principal',
       });
     });
   });
@@ -182,7 +182,7 @@ describe('SessionsService', () => {
     it('should return a session by id', async () => {
       mockSessionModel.findOne.mockReturnValue({
         populate: jest.fn().mockReturnThis(),
-        exec: jest.fn().mockResolvedValue(mockSession)
+        exec: jest.fn().mockResolvedValue(mockSession),
       });
 
       const result = await service.findById('507f1f77bcf86cd799439012');
@@ -190,14 +190,14 @@ describe('SessionsService', () => {
       expect(result).toEqual(mockSession);
       expect(mockSessionModel.findOne).toHaveBeenCalledWith({
         _id: '507f1f77bcf86cd799439012',
-        deletedAt: null
+        deletedAt: null,
       });
     });
 
     it('should throw NotFoundException if session not found', async () => {
       mockSessionModel.findOne.mockReturnValue({
         populate: jest.fn().mockReturnThis(),
-        exec: jest.fn().mockResolvedValue(null)
+        exec: jest.fn().mockResolvedValue(null),
       });
 
       await expect(service.findById('507f1f77bcf86cd799439012')).rejects.toThrow(NotFoundException);
@@ -207,17 +207,15 @@ describe('SessionsService', () => {
   describe('update', () => {
     it('should update a session', async () => {
       const updateDto = {
-        stage: 'secundario'
+        stage: 'secundario',
       };
 
       const existingSession = {
         ...mockSession,
-        save: jest.fn().mockResolvedValue({ ...mockSession, ...updateDto })
+        save: jest.fn().mockResolvedValue({ ...mockSession, ...updateDto }),
       };
 
-      mockSessionModel.findOne
-        .mockResolvedValueOnce(existingSession)
-        .mockResolvedValueOnce(null);
+      mockSessionModel.findOne.mockResolvedValueOnce(existingSession).mockResolvedValueOnce(null);
 
       const result = await service.update('507f1f77bcf86cd799439012', updateDto);
 
@@ -228,7 +226,9 @@ describe('SessionsService', () => {
     it('should throw NotFoundException if session not found', async () => {
       mockSessionModel.findOne.mockResolvedValue(null);
 
-      await expect(service.update('507f1f77bcf86cd799439012', {})).rejects.toThrow(NotFoundException);
+      await expect(service.update('507f1f77bcf86cd799439012', {})).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -239,7 +239,7 @@ describe('SessionsService', () => {
         deletedAt: null as any,
         deleteReason: null as any,
         deletedBy: null as any,
-        save: jest.fn().mockResolvedValue(mockSession)
+        save: jest.fn().mockResolvedValue(mockSession),
       };
 
       mockSessionModel.findOne.mockResolvedValue(session);
@@ -265,7 +265,7 @@ describe('SessionsService', () => {
         deletedAt: new Date(),
         deletedBy: 'userId',
         deleteReason: 'Test',
-        save: jest.fn().mockResolvedValue(mockSession)
+        save: jest.fn().mockResolvedValue(mockSession),
       };
 
       mockSessionModel.findOne.mockResolvedValue(deletedSession);
@@ -284,5 +284,4 @@ describe('SessionsService', () => {
       await expect(service.restore('507f1f77bcf86cd799439012')).rejects.toThrow(NotFoundException);
     });
   });
-
 });

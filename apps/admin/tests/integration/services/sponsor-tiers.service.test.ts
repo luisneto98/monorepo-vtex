@@ -14,7 +14,7 @@ describe('Sponsor Tiers Service Integration', () => {
         order: 1,
         maxPosts: 10,
         createdAt: '2025-01-01T00:00:00Z',
-        updatedAt: '2025-01-01T00:00:00Z'
+        updatedAt: '2025-01-01T00:00:00Z',
       },
       {
         _id: '2',
@@ -23,9 +23,9 @@ describe('Sponsor Tiers Service Integration', () => {
         order: 2,
         maxPosts: 5,
         createdAt: '2025-01-01T00:00:00Z',
-        updatedAt: '2025-01-01T00:00:00Z'
-      }
-    ]
+        updatedAt: '2025-01-01T00:00:00Z',
+      },
+    ],
   };
 
   beforeEach(() => {
@@ -84,11 +84,16 @@ describe('Sponsor Tiers Service Integration', () => {
       name: 'bronze',
       displayName: { 'pt-BR': 'Bronze', en: 'Bronze' },
       order: 3,
-      maxPosts: 3
+      maxPosts: 3,
     };
 
     it('creates a new tier', async () => {
-      const createdTier = { ...newTier, _id: '3', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
+      const createdTier = {
+        ...newTier,
+        _id: '3',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
       vi.spyOn(apiService, 'post').mockResolvedValue({ data: createdTier });
 
       const result = await sponsorTiersService.createSponsorTier(newTier);
@@ -103,20 +108,24 @@ describe('Sponsor Tiers Service Integration', () => {
 
       vi.spyOn(apiService, 'post').mockRejectedValue(new Error('Validation error'));
 
-      await expect(sponsorTiersService.createSponsorTier(invalidTier)).rejects.toThrow('Validation error');
+      await expect(sponsorTiersService.createSponsorTier(invalidTier)).rejects.toThrow(
+        'Validation error',
+      );
     });
 
     it('handles duplicate tier name', async () => {
       vi.spyOn(apiService, 'post').mockRejectedValue(new Error('Tier name already exists'));
 
-      await expect(sponsorTiersService.createSponsorTier(newTier)).rejects.toThrow('Tier name already exists');
+      await expect(sponsorTiersService.createSponsorTier(newTier)).rejects.toThrow(
+        'Tier name already exists',
+      );
     });
   });
 
   describe('updateSponsorTier', () => {
     const updates = {
       displayName: { 'pt-BR': 'Ouro Premium', en: 'Premium Gold' },
-      maxPosts: 15
+      maxPosts: 15,
     };
 
     it('updates an existing tier', async () => {
@@ -143,7 +152,9 @@ describe('Sponsor Tiers Service Integration', () => {
     it('validates update data', async () => {
       vi.spyOn(apiService, 'put').mockRejectedValue(new Error('Invalid update data'));
 
-      await expect(sponsorTiersService.updateSponsorTier('1', { maxPosts: -5 })).rejects.toThrow('Invalid update data');
+      await expect(sponsorTiersService.updateSponsorTier('1', { maxPosts: -5 })).rejects.toThrow(
+        'Invalid update data',
+      );
     });
   });
 
@@ -157,9 +168,13 @@ describe('Sponsor Tiers Service Integration', () => {
     });
 
     it('prevents deletion of tier with sponsors', async () => {
-      vi.spyOn(apiService, 'delete').mockRejectedValue(new Error('Cannot delete tier with associated sponsors'));
+      vi.spyOn(apiService, 'delete').mockRejectedValue(
+        new Error('Cannot delete tier with associated sponsors'),
+      );
 
-      await expect(sponsorTiersService.deleteSponsorTier('1')).rejects.toThrow('Cannot delete tier with associated sponsors');
+      await expect(sponsorTiersService.deleteSponsorTier('1')).rejects.toThrow(
+        'Cannot delete tier with associated sponsors',
+      );
     });
 
     it('handles tier not found', async () => {
@@ -173,7 +188,7 @@ describe('Sponsor Tiers Service Integration', () => {
     it('updates tier ordering', async () => {
       const newOrder = [
         { id: '2', order: 1 },
-        { id: '1', order: 2 }
+        { id: '1', order: 2 },
       ];
 
       vi.spyOn(apiService, 'put').mockResolvedValue({ data: { success: true } });
@@ -186,18 +201,22 @@ describe('Sponsor Tiers Service Integration', () => {
     it('validates order uniqueness', async () => {
       const invalidOrder = [
         { id: '1', order: 1 },
-        { id: '2', order: 1 } // Duplicate order
+        { id: '2', order: 1 }, // Duplicate order
       ];
 
       vi.spyOn(apiService, 'put').mockRejectedValue(new Error('Order values must be unique'));
 
-      await expect(sponsorTiersService.updateTierOrder(invalidOrder)).rejects.toThrow('Order values must be unique');
+      await expect(sponsorTiersService.updateTierOrder(invalidOrder)).rejects.toThrow(
+        'Order values must be unique',
+      );
     });
 
     it('handles concurrent update conflicts', async () => {
       vi.spyOn(apiService, 'put').mockRejectedValue(new Error('Concurrent update conflict'));
 
-      await expect(sponsorTiersService.updateTierOrder([])).rejects.toThrow('Concurrent update conflict');
+      await expect(sponsorTiersService.updateTierOrder([])).rejects.toThrow(
+        'Concurrent update conflict',
+      );
     });
   });
 
@@ -205,7 +224,7 @@ describe('Sponsor Tiers Service Integration', () => {
     it('fetches tiers with sponsor counts', async () => {
       const tiersWithCounts = mockApiResponse.data.map((tier, index) => ({
         ...tier,
-        sponsorCount: (index + 1) * 5
+        sponsorCount: (index + 1) * 5,
       }));
 
       vi.spyOn(apiService, 'get').mockResolvedValue({ data: tiersWithCounts });
@@ -218,16 +237,16 @@ describe('Sponsor Tiers Service Integration', () => {
     });
 
     it('handles tiers with zero sponsors', async () => {
-      const tiersWithZeroCount = mockApiResponse.data.map(tier => ({
+      const tiersWithZeroCount = mockApiResponse.data.map((tier) => ({
         ...tier,
-        sponsorCount: 0
+        sponsorCount: 0,
       }));
 
       vi.spyOn(apiService, 'get').mockResolvedValue({ data: tiersWithZeroCount });
 
       const result = await sponsorTiersService.getTiersWithSponsorsCount();
 
-      expect(result.every(tier => tier.sponsorCount === 0)).toBe(true);
+      expect(result.every((tier) => tier.sponsorCount === 0)).toBe(true);
     });
   });
 });

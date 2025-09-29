@@ -61,9 +61,7 @@ describe('SystemConfig (e2e)', () => {
     });
 
     it('should handle invalid section name', () => {
-      return request(app.getHttpServer())
-        .get('/system-config/section/invalid')
-        .expect(400);
+      return request(app.getHttpServer()).get('/system-config/section/invalid').expect(400);
     });
   });
 
@@ -97,10 +95,7 @@ describe('SystemConfig (e2e)', () => {
         },
       };
 
-      return request(app.getHttpServer())
-        .put('/system-config')
-        .send(updateData)
-        .expect(401);
+      return request(app.getHttpServer()).put('/system-config').send(updateData).expect(401);
     });
 
     it('should validate update data', () => {
@@ -126,7 +121,7 @@ describe('SystemConfig (e2e)', () => {
         isVisible: true,
         customMessage: {
           'pt-BR': 'Esta seção estará disponível em breve',
-          'en': 'This section will be available soon',
+          en: 'This section will be available soon',
         },
         changeReason: 'Adding custom message',
       };

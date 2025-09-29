@@ -131,7 +131,7 @@ export function SponsorTiersList({ onEdit, onDelete, onAdd, refreshTrigger }: Sp
 
       const response = await SponsorTiersService.getSponsorTiers({ sort: 'order' });
       // Handle nested data structure from API response
-      const tiersData = response.data?.data || response.data || [];
+      const tiersData = response?.data || response || [];
       setTiers(Array.isArray(tiersData) ? tiersData : []);
     } catch (err) {
       setError('Failed to load sponsor tiers');

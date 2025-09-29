@@ -15,37 +15,40 @@ describe('Speakers Integration Tests', () => {
   const testUser = {
     _id: '507f1f77bcf86cd799439020',
     email: 'admin@vtexday.com',
-    role: 'super_admin'
+    role: 'super_admin',
   };
 
   const createSpeakerDto = {
     name: 'John Doe',
     bio: {
-      'pt-BR': 'Biografia em português do palestrante com mais de cem caracteres para atender ao requisito mínimo de comprimento',
-      'en': 'Speaker biography in English with more than one hundred characters to meet the minimum length requirement'
+      'pt-BR':
+        'Biografia em português do palestrante com mais de cem caracteres para atender ao requisito mínimo de comprimento',
+      en: 'Speaker biography in English with more than one hundred characters to meet the minimum length requirement',
     },
     photoUrl: 'https://example.com/photo.jpg',
     company: 'Tech Corp',
     position: {
       'pt-BR': 'Diretor de Tecnologia',
-      'en': 'Technology Director'
+      en: 'Technology Director',
     },
     socialLinks: {
       linkedin: 'https://linkedin.com/in/johndoe',
-      twitter: 'https://twitter.com/johndoe'
+      twitter: 'https://twitter.com/johndoe',
     },
     isHighlight: false,
-    tags: ['AI', 'Cloud']
+    tags: ['AI', 'Cloud'],
   };
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
-        MongooseModule.forRoot(process.env['MONGODB_TEST_URI'] || 'mongodb://localhost:27017/vtex-day-test'),
+        MongooseModule.forRoot(
+          process.env['MONGODB_TEST_URI'] || 'mongodb://localhost:27017/vtex-day-test',
+        ),
         DatabaseModule,
         AuthModule,
-        SpeakersModule
-      ]
+        SpeakersModule,
+      ],
     }).compile();
 
     app = moduleFixture.createNestApplication();
@@ -54,7 +57,7 @@ describe('Speakers Integration Tests', () => {
     authToken = jwtService.sign({
       sub: testUser._id,
       email: testUser.email,
-      role: testUser.role
+      role: testUser.role,
     });
 
     await app.init();
@@ -66,9 +69,7 @@ describe('Speakers Integration Tests', () => {
 
   describe('GET /speakers', () => {
     it('should return paginated speakers list (public endpoint)', async () => {
-      const response = await request(app.getHttpServer())
-        .get('/speakers')
-        .expect(200);
+      const response = await request(app.getHttpServer()).get('/speakers').expect(200);
 
       expect(response.body).toHaveProperty('success', true);
       expect(response.body).toHaveProperty('data');
@@ -129,18 +130,15 @@ describe('Speakers Integration Tests', () => {
     });
 
     it('should reject request without authentication', async () => {
-      await request(app.getHttpServer())
-        .post('/speakers')
-        .send(createSpeakerDto)
-        .expect(401);
+      await request(app.getHttpServer()).post('/speakers').send(createSpeakerDto).expect(401);
     });
 
     it('should validate required fields', async () => {
       const invalidDto = {
         name: 'A', // Too short
         bio: {
-          'pt-BR': 'Bio curta' // Too short
-        }
+          'pt-BR': 'Bio curta', // Too short
+        },
       };
 
       await request(app.getHttpServer())
@@ -157,7 +155,7 @@ describe('Speakers Integration Tests', () => {
         .set('Authorization', `Bearer ${authToken}`)
         .send({
           ...createSpeakerDto,
-          name: 'Unique Speaker'
+          name: 'Unique Speaker',
         })
         .expect(201);
 
@@ -167,7 +165,7 @@ describe('Speakers Integration Tests', () => {
         .set('Authorization', `Bearer ${authToken}`)
         .send({
           ...createSpeakerDto,
-          name: 'Unique Speaker'
+          name: 'Unique Speaker',
         })
         .expect(409);
     });
@@ -182,15 +180,13 @@ describe('Speakers Integration Tests', () => {
         .set('Authorization', `Bearer ${authToken}`)
         .send({
           ...createSpeakerDto,
-          name: 'Speaker For Detail Test'
+          name: 'Speaker For Detail Test',
         });
       speakerId = response.body.data._id;
     });
 
     it('should return speaker details by id (public endpoint)', async () => {
-      const response = await request(app.getHttpServer())
-        .get(`/speakers/${speakerId}`)
-        .expect(200);
+      const response = await request(app.getHttpServer()).get(`/speakers/${speakerId}`).expect(200);
 
       expect(response.body.success).toBe(true);
       expect(response.body.data).toHaveProperty('_id', speakerId);
@@ -200,9 +196,7 @@ describe('Speakers Integration Tests', () => {
     });
 
     it('should return 404 for non-existent speaker', async () => {
-      await request(app.getHttpServer())
-        .get('/speakers/507f1f77bcf86cd799439999')
-        .expect(404);
+      await request(app.getHttpServer()).get('/speakers/507f1f77bcf86cd799439999').expect(404);
     });
   });
 
@@ -215,7 +209,7 @@ describe('Speakers Integration Tests', () => {
         .set('Authorization', `Bearer ${authToken}`)
         .send({
           ...createSpeakerDto,
-          name: 'Speaker For Update Test'
+          name: 'Speaker For Update Test',
         });
       speakerId = response.body.data._id;
     });
@@ -223,7 +217,7 @@ describe('Speakers Integration Tests', () => {
     it('should update speaker (admin only)', async () => {
       const updateDto = {
         company: 'Updated Tech Corp',
-        isHighlight: true
+        isHighlight: true,
       };
 
       const response = await request(app.getHttpServer())
@@ -262,7 +256,7 @@ describe('Speakers Integration Tests', () => {
         .set('Authorization', `Bearer ${authToken}`)
         .send({
           ...createSpeakerDto,
-          name: 'Speaker For Delete Test'
+          name: 'Speaker For Delete Test',
         });
       speakerId = response.body.data._id;
     });
@@ -277,15 +271,11 @@ describe('Speakers Integration Tests', () => {
       expect(response.body.success).toBe(true);
 
       // Verify speaker is no longer accessible via public endpoint
-      await request(app.getHttpServer())
-        .get(`/speakers/${speakerId}`)
-        .expect(404);
+      await request(app.getHttpServer()).get(`/speakers/${speakerId}`).expect(404);
     });
 
     it('should reject request without authentication', async () => {
-      await request(app.getHttpServer())
-        .delete(`/speakers/${speakerId}`)
-        .expect(401);
+      await request(app.getHttpServer()).delete(`/speakers/${speakerId}`).expect(401);
     });
 
     it('should return 404 for non-existent speaker', async () => {
@@ -306,7 +296,7 @@ describe('Speakers Integration Tests', () => {
         .set('Authorization', `Bearer ${authToken}`)
         .send({
           ...createSpeakerDto,
-          name: 'Speaker For Restore Test'
+          name: 'Speaker For Restore Test',
         });
       speakerId = createResponse.body.data._id;
 
@@ -325,15 +315,11 @@ describe('Speakers Integration Tests', () => {
       expect(response.body.success).toBe(true);
 
       // Verify speaker is accessible again via public endpoint
-      await request(app.getHttpServer())
-        .get(`/speakers/${speakerId}`)
-        .expect(200);
+      await request(app.getHttpServer()).get(`/speakers/${speakerId}`).expect(200);
     });
 
     it('should reject request without authentication', async () => {
-      await request(app.getHttpServer())
-        .post(`/speakers/${speakerId}/restore`)
-        .expect(401);
+      await request(app.getHttpServer()).post(`/speakers/${speakerId}/restore`).expect(401);
     });
   });
 
@@ -346,14 +332,12 @@ describe('Speakers Integration Tests', () => {
         .send({
           ...createSpeakerDto,
           name: 'Highlighted Speaker',
-          isHighlight: true
+          isHighlight: true,
         });
     });
 
     it('should return highlighted speakers (public endpoint)', async () => {
-      const response = await request(app.getHttpServer())
-        .get('/speakers/highlights')
-        .expect(200);
+      const response = await request(app.getHttpServer()).get('/speakers/highlights').expect(200);
 
       expect(response.body.success).toBe(true);
       expect(Array.isArray(response.body.data)).toBe(true);

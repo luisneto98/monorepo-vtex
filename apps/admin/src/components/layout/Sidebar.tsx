@@ -13,6 +13,8 @@ import {
   Layers,
   FolderOpen,
   Settings,
+  FileText,
+  Newspaper,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -29,6 +31,8 @@ const menuItems = [
   { path: '/sponsors', label: 'Patrocinadores', icon: Building2 },
   { path: '/faq-categories', label: 'Categorias FAQ', icon: FolderOpen },
   { path: '/faq', label: 'FAQ', icon: HelpCircle },
+  { path: '/press-materials', label: 'Materiais de Imprensa', icon: FileText },
+  { path: '/news-releases', label: 'Notícias', icon: Newspaper },
   { path: '/visibility', label: 'Visibilidade', icon: Eye },
   { path: '/notifications', label: 'Notificações', icon: Bell },
 ];

@@ -52,11 +52,11 @@ export class FaqService {
         // If language specified, prioritize search in that language
         const langFields = [`question.${lang}`, `answer.${lang}`];
         query.$or = [
-          ...langFields.map(field => ({ [field]: { $regex: search, $options: 'i' } })),
-          ...searchFields.map(field => ({ [field]: { $regex: search, $options: 'i' } }))
+          ...langFields.map((field) => ({ [field]: { $regex: search, $options: 'i' } })),
+          ...searchFields.map((field) => ({ [field]: { $regex: search, $options: 'i' } })),
         ];
       } else {
-        query.$or = searchFields.map(field => ({ [field]: { $regex: search, $options: 'i' } }));
+        query.$or = searchFields.map((field) => ({ [field]: { $regex: search, $options: 'i' } }));
       }
     }
 
@@ -120,7 +120,7 @@ export class FaqService {
         },
         {
           new: true, // Return the updated document
-        }
+        },
       )
       .populate('category')
       .exec();
@@ -132,7 +132,9 @@ export class FaqService {
     return faq;
   }
 
-  async findPopularFaqs(limit: number = FAQ_CONSTANTS.DEFAULT_POPULAR_LIMIT): Promise<FaqDocument[]> {
+  async findPopularFaqs(
+    limit: number = FAQ_CONSTANTS.DEFAULT_POPULAR_LIMIT,
+  ): Promise<FaqDocument[]> {
     return this.faqModel
       .find({
         isVisible: true,
@@ -250,7 +252,10 @@ export class FaqService {
     return category;
   }
 
-  async updateCategory(id: string, updateCategoryDto: UpdateFaqCategoryDto): Promise<FaqCategoryDocument> {
+  async updateCategory(
+    id: string,
+    updateCategoryDto: UpdateFaqCategoryDto,
+  ): Promise<FaqCategoryDocument> {
     const category = await this.faqCategoryModel.findById(id);
     if (!category) {
       throw new NotFoundException(`FAQ category with ID ${id} not found`);
@@ -266,7 +271,7 @@ export class FaqService {
       if (updateCategoryDto.name) {
         conflictQuery.$or.push(
           { 'name.pt-BR': updateCategoryDto.name['pt-BR'] },
-          { 'name.en': updateCategoryDto.name.en }
+          { 'name.en': updateCategoryDto.name.en },
         );
       }
       if (updateCategoryDto.order) {
@@ -291,7 +296,9 @@ export class FaqService {
     });
 
     if (faqsInCategory) {
-      throw new ConflictException('Cannot delete category: FAQs are still assigned to this category');
+      throw new ConflictException(
+        'Cannot delete category: FAQs are still assigned to this category',
+      );
     }
 
     const result = await this.faqCategoryModel.deleteOne({ _id: id });

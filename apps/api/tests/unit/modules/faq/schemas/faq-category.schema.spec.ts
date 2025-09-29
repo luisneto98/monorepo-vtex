@@ -1,7 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { FaqCategory, FaqCategoryDocument } from '../../../../../src/modules/faq/schemas/faq-category.schema';
+import {
+  FaqCategory,
+  FaqCategoryDocument,
+} from '../../../../../src/modules/faq/schemas/faq-category.schema';
 
 describe('FaqCategory Schema', () => {
   // Using model for schema testing
@@ -32,7 +35,7 @@ describe('FaqCategory Schema', () => {
       const category = {
         name: {
           'pt-BR': 'Geral',
-          'en': 'General',
+          en: 'General',
         },
         order: 1,
       };
@@ -64,7 +67,7 @@ describe('FaqCategory Schema', () => {
     it('should support pt-BR and en names', () => {
       const categoryName = {
         'pt-BR': 'Informações Gerais',
-        'en': 'General Information',
+        en: 'General Information',
       };
 
       expect(categoryName['pt-BR']).toBeDefined();
@@ -83,7 +86,7 @@ describe('FaqCategory Schema', () => {
     it('should handle special characters in names', () => {
       const categoryName = {
         'pt-BR': 'Inscrições & Pagamento',
-        'en': 'Registration & Payment',
+        en: 'Registration & Payment',
       };
 
       expect(categoryName['pt-BR']).toContain('&');
@@ -101,8 +104,8 @@ describe('FaqCategory Schema', () => {
     });
 
     it('should enforce unique names per language', () => {
-      const category1 = { name: { 'pt-BR': 'Geral', 'en': 'General' } };
-      const category2 = { name: { 'pt-BR': 'Geral', 'en': 'General' } };
+      const category1 = { name: { 'pt-BR': 'Geral', en: 'General' } };
+      const category2 = { name: { 'pt-BR': 'Geral', en: 'General' } };
 
       // In real implementation, the second insert would fail
       expect(category1.name['pt-BR']).toBe(category2.name['pt-BR']);
@@ -113,11 +116,11 @@ describe('FaqCategory Schema', () => {
   describe('Category Ordering', () => {
     it('should support sequential ordering', () => {
       const categories = [
-        { name: { 'pt-BR': 'Geral', 'en': 'General' }, order: 1 },
-        { name: { 'pt-BR': 'Inscrição', 'en': 'Registration' }, order: 2 },
-        { name: { 'pt-BR': 'Programação', 'en': 'Schedule' }, order: 3 },
-        { name: { 'pt-BR': 'Local', 'en': 'Venue' }, order: 4 },
-        { name: { 'pt-BR': 'Patrocinadores', 'en': 'Sponsors' }, order: 5 },
+        { name: { 'pt-BR': 'Geral', en: 'General' }, order: 1 },
+        { name: { 'pt-BR': 'Inscrição', en: 'Registration' }, order: 2 },
+        { name: { 'pt-BR': 'Programação', en: 'Schedule' }, order: 3 },
+        { name: { 'pt-BR': 'Local', en: 'Venue' }, order: 4 },
+        { name: { 'pt-BR': 'Patrocinadores', en: 'Sponsors' }, order: 5 },
       ];
 
       categories.forEach((category, index) => {
@@ -130,13 +133,9 @@ describe('FaqCategory Schema', () => {
     });
 
     it('should handle non-sequential ordering', () => {
-      const categories = [
-        { order: 10 },
-        { order: 20 },
-        { order: 30 },
-      ];
+      const categories = [{ order: 10 }, { order: 20 }, { order: 30 }];
 
-      categories.forEach(category => {
+      categories.forEach((category) => {
         expect(category.order).toBeGreaterThanOrEqual(1);
       });
     });
@@ -164,7 +163,7 @@ describe('FaqCategory Schema', () => {
         'Technical Support',
       ];
 
-      commonCategories.forEach(category => {
+      commonCategories.forEach((category) => {
         expect(category.length).toBeLessThanOrEqual(50);
       });
     });
@@ -188,7 +187,7 @@ describe('FaqCategory Schema', () => {
         { category: categoryId, order: 3 },
       ];
 
-      faqs.forEach(faq => {
+      faqs.forEach((faq) => {
         expect(faq.category).toBe(categoryId);
       });
     });

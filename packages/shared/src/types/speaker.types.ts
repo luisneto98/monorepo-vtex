@@ -11,13 +11,13 @@ export interface Speaker extends BaseEntity {
   name: string;
   bio: {
     'pt-BR': string;
-    'en': string;
+    en: string;
   };
   photoUrl: string;
   company: string;
   position: {
     'pt-BR': string;
-    'en': string;
+    en: string;
   };
   socialLinks: SpeakerSocialLinks;
   priority: number;

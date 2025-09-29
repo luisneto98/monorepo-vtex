@@ -1,15 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { eventSettingsService } from '@/services/event-settings.service';
-import type { EventSettings, UpdateEventSettingsDto } from '@vtexday26/shared';
+import type { EventSettings, UpdateEventSettingsDto } from '@shared/types/event-settings';
 
 export function useEventSettings() {
   const queryClient = useQueryClient();
 
-  const {
-    data,
-    isLoading,
-    error,
-  } = useQuery<EventSettings>({
+  const { data, isLoading, error } = useQuery<EventSettings>({
     queryKey: ['event-settings'],
     queryFn: () => eventSettingsService.getSettings(),
     staleTime: 5 * 60 * 1000, // 5 minutes
@@ -17,8 +13,7 @@ export function useEventSettings() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: (data: UpdateEventSettingsDto) =>
-      eventSettingsService.updateSettings(data),
+    mutationFn: (data: UpdateEventSettingsDto) => eventSettingsService.updateSettings(data),
     onMutate: async (newSettings) => {
       // Cancel any outgoing refetches
       await queryClient.cancelQueries({ queryKey: ['event-settings'] });

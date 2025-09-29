@@ -1,18 +1,5 @@
-import {
-  Controller,
-  Get,
-  Put,
-  Body,
-  UseGuards,
-  Request,
-  HttpStatus,
-} from '@nestjs/common';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiBearerAuth,
-} from '@nestjs/swagger';
+import { Controller, Get, Put, Body, UseGuards, Request, HttpStatus } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 import { EventSettingsService } from './event-settings.service';
 import { UpdateEventSettingsDto } from './dto/update-event-settings.dto';
@@ -67,10 +54,7 @@ export class EventSettingsController {
     @Body() updateEventSettingsDto: UpdateEventSettingsDto,
     @Request() req: any,
   ) {
-    return await this.eventSettingsService.updateSettings(
-      updateEventSettingsDto,
-      req.user.userId,
-    );
+    return await this.eventSettingsService.updateSettings(updateEventSettingsDto, req.user.userId);
   }
 
   @Get('public')

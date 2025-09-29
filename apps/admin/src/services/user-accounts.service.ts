@@ -35,7 +35,9 @@ export class UserAccountsService {
     };
   }
 
-  static async createSponsorAccount(request: CreateSponsorAccountRequest): Promise<CreateSponsorAccountResponse> {
+  static async createSponsorAccount(
+    request: CreateSponsorAccountRequest,
+  ): Promise<CreateSponsorAccountResponse> {
     const response = await fetch(`${API_URL}/auth/create-sponsor-account`, {
       method: 'POST',
       headers: this.getAuthHeaders(),
@@ -150,6 +152,9 @@ export class UserAccountsService {
     }
 
     // Shuffle the password
-    return password.split('').sort(() => Math.random() - 0.5).join('');
+    return password
+      .split('')
+      .sort(() => Math.random() - 0.5)
+      .join('');
   }
 }

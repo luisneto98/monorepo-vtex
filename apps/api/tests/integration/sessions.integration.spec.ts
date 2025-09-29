@@ -19,35 +19,37 @@ describe('Sessions Integration Tests', () => {
   const testUser = {
     _id: '507f1f77bcf86cd799439020',
     email: 'admin@vtexday.com',
-    role: 'super_admin'
+    role: 'super_admin',
   };
 
   const createSessionDto = {
     title: {
       'pt-BR': 'Palestra sobre IA',
-      'en': 'AI Presentation'
+      en: 'AI Presentation',
     },
     description: {
       'pt-BR': 'Descrição detalhada da palestra sobre inteligência artificial',
-      'en': 'Detailed description of artificial intelligence presentation'
+      en: 'Detailed description of artificial intelligence presentation',
     },
     startTime: new Date('2025-11-26T10:00:00Z'),
     endTime: new Date('2025-11-26T11:00:00Z'),
     stage: 'principal',
     sessionType: 'talk',
-    tags: ['AI', 'Technology']
+    tags: ['AI', 'Technology'],
   };
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
-        MongooseModule.forRoot(process.env['MONGODB_TEST_URI'] || 'mongodb://localhost:27017/vtex-day-test'),
+        MongooseModule.forRoot(
+          process.env['MONGODB_TEST_URI'] || 'mongodb://localhost:27017/vtex-day-test',
+        ),
         DatabaseModule,
         AuthModule,
         SpeakersModule,
         SponsorsModule,
-        SessionsModule
-      ]
+        SessionsModule,
+      ],
     }).compile();
 
     app = moduleFixture.createNestApplication();
@@ -56,7 +58,7 @@ describe('Sessions Integration Tests', () => {
     authToken = jwtService.sign({
       sub: testUser._id,
       email: testUser.email,
-      role: testUser.role
+      role: testUser.role,
     });
 
     await app.init();
@@ -68,15 +70,16 @@ describe('Sessions Integration Tests', () => {
       .send({
         name: 'Test Speaker',
         bio: {
-          'pt-BR': 'Biografia do palestrante para teste com mais de cem caracteres necessários para validação',
-          'en': 'Speaker biography for testing with more than one hundred characters required for validation'
+          'pt-BR':
+            'Biografia do palestrante para teste com mais de cem caracteres necessários para validação',
+          en: 'Speaker biography for testing with more than one hundred characters required for validation',
         },
         photoUrl: 'https://example.com/speaker.jpg',
         company: 'Test Company',
         position: {
           'pt-BR': 'Palestrante',
-          'en': 'Speaker'
-        }
+          en: 'Speaker',
+        },
       });
     speakerId = speakerResponse.body.data._id;
 
@@ -88,12 +91,12 @@ describe('Sessions Integration Tests', () => {
         name: 'Test Tier',
         description: {
           'pt-BR': 'Nível de teste',
-          'en': 'Test tier'
+          en: 'Test tier',
         },
         priority: 1,
         benefits: ['Logo display'],
         maxSponsors: 5,
-        price: 10000
+        price: 10000,
       });
 
     const sponsorResponse = await request(app.getHttpServer())
@@ -103,14 +106,14 @@ describe('Sessions Integration Tests', () => {
         name: 'Test Sponsor',
         description: {
           'pt-BR': 'Patrocinador de teste',
-          'en': 'Test sponsor'
+          en: 'Test sponsor',
         },
         logoUrl: 'https://example.com/sponsor.png',
         websiteUrl: 'https://testsponsor.com',
         tier: tierResponse.body.data._id,
         contactInfo: {
-          email: 'contact@testsponsor.com'
-        }
+          email: 'contact@testsponsor.com',
+        },
       });
     sponsorId = sponsorResponse.body.data._id;
   });
@@ -121,9 +124,7 @@ describe('Sessions Integration Tests', () => {
 
   describe('GET /sessions', () => {
     it('should return paginated sessions list (public endpoint)', async () => {
-      const response = await request(app.getHttpServer())
-        .get('/sessions')
-        .expect(200);
+      const response = await request(app.getHttpServer()).get('/sessions').expect(200);
 
       expect(response.body).toHaveProperty('success', true);
       expect(response.body).toHaveProperty('data');
@@ -171,7 +172,7 @@ describe('Sessions Integration Tests', () => {
       const sessionDto = {
         ...createSessionDto,
         speakers: [speakerId],
-        sponsors: [sponsorId]
+        sponsors: [sponsorId],
       };
 
       const response = await request(app.getHttpServer())
@@ -187,18 +188,15 @@ describe('Sessions Integration Tests', () => {
     });
 
     it('should reject request without authentication', async () => {
-      await request(app.getHttpServer())
-        .post('/sessions')
-        .send(createSessionDto)
-        .expect(401);
+      await request(app.getHttpServer()).post('/sessions').send(createSessionDto).expect(401);
     });
 
     it('should validate required fields', async () => {
       const invalidDto = {
         title: {
-          'pt-BR': '' // Empty title
+          'pt-BR': '', // Empty title
         },
-        startTime: 'invalid-date'
+        startTime: 'invalid-date',
       };
 
       await request(app.getHttpServer())
@@ -213,11 +211,11 @@ describe('Sessions Integration Tests', () => {
         ...createSessionDto,
         title: {
           'pt-BR': 'Palestra Conflitante',
-          'en': 'Conflicting Session'
+          en: 'Conflicting Session',
         },
         startTime: new Date('2025-11-26T10:30:00Z'), // Overlaps with existing session
         endTime: new Date('2025-11-26T11:30:00Z'),
-        speakers: [speakerId]
+        speakers: [speakerId],
       };
 
       await request(app.getHttpServer())
@@ -239,20 +237,18 @@ describe('Sessions Integration Tests', () => {
           ...createSessionDto,
           title: {
             'pt-BR': 'Sessão para Teste de Detalhes',
-            'en': 'Session for Detail Test'
+            en: 'Session for Detail Test',
           },
           startTime: new Date('2025-11-26T14:00:00Z'),
           endTime: new Date('2025-11-26T15:00:00Z'),
           speakers: [speakerId],
-          sponsors: [sponsorId]
+          sponsors: [sponsorId],
         });
       sessionId = response.body.data._id;
     });
 
     it('should return session details by id (public endpoint)', async () => {
-      const response = await request(app.getHttpServer())
-        .get(`/sessions/${sessionId}`)
-        .expect(200);
+      const response = await request(app.getHttpServer()).get(`/sessions/${sessionId}`).expect(200);
 
       expect(response.body.success).toBe(true);
       expect(response.body.data).toHaveProperty('_id', sessionId);
@@ -263,9 +259,7 @@ describe('Sessions Integration Tests', () => {
     });
 
     it('should return 404 for non-existent session', async () => {
-      await request(app.getHttpServer())
-        .get('/sessions/507f1f77bcf86cd799439999')
-        .expect(404);
+      await request(app.getHttpServer()).get('/sessions/507f1f77bcf86cd799439999').expect(404);
     });
   });
 
@@ -280,11 +274,11 @@ describe('Sessions Integration Tests', () => {
           ...createSessionDto,
           title: {
             'pt-BR': 'Sessão para Teste de Atualização',
-            'en': 'Session for Update Test'
+            en: 'Session for Update Test',
           },
           startTime: new Date('2025-11-26T16:00:00Z'),
           endTime: new Date('2025-11-26T17:00:00Z'),
-          speakers: [speakerId]
+          speakers: [speakerId],
         });
       sessionId = response.body.data._id;
     });
@@ -292,7 +286,7 @@ describe('Sessions Integration Tests', () => {
     it('should update session (admin only)', async () => {
       const updateDto = {
         stage: 'secundario',
-        tags: ['Updated', 'Tags']
+        tags: ['Updated', 'Tags'],
       };
 
       const response = await request(app.getHttpServer())
@@ -333,11 +327,11 @@ describe('Sessions Integration Tests', () => {
           ...createSessionDto,
           title: {
             'pt-BR': 'Sessão para Teste de Exclusão',
-            'en': 'Session for Delete Test'
+            en: 'Session for Delete Test',
           },
           startTime: new Date('2025-11-26T18:00:00Z'),
           endTime: new Date('2025-11-26T19:00:00Z'),
-          speakers: [speakerId]
+          speakers: [speakerId],
         });
       sessionId = response.body.data._id;
     });
@@ -352,15 +346,11 @@ describe('Sessions Integration Tests', () => {
       expect(response.body.success).toBe(true);
 
       // Verify session is no longer accessible via public endpoint
-      await request(app.getHttpServer())
-        .get(`/sessions/${sessionId}`)
-        .expect(404);
+      await request(app.getHttpServer()).get(`/sessions/${sessionId}`).expect(404);
     });
 
     it('should reject request without authentication', async () => {
-      await request(app.getHttpServer())
-        .delete(`/sessions/${sessionId}`)
-        .expect(401);
+      await request(app.getHttpServer()).delete(`/sessions/${sessionId}`).expect(401);
     });
 
     it('should return 404 for non-existent session', async () => {
@@ -383,11 +373,11 @@ describe('Sessions Integration Tests', () => {
           ...createSessionDto,
           title: {
             'pt-BR': 'Sessão para Teste de Restauração',
-            'en': 'Session for Restore Test'
+            en: 'Session for Restore Test',
           },
           startTime: new Date('2025-11-26T20:00:00Z'),
           endTime: new Date('2025-11-26T21:00:00Z'),
-          speakers: [speakerId]
+          speakers: [speakerId],
         });
       sessionId = createResponse.body.data._id;
 
@@ -406,15 +396,11 @@ describe('Sessions Integration Tests', () => {
       expect(response.body.success).toBe(true);
 
       // Verify session is accessible again via public endpoint
-      await request(app.getHttpServer())
-        .get(`/sessions/${sessionId}`)
-        .expect(200);
+      await request(app.getHttpServer()).get(`/sessions/${sessionId}`).expect(200);
     });
 
     it('should reject request without authentication', async () => {
-      await request(app.getHttpServer())
-        .post(`/sessions/${sessionId}/restore`)
-        .expect(401);
+      await request(app.getHttpServer()).post(`/sessions/${sessionId}/restore`).expect(401);
     });
   });
 
@@ -428,11 +414,11 @@ describe('Sessions Integration Tests', () => {
           ...createSessionDto,
           title: {
             'pt-BR': 'Sessão em Período Específico',
-            'en': 'Session in Specific Period'
+            en: 'Session in Specific Period',
           },
           startTime: new Date('2025-11-27T10:00:00Z'),
           endTime: new Date('2025-11-27T11:00:00Z'),
-          speakers: [speakerId]
+          speakers: [speakerId],
         });
     });
 

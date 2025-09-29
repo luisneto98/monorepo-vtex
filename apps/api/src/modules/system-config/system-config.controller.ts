@@ -59,12 +59,7 @@ export class SystemConfigController {
     @Request() req: any,
     @Ip() ip: string,
   ) {
-    return this.systemConfigService.updateSection(
-      section,
-      updateDto,
-      req.user.id,
-      ip,
-    );
+    return this.systemConfigService.updateSection(section, updateDto, req.user.id, ip);
   }
 
   @Get('audit')

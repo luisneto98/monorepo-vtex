@@ -90,7 +90,7 @@ export function Sponsors() {
       try {
         const response = await SponsorTiersService.getSponsorTiers();
         // Handle nested data structure from API response
-        const tiersData = response.data?.data || response.data || [];
+        const tiersData = response?.data || response || [];
         const tiersArray = Array.isArray(tiersData) ? tiersData : [];
         setTiers(tiersArray.map(tier => tier.name));
       } catch (err) {

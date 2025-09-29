@@ -49,7 +49,7 @@ describe('SessionsService Integration Tests', () => {
           headers: expect.objectContaining({
             Authorization: 'Bearer test-token',
           }),
-        })
+        }),
       );
 
       expect(result).toEqual(mockResponse);
@@ -77,8 +77,8 @@ describe('SessionsService Integration Tests', () => {
   describe('createSession', () => {
     it('should create a new session', async () => {
       const newSession = {
-        title: { 'pt-BR': 'Nova Palestra', 'en': 'New Session' },
-        description: { 'pt-BR': 'Descrição', 'en': 'Description' },
+        title: { 'pt-BR': 'Nova Palestra', en: 'New Session' },
+        description: { 'pt-BR': 'Descrição', en: 'Description' },
         speakerIds: ['speaker1'],
         startTime: new Date('2025-09-27T10:00:00'),
         endTime: new Date('2025-09-27T11:00:00'),
@@ -109,7 +109,7 @@ describe('SessionsService Integration Tests', () => {
             Authorization: 'Bearer test-token',
           }),
           body: JSON.stringify(newSession),
-        })
+        }),
       );
 
       expect(result).toEqual(mockResponse);
@@ -121,16 +121,14 @@ describe('SessionsService Integration Tests', () => {
         json: async () => ({ message: 'Validation error' }),
       });
 
-      await expect(
-        SessionsService.createSession({} as any)
-      ).rejects.toThrow('Validation error');
+      await expect(SessionsService.createSession({} as any)).rejects.toThrow('Validation error');
     });
   });
 
   describe('updateSession', () => {
     it('should update an existing session', async () => {
       const updates = {
-        title: { 'pt-BR': 'Título Atualizado', 'en': 'Updated Title' },
+        title: { 'pt-BR': 'Título Atualizado', en: 'Updated Title' },
       };
 
       const mockResponse = {
@@ -150,7 +148,7 @@ describe('SessionsService Integration Tests', () => {
         expect.objectContaining({
           method: 'PUT',
           body: JSON.stringify(updates),
-        })
+        }),
       );
 
       expect(result).toEqual(mockResponse);
@@ -170,7 +168,7 @@ describe('SessionsService Integration Tests', () => {
         expect.stringContaining('/sessions/123'),
         expect.objectContaining({
           method: 'DELETE',
-        })
+        }),
       );
 
       expect(result).toEqual({ success: true });
@@ -191,7 +189,7 @@ describe('SessionsService Integration Tests', () => {
         conflicts: [
           {
             _id: '456',
-            title: { 'pt-BR': 'Conflito', 'en': 'Conflict' },
+            title: { 'pt-BR': 'Conflito', en: 'Conflict' },
             stage: 'Main Stage',
             startTime: new Date('2025-09-27T10:30:00'),
             endTime: new Date('2025-09-27T11:30:00'),
@@ -211,7 +209,7 @@ describe('SessionsService Integration Tests', () => {
         expect.objectContaining({
           method: 'POST',
           body: JSON.stringify(conflictData),
-        })
+        }),
       );
 
       expect(result).toEqual(mockResponse);
@@ -254,7 +252,7 @@ describe('SessionsService Integration Tests', () => {
         expect.objectContaining({
           method: 'POST',
           body: JSON.stringify({ ids }),
-        })
+        }),
       );
 
       expect(result).toEqual({ success: true, deleted: 3 });
@@ -278,7 +276,7 @@ describe('SessionsService Integration Tests', () => {
         expect.objectContaining({
           method: 'POST',
           body: JSON.stringify({ ids, isVisible }),
-        })
+        }),
       );
 
       expect(result).toEqual({ success: true, updated: 2 });
@@ -305,7 +303,7 @@ describe('SessionsService Integration Tests', () => {
         expect.stringContaining('/sessions/filters'),
         expect.objectContaining({
           method: 'GET',
-        })
+        }),
       );
 
       expect(result).toEqual(mockFilters);
@@ -327,7 +325,7 @@ describe('SessionsService Integration Tests', () => {
           headers: expect.objectContaining({
             Authorization: 'Bearer test-token',
           }),
-        })
+        }),
       );
     });
 

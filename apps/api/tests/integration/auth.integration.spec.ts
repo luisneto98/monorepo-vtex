@@ -40,7 +40,9 @@ describe('Auth Endpoints (Integration)', () => {
         ...testUser,
         password: hashedPassword,
         isActive: true,
-        toObject: function() { return { ...this }; }
+        toObject: function () {
+          return { ...this };
+        },
       } as any);
 
       const response = await request(app.getHttpServer())
@@ -110,16 +112,16 @@ describe('Auth Endpoints (Integration)', () => {
         password: hashedPassword,
         isActive: true,
         refreshToken: null,
-        toObject: function() { return { ...this }; }
+        toObject: function () {
+          return { ...this };
+        },
       };
 
       jest.spyOn(usersService, 'findByEmail').mockResolvedValue(mockUser as any);
       jest.spyOn(usersService, 'findById').mockResolvedValue(mockUser as any);
-      jest.spyOn(usersService, 'updateRefreshToken').mockImplementation(
-        async (_userId, token) => {
-          mockUser.refreshToken = token;
-        }
-      );
+      jest.spyOn(usersService, 'updateRefreshToken').mockImplementation(async (_userId, token) => {
+        mockUser.refreshToken = token;
+      });
 
       // Login first
       const loginResponse = await request(app.getHttpServer())
@@ -145,9 +147,7 @@ describe('Auth Endpoints (Integration)', () => {
     });
 
     it('should return 401 when no refresh token provided', async () => {
-      const response = await request(app.getHttpServer())
-        .post('/api/auth/refresh')
-        .expect(401);
+      const response = await request(app.getHttpServer()).post('/api/auth/refresh').expect(401);
 
       expect(response.body.error).toBeDefined();
       expect(response.body.error.message).toContain('Refresh token not provided');
@@ -163,7 +163,9 @@ describe('Auth Endpoints (Integration)', () => {
         ...testUser,
         password: hashedPassword,
         isActive: true,
-        toObject: function() { return { ...this }; }
+        toObject: function () {
+          return { ...this };
+        },
       } as any);
 
       const loginResponse = await request(app.getHttpServer())
@@ -191,9 +193,7 @@ describe('Auth Endpoints (Integration)', () => {
     });
 
     it('should return 401 for unauthenticated request', async () => {
-      await request(app.getHttpServer())
-        .post('/api/auth/logout')
-        .expect(401);
+      await request(app.getHttpServer()).post('/api/auth/logout').expect(401);
     });
   });
 
@@ -206,7 +206,9 @@ describe('Auth Endpoints (Integration)', () => {
         ...testUser,
         password: hashedPassword,
         isActive: true,
-        toObject: function() { return { ...this }; }
+        toObject: function () {
+          return { ...this };
+        },
       } as any);
 
       const loginResponse = await request(app.getHttpServer())
@@ -230,9 +232,7 @@ describe('Auth Endpoints (Integration)', () => {
     });
 
     it('should return 401 for unauthenticated request', async () => {
-      await request(app.getHttpServer())
-        .get('/api/auth/profile')
-        .expect(401);
+      await request(app.getHttpServer()).get('/api/auth/profile').expect(401);
     });
   });
 
@@ -242,17 +242,15 @@ describe('Auth Endpoints (Integration)', () => {
       const requests = [];
       for (let i = 0; i < 10; i++) {
         requests.push(
-          request(app.getHttpServer())
-            .post('/api/auth/login')
-            .send({
-              email: 'test@example.com',
-              password: 'password',
-            })
+          request(app.getHttpServer()).post('/api/auth/login').send({
+            email: 'test@example.com',
+            password: 'password',
+          }),
         );
       }
 
       const responses = await Promise.all(requests);
-      const tooManyRequests = responses.filter(r => r.status === 429);
+      const tooManyRequests = responses.filter((r) => r.status === 429);
 
       // Should have some rate limited responses
       expect(tooManyRequests.length).toBeGreaterThan(0);

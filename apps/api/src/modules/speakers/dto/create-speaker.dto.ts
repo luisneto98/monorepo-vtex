@@ -16,7 +16,7 @@ export class SocialLinksDto {
   @ApiPropertyOptional({
     description: 'LinkedIn profile URL',
     example: 'https://linkedin.com/in/carlos-silva',
-    format: 'url'
+    format: 'url',
   })
   @IsOptional()
   @IsUrl()
@@ -25,7 +25,7 @@ export class SocialLinksDto {
   @ApiPropertyOptional({
     description: 'Twitter/X profile URL',
     example: 'https://twitter.com/carlossilva',
-    format: 'url'
+    format: 'url',
   })
   @IsOptional()
   @IsUrl()
@@ -34,7 +34,7 @@ export class SocialLinksDto {
   @ApiPropertyOptional({
     description: 'GitHub profile URL',
     example: 'https://github.com/carlossilva',
-    format: 'url'
+    format: 'url',
   })
   @IsOptional()
   @IsUrl()
@@ -43,7 +43,7 @@ export class SocialLinksDto {
   @ApiPropertyOptional({
     description: 'Personal website URL',
     example: 'https://carlossilva.com',
-    format: 'url'
+    format: 'url',
   })
   @IsOptional()
   @IsUrl()
@@ -55,7 +55,7 @@ export class CreateSpeakerDto {
     description: 'Speaker full name',
     example: 'Carlos Eduardo Silva',
     minLength: 3,
-    maxLength: 100
+    maxLength: 100,
   })
   @IsString()
   @MinLength(3)
@@ -67,8 +67,8 @@ export class CreateSpeakerDto {
     type: MultilingualTextDto,
     example: {
       'pt-BR': 'Carlos é um especialista em tecnologia com mais de 15 anos de experiência...',
-      'en': 'Carlos is a technology specialist with over 15 years of experience...'
-    }
+      en: 'Carlos is a technology specialist with over 15 years of experience...',
+    },
   })
   @ValidateNested()
   @Type(() => MultilingualTextDto)
@@ -77,7 +77,7 @@ export class CreateSpeakerDto {
   @ApiProperty({
     description: 'URL to speaker photo',
     example: 'https://cdn.vtexday.com/speakers/carlos-silva.jpg',
-    format: 'url'
+    format: 'url',
   })
   @IsUrl()
   photoUrl: string;
@@ -85,7 +85,7 @@ export class CreateSpeakerDto {
   @ApiProperty({
     description: 'Speaker company',
     example: 'VTEX',
-    maxLength: 100
+    maxLength: 100,
   })
   @IsString()
   @MaxLength(100)
@@ -96,8 +96,8 @@ export class CreateSpeakerDto {
     type: MultilingualTextDto,
     example: {
       'pt-BR': 'Diretor de Tecnologia',
-      'en': 'Chief Technology Officer'
-    }
+      en: 'Chief Technology Officer',
+    },
   })
   @ValidateNested()
   @Type(() => MultilingualTextDto)
@@ -105,7 +105,7 @@ export class CreateSpeakerDto {
 
   @ApiPropertyOptional({
     description: 'Social media links',
-    type: SocialLinksDto
+    type: SocialLinksDto,
   })
   @IsOptional()
   @ValidateNested()
@@ -115,7 +115,7 @@ export class CreateSpeakerDto {
   @ApiPropertyOptional({
     description: 'Mark speaker as highlighted',
     default: false,
-    example: true
+    example: true,
   })
   @IsOptional()
   @IsBoolean()
@@ -124,7 +124,7 @@ export class CreateSpeakerDto {
   @ApiPropertyOptional({
     description: 'Tags for categorization',
     example: ['AI', 'E-commerce', 'Innovation'],
-    type: [String]
+    type: [String],
   })
   @IsOptional()
   @IsArray()
@@ -134,7 +134,7 @@ export class CreateSpeakerDto {
   @ApiPropertyOptional({
     description: 'Speaker visibility status',
     default: true,
-    example: true
+    example: true,
   })
   @IsOptional()
   @IsBoolean()

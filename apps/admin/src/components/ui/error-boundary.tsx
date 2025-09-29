@@ -1,4 +1,4 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import React, { Component, type ErrorInfo, type ReactNode } from 'react';
 import { AlertCircle, RefreshCw } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from './alert';
 import { Button } from './button';
@@ -74,7 +74,7 @@ export class ErrorBoundary extends Component<Props, State> {
     }
   }
 
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate() {
     const { resetKeys, resetOnPropsChange } = this.props;
     const { hasError } = this.state;
 
@@ -217,11 +217,11 @@ export function withErrorBoundary<P extends object>(
   Component: React.ComponentType<P>,
   errorBoundaryProps?: Omit<Props, 'children'>
 ) {
-  const WrappedComponent = React.forwardRef<any, P>((props, ref) => (
+  const WrappedComponent = (props: P) => (
     <ErrorBoundary {...errorBoundaryProps}>
-      <Component {...props} ref={ref} />
+      <Component {...props} />
     </ErrorBoundary>
-  ));
+  );
 
   WrappedComponent.displayName = `withErrorBoundary(${Component.displayName || Component.name})`;
 

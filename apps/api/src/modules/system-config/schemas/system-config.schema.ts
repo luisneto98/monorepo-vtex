@@ -11,7 +11,7 @@ export class SectionVisibility {
   @Prop({ type: Object })
   customMessage?: {
     'pt-BR': string;
-    'en': string;
+    en: string;
   };
 
   @Prop({ type: Object })

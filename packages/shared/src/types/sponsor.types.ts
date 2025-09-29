@@ -4,7 +4,7 @@ export interface SponsorTier extends BaseEntity {
   name: string;
   displayName: {
     'pt-BR': string;
-    'en': string;
+    en: string;
   };
   order: number;
   maxPosts: number;
@@ -21,7 +21,7 @@ export interface Sponsor extends BaseEntity {
   slug: string;
   description: {
     'pt-BR': string;
-    'en': string;
+    en: string;
   };
   logoUrl: string;
   tier: string;

@@ -16,9 +16,9 @@ export class EventSettings {
     type: {
       pt: { type: String, required: true },
       en: { type: String, required: true },
-      es: { type: String, required: true }
+      es: { type: String, required: true },
     },
-    required: true
+    required: true,
   })
   eventName: MultilingualText;
 
@@ -35,9 +35,9 @@ export class EventSettings {
       city: { type: String, required: true },
       state: { type: String, required: true },
       zipCode: { type: String, required: true },
-      complement: { type: String, required: false }
+      complement: { type: String, required: false },
     },
-    required: true
+    required: true,
   })
   venue: VenueInfo;
 
@@ -45,9 +45,9 @@ export class EventSettings {
     type: {
       email: { type: String, required: true },
       phone: { type: String, required: true },
-      whatsapp: { type: String, required: false }
+      whatsapp: { type: String, required: false },
     },
-    required: true
+    required: true,
   })
   contact: ContactInfo;
 
@@ -57,18 +57,18 @@ export class EventSettings {
       facebook: { type: String, required: false },
       linkedin: { type: String, required: false },
       twitter: { type: String, required: false },
-      youtube: { type: String, required: false }
+      youtube: { type: String, required: false },
     },
-    required: false
+    required: false,
   })
   socialMedia?: SocialMediaLinks;
 
   @Prop({
     type: {
       latitude: { type: Number, required: true, min: -90, max: 90 },
-      longitude: { type: Number, required: true, min: -180, max: 180 }
+      longitude: { type: Number, required: true, min: -180, max: 180 },
     },
-    required: true
+    required: true,
   })
   mapCoordinates: MapCoordinates;
 
@@ -80,4 +80,8 @@ export const EventSettingsSchema = SchemaFactory.createForClass(EventSettings);
 
 // Create indexes for better performance
 EventSettingsSchema.index({ updatedAt: -1 });
-EventSettingsSchema.index({ 'eventName.pt': 'text', 'eventName.en': 'text', 'eventName.es': 'text' });
+EventSettingsSchema.index({
+  'eventName.pt': 'text',
+  'eventName.en': 'text',
+  'eventName.es': 'text',
+});

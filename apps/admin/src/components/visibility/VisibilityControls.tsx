@@ -1,5 +1,5 @@
 import SectionVisibilityCard from './SectionVisibilityCard';
-import type { SystemConfig, SectionName } from '@vtexday26/shared';
+import type { SystemConfig, SectionName } from '@shared/types/system-config.types';
 
 interface VisibilityControlsProps {
   config: SystemConfig;

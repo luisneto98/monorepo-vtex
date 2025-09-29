@@ -56,14 +56,14 @@ export class FaqController {
         success: true,
         data: {
           _id: '507f1f77bcf86cd799439011',
-          question: { 'pt-BR': 'Pergunta?', 'en': 'Question?' },
-          answer: { 'pt-BR': 'Resposta...', 'en': 'Answer...' },
+          question: { 'pt-BR': 'Pergunta?', en: 'Question?' },
+          answer: { 'pt-BR': 'Resposta...', en: 'Answer...' },
           category: '507f1f77bcf86cd799439012',
           order: 1,
-          viewCount: 0
-        }
-      }
-    }
+          viewCount: 0,
+        },
+      },
+    },
   })
   @SwaggerApiResponse({ status: 400, description: 'Validation error' })
   @SwaggerApiResponse({ status: 401, description: 'Unauthorized' })
@@ -79,8 +79,18 @@ export class FaqController {
   @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
   @ApiQuery({ name: 'limit', required: false, type: Number, example: 20 })
   @ApiQuery({ name: 'sort', required: false, type: String, example: 'order,-viewCount' })
-  @ApiQuery({ name: 'search', required: false, type: String, description: 'Search in question and answer' })
-  @ApiQuery({ name: 'category', required: false, type: String, description: 'Filter by category ID' })
+  @ApiQuery({
+    name: 'search',
+    required: false,
+    type: String,
+    description: 'Search in question and answer',
+  })
+  @ApiQuery({
+    name: 'category',
+    required: false,
+    type: String,
+    description: 'Filter by category ID',
+  })
   @ApiQuery({ name: 'tags', required: false, type: [String], description: 'Filter by tags' })
   @SwaggerApiResponse({
     status: 200,
@@ -91,11 +101,14 @@ export class FaqController {
         data: [
           {
             _id: '507f1f77bcf86cd799439011',
-            question: { 'pt-BR': 'Como participar?', 'en': 'How to participate?' },
-            answer: { 'pt-BR': 'Resposta...', 'en': 'Answer...' },
-            category: { _id: '507f1f77bcf86cd799439012', name: { 'pt-BR': 'Geral', 'en': 'General' } },
-            viewCount: 150
-          }
+            question: { 'pt-BR': 'Como participar?', en: 'How to participate?' },
+            answer: { 'pt-BR': 'Resposta...', en: 'Answer...' },
+            category: {
+              _id: '507f1f77bcf86cd799439012',
+              name: { 'pt-BR': 'Geral', en: 'General' },
+            },
+            viewCount: 150,
+          },
         ],
         metadata: {
           total: 30,
@@ -103,10 +116,10 @@ export class FaqController {
           limit: 20,
           totalPages: 2,
           hasNext: true,
-          hasPrev: false
-        }
-      }
-    }
+          hasPrev: false,
+        },
+      },
+    },
   })
   async findAll(@Query() filterDto: FaqFilterDto) {
     const result = await this.faqService.findAllFaqs(filterDto);
@@ -116,7 +129,13 @@ export class FaqController {
   @Get('popular')
   @Public()
   @ApiOperation({ summary: 'Get most popular FAQ items' })
-  @ApiQuery({ name: 'limit', required: false, type: Number, example: 10, description: 'Number of items to return' })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    type: Number,
+    example: 10,
+    description: 'Number of items to return',
+  })
   @SwaggerApiResponse({
     status: 200,
     description: 'List of popular FAQ items sorted by view count',
@@ -126,12 +145,12 @@ export class FaqController {
         data: [
           {
             _id: '507f1f77bcf86cd799439011',
-            question: { 'pt-BR': 'Pergunta popular', 'en': 'Popular question' },
-            viewCount: 500
-          }
-        ]
-      }
-    }
+            question: { 'pt-BR': 'Pergunta popular', en: 'Popular question' },
+            viewCount: 500,
+          },
+        ],
+      },
+    },
   })
   async findPopular(@Query('limit') limit?: number) {
     const faqs = await this.faqService.findPopularFaqs(limit);
@@ -155,13 +174,13 @@ export class FaqController {
         success: true,
         data: {
           _id: '507f1f77bcf86cd799439012',
-          name: { 'pt-BR': 'Inscrições', 'en': 'Registration' },
-          description: { 'pt-BR': 'Perguntas sobre inscrições', 'en': 'Registration questions' },
+          name: { 'pt-BR': 'Inscrições', en: 'Registration' },
+          description: { 'pt-BR': 'Perguntas sobre inscrições', en: 'Registration questions' },
           icon: 'ticket',
-          order: 1
-        }
-      }
-    }
+          order: 1,
+        },
+      },
+    },
   })
   @SwaggerApiResponse({ status: 400, description: 'Validation error' })
   @SwaggerApiResponse({ status: 401, description: 'Unauthorized' })
@@ -184,14 +203,14 @@ export class FaqController {
         data: [
           {
             _id: '507f1f77bcf86cd799439012',
-            name: { 'pt-BR': 'Geral', 'en': 'General' },
-            description: { 'pt-BR': 'Perguntas gerais', 'en': 'General questions' },
+            name: { 'pt-BR': 'Geral', en: 'General' },
+            description: { 'pt-BR': 'Perguntas gerais', en: 'General questions' },
             faqCount: 15,
-            order: 1
-          }
-        ]
-      }
-    }
+            order: 1,
+          },
+        ],
+      },
+    },
   })
   async findAllCategories() {
     const categories = await this.faqService.findAllCategories();
@@ -205,7 +224,7 @@ export class FaqController {
   @ApiParam({ name: 'id', description: 'Category ID' })
   @SwaggerApiResponse({
     status: 200,
-    description: 'Category details with FAQs'
+    description: 'Category details with FAQs',
   })
   @SwaggerApiResponse({ status: 404, description: 'Category not found' })
   async findOneCategory(@Param('id') id: string) {
@@ -261,15 +280,15 @@ export class FaqController {
         success: true,
         data: {
           _id: '507f1f77bcf86cd799439011',
-          question: { 'pt-BR': 'Pergunta completa?', 'en': 'Complete question?' },
-          answer: { 'pt-BR': '<p>Resposta em HTML...</p>', 'en': '<p>HTML answer...</p>' },
-          category: { _id: '507f1f77bcf86cd799439012', name: { 'pt-BR': 'Geral', 'en': 'General' } },
+          question: { 'pt-BR': 'Pergunta completa?', en: 'Complete question?' },
+          answer: { 'pt-BR': '<p>Resposta em HTML...</p>', en: '<p>HTML answer...</p>' },
+          category: { _id: '507f1f77bcf86cd799439012', name: { 'pt-BR': 'Geral', en: 'General' } },
           tags: ['registration', 'tickets'],
           viewCount: 250,
-          relatedFaqs: ['507f1f77bcf86cd799439013']
-        }
-      }
-    }
+          relatedFaqs: ['507f1f77bcf86cd799439013'],
+        },
+      },
+    },
   })
   @SwaggerApiResponse({ status: 404, description: 'FAQ not found' })
   async findOne(@Param('id') id: string) {
@@ -286,7 +305,7 @@ export class FaqController {
   @ApiBody({ type: UpdateFaqDto })
   @SwaggerApiResponse({
     status: 200,
-    description: 'FAQ updated successfully'
+    description: 'FAQ updated successfully',
   })
   @SwaggerApiResponse({ status: 400, description: 'Validation error' })
   @SwaggerApiResponse({ status: 401, description: 'Unauthorized' })
@@ -309,11 +328,7 @@ export class FaqController {
   @SwaggerApiResponse({ status: 401, description: 'Unauthorized' })
   @SwaggerApiResponse({ status: 403, description: 'Forbidden' })
   @SwaggerApiResponse({ status: 404, description: 'FAQ not found' })
-  async remove(
-    @Param('id') id: string,
-    @Req() req: Request,
-    @Query('reason') reason?: string
-  ) {
+  async remove(@Param('id') id: string, @Req() req: Request, @Query('reason') reason?: string) {
     const userId = (req as any).user?.id;
     await this.faqService.removeFaq(id, reason, userId);
   }
@@ -326,7 +341,7 @@ export class FaqController {
   @ApiParam({ name: 'id', description: 'FAQ ID' })
   @SwaggerApiResponse({
     status: 200,
-    description: 'FAQ restored successfully'
+    description: 'FAQ restored successfully',
   })
   @SwaggerApiResponse({ status: 401, description: 'Unauthorized' })
   @SwaggerApiResponse({ status: 403, description: 'Forbidden' })

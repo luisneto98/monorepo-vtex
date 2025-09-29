@@ -7,9 +7,7 @@ import { EventSettings, EventSettingsSchema } from './schemas/event-settings.sch
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      { name: EventSettings.name, schema: EventSettingsSchema },
-    ]),
+    MongooseModule.forFeature([{ name: EventSettings.name, schema: EventSettingsSchema }]),
     CacheModule.register({
       ttl: 300, // 5 minutes default TTL in seconds
       max: 100, // maximum number of items in cache

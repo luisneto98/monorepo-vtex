@@ -4,9 +4,9 @@ import type {
   UpdateSystemConfigDto,
   UpdateSectionVisibilityDto,
   VisibilityAuditLog,
-  PaginatedResponse,
   SectionName,
-} from '@vtexday26/shared';
+} from '@shared/types/system-config.types';
+import type { PaginatedResponse } from '@shared/types/common.types';
 
 class SystemConfigService {
   async getConfig(): Promise<SystemConfig> {
@@ -26,7 +26,7 @@ class SystemConfigService {
 
   async updateSection(
     section: SectionName,
-    dto: UpdateSectionVisibilityDto
+    dto: UpdateSectionVisibilityDto,
   ): Promise<SystemConfig> {
     const response = await apiService.patch<SystemConfig>(`/system-config/section/${section}`, dto);
     return response.data as SystemConfig;
@@ -35,7 +35,7 @@ class SystemConfigService {
   async getAuditLogs(
     page: number = 1,
     limit: number = 20,
-    section?: string
+    section?: string,
   ): Promise<PaginatedResponse<VisibilityAuditLog>> {
     const params: Record<string, string | number> = {
       page,
@@ -44,7 +44,10 @@ class SystemConfigService {
     if (section) {
       params.section = section;
     }
-    const response = await apiService.get<PaginatedResponse<VisibilityAuditLog>>('/system-config/audit', params);
+    const response = await apiService.get<PaginatedResponse<VisibilityAuditLog>>(
+      '/system-config/audit',
+      params,
+    );
     return response.data as PaginatedResponse<VisibilityAuditLog>;
   }
 

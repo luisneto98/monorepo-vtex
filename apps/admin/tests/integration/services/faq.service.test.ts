@@ -12,11 +12,11 @@ describe('FaqService', () => {
     _id: '1',
     question: {
       'pt-BR': 'Pergunta teste?',
-      'en': 'Test question?',
+      en: 'Test question?',
     },
     answer: {
       'pt-BR': '<p>Resposta teste</p>',
-      'en': '<p>Test answer</p>',
+      en: '<p>Test answer</p>',
     },
     category: 'cat1',
     order: 0,
@@ -46,7 +46,7 @@ describe('FaqService', () => {
         expect.stringContaining('/faq'),
         expect.objectContaining({
           headers: { Authorization: `Bearer ${mockToken}` },
-        })
+        }),
       );
       expect(result).toEqual(mockFaqs);
     });
@@ -68,7 +68,7 @@ describe('FaqService', () => {
         expect.objectContaining({
           params: query,
           headers: { Authorization: `Bearer ${mockToken}` },
-        })
+        }),
       );
       expect(result).toEqual(mockFaqs);
     });
@@ -84,7 +84,7 @@ describe('FaqService', () => {
         expect.stringContaining('/faq/1'),
         expect.objectContaining({
           headers: { Authorization: `Bearer ${mockToken}` },
-        })
+        }),
       );
       expect(result).toEqual(mockFaq);
     });
@@ -108,7 +108,7 @@ describe('FaqService', () => {
         newFaqData,
         expect.objectContaining({
           headers: { Authorization: `Bearer ${mockToken}` },
-        })
+        }),
       );
       expect(result).toEqual(mockFaq);
     });
@@ -130,7 +130,7 @@ describe('FaqService', () => {
         updateData,
         expect.objectContaining({
           headers: { Authorization: `Bearer ${mockToken}` },
-        })
+        }),
       );
       expect(result).toEqual(updatedFaq);
     });
@@ -146,7 +146,7 @@ describe('FaqService', () => {
         expect.stringContaining('/faq/1'),
         expect.objectContaining({
           headers: { Authorization: `Bearer ${mockToken}` },
-        })
+        }),
       );
     });
   });
@@ -163,7 +163,7 @@ describe('FaqService', () => {
         { order: 2 },
         expect.objectContaining({
           headers: { Authorization: `Bearer ${mockToken}` },
-        })
+        }),
       );
       expect(result).toEqual(updatedFaq);
     });
@@ -180,7 +180,7 @@ describe('FaqService', () => {
         {},
         expect.objectContaining({
           headers: { Authorization: `Bearer ${mockToken}` },
-        })
+        }),
       );
     });
   });
@@ -203,7 +203,7 @@ describe('FaqService', () => {
         expect.stringContaining('/faq'),
         expect.objectContaining({
           headers: {},
-        })
+        }),
       );
     });
   });

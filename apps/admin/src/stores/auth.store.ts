@@ -32,7 +32,10 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true, error: null });
 
         try {
-          const response = await apiService.post<{ accessToken: string; user: User }>('/auth/login', { email, password });
+          const response = await apiService.post<{ accessToken: string; user: User }>(
+            '/auth/login',
+            { email, password },
+          );
           console.log('Login response:', response);
 
           // The API returns: { success: true, data: { accessToken, user, ... } }
@@ -52,7 +55,7 @@ export const useAuthStore = create<AuthState>()(
             console.log('Login successful. State updated:', {
               user,
               isAuthenticated: true,
-              token: accessToken ? 'Token set' : 'No token'
+              token: accessToken ? 'Token set' : 'No token',
             });
           } else {
             set({
@@ -100,6 +103,6 @@ export const useAuthStore = create<AuthState>()(
     {
       name: 'auth-storage',
       partialize: (state) => ({ user: state.user, isAuthenticated: state.isAuthenticated }),
-    }
-  )
+    },
+  ),
 );

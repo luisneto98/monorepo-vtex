@@ -3,7 +3,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { Connection, Model } from 'mongoose';
 import { getConnectionToken, getModelToken } from '@nestjs/mongoose';
-import { Sponsor, SponsorSchema, SponsorDocument } from '@api/modules/sponsors/schemas/sponsor.schema';
+import {
+  Sponsor,
+  SponsorSchema,
+  SponsorDocument,
+} from '@api/modules/sponsors/schemas/sponsor.schema';
 import { SponsorTier, SponsorTierSchema } from '@api/modules/sponsors/schemas/sponsor-tier.schema';
 
 describe('SponsorSchema', () => {
@@ -21,7 +25,7 @@ describe('SponsorSchema', () => {
         MongooseModule.forRoot(uri),
         MongooseModule.forFeature([
           { name: Sponsor.name, schema: SponsorSchema },
-          { name: SponsorTier.name, schema: SponsorTierSchema }
+          { name: SponsorTier.name, schema: SponsorTierSchema },
         ]),
       ],
     }).compile();
@@ -49,12 +53,12 @@ describe('SponsorSchema', () => {
       const invalidSlug = new sponsorModel({
         name: 'Test Sponsor',
         slug: 'Invalid Slug!',
-        description: { 'pt-BR': 'Test', 'en': 'Test' },
+        description: { 'pt-BR': 'Test', en: 'Test' },
         logoUrl: 'https://example.com/logo.png',
         tier: '507f1f77bcf86cd799439011',
         orderInTier: 1,
         websiteUrl: 'https://example.com',
-        adminEmail: 'admin@example.com'
+        adminEmail: 'admin@example.com',
       });
 
       await expect(invalidSlug.save()).rejects.toThrow();
@@ -62,12 +66,12 @@ describe('SponsorSchema', () => {
       const validSlug = new sponsorModel({
         name: 'Test Sponsor',
         slug: 'test-sponsor',
-        description: { 'pt-BR': 'Test', 'en': 'Test' },
+        description: { 'pt-BR': 'Test', en: 'Test' },
         logoUrl: 'https://example.com/logo.png',
         tier: '507f1f77bcf86cd799439011',
         orderInTier: 1,
         websiteUrl: 'https://example.com',
-        adminEmail: 'admin@example.com'
+        adminEmail: 'admin@example.com',
       });
 
       const saved = await validSlug.save();
@@ -78,12 +82,12 @@ describe('SponsorSchema', () => {
       const invalidEmail = new sponsorModel({
         name: 'Test Sponsor',
         slug: 'test-sponsor',
-        description: { 'pt-BR': 'Test', 'en': 'Test' },
+        description: { 'pt-BR': 'Test', en: 'Test' },
         logoUrl: 'https://example.com/logo.png',
         tier: '507f1f77bcf86cd799439011',
         orderInTier: 1,
         websiteUrl: 'https://example.com',
-        adminEmail: 'invalid-email'
+        adminEmail: 'invalid-email',
       });
 
       await expect(invalidEmail.save()).rejects.toThrow();
@@ -93,12 +97,12 @@ describe('SponsorSchema', () => {
       const invalidUrl = new sponsorModel({
         name: 'Test Sponsor',
         slug: 'test-sponsor',
-        description: { 'pt-BR': 'Test', 'en': 'Test' },
+        description: { 'pt-BR': 'Test', en: 'Test' },
         logoUrl: 'not-a-url',
         tier: '507f1f77bcf86cd799439011',
         orderInTier: 1,
         websiteUrl: 'not-a-url',
-        adminEmail: 'admin@example.com'
+        adminEmail: 'admin@example.com',
       });
 
       await expect(invalidUrl.save()).rejects.toThrow();
@@ -108,14 +112,14 @@ describe('SponsorSchema', () => {
       const invalidPosts = new sponsorModel({
         name: 'Test Sponsor',
         slug: 'test-sponsor',
-        description: { 'pt-BR': 'Test', 'en': 'Test' },
+        description: { 'pt-BR': 'Test', en: 'Test' },
         logoUrl: 'https://example.com/logo.png',
         tier: '507f1f77bcf86cd799439011',
         orderInTier: 1,
         websiteUrl: 'https://example.com',
         adminEmail: 'admin@example.com',
         maxPosts: 5,
-        postsUsed: 10
+        postsUsed: 10,
       });
 
       await expect(invalidPosts.save()).rejects.toThrow('Posts used cannot exceed max posts limit');
@@ -127,7 +131,7 @@ describe('SponsorSchema', () => {
       const sponsor = new sponsorModel({
         name: '  Test Sponsor  ',
         slug: '  TEST-SPONSOR  ',
-        description: { 'pt-BR': '  Test PT  ', 'en': '  Test EN  ' },
+        description: { 'pt-BR': '  Test PT  ', en: '  Test EN  ' },
         logoUrl: 'https://example.com/logo.png',
         tier: '507f1f77bcf86cd799439011',
         orderInTier: 1,
@@ -135,7 +139,7 @@ describe('SponsorSchema', () => {
         adminEmail: '  ADMIN@EXAMPLE.COM  ',
         contactEmail: '  CONTACT@EXAMPLE.COM  ',
         standLocation: '  Stand A1  ',
-        tags: ['  TAG1  ', '  TAG2  ']
+        tags: ['  TAG1  ', '  TAG2  '],
       });
 
       const saved = await sponsor.save();
@@ -155,14 +159,14 @@ describe('SponsorSchema', () => {
       const sponsor = new sponsorModel({
         name: 'Test Sponsor',
         slug: 'test-sponsor',
-        description: { 'pt-BR': 'Test', 'en': 'Test' },
+        description: { 'pt-BR': 'Test', en: 'Test' },
         logoUrl: 'https://example.com/logo.png',
         tier: '507f1f77bcf86cd799439011',
         orderInTier: 1,
         websiteUrl: 'https://example.com',
         adminEmail: 'admin@example.com',
         maxPosts: 10,
-        postsUsed: 3
+        postsUsed: 3,
       });
 
       const saved = await sponsor.save();
@@ -174,14 +178,14 @@ describe('SponsorSchema', () => {
       const sponsor = new sponsorModel({
         name: 'Test Sponsor',
         slug: 'test-sponsor',
-        description: { 'pt-BR': 'Test', 'en': 'Test' },
+        description: { 'pt-BR': 'Test', en: 'Test' },
         logoUrl: 'https://example.com/logo.png',
         tier: '507f1f77bcf86cd799439011',
         orderInTier: 1,
         websiteUrl: 'https://example.com',
         adminEmail: 'admin@example.com',
         maxPosts: 5,
-        postsUsed: 5
+        postsUsed: 5,
       });
 
       const saved = await sponsor.save();
@@ -197,13 +201,13 @@ describe('SponsorSchema', () => {
         slug: 'test-sponsor',
         description: {
           'pt-BR': 'Descrição em português',
-          'en': 'Description in English'
+          en: 'Description in English',
         },
         logoUrl: 'https://example.com/logo.png',
         tier: '507f1f77bcf86cd799439011',
         orderInTier: 1,
         websiteUrl: 'https://example.com',
-        adminEmail: 'admin@example.com'
+        adminEmail: 'admin@example.com',
       });
 
       const saved = await sponsor.save();
@@ -215,14 +219,14 @@ describe('SponsorSchema', () => {
       const sponsor = new sponsorModel({
         name: 'Test Sponsor',
         slug: 'test-sponsor',
-        description: { 'pt-BR': 'Test', 'en': 'Test' },
+        description: { 'pt-BR': 'Test', en: 'Test' },
         logoUrl: 'https://example.com/logo.png',
         tier: '507f1f77bcf86cd799439011',
         orderInTier: 1,
         websiteUrl: 'https://example.com',
         adminEmail: 'admin@example.com',
         maxPosts: 5,
-        postsUsed: 3
+        postsUsed: 3,
       });
 
       const saved = await sponsor.save();
@@ -237,13 +241,13 @@ describe('SponsorSchema', () => {
       const sponsor = new sponsorModel({
         name: 'Test Sponsor',
         slug: 'test-sponsor',
-        description: { 'pt-BR': 'Test', 'en': 'Test' },
+        description: { 'pt-BR': 'Test', en: 'Test' },
         logoUrl: 'https://example.com/logo.png',
         tier: '507f1f77bcf86cd799439011',
         orderInTier: 1,
         websiteUrl: 'https://example.com',
         adminEmail: 'admin@example.com',
-        postsUsed: 3
+        postsUsed: 3,
       });
 
       const saved = await sponsor.save();
@@ -267,12 +271,12 @@ describe('SponsorSchema', () => {
       const sponsor1 = new sponsorModel({
         name: 'Sponsor 1',
         slug: 'unique-slug',
-        description: { 'pt-BR': 'Test', 'en': 'Test' },
+        description: { 'pt-BR': 'Test', en: 'Test' },
         logoUrl: 'https://example.com/logo.png',
         tier: '507f1f77bcf86cd799439011',
         orderInTier: 1,
         websiteUrl: 'https://example.com',
-        adminEmail: 'admin@example.com'
+        adminEmail: 'admin@example.com',
       });
 
       await sponsor1.save();
@@ -280,12 +284,12 @@ describe('SponsorSchema', () => {
       const sponsor2 = new sponsorModel({
         name: 'Sponsor 2',
         slug: 'unique-slug',
-        description: { 'pt-BR': 'Test', 'en': 'Test' },
+        description: { 'pt-BR': 'Test', en: 'Test' },
         logoUrl: 'https://example.com/logo.png',
         tier: '507f1f77bcf86cd799439011',
         orderInTier: 2,
         websiteUrl: 'https://example.com',
-        adminEmail: 'admin2@example.com'
+        adminEmail: 'admin2@example.com',
       });
 
       await expect(sponsor2.save()).rejects.toThrow();

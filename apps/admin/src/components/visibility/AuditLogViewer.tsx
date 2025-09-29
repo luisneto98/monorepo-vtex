@@ -25,7 +25,7 @@ import {
 } from '@/components/ui/select';
 import { RefreshCw, Download, Filter } from 'lucide-react';
 import { systemConfigService } from '@/services/system-config.service';
-import type { VisibilityAuditLog } from '@vtexday26/shared';
+import type { VisibilityAuditLog } from '@shared/types/system-config.types';
 
 export default function AuditLogViewer() {
   const [logs, setLogs] = useState<VisibilityAuditLog[]>([]);

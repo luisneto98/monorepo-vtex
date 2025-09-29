@@ -46,7 +46,7 @@ export function SpeakersList({ onEdit, onDelete, onAdd, refreshTrigger }: Speake
     hasPrev: false,
   });
 
-  const [searchDebounce, setSearchDebounce] = useState<NodeJS.Timeout | null>(null);
+  const [searchDebounce, setSearchDebounce] = useState<number | null>(null);
 
   const fetchSpeakers = useCallback(async () => {
     try {

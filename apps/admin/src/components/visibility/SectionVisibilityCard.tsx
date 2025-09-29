@@ -25,7 +25,7 @@ import {
   Globe,
 } from 'lucide-react';
 import ScheduledActivation from './ScheduledActivation';
-import type { SectionName, SectionVisibility } from '@vtexday26/shared';
+import type { SectionName, SectionVisibility } from '@shared/types/system-config.types';
 
 interface SectionVisibilityCardProps {
   section: SectionName;

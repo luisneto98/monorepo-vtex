@@ -17,7 +17,7 @@ export interface SectionVisibility {
   isVisible: boolean;
   customMessage?: {
     'pt-BR': string;
-    'en': string;
+    en: string;
   };
   scheduledActivation?: {
     dateTime: Date;
@@ -44,7 +44,7 @@ export interface UpdateSectionVisibilityDto {
   isVisible?: boolean;
   customMessage?: {
     'pt-BR': string;
-    'en': string;
+    en: string;
   };
   scheduledActivation?: {
     dateTime: string;

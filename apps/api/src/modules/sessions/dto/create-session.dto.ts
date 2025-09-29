@@ -20,9 +20,9 @@ export class CreateSessionDto {
     description: 'Session title in multiple languages',
     example: {
       'pt-BR': 'Keynote de Abertura - O Futuro do Comércio Digital',
-      'en': 'Opening Keynote - The Future of Digital Commerce'
+      en: 'Opening Keynote - The Future of Digital Commerce',
     },
-    type: MultilingualTextDto
+    type: MultilingualTextDto,
   })
   @ValidateNested()
   @Type(() => MultilingualTextDto)
@@ -32,9 +32,9 @@ export class CreateSessionDto {
     description: 'Session description in multiple languages',
     example: {
       'pt-BR': 'Uma visão abrangente sobre as tendências do e-commerce',
-      'en': 'A comprehensive view of e-commerce trends'
+      en: 'A comprehensive view of e-commerce trends',
     },
-    type: MultilingualTextDto
+    type: MultilingualTextDto,
   })
   @ValidateNested()
   @Type(() => MultilingualTextDto)
@@ -43,7 +43,7 @@ export class CreateSessionDto {
   @ApiProperty({
     description: 'Type of session',
     enum: SessionType,
-    example: SessionType.KEYNOTE
+    example: SessionType.KEYNOTE,
   })
   @IsEnum(SessionType)
   type: SessionType;
@@ -51,7 +51,7 @@ export class CreateSessionDto {
   @ApiProperty({
     description: 'Session start time (ISO 8601 format)',
     example: '2025-11-26T09:00:00.000Z',
-    type: Date
+    type: Date,
   })
   @IsDate()
   @Type(() => Date)
@@ -60,7 +60,7 @@ export class CreateSessionDto {
   @ApiProperty({
     description: 'Session end time (ISO 8601 format)',
     example: '2025-11-26T10:00:00.000Z',
-    type: Date
+    type: Date,
   })
   @IsDate()
   @Type(() => Date)
@@ -69,7 +69,7 @@ export class CreateSessionDto {
   @ApiProperty({
     description: 'Stage or room where session takes place',
     enum: SessionStage,
-    example: SessionStage.PRINCIPAL
+    example: SessionStage.PRINCIPAL,
   })
   @IsEnum(SessionStage)
   stage: SessionStage;
@@ -77,7 +77,7 @@ export class CreateSessionDto {
   @ApiPropertyOptional({
     description: 'Array of speaker MongoDB IDs',
     type: [String],
-    example: ['507f1f77bcf86cd799439011', '507f1f77bcf86cd799439012']
+    example: ['507f1f77bcf86cd799439011', '507f1f77bcf86cd799439012'],
   })
   @IsOptional()
   @IsArray()
@@ -87,7 +87,7 @@ export class CreateSessionDto {
   @ApiPropertyOptional({
     description: 'Array of sponsor MongoDB IDs',
     type: [String],
-    example: ['507f1f77bcf86cd799439013']
+    example: ['507f1f77bcf86cd799439013'],
   })
   @IsOptional()
   @IsArray()
@@ -97,7 +97,7 @@ export class CreateSessionDto {
   @ApiPropertyOptional({
     description: 'Session tags for categorization',
     type: [String],
-    example: ['AI', 'B2B', 'Innovation', 'Technology']
+    example: ['AI', 'B2B', 'Innovation', 'Technology'],
   })
   @IsOptional()
   @IsArray()
@@ -108,7 +108,7 @@ export class CreateSessionDto {
     description: 'Maximum capacity for this session',
     type: Number,
     minimum: 1,
-    example: 150
+    example: 150,
   })
   @IsOptional()
   @IsNumber()
@@ -119,7 +119,7 @@ export class CreateSessionDto {
     description: 'Mark session as highlighted/featured',
     type: Boolean,
     default: false,
-    example: true
+    example: true,
   })
   @IsOptional()
   @IsBoolean()
@@ -129,7 +129,7 @@ export class CreateSessionDto {
     description: 'Session visibility status',
     type: Boolean,
     default: true,
-    example: true
+    example: true,
   })
   @IsOptional()
   @IsBoolean()

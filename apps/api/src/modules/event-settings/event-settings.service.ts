@@ -72,10 +72,7 @@ export class EventSettingsService {
     }
   }
 
-  async updateSettings(
-    updateDto: UpdateEventSettingsDto,
-    userId: string,
-  ): Promise<IEventSettings> {
+  async updateSettings(updateDto: UpdateEventSettingsDto, userId: string): Promise<IEventSettings> {
     try {
       // Get previous settings for audit comparison
       const previousSettings = await this.eventSettingsModel.findOne().exec();
@@ -91,19 +88,21 @@ export class EventSettingsService {
       }
 
       // Use findOneAndUpdate with upsert to ensure singleton pattern
-      const settings = await this.eventSettingsModel.findOneAndUpdate(
-        {},
-        {
-          ...updateDto,
-          updatedBy: userId,
-          updatedAt: new Date(),
-        },
-        {
-          new: true,
-          upsert: true,
-          runValidators: true,
-        },
-      ).exec();
+      const settings = await this.eventSettingsModel
+        .findOneAndUpdate(
+          {},
+          {
+            ...updateDto,
+            updatedBy: userId,
+            updatedAt: new Date(),
+          },
+          {
+            new: true,
+            upsert: true,
+            runValidators: true,
+          },
+        )
+        .exec();
 
       // Clear cache when settings are updated
       await this.cacheManager.del(this.CACHE_KEY);
@@ -123,11 +122,15 @@ export class EventSettingsService {
 
       // Log specific important changes
       if (updateDto.startDate || updateDto.endDate) {
-        this.logger.warn(`Event dates changed by user ${userId}: Start: ${updateDto.startDate}, End: ${updateDto.endDate}`);
+        this.logger.warn(
+          `Event dates changed by user ${userId}: Start: ${updateDto.startDate}, End: ${updateDto.endDate}`,
+        );
       }
 
       if (updateDto.venue) {
-        this.logger.warn(`Event venue changed by user ${userId}: ${JSON.stringify(updateDto.venue)}`);
+        this.logger.warn(
+          `Event venue changed by user ${userId}: ${JSON.stringify(updateDto.venue)}`,
+        );
       }
 
       return settings.toObject() as IEventSettings;
@@ -145,8 +148,13 @@ export class EventSettingsService {
     }
 
     const fieldsToCheck = [
-      'eventName', 'startDate', 'endDate', 'venue',
-      'contact', 'socialMedia', 'mapCoordinates'
+      'eventName',
+      'startDate',
+      'endDate',
+      'venue',
+      'contact',
+      'socialMedia',
+      'mapCoordinates',
     ];
 
     for (const field of fieldsToCheck) {

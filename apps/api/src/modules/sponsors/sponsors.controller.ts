@@ -60,13 +60,13 @@ export class SponsorsController {
         success: true,
         data: {
           _id: '507f1f77bcf86cd799439012',
-          name: { 'pt-BR': 'Diamante', 'en': 'Diamond' },
+          name: { 'pt-BR': 'Diamante', en: 'Diamond' },
           priority: 1,
-          benefits: { 'pt-BR': ['Benefício 1', 'Benefício 2'], 'en': ['Benefit 1', 'Benefit 2'] },
-          maxSlots: 3
-        }
-      }
-    }
+          benefits: { 'pt-BR': ['Benefício 1', 'Benefício 2'], en: ['Benefit 1', 'Benefit 2'] },
+          maxSlots: 3,
+        },
+      },
+    },
   })
   @SwaggerApiResponse({ status: 400, description: 'Validation error' })
   @SwaggerApiResponse({ status: 401, description: 'Unauthorized' })
@@ -89,14 +89,14 @@ export class SponsorsController {
         data: [
           {
             _id: '507f1f77bcf86cd799439012',
-            name: { 'pt-BR': 'Diamante', 'en': 'Diamond' },
+            name: { 'pt-BR': 'Diamante', en: 'Diamond' },
             priority: 1,
             maxSlots: 3,
-            currentSponsors: 2
-          }
-        ]
-      }
-    }
+            currentSponsors: 2,
+          },
+        ],
+      },
+    },
   })
   async findAllTiers() {
     const tiers = await this.sponsorsService.findAllTiers();
@@ -110,7 +110,7 @@ export class SponsorsController {
   @ApiParam({ name: 'id', description: 'Tier ID' })
   @SwaggerApiResponse({
     status: 200,
-    description: 'Tier details'
+    description: 'Tier details',
   })
   @SwaggerApiResponse({ status: 404, description: 'Tier not found' })
   async findOneTier(@Param('id') id: string) {
@@ -173,15 +173,15 @@ export class SponsorsController {
         data: {
           _id: '507f1f77bcf86cd799439011',
           name: 'VTEX',
-          description: { 'pt-BR': 'Descrição...', 'en': 'Description...' },
+          description: { 'pt-BR': 'Descrição...', en: 'Description...' },
           logoUrl: 'https://cdn.vtexday.com/sponsors/vtex.png',
           website: 'https://vtex.com',
           tier: '507f1f77bcf86cd799439012',
           socialLinks: { linkedin: 'https://linkedin.com/company/vtex' },
-          orderInTier: 1
-        }
-      }
-    }
+          orderInTier: 1,
+        },
+      },
+    },
   })
   @SwaggerApiResponse({ status: 400, description: 'Validation error' })
   @SwaggerApiResponse({ status: 401, description: 'Unauthorized' })
@@ -197,9 +197,19 @@ export class SponsorsController {
   @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
   @ApiQuery({ name: 'limit', required: false, type: Number, example: 20 })
   @ApiQuery({ name: 'sort', required: false, type: String, example: 'tier.priority,orderInTier' })
-  @ApiQuery({ name: 'search', required: false, type: String, description: 'Search in name and description' })
+  @ApiQuery({
+    name: 'search',
+    required: false,
+    type: String,
+    description: 'Search in name and description',
+  })
   @ApiQuery({ name: 'tier', required: false, type: String, description: 'Filter by tier ID' })
-  @ApiQuery({ name: 'isActive', required: false, type: Boolean, description: 'Filter active sponsors' })
+  @ApiQuery({
+    name: 'isActive',
+    required: false,
+    type: Boolean,
+    description: 'Filter active sponsors',
+  })
   @SwaggerApiResponse({
     status: 200,
     description: 'List of sponsors with pagination',
@@ -212,8 +222,8 @@ export class SponsorsController {
             name: 'VTEX',
             logoUrl: 'https://cdn.vtexday.com/sponsors/vtex.png',
             tier: { _id: '507f1f77bcf86cd799439012', name: 'Diamond', priority: 1 },
-            orderInTier: 1
-          }
+            orderInTier: 1,
+          },
         ],
         metadata: {
           total: 25,
@@ -221,10 +231,10 @@ export class SponsorsController {
           limit: 20,
           totalPages: 2,
           hasNext: true,
-          hasPrev: false
-        }
-      }
-    }
+          hasPrev: false,
+        },
+      },
+    },
   })
   async findAll(@Query() filterDto: SponsorFilterDto) {
     const result = await this.sponsorsService.findAllSponsors(filterDto);
@@ -244,18 +254,26 @@ export class SponsorsController {
           {
             tier: { _id: '507f1f77bcf86cd799439012', name: 'Diamond', priority: 1 },
             sponsors: [
-              { _id: '507f1f77bcf86cd799439011', name: 'VTEX', logoUrl: 'https://cdn.vtexday.com/sponsors/vtex.png' }
-            ]
+              {
+                _id: '507f1f77bcf86cd799439011',
+                name: 'VTEX',
+                logoUrl: 'https://cdn.vtexday.com/sponsors/vtex.png',
+              },
+            ],
           },
           {
             tier: { _id: '507f1f77bcf86cd799439013', name: 'Gold', priority: 2 },
             sponsors: [
-              { _id: '507f1f77bcf86cd799439014', name: 'AWS', logoUrl: 'https://cdn.vtexday.com/sponsors/aws.png' }
-            ]
-          }
-        ]
-      }
-    }
+              {
+                _id: '507f1f77bcf86cd799439014',
+                name: 'AWS',
+                logoUrl: 'https://cdn.vtexday.com/sponsors/aws.png',
+              },
+            ],
+          },
+        ],
+      },
+    },
   })
   async findGroupedByTier() {
     const sponsors = await this.sponsorsService.findSponsorsByTier();
@@ -275,16 +293,16 @@ export class SponsorsController {
         data: {
           _id: '507f1f77bcf86cd799439011',
           name: 'VTEX',
-          description: { 'pt-BR': 'Plataforma de comércio...', 'en': 'Commerce platform...' },
+          description: { 'pt-BR': 'Plataforma de comércio...', en: 'Commerce platform...' },
           logoUrl: 'https://cdn.vtexday.com/sponsors/vtex.png',
           website: 'https://vtex.com',
           tier: { _id: '507f1f77bcf86cd799439012', name: 'Diamond' },
           socialLinks: { linkedin: 'https://linkedin.com/company/vtex', twitter: '@vtex' },
           boothNumber: 'A1',
-          contactPerson: { name: 'João Silva', email: 'joao@vtex.com', phone: '+5511999999999' }
-        }
-      }
-    }
+          contactPerson: { name: 'João Silva', email: 'joao@vtex.com', phone: '+5511999999999' },
+        },
+      },
+    },
   })
   @SwaggerApiResponse({ status: 404, description: 'Sponsor not found' })
   async findOne(@Param('id') id: string) {
@@ -301,7 +319,7 @@ export class SponsorsController {
   @ApiBody({ type: UpdateSponsorDto })
   @SwaggerApiResponse({
     status: 200,
-    description: 'Sponsor updated successfully'
+    description: 'Sponsor updated successfully',
   })
   @SwaggerApiResponse({ status: 400, description: 'Validation error' })
   @SwaggerApiResponse({ status: 401, description: 'Unauthorized' })
@@ -324,11 +342,7 @@ export class SponsorsController {
   @SwaggerApiResponse({ status: 401, description: 'Unauthorized' })
   @SwaggerApiResponse({ status: 403, description: 'Forbidden' })
   @SwaggerApiResponse({ status: 404, description: 'Sponsor not found' })
-  async remove(
-    @Param('id') id: string,
-    @Req() req: Request,
-    @Query('reason') reason?: string
-  ) {
+  async remove(@Param('id') id: string, @Req() req: Request, @Query('reason') reason?: string) {
     const userId = (req as any).user?.id;
     await this.sponsorsService.removeSponsor(id, reason, userId);
   }
@@ -341,7 +355,7 @@ export class SponsorsController {
   @ApiParam({ name: 'id', description: 'Sponsor ID' })
   @SwaggerApiResponse({
     status: 200,
-    description: 'Sponsor restored successfully'
+    description: 'Sponsor restored successfully',
   })
   @SwaggerApiResponse({ status: 401, description: 'Unauthorized' })
   @SwaggerApiResponse({ status: 403, description: 'Forbidden' })

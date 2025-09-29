@@ -47,16 +47,16 @@ describe('SessionSchema', () => {
       const longTitle = new sessionModel({
         title: {
           'pt-BR': 'A'.repeat(151),
-          'en': 'B'.repeat(151)
+          en: 'B'.repeat(151),
         },
         description: {
           'pt-BR': 'A'.repeat(100),
-          'en': 'B'.repeat(100)
+          en: 'B'.repeat(100),
         },
         type: SessionType.TALK,
         startTime: new Date('2025-01-01T10:00:00'),
         endTime: new Date('2025-01-01T11:00:00'),
-        stage: SessionStage.PRINCIPAL
+        stage: SessionStage.PRINCIPAL,
       });
 
       await expect(longTitle.save()).rejects.toThrow();
@@ -66,16 +66,16 @@ describe('SessionSchema', () => {
       const shortDescription = new sessionModel({
         title: {
           'pt-BR': 'Test Title',
-          'en': 'Test Title'
+          en: 'Test Title',
         },
         description: {
           'pt-BR': 'Too short',
-          'en': 'Too short'
+          en: 'Too short',
         },
         type: SessionType.TALK,
         startTime: new Date('2025-01-01T10:00:00'),
         endTime: new Date('2025-01-01T11:00:00'),
-        stage: SessionStage.PRINCIPAL
+        stage: SessionStage.PRINCIPAL,
       });
 
       await expect(shortDescription.save()).rejects.toThrow();
@@ -83,16 +83,16 @@ describe('SessionSchema', () => {
       const longDescription = new sessionModel({
         title: {
           'pt-BR': 'Test Title',
-          'en': 'Test Title'
+          en: 'Test Title',
         },
         description: {
           'pt-BR': 'A'.repeat(1001),
-          'en': 'B'.repeat(1001)
+          en: 'B'.repeat(1001),
         },
         type: SessionType.TALK,
         startTime: new Date('2025-01-01T10:00:00'),
         endTime: new Date('2025-01-01T11:00:00'),
-        stage: SessionStage.PRINCIPAL
+        stage: SessionStage.PRINCIPAL,
       });
 
       await expect(longDescription.save()).rejects.toThrow();
@@ -102,16 +102,16 @@ describe('SessionSchema', () => {
       const invalidType = new sessionModel({
         title: {
           'pt-BR': 'Test Title',
-          'en': 'Test Title'
+          en: 'Test Title',
         },
         description: {
           'pt-BR': 'A'.repeat(100),
-          'en': 'B'.repeat(100)
+          en: 'B'.repeat(100),
         },
         type: 'invalid_type',
         startTime: new Date('2025-01-01T10:00:00'),
         endTime: new Date('2025-01-01T11:00:00'),
-        stage: SessionStage.PRINCIPAL
+        stage: SessionStage.PRINCIPAL,
       });
 
       await expect(invalidType.save()).rejects.toThrow();
@@ -119,16 +119,16 @@ describe('SessionSchema', () => {
       const invalidStage = new sessionModel({
         title: {
           'pt-BR': 'Test Title',
-          'en': 'Test Title'
+          en: 'Test Title',
         },
         description: {
           'pt-BR': 'A'.repeat(100),
-          'en': 'B'.repeat(100)
+          en: 'B'.repeat(100),
         },
         type: SessionType.TALK,
         startTime: new Date('2025-01-01T10:00:00'),
         endTime: new Date('2025-01-01T11:00:00'),
-        stage: 'invalid_stage'
+        stage: 'invalid_stage',
       });
 
       await expect(invalidStage.save()).rejects.toThrow();
@@ -138,16 +138,16 @@ describe('SessionSchema', () => {
       const invalidTimes = new sessionModel({
         title: {
           'pt-BR': 'Test Title',
-          'en': 'Test Title'
+          en: 'Test Title',
         },
         description: {
           'pt-BR': 'A'.repeat(100),
-          'en': 'B'.repeat(100)
+          en: 'B'.repeat(100),
         },
         type: SessionType.TALK,
         startTime: new Date('2025-01-01T11:00:00'),
         endTime: new Date('2025-01-01T10:00:00'),
-        stage: SessionStage.PRINCIPAL
+        stage: SessionStage.PRINCIPAL,
       });
 
       await expect(invalidTimes.save()).rejects.toThrow('End time must be after start time');
@@ -159,17 +159,17 @@ describe('SessionSchema', () => {
       const session = new sessionModel({
         title: {
           'pt-BR': '  Test Title PT  ',
-          'en': '  Test Title EN  '
+          en: '  Test Title EN  ',
         },
         description: {
           'pt-BR': '  ' + 'A'.repeat(100) + '  ',
-          'en': '  ' + 'B'.repeat(100) + '  '
+          en: '  ' + 'B'.repeat(100) + '  ',
         },
         type: SessionType.TALK,
         startTime: new Date('2025-01-01T10:00:00'),
         endTime: new Date('2025-01-01T11:00:00'),
         stage: SessionStage.PRINCIPAL,
-        tags: ['  TAG1  ', '  TAG2  ', '  TAG3  ']
+        tags: ['  TAG1  ', '  TAG2  ', '  TAG3  '],
       });
 
       const saved = await session.save();
@@ -184,17 +184,17 @@ describe('SessionSchema', () => {
       const session = new sessionModel({
         title: {
           'pt-BR': 'Test Title',
-          'en': 'Test Title'
+          en: 'Test Title',
         },
         description: {
           'pt-BR': 'A'.repeat(100),
-          'en': 'B'.repeat(100)
+          en: 'B'.repeat(100),
         },
         type: SessionType.TALK,
         startTime: new Date('2025-01-01T10:00:00'),
         endTime: new Date('2025-01-01T11:00:00'),
         stage: SessionStage.PRINCIPAL,
-        tags: ['JavaScript', 'TypeScript', 'Node.js']
+        tags: ['JavaScript', 'TypeScript', 'Node.js'],
       });
 
       const saved = await session.save();
@@ -207,16 +207,16 @@ describe('SessionSchema', () => {
       const session = new sessionModel({
         title: {
           'pt-BR': 'Test Title',
-          'en': 'Test Title'
+          en: 'Test Title',
         },
         description: {
           'pt-BR': 'A'.repeat(100),
-          'en': 'B'.repeat(100)
+          en: 'B'.repeat(100),
         },
         type: SessionType.TALK,
         startTime: new Date('2025-01-01T10:00:00'),
         endTime: new Date('2025-01-01T11:00:00'),
-        stage: SessionStage.PRINCIPAL
+        stage: SessionStage.PRINCIPAL,
       });
 
       const saved = await session.save();
@@ -233,16 +233,16 @@ describe('SessionSchema', () => {
       const session = new sessionModel({
         title: {
           'pt-BR': 'Test Title',
-          'en': 'Test Title'
+          en: 'Test Title',
         },
         description: {
           'pt-BR': 'A'.repeat(100),
-          'en': 'B'.repeat(100)
+          en: 'B'.repeat(100),
         },
         type: SessionType.TALK,
         startTime: new Date('2025-01-01T10:00:00'),
         endTime: new Date('2025-01-01T11:30:00'),
-        stage: SessionStage.PRINCIPAL
+        stage: SessionStage.PRINCIPAL,
       });
 
       const saved = await session.save();
@@ -255,16 +255,16 @@ describe('SessionSchema', () => {
       const session = new sessionModel({
         title: {
           'pt-BR': 'Título em Português',
-          'en': 'Title in English'
+          en: 'Title in English',
         },
         description: {
           'pt-BR': 'Descrição em português'.padEnd(100, '!'),
-          'en': 'Description in English'.padEnd(100, '!')
+          en: 'Description in English'.padEnd(100, '!'),
         },
         type: SessionType.TALK,
         startTime: new Date('2025-01-01T10:00:00'),
         endTime: new Date('2025-01-01T11:00:00'),
-        stage: SessionStage.PRINCIPAL
+        stage: SessionStage.PRINCIPAL,
       });
 
       const saved = await session.save();
@@ -280,16 +280,16 @@ describe('SessionSchema', () => {
       const pastSession = new sessionModel({
         title: {
           'pt-BR': 'Past Session',
-          'en': 'Past Session'
+          en: 'Past Session',
         },
         description: {
           'pt-BR': 'A'.repeat(100),
-          'en': 'B'.repeat(100)
+          en: 'B'.repeat(100),
         },
         type: SessionType.TALK,
         startTime: new Date(now.getTime() - 2 * 60 * 60 * 1000),
         endTime: new Date(now.getTime() - 1 * 60 * 60 * 1000),
-        stage: SessionStage.PRINCIPAL
+        stage: SessionStage.PRINCIPAL,
       });
 
       const savedPast = await pastSession.save();
@@ -300,16 +300,16 @@ describe('SessionSchema', () => {
       const liveSession = new sessionModel({
         title: {
           'pt-BR': 'Live Session',
-          'en': 'Live Session'
+          en: 'Live Session',
         },
         description: {
           'pt-BR': 'A'.repeat(100),
-          'en': 'B'.repeat(100)
+          en: 'B'.repeat(100),
         },
         type: SessionType.TALK,
         startTime: new Date(now.getTime() - 30 * 60 * 1000),
         endTime: new Date(now.getTime() + 30 * 60 * 1000),
-        stage: SessionStage.PRINCIPAL
+        stage: SessionStage.PRINCIPAL,
       });
 
       const savedLive = await liveSession.save();
@@ -320,16 +320,16 @@ describe('SessionSchema', () => {
       const upcomingSession = new sessionModel({
         title: {
           'pt-BR': 'Upcoming Session',
-          'en': 'Upcoming Session'
+          en: 'Upcoming Session',
         },
         description: {
           'pt-BR': 'A'.repeat(100),
-          'en': 'B'.repeat(100)
+          en: 'B'.repeat(100),
         },
         type: SessionType.TALK,
         startTime: new Date(now.getTime() + 1 * 60 * 60 * 1000),
         endTime: new Date(now.getTime() + 2 * 60 * 60 * 1000),
-        stage: SessionStage.PRINCIPAL
+        stage: SessionStage.PRINCIPAL,
       });
 
       const savedUpcoming = await upcomingSession.save();

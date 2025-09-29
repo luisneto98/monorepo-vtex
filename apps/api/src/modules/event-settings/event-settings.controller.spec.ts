@@ -102,7 +102,7 @@ describe('EventSettingsController', () => {
 
       const updatedSettings = {
         ...mockEventSettings,
-        eventName: updateDto.eventName || mockEventSettings.eventName
+        eventName: updateDto.eventName || mockEventSettings.eventName,
       };
       jest.spyOn(service, 'updateSettings').mockResolvedValue(updatedSettings);
 

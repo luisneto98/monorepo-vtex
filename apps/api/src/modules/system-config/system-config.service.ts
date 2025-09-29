@@ -185,12 +185,7 @@ export class SystemConfigService {
     const skip = (page - 1) * limit;
 
     const [data, total] = await Promise.all([
-      this.visibilityAuditModel
-        .find(query)
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limit)
-        .exec(),
+      this.visibilityAuditModel.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit).exec(),
       this.visibilityAuditModel.countDocuments(query).exec(),
     ]);
 
@@ -312,9 +307,11 @@ export class SystemConfigService {
   }
 
   async cleanupAuditLogs(cutoffDate: Date): Promise<number> {
-    const result = await this.visibilityAuditModel.deleteMany({
-      createdAt: { $lt: cutoffDate }
-    }).exec();
+    const result = await this.visibilityAuditModel
+      .deleteMany({
+        createdAt: { $lt: cutoffDate },
+      })
+      .exec();
 
     return result.deletedCount || 0;
   }

@@ -16,8 +16,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
 
 export function Faqs() {
   const { toast } = useToast();
@@ -158,6 +156,7 @@ export function Faqs() {
 
   const handleToggleVisibility = async (faq: Faq) => {
     try {
+      if (!faq._id) return;
       await faqService.update(faq._id, { isVisible: !faq.isVisible });
       toast({
         title: 'Success',

@@ -14,7 +14,7 @@ import { MapSelector } from '@/components/event-settings/MapSelector';
 import { EventSettingsErrorBoundary } from '@/components/event-settings/EventSettingsErrorBoundary';
 import { useEventSettings } from '@/hooks/useEventSettings';
 import { Loader2 } from 'lucide-react';
-import type { UpdateEventSettingsDto } from '@vtexday26/shared';
+import type { UpdateEventSettingsDto } from '@shared/types/event-settings';
 
 const eventSettingsSchema = z.object({
   eventName: z.object({
@@ -26,22 +26,17 @@ const eventSettingsSchema = z.object({
   endDate: z.string().min(1, 'Data de término é obrigatória'),
   venue: z.object({
     name: z.string().min(1, 'Nome do local é obrigatório'),
-    address: z.object({
-      street: z.string().min(1, 'Rua é obrigatória'),
-      number: z.string().min(1, 'Número é obrigatório'),
-      complement: z.string().optional(),
-      neighborhood: z.string().min(1, 'Bairro é obrigatório'),
-      city: z.string().min(1, 'Cidade é obrigatória'),
-      state: z.string().min(1, 'Estado é obrigatório'),
-      zipCode: z.string().min(1, 'CEP é obrigatório'),
-      country: z.string().min(1, 'País é obrigatório'),
-    }),
-    coordinates: z.object({
-      latitude: z.number().min(-90).max(90),
-      longitude: z.number().min(-180).max(180),
-    }),
+    address: z.string().min(1, 'Endereço é obrigatório'),
+    city: z.string().min(1, 'Cidade é obrigatória'),
+    state: z.string().min(1, 'Estado é obrigatório'),
+    zipCode: z.string().min(1, 'CEP é obrigatório'),
+    complement: z.string().optional(),
   }),
-  contactInfo: z.object({
+  mapCoordinates: z.object({
+    latitude: z.number().min(-90).max(90),
+    longitude: z.number().min(-180).max(180),
+  }),
+  contact: z.object({
     email: z.string().email('Email inválido'),
     phone: z.string().min(1, 'Telefone é obrigatório'),
     whatsapp: z.string().optional(),
@@ -63,28 +58,23 @@ function EventSettingsContent() {
 
   const methods = useForm<EventSettingsFormData>({
     resolver: zodResolver(eventSettingsSchema),
-    defaultValues: settings || {
+    defaultValues: {
       eventName: { pt: '', en: '', es: '' },
       startDate: '',
       endDate: '',
       venue: {
         name: '',
-        address: {
-          street: '',
-          number: '',
-          complement: '',
-          neighborhood: '',
-          city: '',
-          state: '',
-          zipCode: '',
-          country: 'Brasil',
-        },
-        coordinates: {
-          latitude: -23.5505,
-          longitude: -46.6333,
-        },
+        address: '',
+        city: '',
+        state: '',
+        zipCode: '',
+        complement: '',
       },
-      contactInfo: {
+      mapCoordinates: {
+        latitude: -23.5505,
+        longitude: -46.6333,
+      },
+      contact: {
         email: '',
         phone: '',
         whatsapp: '',
@@ -101,7 +91,20 @@ function EventSettingsContent() {
 
   React.useEffect(() => {
     if (settings) {
-      methods.reset(settings);
+      const formData: EventSettingsFormData = {
+        eventName: settings.eventName,
+        startDate: typeof settings.startDate === 'string'
+          ? settings.startDate
+          : settings.startDate.toISOString().split('T')[0],
+        endDate: typeof settings.endDate === 'string'
+          ? settings.endDate
+          : settings.endDate.toISOString().split('T')[0],
+        venue: settings.venue,
+        mapCoordinates: settings.mapCoordinates,
+        contact: settings.contact,
+        socialMedia: settings.socialMedia || {},
+      };
+      methods.reset(formData);
     }
   }, [settings, methods]);
 
@@ -123,7 +126,20 @@ function EventSettingsContent() {
 
   const handleReset = () => {
     if (settings) {
-      methods.reset(settings);
+      const formData: EventSettingsFormData = {
+        eventName: settings.eventName,
+        startDate: typeof settings.startDate === 'string'
+          ? settings.startDate
+          : settings.startDate.toISOString().split('T')[0],
+        endDate: typeof settings.endDate === 'string'
+          ? settings.endDate
+          : settings.endDate.toISOString().split('T')[0],
+        venue: settings.venue,
+        mapCoordinates: settings.mapCoordinates,
+        contact: settings.contact,
+        socialMedia: settings.socialMedia || {},
+      };
+      methods.reset(formData);
       toast({
         title: 'Formulário resetado',
         description: 'As alterações foram descartadas.',

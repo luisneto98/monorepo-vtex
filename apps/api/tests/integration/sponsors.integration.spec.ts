@@ -16,48 +16,50 @@ describe('Sponsors Integration Tests', () => {
   const testUser = {
     _id: '507f1f77bcf86cd799439020',
     email: 'admin@vtexday.com',
-    role: 'super_admin'
+    role: 'super_admin',
   };
 
   const createSponsorTierDto = {
     name: 'Diamond',
     description: {
       'pt-BR': 'Patrocinador Diamante',
-      'en': 'Diamond Sponsor'
+      en: 'Diamond Sponsor',
     },
     priority: 1,
     benefits: ['Logo principal', 'Estande premium'],
     maxSponsors: 3,
-    price: 50000
+    price: 50000,
   };
 
   const createSponsorDto = {
     name: 'Tech Corp',
     description: {
       'pt-BR': 'Empresa de tecnologia líder',
-      'en': 'Leading technology company'
+      en: 'Leading technology company',
     },
     logoUrl: 'https://example.com/logo.png',
     websiteUrl: 'https://techcorp.com',
     contactInfo: {
       email: 'contact@techcorp.com',
-      phone: '+55 11 99999-9999'
+      phone: '+55 11 99999-9999',
     },
     socialLinks: {
       linkedin: 'https://linkedin.com/company/techcorp',
-      twitter: 'https://twitter.com/techcorp'
+      twitter: 'https://twitter.com/techcorp',
     },
-    tags: ['Technology', 'SaaS']
+    tags: ['Technology', 'SaaS'],
   };
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
-        MongooseModule.forRoot(process.env['MONGODB_TEST_URI'] || 'mongodb://localhost:27017/vtex-day-test'),
+        MongooseModule.forRoot(
+          process.env['MONGODB_TEST_URI'] || 'mongodb://localhost:27017/vtex-day-test',
+        ),
         DatabaseModule,
         AuthModule,
-        SponsorsModule
-      ]
+        SponsorsModule,
+      ],
     }).compile();
 
     app = moduleFixture.createNestApplication();
@@ -66,7 +68,7 @@ describe('Sponsors Integration Tests', () => {
     authToken = jwtService.sign({
       sub: testUser._id,
       email: testUser.email,
-      role: testUser.role
+      role: testUser.role,
     });
 
     await app.init();
@@ -90,12 +92,12 @@ describe('Sponsors Integration Tests', () => {
           name: 'Gold',
           description: {
             'pt-BR': 'Patrocinador Ouro',
-            'en': 'Gold Sponsor'
+            en: 'Gold Sponsor',
           },
           priority: 2,
           benefits: ['Logo médio', 'Estande padrão'],
           maxSponsors: 5,
-          price: 25000
+          price: 25000,
         };
 
         const response = await request(app.getHttpServer())
@@ -124,7 +126,7 @@ describe('Sponsors Integration Tests', () => {
           .set('Authorization', `Bearer ${authToken}`)
           .send({
             ...createSponsorTierDto,
-            name: 'Diamond' // Already exists
+            name: 'Diamond', // Already exists
           })
           .expect(409);
       });
@@ -132,9 +134,7 @@ describe('Sponsors Integration Tests', () => {
 
     describe('GET /sponsors/tiers', () => {
       it('should return all sponsor tiers (public endpoint)', async () => {
-        const response = await request(app.getHttpServer())
-          .get('/sponsors/tiers')
-          .expect(200);
+        const response = await request(app.getHttpServer()).get('/sponsors/tiers').expect(200);
 
         expect(response.body.success).toBe(true);
         expect(Array.isArray(response.body.data)).toBe(true);
@@ -146,7 +146,7 @@ describe('Sponsors Integration Tests', () => {
       it('should update a sponsor tier (admin only)', async () => {
         const updateDto = {
           price: 60000,
-          maxSponsors: 2
+          maxSponsors: 2,
         };
 
         const response = await request(app.getHttpServer())
@@ -172,9 +172,7 @@ describe('Sponsors Integration Tests', () => {
   describe('Sponsors', () => {
     describe('GET /sponsors', () => {
       it('should return sponsors grouped by tier (public endpoint)', async () => {
-        const response = await request(app.getHttpServer())
-          .get('/sponsors')
-          .expect(200);
+        const response = await request(app.getHttpServer()).get('/sponsors').expect(200);
 
         expect(response.body.success).toBe(true);
         expect(Array.isArray(response.body.data)).toBe(true);
@@ -201,7 +199,7 @@ describe('Sponsors Integration Tests', () => {
       it('should create a new sponsor (admin only)', async () => {
         const sponsorDto = {
           ...createSponsorDto,
-          tier: sponsorTierId
+          tier: sponsorTierId,
         };
 
         const response = await request(app.getHttpServer())
@@ -222,7 +220,7 @@ describe('Sponsors Integration Tests', () => {
           .post('/sponsors')
           .send({
             ...createSponsorDto,
-            tier: sponsorTierId
+            tier: sponsorTierId,
           })
           .expect(401);
       });
@@ -230,7 +228,7 @@ describe('Sponsors Integration Tests', () => {
       it('should validate required fields', async () => {
         const invalidDto = {
           name: '', // Empty name
-          tier: sponsorTierId
+          tier: sponsorTierId,
         };
 
         await request(app.getHttpServer())
@@ -246,7 +244,7 @@ describe('Sponsors Integration Tests', () => {
           .set('Authorization', `Bearer ${authToken}`)
           .send({
             ...createSponsorDto,
-            tier: '507f1f77bcf86cd799439999' // Non-existent tier
+            tier: '507f1f77bcf86cd799439999', // Non-existent tier
           })
           .expect(404);
       });
@@ -258,7 +256,7 @@ describe('Sponsors Integration Tests', () => {
           .send({
             ...createSponsorDto,
             name: 'Tech Corp', // Already exists
-            tier: sponsorTierId
+            tier: sponsorTierId,
           })
           .expect(409);
       });
@@ -274,7 +272,7 @@ describe('Sponsors Integration Tests', () => {
           .send({
             ...createSponsorDto,
             name: 'Sponsor For Detail Test',
-            tier: sponsorTierId
+            tier: sponsorTierId,
           });
         sponsorId = response.body.data._id;
       });
@@ -293,9 +291,7 @@ describe('Sponsors Integration Tests', () => {
       });
 
       it('should return 404 for non-existent sponsor', async () => {
-        await request(app.getHttpServer())
-          .get('/sponsors/507f1f77bcf86cd799439999')
-          .expect(404);
+        await request(app.getHttpServer()).get('/sponsors/507f1f77bcf86cd799439999').expect(404);
       });
     });
 
@@ -309,7 +305,7 @@ describe('Sponsors Integration Tests', () => {
           .send({
             ...createSponsorDto,
             name: 'Sponsor For Update Test',
-            tier: sponsorTierId
+            tier: sponsorTierId,
           });
         sponsorId = response.body.data._id;
       });
@@ -317,7 +313,7 @@ describe('Sponsors Integration Tests', () => {
       it('should update sponsor (admin only)', async () => {
         const updateDto = {
           websiteUrl: 'https://newtechcorp.com',
-          tags: ['Updated', 'Technology']
+          tags: ['Updated', 'Technology'],
         };
 
         const response = await request(app.getHttpServer())
@@ -357,7 +353,7 @@ describe('Sponsors Integration Tests', () => {
           .send({
             ...createSponsorDto,
             name: 'Sponsor For Delete Test',
-            tier: sponsorTierId
+            tier: sponsorTierId,
           });
         sponsorId = response.body.data._id;
       });
@@ -372,15 +368,11 @@ describe('Sponsors Integration Tests', () => {
         expect(response.body.success).toBe(true);
 
         // Verify sponsor is no longer accessible via public endpoint
-        await request(app.getHttpServer())
-          .get(`/sponsors/${sponsorId}`)
-          .expect(404);
+        await request(app.getHttpServer()).get(`/sponsors/${sponsorId}`).expect(404);
       });
 
       it('should reject request without authentication', async () => {
-        await request(app.getHttpServer())
-          .delete(`/sponsors/${sponsorId}`)
-          .expect(401);
+        await request(app.getHttpServer()).delete(`/sponsors/${sponsorId}`).expect(401);
       });
 
       it('should return 404 for non-existent sponsor', async () => {
@@ -402,7 +394,7 @@ describe('Sponsors Integration Tests', () => {
           .send({
             ...createSponsorDto,
             name: 'Sponsor For Restore Test',
-            tier: sponsorTierId
+            tier: sponsorTierId,
           });
         sponsorId = createResponse.body.data._id;
 
@@ -421,15 +413,11 @@ describe('Sponsors Integration Tests', () => {
         expect(response.body.success).toBe(true);
 
         // Verify sponsor is accessible again via public endpoint
-        await request(app.getHttpServer())
-          .get(`/sponsors/${sponsorId}`)
-          .expect(200);
+        await request(app.getHttpServer()).get(`/sponsors/${sponsorId}`).expect(200);
       });
 
       it('should reject request without authentication', async () => {
-        await request(app.getHttpServer())
-          .post(`/sponsors/${sponsorId}/restore`)
-          .expect(401);
+        await request(app.getHttpServer()).post(`/sponsors/${sponsorId}/restore`).expect(401);
       });
     });
 
@@ -442,14 +430,12 @@ describe('Sponsors Integration Tests', () => {
           .send({
             ...createSponsorDto,
             name: 'Sponsor By Tier Test',
-            tier: sponsorTierId
+            tier: sponsorTierId,
           });
       });
 
       it('should return sponsors grouped by tier (public endpoint)', async () => {
-        const response = await request(app.getHttpServer())
-          .get('/sponsors/by-tier')
-          .expect(200);
+        const response = await request(app.getHttpServer()).get('/sponsors/by-tier').expect(200);
 
         expect(response.body.success).toBe(true);
         expect(Array.isArray(response.body.data)).toBe(true);
@@ -476,12 +462,12 @@ describe('Sponsors Integration Tests', () => {
             name: 'Empty Tier',
             description: {
               'pt-BR': 'Nível vazio',
-              'en': 'Empty tier'
+              en: 'Empty tier',
             },
             priority: 10,
             benefits: ['Test benefit'],
             maxSponsors: 1,
-            price: 1000
+            price: 1000,
           });
         emptyTierId = response.body.data._id;
       });
@@ -503,9 +489,7 @@ describe('Sponsors Integration Tests', () => {
       });
 
       it('should reject request without authentication', async () => {
-        await request(app.getHttpServer())
-          .delete(`/sponsors/tiers/${emptyTierId}`)
-          .expect(401);
+        await request(app.getHttpServer()).delete(`/sponsors/tiers/${emptyTierId}`).expect(401);
       });
     });
   });

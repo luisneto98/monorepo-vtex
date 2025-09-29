@@ -180,9 +180,9 @@ describe('EventSettingsService', () => {
         exec: jest.fn().mockResolvedValue(null),
       });
 
-      await expect(
-        service.updateSettings(updateDto, 'user123'),
-      ).rejects.toThrow(BadRequestException);
+      await expect(service.updateSettings(updateDto, 'user123')).rejects.toThrow(
+        BadRequestException,
+      );
     });
 
     it('should throw error if end date equals start date', async () => {
@@ -196,9 +196,9 @@ describe('EventSettingsService', () => {
         exec: jest.fn().mockResolvedValue(null),
       });
 
-      await expect(
-        service.updateSettings(updateDto, 'user123'),
-      ).rejects.toThrow(BadRequestException);
+      await expect(service.updateSettings(updateDto, 'user123')).rejects.toThrow(
+        BadRequestException,
+      );
     });
   });
 });

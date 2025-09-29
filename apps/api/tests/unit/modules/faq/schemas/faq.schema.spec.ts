@@ -4,7 +4,10 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import { Connection, Model } from 'mongoose';
 import { getConnectionToken, getModelToken } from '@nestjs/mongoose';
 import { Faq, FaqSchema, FaqDocument } from '../../../../../src/modules/faq/schemas/faq.schema';
-import { FaqCategory, FaqCategorySchema } from '../../../../../src/modules/faq/schemas/faq-category.schema';
+import {
+  FaqCategory,
+  FaqCategorySchema,
+} from '../../../../../src/modules/faq/schemas/faq-category.schema';
 
 describe('FaqSchema', () => {
   let mongod: MongoMemoryServer;
@@ -21,7 +24,7 @@ describe('FaqSchema', () => {
         MongooseModule.forRoot(uri),
         MongooseModule.forFeature([
           { name: Faq.name, schema: FaqSchema },
-          { name: FaqCategory.name, schema: FaqCategorySchema }
+          { name: FaqCategory.name, schema: FaqCategorySchema },
         ]),
       ],
     }).compile();
@@ -49,14 +52,14 @@ describe('FaqSchema', () => {
       const longQuestion = new faqModel({
         question: {
           'pt-BR': 'A'.repeat(201),
-          'en': 'B'.repeat(201)
+          en: 'B'.repeat(201),
         },
         answer: {
           'pt-BR': 'Answer PT',
-          'en': 'Answer EN'
+          en: 'Answer EN',
         },
         category: '507f1f77bcf86cd799439011',
-        order: 1
+        order: 1,
       });
 
       await expect(longQuestion.save()).rejects.toThrow();
@@ -66,14 +69,14 @@ describe('FaqSchema', () => {
       const longAnswer = new faqModel({
         question: {
           'pt-BR': 'Question PT',
-          'en': 'Question EN'
+          en: 'Question EN',
         },
         answer: {
           'pt-BR': 'A'.repeat(2001),
-          'en': 'B'.repeat(2001)
+          en: 'B'.repeat(2001),
         },
         category: '507f1f77bcf86cd799439011',
-        order: 1
+        order: 1,
       });
 
       await expect(longAnswer.save()).rejects.toThrow();
@@ -83,14 +86,14 @@ describe('FaqSchema', () => {
       const invalidOrder = new faqModel({
         question: {
           'pt-BR': 'Question PT',
-          'en': 'Question EN'
+          en: 'Question EN',
         },
         answer: {
           'pt-BR': 'Answer PT',
-          'en': 'Answer EN'
+          en: 'Answer EN',
         },
         category: '507f1f77bcf86cd799439011',
-        order: 0
+        order: 0,
       });
 
       await expect(invalidOrder.save()).rejects.toThrow();
@@ -102,14 +105,14 @@ describe('FaqSchema', () => {
       const faq = new faqModel({
         question: {
           'pt-BR': '  Question PT  ',
-          'en': '  Question EN  '
+          en: '  Question EN  ',
         },
         answer: {
           'pt-BR': '  Answer PT  ',
-          'en': '  Answer EN  '
+          en: '  Answer EN  ',
         },
         category: '507f1f77bcf86cd799439011',
-        order: 1
+        order: 1,
       });
 
       const saved = await faq.save();
@@ -123,14 +126,14 @@ describe('FaqSchema', () => {
       const faq = new faqModel({
         question: {
           'pt-BR': 'Question PT',
-          'en': 'Question EN'
+          en: 'Question EN',
         },
         answer: {
           'pt-BR': '<p>Valid</p><script>alert("XSS")</script>',
-          'en': '<b>Bold</b><img src="x" onerror="alert(1)">'
+          en: '<b>Bold</b><img src="x" onerror="alert(1)">',
         },
         category: '507f1f77bcf86cd799439011',
-        order: 1
+        order: 1,
       });
 
       const saved = await faq.save();
@@ -146,14 +149,14 @@ describe('FaqSchema', () => {
       const faq = new faqModel({
         question: {
           'pt-BR': 'Question PT',
-          'en': 'Question EN'
+          en: 'Question EN',
         },
         answer: {
           'pt-BR': 'Answer PT',
-          'en': 'Answer EN'
+          en: 'Answer EN',
         },
         category: '507f1f77bcf86cd799439011',
-        order: 1
+        order: 1,
       });
 
       const saved = await faq.save();
@@ -167,15 +170,15 @@ describe('FaqSchema', () => {
       const faq = new faqModel({
         question: {
           'pt-BR': 'Question PT',
-          'en': 'Question EN'
+          en: 'Question EN',
         },
         answer: {
           'pt-BR': 'Answer PT',
-          'en': 'Answer EN'
+          en: 'Answer EN',
         },
         category: '507f1f77bcf86cd799439011',
         order: 1,
-        viewCount: 100
+        viewCount: 100,
       });
 
       const saved = await faq.save();
@@ -188,14 +191,14 @@ describe('FaqSchema', () => {
       const faq = new faqModel({
         question: {
           'pt-BR': 'Pergunta em português',
-          'en': 'Question in English'
+          en: 'Question in English',
         },
         answer: {
           'pt-BR': 'Resposta em português',
-          'en': 'Answer in English'
+          en: 'Answer in English',
         },
         category: '507f1f77bcf86cd799439011',
-        order: 1
+        order: 1,
       });
 
       const saved = await faq.save();
@@ -209,14 +212,14 @@ describe('FaqSchema', () => {
       const faq = new faqModel({
         question: {
           'pt-BR': 'Question PT',
-          'en': 'Question EN'
+          en: 'Question EN',
         },
         answer: {
           'pt-BR': 'Answer PT',
-          'en': 'Answer EN'
+          en: 'Answer EN',
         },
         category: '507f1f77bcf86cd799439011',
-        order: 1
+        order: 1,
       });
 
       const saved = await faq.save();

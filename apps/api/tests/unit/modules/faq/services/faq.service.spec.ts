@@ -12,26 +12,26 @@ describe('FaqService', () => {
     _id: '507f1f77bcf86cd799439015',
     name: {
       'pt-BR': 'Geral',
-      'en': 'General'
+      en: 'General',
     },
     description: {
       'pt-BR': 'Perguntas gerais sobre o evento',
-      'en': 'General questions about the event'
+      en: 'General questions about the event',
     },
     priority: 1,
     isVisible: true,
-    save: jest.fn().mockResolvedValue(this)
+    save: jest.fn().mockResolvedValue(this),
   };
 
   const mockFaq = {
     _id: '507f1f77bcf86cd799439016',
     question: {
       'pt-BR': 'Como comprar ingressos?',
-      'en': 'How to buy tickets?'
+      en: 'How to buy tickets?',
     },
     answer: {
       'pt-BR': 'Você pode comprar ingressos através do nosso site oficial.',
-      'en': 'You can buy tickets through our official website.'
+      en: 'You can buy tickets through our official website.',
     },
     category: mockFaqCategory._id,
     priority: 100,
@@ -39,19 +39,19 @@ describe('FaqService', () => {
     viewCount: 0,
     tags: ['tickets', 'purchase'],
     deletedAt: null,
-    save: jest.fn().mockResolvedValue(this)
+    save: jest.fn().mockResolvedValue(this),
   };
 
   const mockFaqModel = jest.fn().mockImplementation((dto) => ({
     ...mockFaq,
     ...dto,
-    save: jest.fn().mockResolvedValue({ ...mockFaq, ...dto })
+    save: jest.fn().mockResolvedValue({ ...mockFaq, ...dto }),
   })) as any;
 
   const mockFaqCategoryModel = jest.fn().mockImplementation((dto) => ({
     ...mockFaqCategory,
     ...dto,
-    save: jest.fn().mockResolvedValue({ ...mockFaqCategory, ...dto })
+    save: jest.fn().mockResolvedValue({ ...mockFaqCategory, ...dto }),
   })) as any;
 
   mockFaqModel.findOne = jest.fn();
@@ -70,13 +70,13 @@ describe('FaqService', () => {
         FaqService,
         {
           provide: getModelToken(Faq.name),
-          useValue: mockFaqModel
+          useValue: mockFaqModel,
         },
         {
           provide: getModelToken(FaqCategory.name),
-          useValue: mockFaqCategoryModel
-        }
-      ]
+          useValue: mockFaqCategoryModel,
+        },
+      ],
     }).compile();
 
     service = module.get<FaqService>(FaqService);
@@ -91,15 +91,15 @@ describe('FaqService', () => {
       const createDto = {
         question: {
           'pt-BR': 'Nova pergunta?',
-          'en': 'New question?'
+          en: 'New question?',
         },
         answer: {
           'pt-BR': 'Nova resposta.',
-          'en': 'New answer.'
+          en: 'New answer.',
         },
         category: mockFaqCategory._id,
         order: 1,
-        tags: ['new', 'test']
+        tags: ['new', 'test'],
       };
 
       mockFaqCategoryModel.findOne.mockResolvedValue(mockFaqCategory);
@@ -108,7 +108,7 @@ describe('FaqService', () => {
 
       expect(mockFaqCategoryModel.findOne).toHaveBeenCalledWith({
         _id: createDto.category,
-        isVisible: true
+        isVisible: true,
       });
       expect(result).toBeDefined();
     });
@@ -117,15 +117,15 @@ describe('FaqService', () => {
       const createDto = {
         question: {
           'pt-BR': 'Nova pergunta?',
-          'en': 'New question?'
+          en: 'New question?',
         },
         answer: {
           'pt-BR': 'Nova resposta.',
-          'en': 'New answer.'
+          en: 'New answer.',
         },
         category: 'nonexistent-category-id',
         order: 1,
-        tags: ['new', 'test']
+        tags: ['new', 'test'],
       };
 
       mockFaqCategoryModel.findOne.mockResolvedValue(null);
@@ -139,7 +139,7 @@ describe('FaqService', () => {
       const filterDto = {
         page: 1,
         limit: 10,
-        sort: '-priority'
+        sort: '-priority',
       };
 
       const faqs = [mockFaq];
@@ -148,7 +148,7 @@ describe('FaqService', () => {
         sort: jest.fn().mockReturnThis(),
         skip: jest.fn().mockReturnThis(),
         limit: jest.fn().mockReturnThis(),
-        exec: jest.fn().mockResolvedValue(faqs)
+        exec: jest.fn().mockResolvedValue(faqs),
       });
       mockFaqModel.countDocuments.mockResolvedValue(1);
 
@@ -162,8 +162,8 @@ describe('FaqService', () => {
           page: 1,
           limit: 10,
           hasNext: false,
-          hasPrev: false
-        }
+          hasPrev: false,
+        },
       });
     });
 
@@ -172,7 +172,7 @@ describe('FaqService', () => {
         page: 1,
         limit: 20,
         category: mockFaqCategory._id,
-        search: 'ingresso'
+        search: 'ingresso',
       };
 
       mockFaqModel.find.mockReturnValue({
@@ -180,7 +180,7 @@ describe('FaqService', () => {
         sort: jest.fn().mockReturnThis(),
         skip: jest.fn().mockReturnThis(),
         limit: jest.fn().mockReturnThis(),
-        exec: jest.fn().mockResolvedValue([])
+        exec: jest.fn().mockResolvedValue([]),
       });
       mockFaqModel.countDocuments.mockResolvedValue(0);
 
@@ -194,8 +194,8 @@ describe('FaqService', () => {
           { 'question.en': { $regex: 'ingresso', $options: 'i' } },
           { 'answer.pt-BR': { $regex: 'ingresso', $options: 'i' } },
           { 'answer.en': { $regex: 'ingresso', $options: 'i' } },
-          { tags: { $in: ['ingresso'] } }
-        ]
+          { tags: { $in: ['ingresso'] } },
+        ],
       });
     });
   });
@@ -205,12 +205,12 @@ describe('FaqService', () => {
       const faqWithSave = {
         ...mockFaq,
         viewCount: 0,
-        save: jest.fn().mockResolvedValue({ ...mockFaq, viewCount: 1 })
+        save: jest.fn().mockResolvedValue({ ...mockFaq, viewCount: 1 }),
       };
 
       mockFaqModel.findOne.mockReturnValue({
         populate: jest.fn().mockReturnThis(),
-        exec: jest.fn().mockResolvedValue(faqWithSave)
+        exec: jest.fn().mockResolvedValue(faqWithSave),
       });
 
       const result = await service.findFaqById('507f1f77bcf86cd799439016');
@@ -219,17 +219,19 @@ describe('FaqService', () => {
       expect(faqWithSave.save).toHaveBeenCalled();
       expect(mockFaqModel.findOne).toHaveBeenCalledWith({
         _id: '507f1f77bcf86cd799439016',
-        deletedAt: null
+        deletedAt: null,
       });
     });
 
     it('should throw NotFoundException if FAQ not found', async () => {
       mockFaqModel.findOne.mockReturnValue({
         populate: jest.fn().mockReturnThis(),
-        exec: jest.fn().mockResolvedValue(null)
+        exec: jest.fn().mockResolvedValue(null),
       });
 
-      await expect(service.findFaqById('507f1f77bcf86cd799439016')).rejects.toThrow(NotFoundException);
+      await expect(service.findFaqById('507f1f77bcf86cd799439016')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -237,12 +239,12 @@ describe('FaqService', () => {
     it('should update an FAQ', async () => {
       const updateDto = {
         order: 2,
-        isVisible: false
+        isVisible: false,
       };
 
       const existingFaq = {
         ...mockFaq,
-        save: jest.fn().mockResolvedValue({ ...mockFaq, ...updateDto })
+        save: jest.fn().mockResolvedValue({ ...mockFaq, ...updateDto }),
       };
 
       mockFaqModel.findOne.mockResolvedValue(existingFaq);
@@ -256,7 +258,9 @@ describe('FaqService', () => {
     it('should throw NotFoundException if FAQ not found', async () => {
       mockFaqModel.findOne.mockResolvedValue(null);
 
-      await expect(service.updateFaq('507f1f77bcf86cd799439016', {})).rejects.toThrow(NotFoundException);
+      await expect(service.updateFaq('507f1f77bcf86cd799439016', {})).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -267,7 +271,7 @@ describe('FaqService', () => {
         deletedAt: null as any,
         deleteReason: null as any,
         deletedBy: null as any,
-        save: jest.fn().mockResolvedValue(mockFaq)
+        save: jest.fn().mockResolvedValue(mockFaq),
       };
 
       mockFaqModel.findOne.mockResolvedValue(faq);
@@ -282,7 +286,9 @@ describe('FaqService', () => {
     it('should throw NotFoundException if FAQ not found', async () => {
       mockFaqModel.findOne.mockResolvedValue(null);
 
-      await expect(service.removeFaq('507f1f77bcf86cd799439016')).rejects.toThrow(NotFoundException);
+      await expect(service.removeFaq('507f1f77bcf86cd799439016')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -293,7 +299,7 @@ describe('FaqService', () => {
         deletedAt: new Date(),
         deletedBy: 'userId',
         deleteReason: 'Test',
-        save: jest.fn().mockResolvedValue(mockFaq)
+        save: jest.fn().mockResolvedValue(mockFaq),
       };
 
       mockFaqModel.findOne.mockResolvedValue(deletedFaq);
@@ -309,7 +315,9 @@ describe('FaqService', () => {
     it('should throw NotFoundException if deleted FAQ not found', async () => {
       mockFaqModel.findOne.mockResolvedValue(null);
 
-      await expect(service.restoreFaq('507f1f77bcf86cd799439016')).rejects.toThrow(NotFoundException);
+      await expect(service.restoreFaq('507f1f77bcf86cd799439016')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -319,13 +327,13 @@ describe('FaqService', () => {
         const createCategoryDto = {
           name: {
             'pt-BR': 'Palestrantes',
-            'en': 'Speakers'
+            en: 'Speakers',
           },
           description: {
             'pt-BR': 'Perguntas sobre palestrantes',
-            'en': 'Questions about speakers'
+            en: 'Questions about speakers',
           },
-          priority: 2
+          priority: 2,
         };
 
         mockFaqCategoryModel.findOne.mockResolvedValue(null);
@@ -333,7 +341,7 @@ describe('FaqService', () => {
         const result = await service.createCategory(createCategoryDto);
 
         expect(mockFaqCategoryModel.findOne).toHaveBeenCalledWith({
-          'name.pt-BR': createCategoryDto.name['pt-BR']
+          'name.pt-BR': createCategoryDto.name['pt-BR'],
         });
         expect(result).toBeDefined();
       });
@@ -342,13 +350,13 @@ describe('FaqService', () => {
         const createCategoryDto = {
           name: {
             'pt-BR': 'Geral',
-            'en': 'General'
+            en: 'General',
           },
           description: {
             'pt-BR': 'Categoria existente',
-            'en': 'Existing category'
+            en: 'Existing category',
           },
-          priority: 1
+          priority: 1,
         };
 
         mockFaqCategoryModel.findOne.mockResolvedValue(mockFaqCategory);
@@ -363,7 +371,7 @@ describe('FaqService', () => {
 
         mockFaqCategoryModel.find.mockReturnValue({
           sort: jest.fn().mockReturnThis(),
-          exec: jest.fn().mockResolvedValue(categories)
+          exec: jest.fn().mockResolvedValue(categories),
         });
 
         const result = await service.findAllCategories();
@@ -376,12 +384,12 @@ describe('FaqService', () => {
     describe('updateCategory', () => {
       it('should update an FAQ category', async () => {
         const updateCategoryDto = {
-          priority: 5
+          priority: 5,
         };
 
         const existingCategory = {
           ...mockFaqCategory,
-          save: jest.fn().mockResolvedValue({ ...mockFaqCategory, ...updateCategoryDto })
+          save: jest.fn().mockResolvedValue({ ...mockFaqCategory, ...updateCategoryDto }),
         };
 
         mockFaqCategoryModel.findOne.mockResolvedValue(existingCategory);
@@ -395,7 +403,9 @@ describe('FaqService', () => {
       it('should throw NotFoundException if category not found', async () => {
         mockFaqCategoryModel.findOne.mockResolvedValue(null);
 
-        await expect(service.updateCategory('507f1f77bcf86cd799439015', {})).rejects.toThrow(NotFoundException);
+        await expect(service.updateCategory('507f1f77bcf86cd799439015', {})).rejects.toThrow(
+          NotFoundException,
+        );
       });
     });
 
@@ -404,7 +414,7 @@ describe('FaqService', () => {
         const category = {
           ...mockFaqCategory,
           isVisible: true,
-          save: jest.fn().mockResolvedValue({ ...mockFaqCategory, isVisible: false })
+          save: jest.fn().mockResolvedValue({ ...mockFaqCategory, isVisible: false }),
         };
 
         mockFaqCategoryModel.findOne.mockResolvedValue(category);
@@ -420,9 +430,10 @@ describe('FaqService', () => {
         mockFaqCategoryModel.findOne.mockResolvedValue(mockFaqCategory);
         mockFaqModel.countDocuments.mockResolvedValue(1);
 
-        await expect(service.removeCategory('507f1f77bcf86cd799439015')).rejects.toThrow(ConflictException);
+        await expect(service.removeCategory('507f1f77bcf86cd799439015')).rejects.toThrow(
+          ConflictException,
+        );
       });
     });
   });
-
 });

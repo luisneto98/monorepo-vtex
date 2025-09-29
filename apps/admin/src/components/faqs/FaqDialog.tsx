@@ -10,7 +10,6 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import {
-  Form,
   FormControl,
   FormField,
   FormItem,
@@ -117,6 +116,10 @@ export function FaqDialog({
       // Sanitize HTML content
       const sanitizedData = {
         ...data,
+        question: {
+          'pt-BR': data.question['pt-BR'],
+          'en': data.question['en'] || '',
+        },
         answer: {
           'pt-BR': DOMPurify.sanitize(data.answer['pt-BR']),
           'en': DOMPurify.sanitize(data.answer['en'] || ''),
@@ -134,8 +137,8 @@ export function FaqDialog({
 
   const copyFromLanguage = (fromLang: 'pt-BR' | 'en', toLang: 'pt-BR' | 'en') => {
     const currentValues = form.getValues();
-    form.setValue(`question.${toLang}`, currentValues.question[fromLang]);
-    form.setValue(`answer.${toLang}`, currentValues.answer[fromLang]);
+    form.setValue(`question.${toLang}` as any, currentValues.question[fromLang] || '');
+    form.setValue(`answer.${toLang}` as any, currentValues.answer[fromLang] || '');
   };
 
   const hasTranslation = () => {
