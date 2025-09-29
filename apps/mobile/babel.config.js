@@ -10,7 +10,11 @@ module.exports = function(api) {
           root: ['./'],
           alias: {
             '@': './src',
-            '@shared': '../../packages/shared/src'
+            '@shared': '../../packages/shared/src',
+            // Force CommonJS version of zustand
+            'zustand/esm': 'zustand',
+            'zustand/esm/middleware': 'zustand/middleware',
+            'zustand/esm/shallow': 'zustand/shallow'
           }
         }
       ]

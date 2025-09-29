@@ -1,10 +1,4 @@
-import { Platform } from 'react-native';
-
-const API_BASE_URL = Platform.select({
-  ios: 'http://localhost:3001/api',
-  android: 'http://10.0.2.2:3001/api',
-  web: 'http://localhost:3001/api',
-}) || 'http://localhost:3001/api';
+import { apiBaseUrl, apiTimeout, isDebugMode } from '../config/env';
 
 export interface PaginatedResponse<T> {
   success: boolean;
@@ -27,9 +21,18 @@ export interface ApiError {
 class ApiService {
   private baseUrl: string;
   private token: string | null = null;
+  private timeout: number;
 
   constructor() {
-    this.baseUrl = API_BASE_URL;
+    this.baseUrl = apiBaseUrl;
+    this.timeout = apiTimeout;
+
+    if (isDebugMode()) {
+      console.log('🌐 API Service initialized:', {
+        baseUrl: this.baseUrl,
+        timeout: this.timeout
+      });
+    }
   }
 
   setToken(token: string | null) {
@@ -60,10 +63,17 @@ class ApiService {
         });
       }
 
+      // Add timeout to fetch
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), this.timeout);
+
       const response = await fetch(url.toString(), {
         method: 'GET',
         headers: this.getHeaders(),
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         const errorBody = await response.text();
@@ -87,11 +97,17 @@ class ApiService {
 
   async post<T>(endpoint: string, data?: any): Promise<T> {
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), this.timeout);
+
       const response = await fetch(`${this.baseUrl}${endpoint}`, {
         method: 'POST',
         headers: this.getHeaders(),
         body: JSON.stringify(data),
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -106,11 +122,17 @@ class ApiService {
 
   async put<T>(endpoint: string, data?: any): Promise<T> {
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), this.timeout);
+
       const response = await fetch(`${this.baseUrl}${endpoint}`, {
         method: 'PUT',
         headers: this.getHeaders(),
         body: JSON.stringify(data),
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -125,10 +147,16 @@ class ApiService {
 
   async delete<T>(endpoint: string): Promise<T> {
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), this.timeout);
+
       const response = await fetch(`${this.baseUrl}${endpoint}`, {
         method: 'DELETE',
         headers: this.getHeaders(),
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

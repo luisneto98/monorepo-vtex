@@ -14,6 +14,10 @@ jest.mock('react-native-gesture-handler', () => {
     BaseButton: View,
     TapGestureHandler: View,
     PanGestureHandler: View,
+    TouchableOpacity: View,
+    TouchableHighlight: View,
+    TouchableWithoutFeedback: View,
+    TextInput: View,
   };
 });
 
@@ -46,8 +50,69 @@ jest.mock('@react-native-async-storage/async-storage', () =>
 // Note: This mock is not needed with current React Native version
 
 // Mock Platform to ensure consistent test environment
-jest.mock('react-native/Libraries/Utilities/Platform', () => ({
-  OS: 'ios',
-  select: jest.fn((obj) => obj.ios || obj.default),
-  Version: 14,
+jest.mock('react-native/Libraries/Utilities/Platform', () => {
+  const Platform = {
+    OS: 'ios',
+    select: jest.fn((obj) => obj.ios || obj.default),
+    Version: 14,
+  };
+  return Platform;
+});
+
+// Mock React Navigation
+jest.mock('@react-navigation/native', () => {
+  const actualNav = jest.requireActual('@react-navigation/native');
+  return {
+    ...actualNav,
+    NavigationContainer: ({ children }) => children,
+    useNavigation: () => ({
+      navigate: jest.fn(),
+      goBack: jest.fn(),
+      dispatch: jest.fn(),
+    }),
+    useRoute: () => ({
+      params: {},
+    }),
+    useFocusEffect: jest.fn(),
+    useIsFocused: () => true,
+  };
+});
+
+jest.mock('@react-navigation/bottom-tabs', () => ({
+  createBottomTabNavigator: () => ({
+    Navigator: ({ children }) => children,
+    Screen: ({ children }) => children,
+  }),
+}));
+
+jest.mock('@react-navigation/native-stack', () => ({
+  createNativeStackNavigator: () => ({
+    Navigator: ({ children }) => children,
+    Screen: ({ children }) => children,
+  }),
+}));
+
+jest.mock('@react-navigation/stack', () => ({
+  createStackNavigator: () => ({
+    Navigator: ({ children }) => children,
+    Screen: ({ children }) => children,
+  }),
+}));
+
+// Mock react-native-safe-area-context
+jest.mock('react-native-safe-area-context', () => {
+  const insets = { top: 0, bottom: 0, left: 0, right: 0 };
+  return {
+    SafeAreaProvider: ({ children }) => children,
+    SafeAreaView: ({ children }) => children,
+    useSafeAreaInsets: () => insets,
+    initialWindowMetrics: { insets, frame: { x: 0, y: 0, width: 375, height: 812 } },
+  };
+});
+
+// Mock react-native-screens
+jest.mock('react-native-screens', () => ({
+  enableScreens: jest.fn(),
+  enableFreeze: jest.fn(),
+  ScreenContainer: ({ children }) => children,
 }));

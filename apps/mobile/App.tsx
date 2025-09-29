@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AppNavigator from './src/navigation/AppNavigator';
+import { runValidation } from './src/config/validate-env';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -12,6 +13,9 @@ export default function App() {
   useEffect(() => {
     async function prepare() {
       try {
+        // Validate environment configuration
+        runValidation();
+
         // Pre-load fonts, make API calls, etc.
         await new Promise(resolve => setTimeout(resolve, 2000));
       } catch (e) {
