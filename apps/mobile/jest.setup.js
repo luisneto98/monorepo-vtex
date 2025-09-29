@@ -116,3 +116,15 @@ jest.mock('react-native-screens', () => ({
   enableFreeze: jest.fn(),
   ScreenContainer: ({ children }) => children,
 }));
+
+// Mock expo-constants
+jest.mock('expo-constants', () => ({
+  default: {
+    expoConfig: {
+      extra: {
+        apiUrl: 'http://localhost:3000',
+        environment: 'test',
+      },
+    },
+  },
+}));

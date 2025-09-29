@@ -8,9 +8,13 @@ import HomeScreen from '../screens/Home/HomeScreen';
 import AgendaScreen from '../screens/Agenda/AgendaScreen';
 import SearchScreen from '../screens/Search/SearchScreen';
 import MoreScreen from '../screens/More/MoreScreen';
+import SessionDetailsScreen from '../screens/SessionDetails/SessionDetailsScreen';
+import SpeakerProfileScreen from '../screens/SpeakerProfile/SpeakerProfileScreen';
 
 export type RootStackParamList = {
   Main: undefined;
+  SessionDetails: { sessionId: string };
+  SpeakerProfile: { speakerId: string; sessionId?: string };
 };
 
 export type TabParamList = {
@@ -35,6 +39,18 @@ const linking: LinkingOptions<RootStackParamList> = {
           Agenda: 'agenda',
           Search: 'search',
           More: 'more',
+        },
+      },
+      SessionDetails: {
+        path: 'session/:sessionId',
+        parse: {
+          sessionId: (sessionId: string) => sessionId,
+        },
+      },
+      SpeakerProfile: {
+        path: 'speaker/:speakerId',
+        parse: {
+          speakerId: (speakerId: string) => speakerId,
         },
       },
     },
@@ -90,8 +106,39 @@ function TabNavigator() {
 export default function AppNavigator() {
   return (
     <NavigationContainer linking={linking}>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Main" component={TabNavigator} />
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#0F47AF',
+          },
+          headerTintColor: '#FFFFFF',
+          headerTitleStyle: {
+            fontWeight: '600',
+          },
+        }}
+      >
+        <Stack.Screen
+          name="Main"
+          component={TabNavigator}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SessionDetails"
+          component={SessionDetailsScreen}
+          options={{
+            title: 'Detalhes da Sessão',
+            headerBackTitle: 'Voltar',
+          }}
+        />
+        <Stack.Screen
+          name="SpeakerProfile"
+          component={SpeakerProfileScreen}
+          options={{
+            title: 'Perfil do Palestrante',
+            headerBackTitle: 'Voltar',
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
