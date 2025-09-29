@@ -14,6 +14,7 @@ import VisibilityControl from '@/pages/VisibilityControl';
 import EventSettings from '@/pages/EventSettings';
 import { PressMaterials } from '@/pages/PressMaterials';
 import NewsReleases from '@/pages/NewsReleases';
+import LegalPages from '@/pages/LegalPages';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -48,6 +49,7 @@ function App() {
             <Route path="/event-settings" element={<EventSettings />} />
             <Route path="/press-materials" element={<PressMaterials />} />
             <Route path="/news-releases" element={<NewsReleases />} />
+            <Route path="/legal-pages" element={<LegalPages />} />
             <Route path="/notifications" element={<div className="p-6">Notificações (Em breve)</div>} />
           </Route>
         </Routes>

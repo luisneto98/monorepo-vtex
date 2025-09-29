@@ -15,6 +15,7 @@ import {
   Settings,
   FileText,
   Newspaper,
+  Scale,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -33,6 +34,7 @@ const menuItems = [
   { path: '/faq', label: 'FAQ', icon: HelpCircle },
   { path: '/press-materials', label: 'Materiais de Imprensa', icon: FileText },
   { path: '/news-releases', label: 'Notícias', icon: Newspaper },
+  { path: '/legal-pages', label: 'Páginas Legais', icon: Scale },
   { path: '/visibility', label: 'Visibilidade', icon: Eye },
   { path: '/notifications', label: 'Notificações', icon: Bell },
 ];

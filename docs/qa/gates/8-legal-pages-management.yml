@@ -1,0 +1,152 @@
+name: "Legal Pages Management Module"
+type: full-stack
+priority: high
+status: pending
+
+gates:
+  backend:
+    - category: File Upload
+      checks:
+        - description: "Upload de PDF funciona corretamente"
+          status: pending
+        - description: "Validação aceita apenas arquivos PDF"
+          status: pending
+        - description: "Limite de tamanho de arquivo (10MB) é respeitado"
+          status: pending
+        - description: "Arquivos são salvos no diretório correto"
+          status: pending
+
+    - category: API Endpoints
+      checks:
+        - description: "Endpoint de upload funciona com autenticação"
+          status: pending
+        - description: "Listagem de páginas legais retorna metadados"
+          status: pending
+        - description: "Download público de PDFs funciona sem autenticação"
+          status: pending
+        - description: "Exclusão remove arquivo e metadados"
+          status: pending
+
+    - category: Multilingual Support
+      checks:
+        - description: "Upload de PDF em português funciona"
+          status: pending
+        - description: "Upload de PDF em inglês funciona"
+          status: pending
+        - description: "Upload de PDF em espanhol funciona"
+          status: pending
+        - description: "Download por idioma retorna arquivo correto"
+          status: pending
+
+    - category: Data Validation
+      checks:
+        - description: "Metadados do arquivo são salvos corretamente"
+          status: pending
+        - description: "Tipos de página (terms, privacy, cookies) são validados"
+          status: pending
+        - description: "Rate limiting está configurado nos endpoints"
+          status: pending
+
+  frontend_admin:
+    - category: Upload Interface
+      checks:
+        - description: "Drag-and-drop de arquivos funciona"
+          status: pending
+        - description: "Seleção de idioma para cada PDF funciona"
+          status: pending
+        - description: "Preview/download de PDFs enviados funciona"
+          status: pending
+        - description: "Substituição de PDF existente funciona"
+          status: pending
+
+    - category: File Management
+      checks:
+        - description: "Listagem mostra todos os documentos legais"
+          status: pending
+        - description: "Exclusão de PDF com confirmação funciona"
+          status: pending
+        - description: "Indicadores de idiomas disponíveis são exibidos"
+          status: pending
+        - description: "Metadados do arquivo (tamanho, nome) são exibidos"
+          status: pending
+
+    - category: Validation & Feedback
+      checks:
+        - description: "Rejeição de arquivos não-PDF com mensagem de erro"
+          status: pending
+        - description: "Rejeição de arquivos > 10MB com mensagem"
+          status: pending
+        - description: "Notificações de sucesso ao fazer upload"
+          status: pending
+        - description: "Notificações de erro em falhas"
+          status: pending
+
+  frontend_public:
+    - category: Document Access
+      checks:
+        - description: "Lista de documentos legais é exibida"
+          status: pending
+        - description: "Download de PDF funciona corretamente"
+          status: pending
+        - description: "Seletor de idioma alterna documentos disponíveis"
+          status: pending
+        - description: "Visualização inline de PDF funciona (se implementado)"
+          status: pending
+
+    - category: UX/UI
+      checks:
+        - description: "Layout responsivo funciona em mobile"
+          status: pending
+        - description: "Botões de download são claramente visíveis"
+          status: pending
+        - description: "Indicação clara de idiomas disponíveis"
+          status: pending
+
+  security:
+    - category: Authentication
+      checks:
+        - description: "JWT é validado para upload de arquivos"
+          status: pending
+        - description: "Usuários não autenticados não podem fazer upload"
+          status: pending
+
+    - category: File Security
+      checks:
+        - description: "Apenas PDFs são aceitos no upload"
+          status: pending
+        - description: "Path traversal é prevenido no armazenamento"
+          status: pending
+        - description: "Nomes de arquivo são sanitizados"
+          status: pending
+
+    - category: Access Control
+      checks:
+        - description: "Downloads públicos não requerem autenticação"
+          status: pending
+        - description: "Operações admin requerem role ADMIN"
+          status: pending
+
+  testing:
+    - category: Unit Tests
+      checks:
+        - description: "Testes de upload de arquivo existem"
+          status: pending
+        - description: "Testes de validação de PDF existem"
+          status: pending
+        - description: "Cobertura de código >80%"
+          status: pending
+
+    - category: Integration Tests
+      checks:
+        - description: "Teste de upload completo (arquivo + metadados)"
+          status: pending
+        - description: "Teste de download de arquivo"
+          status: pending
+        - description: "Teste de substituição de arquivo"
+          status: pending
+
+notes: |
+  - Sistema simplificado de upload de PDF
+  - Sem editor de texto rico, apenas upload de arquivos
+  - Suporte para múltiplos idiomas por tipo de documento
+  - Downloads públicos sem necessidade de autenticação

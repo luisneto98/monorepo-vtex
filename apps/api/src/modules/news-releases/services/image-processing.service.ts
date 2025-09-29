@@ -81,7 +81,9 @@ export class ImageProcessingService {
         thumbnailUrl: `${baseUrl}/${thumbnailKey}`,
       };
     } catch (error: any) {
-      throw new BadRequestException(`Failed to process image: ${error?.message || 'Unknown error'}`);
+      throw new BadRequestException(
+        `Failed to process image: ${error?.message || 'Unknown error'}`,
+      );
     }
   }
 

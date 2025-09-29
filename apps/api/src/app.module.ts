@@ -16,6 +16,7 @@ import { SystemConfigModule } from './modules/system-config/system-config.module
 import { EventSettingsModule } from './modules/event-settings/event-settings.module';
 import { PressMaterialsModule } from './modules/press-materials/press-materials.module';
 import { NewsReleasesModule } from './modules/news-releases/news-releases.module';
+import { LegalPagesModule } from './modules/legal-pages/legal-pages.module';
 import { SchedulersModule } from './common/schedulers/schedulers.module';
 import configuration from './config/configuration';
 
@@ -43,6 +44,7 @@ import configuration from './config/configuration';
     EventSettingsModule,
     PressMaterialsModule,
     NewsReleasesModule,
+    LegalPagesModule,
     SchedulersModule,
   ],
   providers: [
