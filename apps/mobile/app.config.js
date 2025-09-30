@@ -42,7 +42,7 @@ export default {
     extra: {
       // Environment variables
       environment: process.env.ENVIRONMENT || 'development',
-      apiBaseUrl: process.env.API_BASE_URL || 'http://localhost:3001/api',
+      apiBaseUrl: process.env.API_BASE_URL || process.env.REACT_APP_API_URL || 'http://localhost:3000/api',
       apiTimeout: parseInt(process.env.API_TIMEOUT || '10000', 10),
       enableDebugMode: process.env.ENABLE_DEBUG_MODE === 'true',
 

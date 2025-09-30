@@ -48,16 +48,12 @@ const getApiBaseUrl = (): string => {
   }
 
   // Development defaults per platform
-  if (Platform.OS === 'android') {
-    // Android emulator special IP for localhost
-    return 'http://10.0.2.2:3001/api';
-  } else if (Platform.OS === 'ios') {
-    // iOS simulator can use localhost
-    return 'http://localhost:3001/api';
-  } else {
-    // Web
-    return process.env.REACT_APP_API_URL || 'http://localhost:3001/api';
-  }
+  // Note: process.env doesn't work in Expo - use Constants.expoConfig.extra instead
+  const fallbackUrl = Platform.OS === 'android'
+    ? 'http://10.0.2.2:3000/api' // Android emulator special IP for localhost
+    : 'http://localhost:3000/api'; // iOS/Web can use localhost
+
+  return fallbackUrl;
 };
 
 // Main configuration object
