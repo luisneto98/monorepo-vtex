@@ -11,7 +11,6 @@ import {
   HttpCode,
   HttpStatus,
   Req,
-  Request,
   UseInterceptors,
   UploadedFile,
   BadRequestException,
@@ -290,7 +289,7 @@ export class SpeakersController {
   async uploadPhoto(
     @Param('id') id: string,
     @UploadedFile() file: Express.Multer.File,
-    @Request() req: any,
+    @Req() req: Request,
   ) {
     console.log('🎯 Upload endpoint hit');
     console.log('👤 User:', req.user);
