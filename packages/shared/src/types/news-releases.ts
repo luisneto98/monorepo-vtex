@@ -24,7 +24,7 @@ export const NewsReleaseStatus = {
   ARCHIVED: 'archived',
 } as const;
 
-export type NewsReleaseStatus = typeof NewsReleaseStatus[keyof typeof NewsReleaseStatus];
+export type NewsReleaseStatus = (typeof NewsReleaseStatus)[keyof typeof NewsReleaseStatus];
 
 export interface NewsRelease {
   _id?: string;

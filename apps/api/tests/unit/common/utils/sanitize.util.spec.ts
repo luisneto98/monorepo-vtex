@@ -100,9 +100,9 @@ describe('Sanitize Utilities', () => {
     });
 
     it('should preserve safe punctuation', () => {
-      const input = 'Event starts at 3:00 PM. Don\'t miss it!';
+      const input = "Event starts at 3:00 PM. Don't miss it!";
       const result = sanitizeNotificationContent(input);
-      expect(result).toBe('Event starts at 3:00 PM. Don\'t miss it!');
+      expect(result).toBe("Event starts at 3:00 PM. Don't miss it!");
     });
 
     it('should handle empty string', () => {

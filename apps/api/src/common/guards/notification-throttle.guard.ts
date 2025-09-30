@@ -1,6 +1,15 @@
-import { Injectable, ExecutionContext, HttpException, HttpStatus, CanActivate } from '@nestjs/common';
+import {
+  Injectable,
+  ExecutionContext,
+  HttpException,
+  HttpStatus,
+  CanActivate,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { NOTIFICATION_THROTTLE_KEY, NotificationThrottleOptions } from '../decorators/notification-throttle.decorator';
+import {
+  NOTIFICATION_THROTTLE_KEY,
+  NotificationThrottleOptions,
+} from '../decorators/notification-throttle.decorator';
 
 interface ThrottleRecord {
   count: number;

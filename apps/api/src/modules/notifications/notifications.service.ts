@@ -46,7 +46,9 @@ export class NotificationsService {
     // Sanitize user inputs to prevent XSS attacks
     const sanitized = sanitizeNotification({ title, message });
 
-    this.logger.log(`Broadcasting notification: ${sanitized.title} - Message: ${sanitized.message}`);
+    this.logger.log(
+      `Broadcasting notification: ${sanitized.title} - Message: ${sanitized.message}`,
+    );
     // TODO: Implement broadcast logic
   }
 
@@ -323,7 +325,9 @@ export class NotificationsService {
       throw new NotFoundException(`Device token with ID ${deviceTokenId} not found`);
     }
 
-    this.logger.log(`Sending test notification to device ${deviceTokenId}: ${sanitized.title} - ${sanitized.message}`);
+    this.logger.log(
+      `Sending test notification to device ${deviceTokenId}: ${sanitized.title} - ${sanitized.message}`,
+    );
 
     // Decrypt token for use (tokens are encrypted at rest)
     // const decryptedToken = (device as any).getDecryptedToken();
@@ -331,9 +335,7 @@ export class NotificationsService {
     // TODO: Implement actual push notification sending via FCM/APNS
     // When implementing, use: const token = (device as any).getDecryptedToken();
     // For now, just log it (don't log the actual token in production)
-    this.logger.log(
-      `Test notification would be sent to ${device.platform} device`,
-    );
+    this.logger.log(`Test notification would be sent to ${device.platform} device`);
   }
 
   // Actual notification delivery (called by queue processor)

@@ -19,7 +19,9 @@ export class NotificationsProcessor {
       await this.notificationsService.deliverNotification(notificationId);
       this.logger.log(`Successfully delivered notification ${notificationId}`);
     } catch (error: any) {
-      this.logger.error(`Failed to deliver notification ${notificationId}: ${error?.message || 'Unknown error'}`);
+      this.logger.error(
+        `Failed to deliver notification ${notificationId}: ${error?.message || 'Unknown error'}`,
+      );
       throw error; // This will trigger Bull's retry mechanism
     }
   }

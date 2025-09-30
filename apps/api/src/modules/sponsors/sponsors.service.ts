@@ -310,19 +310,13 @@ export class SponsorsService {
 
     // First, set all orders to negative values to avoid unique constraint conflicts
     const tempUpdatePromises = tierIds.map((tierId, index) =>
-      this.sponsorTierModel.updateOne(
-        { _id: tierId },
-        { $set: { order: -(index + 1) } }
-      )
+      this.sponsorTierModel.updateOne({ _id: tierId }, { $set: { order: -(index + 1) } }),
     );
     await Promise.all(tempUpdatePromises);
 
     // Then update to final positive values
     const finalUpdatePromises = tierIds.map((tierId, index) =>
-      this.sponsorTierModel.updateOne(
-        { _id: tierId },
-        { $set: { order: index + 1 } }
-      )
+      this.sponsorTierModel.updateOne({ _id: tierId }, { $set: { order: index + 1 } }),
     );
     await Promise.all(finalUpdatePromises);
   }

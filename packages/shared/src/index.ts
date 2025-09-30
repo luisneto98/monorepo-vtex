@@ -19,5 +19,5 @@ export {
   // Re-export with specific aliases to avoid conflicts
   FileMetadata as LegalFileMetadata2,
   LocalizedString as LegalLocalizedString2,
-  LocalizedFiles as LegalLocalizedFiles2
+  LocalizedFiles as LegalLocalizedFiles2,
 } from './types/legal-pages';

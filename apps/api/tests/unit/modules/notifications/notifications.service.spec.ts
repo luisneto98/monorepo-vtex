@@ -7,7 +7,10 @@ import {
   Notification,
   NotificationStatus,
 } from '../../../../src/modules/notifications/schemas/notification.schema';
-import { DeviceToken, Platform } from '../../../../src/modules/notifications/schemas/device-token.schema';
+import {
+  DeviceToken,
+  Platform,
+} from '../../../../src/modules/notifications/schemas/device-token.schema';
 
 describe('NotificationsService', () => {
   let service: NotificationsService;
@@ -258,9 +261,9 @@ describe('NotificationsService', () => {
     it('should throw NotFoundException if device not found', async () => {
       mockDeviceTokenModel.findById.mockResolvedValue(null);
 
-      await expect(
-        service.sendTestNotification('Test', 'Test', 'invalid-id'),
-      ).rejects.toThrow(NotFoundException);
+      await expect(service.sendTestNotification('Test', 'Test', 'invalid-id')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 });

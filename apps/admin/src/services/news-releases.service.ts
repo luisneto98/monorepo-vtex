@@ -41,7 +41,9 @@ class NewsReleasesService {
       if (filters.sortOrder) params.append('sortOrder', filters.sortOrder);
     }
 
-    const response = await apiService.get<NewsReleasesResponse>(`/news-releases?${params.toString()}`);
+    const response = await apiService.get<NewsReleasesResponse>(
+      `/news-releases?${params.toString()}`,
+    );
     return response.data!;
   }
 

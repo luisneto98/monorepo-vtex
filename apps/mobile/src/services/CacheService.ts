@@ -220,7 +220,7 @@ export class CacheService {
       }
 
       const entries = await AsyncStorage.multiGet(cacheKeys);
-      const entriesWithAge: Array<{ key: string; timestamp: number }> = [];
+      const entriesWithAge: { key: string; timestamp: number }[] = [];
 
       for (const [key, value] of entries) {
         if (value) {
@@ -281,7 +281,7 @@ export class CacheService {
    * Get cache metadata (for debugging)
    */
   static async getCacheMetadata(): Promise<
-    Array<{ key: string; size: number; age: number; ttl: number; expired: boolean }>
+    { key: string; size: number; age: number; ttl: number; expired: boolean }[]
   > {
     try {
       const keys = await AsyncStorage.getAllKeys();
