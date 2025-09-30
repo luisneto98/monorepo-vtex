@@ -26,10 +26,12 @@ class HomeService {
       const results = await Promise.race([dataPromise, timeoutPromise]) as any[];
       const [highlightSessionsRes, highlightSpeakersRes, upcomingSessionsRes] = results;
 
+      // The API returns wrapped responses: { statusCode, message, data: { success, data, metadata } }
+      // We need to extract the inner data
       return {
-        highlightSessions: highlightSessionsRes.data,
-        highlightSpeakers: highlightSpeakersRes.data,
-        upcomingSessions: upcomingSessionsRes.data,
+        highlightSessions: highlightSessionsRes.data?.data || highlightSessionsRes.data || [],
+        highlightSpeakers: highlightSpeakersRes.data?.data || highlightSpeakersRes.data || [],
+        upcomingSessions: upcomingSessionsRes.data?.data || upcomingSessionsRes.data || [],
       };
     } catch (error) {
       console.error('Error fetching home data:', error);

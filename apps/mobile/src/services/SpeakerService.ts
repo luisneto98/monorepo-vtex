@@ -78,25 +78,29 @@ class SpeakerService {
 
     try {
       console.log(`🌐 Fetching speaker ${speakerId}`);
-      const response = await apiService.get<SpeakerResponse>(
+      const response = await apiService.get<any>(
         `/speakers/${speakerId}`
       );
 
-      if (!response.success || !response.data) {
+      // API returns: { statusCode, message, data: { success, data: {...} } }
+      // Need to extract the inner data
+      const speakerData = response.data?.data || response.data;
+
+      if (!speakerData) {
         throw new Error('Palestrante não encontrado');
       }
 
       const speaker: Speaker = {
-        _id: response.data._id,
-        name: response.data.name,
-        bio: response.data.bio,
-        photoUrl: response.data.photoUrl,
-        company: response.data.company,
-        position: response.data.position,
-        socialLinks: response.data.socialLinks,
-        priority: response.data.priority,
-        isHighlight: response.data.isHighlight,
-        isVisible: response.data.isVisible,
+        _id: speakerData._id,
+        name: speakerData.name,
+        bio: speakerData.bio,
+        photoUrl: speakerData.photoUrl,
+        company: speakerData.company,
+        position: speakerData.position,
+        socialLinks: speakerData.socialLinks || {},
+        priority: speakerData.priority,
+        isHighlight: speakerData.isHighlight,
+        isVisible: speakerData.isVisible,
         createdAt: new Date(),
         updatedAt: new Date(),
       };

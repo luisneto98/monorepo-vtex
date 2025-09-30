@@ -11,7 +11,7 @@ import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ISession, Speaker } from '@monorepo-vtex/shared';
 import { LazyImage } from '../../components/common/LazyImage';
-import { ErrorState } from '../../components/error/ErrorState';
+import ErrorState from '../../components/error/ErrorState';
 import { SkeletonSessionDetails } from '../../components/skeleton/SkeletonSessionDetails';
 import SpeakersCarousel from '../../components/speakers/SpeakersCarousel';
 import SessionDetailsService from '../../services/SessionDetailsService';
@@ -92,7 +92,7 @@ const SessionDetailsScreen: React.FC = () => {
   if (error || !session) {
     return (
       <ErrorState
-        message={error || 'Sessão não encontrada'}
+        error={error || 'Sessão não encontrada'}
         onRetry={() => loadSessionDetails()}
       />
     );

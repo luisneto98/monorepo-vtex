@@ -48,8 +48,8 @@ export default function HomeScreen() {
   }, [navigation]);
 
   const handleSpeakerPress = useCallback((speaker: Speaker) => {
-    // Navigate to speaker details
-    navigation.navigate('SpeakerDetails', { speakerId: speaker._id });
+    // Navigate to speaker profile
+    navigation.navigate('SpeakerProfile', { speakerId: speaker._id });
   }, [navigation]);
 
   const handleSponsorsPress = useCallback(() => {

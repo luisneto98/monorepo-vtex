@@ -1,31 +1,88 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
-export const DropdownMenu = ({ children }: any) => {
+export const DropdownMenu = ({ children, modal }: any) => {
   const [open, setOpen] = useState(false);
+  const triggerRef = useRef<HTMLElement>(null);
+
   return (
-    <div className="relative">
+    <div className="relative inline-block">
       {React.Children.map(children, child =>
-        React.cloneElement(child as any, { open, setOpen })
+        React.cloneElement(child as any, { open, setOpen, triggerRef })
       )}
     </div>
   );
 };
 
-export const DropdownMenuTrigger = ({ children, asChild, setOpen, open }: any) => {
+export const DropdownMenuTrigger = ({ children, asChild, setOpen, open, triggerRef }: any) => {
   const handleClick = () => setOpen?.(!open);
   if (asChild) {
-    return React.cloneElement(children as any, { onClick: handleClick });
+    return React.cloneElement(children as any, { onClick: handleClick, ref: triggerRef });
   }
-  return <button onClick={handleClick}>{children}</button>;
+  return <button onClick={handleClick} ref={triggerRef}>{children}</button>;
 };
 
-export const DropdownMenuContent = ({ children, align, open }: any) => {
+export const DropdownMenuContent = ({ children, align, open, setOpen, triggerRef, className, sideOffset = 4 }: any) => {
+  const [position, setPosition] = useState({ top: 0, left: 0 });
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (open && triggerRef?.current) {
+      const rect = triggerRef.current.getBoundingClientRect();
+      const contentWidth = contentRef.current?.offsetWidth || 200;
+
+      let left = rect.left;
+      let top = rect.bottom + sideOffset;
+
+      // Align to end (right align)
+      if (align === 'end') {
+        left = rect.right - contentWidth;
+      }
+
+      // Check if overflows viewport
+      if (left + contentWidth > window.innerWidth) {
+        left = window.innerWidth - contentWidth - 10;
+      }
+      if (left < 10) {
+        left = 10;
+      }
+
+      setPosition({ top, left });
+    }
+  }, [open, triggerRef, align, sideOffset]);
+
+  // Close on click outside
+  useEffect(() => {
+    if (!open) return;
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        contentRef.current &&
+        !contentRef.current.contains(e.target as Node) &&
+        triggerRef?.current &&
+        !triggerRef.current.contains(e.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [open, setOpen, triggerRef]);
+
   if (!open) return null;
-  return (
-    <div className={`absolute z-10 mt-1 bg-white border rounded-md shadow-lg ${align === 'end' ? 'right-0' : ''}`}>
+
+  const content = (
+    <div
+      ref={contentRef}
+      className={`fixed z-50 min-w-[200px] bg-white border rounded-md shadow-lg ${className || ''}`}
+      style={{ top: `${position.top}px`, left: `${position.left}px` }}
+    >
       {children}
     </div>
   );
+
+  return createPortal(content, document.body);
 };
 
 export const DropdownMenuItem = ({ children, onClick, className }: any) => (

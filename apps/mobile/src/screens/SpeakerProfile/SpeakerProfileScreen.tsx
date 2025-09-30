@@ -11,7 +11,7 @@ import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Speaker } from '@monorepo-vtex/shared';
 import { LazyImage } from '../../components/common/LazyImage';
-import { ErrorState } from '../../components/error/ErrorState';
+import ErrorState from '../../components/error/ErrorState';
 import { SkeletonSpeakerProfile } from '../../components/skeleton/SkeletonSpeakerProfile';
 import SpeakerService from '../../services/SpeakerService';
 import SocialLinksBar from '../../components/social/SocialLinksBar';
@@ -68,7 +68,7 @@ const SpeakerProfileScreen: React.FC = () => {
   if (error || !speaker) {
     return (
       <ErrorState
-        message={error || 'Palestrante não encontrado'}
+        error={error || 'Palestrante não encontrado'}
         onRetry={loadSpeakerProfile}
       />
     );

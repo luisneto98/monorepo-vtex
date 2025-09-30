@@ -224,6 +224,30 @@ export function SessionsList({ onEdit, onAdd, onPreview }: SessionsListProps) {
     return hours > 0 ? `${hours}h ${mins}min` : `${mins}min`;
   };
 
+  const getStageLabel = (stage: string) => {
+    const stageMap: Record<string, string> = {
+      'principal': 'Principal Stage',
+      'inovacao': 'Innovation Stage',
+      'tech': 'Tech Stage',
+      'startup': 'Startup Stage',
+      'workshop_a': 'Workshop Room A',
+      'workshop_b': 'Workshop Room B',
+    };
+    return stageMap[stage] || stage;
+  };
+
+  const getTypeLabel = (type?: string) => {
+    const typeMap: Record<string, string> = {
+      'keynote': 'Keynote',
+      'talk': 'Talk',
+      'panel': 'Panel',
+      'workshop': 'Workshop',
+      'networking': 'Networking',
+      'break': 'Break',
+    };
+    return type ? typeMap[type] || type : 'N/A';
+  };
+
   const SortIcon = ({ field }: { field: SortField }) => {
     if (sortField !== field) return <ChevronsUpDown className="h-4 w-4" />;
     return sortOrder === 'asc' ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />;
@@ -270,14 +294,17 @@ export function SessionsList({ onEdit, onAdd, onPreview }: SessionsListProps) {
           </div>
 
           <Select value={stageFilter} onValueChange={setStageFilter}>
-            <SelectTrigger className="w-[150px]">
+            <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Stage" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Stages</SelectItem>
-              <SelectItem value="main">Main Stage</SelectItem>
-              <SelectItem value="workshop">Workshop</SelectItem>
-              <SelectItem value="networking">Networking</SelectItem>
+              <SelectItem value="principal">Principal Stage</SelectItem>
+              <SelectItem value="inovacao">Innovation Stage</SelectItem>
+              <SelectItem value="tech">Tech Stage</SelectItem>
+              <SelectItem value="startup">Startup Stage</SelectItem>
+              <SelectItem value="workshop_a">Workshop Room A</SelectItem>
+              <SelectItem value="workshop_b">Workshop Room B</SelectItem>
             </SelectContent>
           </Select>
 
@@ -336,6 +363,7 @@ export function SessionsList({ onEdit, onAdd, onPreview }: SessionsListProps) {
                 </div>
               </TableHead>
               <TableHead>Duration</TableHead>
+              <TableHead>Type</TableHead>
               <TableHead
                 className="cursor-pointer"
                 onClick={() => handleSort('stage')}
@@ -367,7 +395,12 @@ export function SessionsList({ onEdit, onAdd, onPreview }: SessionsListProps) {
                 <TableCell>
                   {formatDuration(session.startTime, session.endTime)}
                 </TableCell>
-                <TableCell>{session.stage}</TableCell>
+                <TableCell>
+                  <Badge variant="secondary">{getTypeLabel(session.type)}</Badge>
+                </TableCell>
+                <TableCell>
+                  <Badge variant="outline">{getStageLabel(session.stage)}</Badge>
+                </TableCell>
                 <TableCell>
                   <Badge variant="outline">
                     {session.speakerIds?.length || 0} speaker(s)
@@ -385,7 +418,7 @@ export function SessionsList({ onEdit, onAdd, onPreview }: SessionsListProps) {
                         •••
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
+                    <DropdownMenuContent align="end" sideOffset={5}>
                       <DropdownMenuItem onClick={() => onEdit(session)}>
                         <Edit className="mr-2 h-4 w-4" />
                         Edit

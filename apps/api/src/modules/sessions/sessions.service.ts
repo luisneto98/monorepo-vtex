@@ -207,8 +207,18 @@ export class SessionsService {
       await this.checkTimeConflict(startTime, endTime, stage, id);
     }
 
-    Object.assign(session, updateSessionDto);
-    return session.save();
+    // Use findByIdAndUpdate to bypass full validation
+    const updated = await this.sessionModel.findByIdAndUpdate(
+      id,
+      { $set: updateSessionDto },
+      { new: true, runValidators: true }
+    );
+
+    if (!updated) {
+      throw new NotFoundException(`Session with ID ${id} not found`);
+    }
+
+    return updated;
   }
 
   async remove(id: string, reason?: string, userId?: string): Promise<void> {

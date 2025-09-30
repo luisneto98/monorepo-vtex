@@ -85,15 +85,21 @@ class SessionDetailsService {
 
     try {
       console.log(`🌐 Fetching session details for ${sessionId}`);
-      const response = await apiService.get<SessionDetailsResponse>(
+      const response = await apiService.get<any>(
         `/sessions/${sessionId}`
       );
 
-      if (!response.success || !response.data) {
+      console.log('📦 API Response:', JSON.stringify(response, null, 2));
+
+      // Handle nested NestJS response structure: { statusCode, data: { success, data: {...} } }
+      const innerData = response.data || response;
+
+      if (!innerData || !innerData.success || !innerData.data) {
+        console.error('❌ Invalid response:', response);
         throw new Error('Sessão não encontrada');
       }
 
-      const rawData = response.data;
+      const rawData = innerData.data;
 
       // Transform the response data
       const session: ISession = {

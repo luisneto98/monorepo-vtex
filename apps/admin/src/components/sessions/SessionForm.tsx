@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useForm, type ControllerRenderProps } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -28,9 +28,7 @@ import type { ISession } from '@shared/types/session.types';
 import { SpeakerMultiSelect } from './SpeakerMultiSelect';
 import { SponsorMultiSelect } from './SponsorMultiSelect';
 import { TagsInput } from '@/components/ui/tags-input';
-import { SessionsService } from '@/services/sessions.service';
 import { useToast } from '@/hooks/useToast';
-import { ConflictIndicator } from './ConflictIndicator';
 
 const sessionSchema = z.object({
   title: z.object({
@@ -41,6 +39,7 @@ const sessionSchema = z.object({
     'pt-BR': z.string().min(1, 'Description in Portuguese is required'),
     'en': z.string().min(1, 'Description in English is required'),
   }),
+  type: z.enum(['keynote', 'talk', 'panel', 'workshop', 'networking', 'break']),
   speakerIds: z.array(z.string()).min(1, 'At least one speaker is required'),
   sponsorIds: z.array(z.string()).optional(),
   startDate: z.date().refine(val => val !== undefined, {
@@ -48,11 +47,9 @@ const sessionSchema = z.object({
   }),
   startTime: z.string().min(1, 'Start time is required'),
   endTime: z.string().min(1, 'End time is required'),
-  stage: z.string().min(1, 'Stage is required'),
+  stage: z.enum(['principal', 'inovacao', 'tech', 'startup', 'workshop_a', 'workshop_b']),
   capacity: z.number().min(1, 'Capacity must be at least 1').optional(),
   tags: z.array(z.string()),
-  technicalLevel: z.enum(['beginner', 'intermediate', 'advanced']),
-  language: z.enum(['pt-BR', 'en', 'es']),
   isHighlight: z.boolean(),
   isVisible: z.boolean(),
 });
@@ -68,78 +65,29 @@ interface SessionFormProps {
 export function SessionForm({ session, onSubmit, onCancel }: SessionFormProps) {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [checkingConflicts, setCheckingConflicts] = useState(false);
-  const [conflicts, setConflicts] = useState<ISession[]>([]);
 
   const form = useForm<SessionFormValues>({
     resolver: zodResolver(sessionSchema),
     defaultValues: {
       title: session?.title || { 'pt-BR': '', 'en': '' },
       description: session?.description || { 'pt-BR': '', 'en': '' },
-      speakerIds: session?.speakerIds?.map(id => id.toString()) || [],
-      sponsorIds: session?.sponsorIds?.map(id => id.toString()) || [],
+      type: session?.type || 'talk',
+      speakerIds: session?.speakerIds?.map(speaker =>
+        typeof speaker === 'string' ? speaker : (speaker as any)._id?.toString() || speaker.toString()
+      ) || [],
+      sponsorIds: session?.sponsorIds?.map(sponsor =>
+        typeof sponsor === 'string' ? sponsor : (sponsor as any)._id?.toString() || sponsor.toString()
+      ) || [],
       startDate: session?.startTime ? new Date(session.startTime) : undefined,
       startTime: session?.startTime ? format(new Date(session.startTime), 'HH:mm') : '',
       endTime: session?.endTime ? format(new Date(session.endTime), 'HH:mm') : '',
-      stage: session?.stage || '',
+      stage: (session?.stage as any) || 'principal',
       capacity: session?.capacity,
       tags: session?.tags || [],
-      technicalLevel: session?.technicalLevel || 'intermediate',
-      language: session?.language || 'pt-BR',
       isHighlight: session?.isHighlight || false,
       isVisible: session?.isVisible || true,
     },
   });
-
-  const checkConflicts = async () => {
-    const values = form.getValues();
-    if (!values.startDate || !values.startTime || !values.endTime || !values.stage) {
-      return;
-    }
-
-    setCheckingConflicts(true);
-    try {
-      const startDateTime = new Date(values.startDate);
-      const [startHour, startMin] = values.startTime.split(':');
-      startDateTime.setHours(parseInt(startHour), parseInt(startMin));
-
-      const endDateTime = new Date(values.startDate);
-      const [endHour, endMin] = values.endTime.split(':');
-      endDateTime.setHours(parseInt(endHour), parseInt(endMin));
-
-      const result = await SessionsService.checkConflicts({
-        startTime: startDateTime,
-        endTime: endDateTime,
-        stage: values.stage,
-        speakerIds: values.speakerIds,
-        excludeId: session?._id?.toString(),
-      });
-
-      if (result.hasConflicts) {
-        setConflicts(result.conflicts);
-        toast({
-          title: 'Schedule Conflict Detected',
-          description: `${result.conflicts.length} conflicting session(s) found`,
-          variant: 'warning',
-        });
-      } else {
-        setConflicts([]);
-      }
-    } catch {
-      // Failed to check conflicts
-    } finally {
-      setCheckingConflicts(false);
-    }
-  };
-
-  useEffect(() => {
-    const subscription = form.watch((_value, { name }) => {
-      if (name === 'startDate' || name === 'startTime' || name === 'endTime' || name === 'stage') {
-        checkConflicts();
-      }
-    });
-    return () => subscription.unsubscribe();
-  }, [form.watch]);
 
   const handleSubmit = async (values: SessionFormValues) => {
     setLoading(true);
@@ -153,22 +101,29 @@ export function SessionForm({ session, onSubmit, onCancel }: SessionFormProps) {
       endDateTime.setHours(parseInt(endHour), parseInt(endMin));
 
       const sessionData = {
-        ...values,
+        title: values.title,
+        description: values.description,
+        type: values.type,
         startTime: startDateTime,
         endTime: endDateTime,
+        stage: values.stage,
         speakerIds: values.speakerIds,
         sponsorIds: values.sponsorIds || [],
+        tags: values.tags,
+        capacity: values.capacity,
+        isHighlight: values.isHighlight,
+        isVisible: values.isVisible,
       };
 
-      await onSubmit(sessionData);
+      await onSubmit(sessionData as any);
       toast({
         title: 'Success',
         description: session ? 'Session updated successfully' : 'Session created successfully',
       });
-    } catch {
+    } catch (error: any) {
       toast({
         title: 'Error',
-        description: 'Failed to save session',
+        description: error?.message || 'Failed to save session',
         variant: 'destructive',
       });
     } finally {
@@ -176,24 +131,22 @@ export function SessionForm({ session, onSubmit, onCancel }: SessionFormProps) {
     }
   };
 
+  const sessionTypes = [
+    { value: 'keynote', label: 'Keynote' },
+    { value: 'talk', label: 'Talk' },
+    { value: 'panel', label: 'Panel' },
+    { value: 'workshop', label: 'Workshop' },
+    { value: 'networking', label: 'Networking' },
+    { value: 'break', label: 'Break' },
+  ];
+
   const stages = [
-    'Main Stage',
-    'Workshop Room A',
-    'Workshop Room B',
-    'Networking Area',
-    'Exhibition Hall',
-  ];
-
-  const technicalLevels = [
-    { value: 'beginner', label: 'Beginner' },
-    { value: 'intermediate', label: 'Intermediate' },
-    { value: 'advanced', label: 'Advanced' },
-  ];
-
-  const languages = [
-    { value: 'pt-BR', label: 'Português' },
-    { value: 'en', label: 'English' },
-    { value: 'es', label: 'Español' },
+    { value: 'principal', label: 'Principal Stage' },
+    { value: 'inovacao', label: 'Innovation Stage' },
+    { value: 'tech', label: 'Tech Stage' },
+    { value: 'startup', label: 'Startup Stage' },
+    { value: 'workshop_a', label: 'Workshop Room A' },
+    { value: 'workshop_b', label: 'Workshop Room B' },
   ];
 
   return (
@@ -277,20 +230,24 @@ export function SessionForm({ session, onSubmit, onCancel }: SessionFormProps) {
         <div className="grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
-            name="startDate"
-            render={({ field }: { field: ControllerRenderProps<SessionFormValues, "startDate"> }) => (
+            name="type"
+            render={({ field }: { field: ControllerRenderProps<SessionFormValues, "type"> }) => (
               <FormItem>
-                <FormLabel>Date</FormLabel>
-                <FormControl>
-                  <Input
-                    type="date"
-                    value={field.value ? format(field.value, 'yyyy-MM-dd') : ''}
-                    onChange={(e) => {
-                      const date = e.target.value ? new Date(e.target.value) : undefined;
-                      field.onChange(date);
-                    }}
-                  />
-                </FormControl>
+                <FormLabel>Session Type</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select session type" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {sessionTypes.map((type) => (
+                      <SelectItem key={type.value} value={type.value}>
+                        {type.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
@@ -310,8 +267,8 @@ export function SessionForm({ session, onSubmit, onCancel }: SessionFormProps) {
                   </FormControl>
                   <SelectContent>
                     {stages.map((stage) => (
-                      <SelectItem key={stage} value={stage}>
-                        {stage}
+                      <SelectItem key={stage.value} value={stage.value}>
+                        {stage.label}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -321,6 +278,27 @@ export function SessionForm({ session, onSubmit, onCancel }: SessionFormProps) {
             )}
           />
         </div>
+
+        <FormField
+          control={form.control}
+          name="startDate"
+          render={({ field }: { field: ControllerRenderProps<SessionFormValues, "startDate"> }) => (
+            <FormItem>
+              <FormLabel>Date</FormLabel>
+              <FormControl>
+                <Input
+                  type="date"
+                  value={field.value ? format(field.value, 'yyyy-MM-dd') : ''}
+                  onChange={(e) => {
+                    const date = e.target.value ? new Date(e.target.value) : undefined;
+                    field.onChange(date);
+                  }}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <div className="grid grid-cols-3 gap-4">
           <FormField
@@ -432,58 +410,6 @@ export function SessionForm({ session, onSubmit, onCancel }: SessionFormProps) {
           )}
         />
 
-        <div className="grid grid-cols-2 gap-4">
-          <FormField
-            control={form.control}
-            name="technicalLevel"
-            render={({ field }: { field: ControllerRenderProps<SessionFormValues, "technicalLevel"> }) => (
-              <FormItem>
-                <FormLabel>Technical Level</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select level" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {technicalLevels.map((level) => (
-                      <SelectItem key={level.value} value={level.value}>
-                        {level.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="language"
-            render={({ field }: { field: ControllerRenderProps<SessionFormValues, "language"> }) => (
-              <FormItem>
-                <FormLabel>Language</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select language" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {languages.map((lang) => (
-                      <SelectItem key={lang.value} value={lang.value}>
-                        {lang.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
         <div className="flex gap-6">
           <FormField
             control={form.control}
@@ -518,13 +444,11 @@ export function SessionForm({ session, onSubmit, onCancel }: SessionFormProps) {
           />
         </div>
 
-        <ConflictIndicator conflicts={conflicts} isChecking={checkingConflicts} />
-
         <div className="flex justify-end gap-3">
           <Button type="button" variant="outline" onClick={onCancel}>
             Cancel
           </Button>
-          <Button type="submit" disabled={loading || checkingConflicts}>
+          <Button type="submit" disabled={loading}>
             {loading ? 'Saving...' : session ? 'Update Session' : 'Create Session'}
           </Button>
         </div>
