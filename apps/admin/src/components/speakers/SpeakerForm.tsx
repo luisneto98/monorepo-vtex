@@ -222,6 +222,7 @@ export function SpeakerForm({ speaker, onSubmit, onCancel, loading = false }: Sp
               value={field.value}
               onChange={field.onChange}
               disabled={loading}
+              speakerId={speaker?._id}
             />
           )}
         />

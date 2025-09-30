@@ -8,9 +8,10 @@ interface ImageUploadProps {
   value: string;
   onChange: (url: string) => void;
   disabled?: boolean;
+  speakerId?: string; // ID do speaker (opcional para novo speaker)
 }
 
-export function ImageUpload({ value, onChange, disabled = false }: ImageUploadProps) {
+export function ImageUpload({ value, onChange, disabled = false, speakerId }: ImageUploadProps) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [preview, setPreview] = useState<string>(value);
@@ -37,6 +38,12 @@ export function ImageUpload({ value, onChange, disabled = false }: ImageUploadPr
   const handleFileUpload = async (file: File) => {
     if (!validateFile(file)) return;
 
+    // Verificar se temos speakerId para fazer upload
+    if (!speakerId) {
+      setError('Cannot upload photo: Speaker must be created first. Please save the speaker and then upload the photo.');
+      return;
+    }
+
     try {
       setUploading(true);
       setError(null);
@@ -48,10 +55,10 @@ export function ImageUpload({ value, onChange, disabled = false }: ImageUploadPr
       };
       reader.readAsDataURL(file);
 
-      // Upload to server
-      const response = await speakersService.uploadPhoto(file);
-      onChange(response.url);
-      setPreview(response.url);
+      // Upload to server with speakerId
+      const response = await speakersService.uploadPhoto(speakerId, file);
+      onChange(response.photoUrl);
+      setPreview(response.photoUrl);
     } catch (err) {
       const error = err as Error;
       setError(error.message || 'Failed to upload image');
