@@ -1,26 +1,13 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import {
-  S3Client,
-  PutObjectCommand,
-  DeleteObjectCommand,
-  GetObjectCommand,
-} from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { v4 as uuidv4 } from 'uuid';
-import { createS3Client, getS3BucketName, S3_CONFIG } from '../../../config/s3.config';
+import { S3_CONFIG } from '../../../config/s3.config';
 import { SanitizationUtil } from '../../../common/utils/sanitization.util';
 import { FileMetadata, FileUploadResponse, PressMaterialType } from '@vtexday26/shared';
+import { StorageService } from '../../storage/services/storage.service';
+import { FileCategory } from '../../storage/types/storage.types';
 
 @Injectable()
 export class FileUploadService {
-  private s3Client: S3Client;
-  private bucketName: string;
-
-  constructor(configService: ConfigService) {
-    this.s3Client = createS3Client(configService);
-    this.bucketName = getS3BucketName(configService);
-  }
+  constructor(private storageService: StorageService) {}
 
   async uploadFile(
     file: Express.Multer.File,
@@ -30,21 +17,19 @@ export class FileUploadService {
     this.validateFile(file, materialType);
 
     const fileExtension = file.originalname.split('.').pop()?.toLowerCase();
-    const fileKey = this.generateFileKey(materialType, fileExtension);
 
     try {
-      await this.s3Client.send(
-        new PutObjectCommand({
-          Bucket: this.bucketName,
-          Key: fileKey,
-          Body: file.buffer,
-          ContentType: file.mimetype,
-          Metadata: {
+      // Use StorageService for upload (includes validation and virus scanning)
+      const uploadResult = await this.storageService.uploadFile(
+        file,
+        FileCategory.PRESS_MATERIALS,
+        {
+          metadata: {
             uploadedBy,
             originalName: SanitizationUtil.sanitizeFilePath(file.originalname),
             materialType,
           },
-        }),
+        },
       );
 
       const metadata: FileMetadata = {
@@ -52,10 +37,8 @@ export class FileUploadService {
         format: fileExtension || '',
       };
 
-      const fileUrl = `https://${this.bucketName}.s3.amazonaws.com/${fileKey}`;
-
       return {
-        fileUrl,
+        fileUrl: uploadResult.url,
         metadata,
       };
     } catch (error) {
@@ -67,12 +50,7 @@ export class FileUploadService {
   async deleteFile(fileUrl: string): Promise<void> {
     try {
       const fileKey = this.extractKeyFromUrl(fileUrl);
-      await this.s3Client.send(
-        new DeleteObjectCommand({
-          Bucket: this.bucketName,
-          Key: fileKey,
-        }),
-      );
+      await this.storageService.deleteFile(fileKey);
     } catch (error) {
       console.error('S3 delete error:', error);
       throw new BadRequestException('Failed to delete file from S3');
@@ -82,12 +60,7 @@ export class FileUploadService {
   async generateSignedUrl(fileUrl: string, expiresIn = S3_CONFIG.URL_EXPIRY): Promise<string> {
     try {
       const fileKey = this.extractKeyFromUrl(fileUrl);
-      const command = new GetObjectCommand({
-        Bucket: this.bucketName,
-        Key: fileKey,
-      });
-
-      return await getSignedUrl(this.s3Client, command, { expiresIn });
+      return await this.storageService.getSignedUrl(fileKey, expiresIn);
     } catch (error) {
       console.error('S3 signed URL error:', error);
       throw new BadRequestException('Failed to generate signed URL');
@@ -118,14 +91,6 @@ export class FileUploadService {
         `File size exceeds maximum allowed size of ${maxSize / (1024 * 1024)}MB`,
       );
     }
-  }
-
-  private generateFileKey(materialType: PressMaterialType, extension: string | undefined): string {
-    const year = new Date().getFullYear();
-    const uuid = uuidv4();
-    // Sanitize extension to prevent path traversal
-    const safeExtension = extension ? SanitizationUtil.sanitizeFilePath(extension) : '';
-    return `press-materials/${year}/${materialType}/${uuid}.${safeExtension}`;
   }
 
   private extractKeyFromUrl(fileUrl: string): string {

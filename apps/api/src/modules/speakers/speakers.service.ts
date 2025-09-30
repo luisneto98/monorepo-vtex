@@ -6,10 +6,15 @@ import { CreateSpeakerDto } from './dto/create-speaker.dto';
 import { UpdateSpeakerDto } from './dto/update-speaker.dto';
 import { SpeakerFilterDto } from './dto/speaker-filter.dto';
 import { PaginatedResponse } from '@common/dto/pagination.dto';
+import { StorageService } from '../storage/services/storage.service';
+import { FileCategory } from '../storage/types/storage.types';
 
 @Injectable()
 export class SpeakersService {
-  constructor(@InjectModel(Speaker.name) private speakerModel: Model<SpeakerDocument>) {}
+  constructor(
+    @InjectModel(Speaker.name) private speakerModel: Model<SpeakerDocument>,
+    private storageService: StorageService,
+  ) {}
 
   async create(createSpeakerDto: CreateSpeakerDto): Promise<SpeakerDocument> {
     const existingSpeaker = await this.speakerModel.findOne({
@@ -175,5 +180,26 @@ export class SpeakersService {
     speaker.deleteReason = null;
 
     return speaker.save();
+  }
+
+  async uploadPhoto(id: string, file: Express.Multer.File): Promise<string> {
+    // Verify speaker exists
+    const speaker = await this.speakerModel.findOne({
+      _id: id,
+      deletedAt: null,
+    });
+
+    if (!speaker) {
+      throw new NotFoundException(`Speaker with ID ${id} not found`);
+    }
+
+    // Upload file to S3
+    const uploadResult = await this.storageService.uploadFile(file, FileCategory.SPEAKER_PHOTOS);
+
+    // Update speaker photoUrl
+    speaker.photoUrl = uploadResult.url;
+    await speaker.save();
+
+    return uploadResult.url;
   }
 }

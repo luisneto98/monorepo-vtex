@@ -11,7 +11,12 @@ import {
   HttpCode,
   HttpStatus,
   Req,
+  UseInterceptors,
+  UploadedFile,
+  BadRequestException,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Throttle } from '@nestjs/throttler';
 import {
   ApiTags,
   ApiOperation,
@@ -20,6 +25,7 @@ import {
   ApiParam,
   ApiQuery,
   ApiBody,
+  ApiConsumes,
 } from '@nestjs/swagger';
 import { SpeakersService } from './speakers.service';
 import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
@@ -222,6 +228,71 @@ export class SpeakersController {
   async update(@Param('id') id: string, @Body() updateSpeakerDto: UpdateSpeakerDto) {
     const speaker = await this.speakersService.update(id, updateSpeakerDto);
     return ApiResponse.success(speaker);
+  }
+
+  @Post(':id/upload-photo')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.PRODUCER)
+  @UseInterceptors(FileInterceptor('file'))
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
+  @ApiBearerAuth('JWT-auth')
+  @ApiConsumes('multipart/form-data')
+  @ApiOperation({ summary: 'Upload speaker photo (Admin/Producer only)' })
+  @ApiParam({ name: 'id', description: 'Speaker ID', example: '507f1f77bcf86cd799439011' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+          description: 'Speaker photo (JPEG, PNG, or WebP, max 5MB)',
+        },
+      },
+    },
+  })
+  @SwaggerApiResponse({
+    status: 200,
+    description: 'Photo uploaded successfully',
+    schema: {
+      example: {
+        success: true,
+        data: {
+          photoUrl: 'https://bucket.s3.region.amazonaws.com/speaker-photos/1234567890-abc123.jpg',
+        },
+      },
+    },
+  })
+  @SwaggerApiResponse({
+    status: 400,
+    description: 'Invalid file type or size, or virus detected',
+    schema: {
+      example: {
+        success: false,
+        error: 'Invalid file type. Only JPEG, PNG, WEBP files are allowed.',
+      },
+    },
+  })
+  @SwaggerApiResponse({ status: 401, description: 'Unauthorized' })
+  @SwaggerApiResponse({ status: 403, description: 'Forbidden - insufficient role' })
+  @SwaggerApiResponse({ status: 404, description: 'Speaker not found' })
+  @SwaggerApiResponse({
+    status: 429,
+    description: 'Rate limit exceeded',
+    schema: {
+      example: {
+        success: false,
+        error: 'Upload rate limit exceeded. Please try again later.',
+      },
+    },
+  })
+  async uploadPhoto(@Param('id') id: string, @UploadedFile() file: Express.Multer.File) {
+    if (!file) {
+      throw new BadRequestException('No file provided');
+    }
+
+    const photoUrl = await this.speakersService.uploadPhoto(id, file);
+    return ApiResponse.success({ photoUrl });
   }
 
   @Delete(':id')

@@ -3,6 +3,9 @@ import { getModelToken } from '@nestjs/mongoose';
 import { SpeakersService } from '../../../../../src/modules/speakers/speakers.service';
 import { Speaker } from '../../../../../src/modules/speakers/schemas/speaker.schema';
 import { NotFoundException, ConflictException } from '@nestjs/common';
+import { StorageService } from '../../../../../src/modules/storage/services/storage.service';
+import { FileCategory } from '../../../../../src/modules/storage/types/storage.types';
+import { Readable } from 'stream';
 
 describe('SpeakersService', () => {
   let service: SpeakersService;
@@ -44,6 +47,13 @@ describe('SpeakersService', () => {
   mockSpeakerModel.countDocuments = jest.fn();
   mockSpeakerModel.create = jest.fn();
 
+  const mockStorageService = {
+    uploadFile: jest.fn().mockResolvedValue({
+      key: 'speaker-photos/12345-67890.jpg',
+      url: 'https://test-bucket.s3.us-east-1.amazonaws.com/speaker-photos/12345-67890.jpg',
+    }),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -51,6 +61,10 @@ describe('SpeakersService', () => {
         {
           provide: getModelToken(Speaker.name),
           useValue: mockSpeakerModel,
+        },
+        {
+          provide: StorageService,
+          useValue: mockStorageService,
         },
       ],
     }).compile();
@@ -296,6 +310,103 @@ describe('SpeakersService', () => {
         isVisible: true,
         deletedAt: null,
       });
+    });
+  });
+
+  describe('uploadPhoto', () => {
+    const createMockFile = (
+      buffer: Buffer,
+      mimetype: string,
+      size: number,
+      originalname = 'test.jpg',
+    ): Express.Multer.File => ({
+      buffer,
+      mimetype,
+      size,
+      originalname,
+      fieldname: 'file',
+      encoding: '7bit',
+      destination: '',
+      filename: '',
+      path: '',
+      stream: new Readable(),
+    });
+
+    it('should successfully upload a photo and update speaker', async () => {
+      const speakerId = '507f1f77bcf86cd799439011';
+      const file = createMockFile(Buffer.alloc(1000, 'a'), 'image/jpeg', 1000);
+
+      const mockSpeakerDoc = {
+        ...mockSpeaker,
+        _id: speakerId,
+        photoUrl: 'https://example.com/old-photo.jpg',
+        save: jest.fn().mockResolvedValue({
+          ...mockSpeaker,
+          photoUrl: 'https://test-bucket.s3.us-east-1.amazonaws.com/speaker-photos/12345-67890.jpg',
+        }),
+      };
+
+      mockSpeakerModel.findOne.mockResolvedValue(mockSpeakerDoc);
+
+      const result = await service.uploadPhoto(speakerId, file);
+
+      expect(result).toBe('https://test-bucket.s3.us-east-1.amazonaws.com/speaker-photos/12345-67890.jpg');
+      expect(mockSpeakerModel.findOne).toHaveBeenCalledWith({
+        _id: speakerId,
+        deletedAt: null,
+      });
+      expect(mockStorageService.uploadFile).toHaveBeenCalledWith(file, FileCategory.SPEAKER_PHOTOS);
+      expect(mockSpeakerDoc.save).toHaveBeenCalled();
+      expect(mockSpeakerDoc.photoUrl).toBe(
+        'https://test-bucket.s3.us-east-1.amazonaws.com/speaker-photos/12345-67890.jpg',
+      );
+    });
+
+    it('should throw NotFoundException when speaker does not exist', async () => {
+      const speakerId = '507f1f77bcf86cd799439012';
+      const file = createMockFile(Buffer.alloc(1000, 'a'), 'image/jpeg', 1000);
+
+      mockSpeakerModel.findOne.mockResolvedValue(null);
+
+      await expect(service.uploadPhoto(speakerId, file)).rejects.toThrow(NotFoundException);
+      await expect(service.uploadPhoto(speakerId, file)).rejects.toThrow(
+        `Speaker with ID ${speakerId} not found`,
+      );
+      expect(mockStorageService.uploadFile).not.toHaveBeenCalled();
+    });
+
+    it('should throw NotFoundException when speaker is deleted', async () => {
+      const speakerId = '507f1f77bcf86cd799439011';
+      const file = createMockFile(Buffer.alloc(1000, 'a'), 'image/jpeg', 1000);
+
+      // Soft-deleted speaker
+      mockSpeakerModel.findOne.mockResolvedValue(null);
+
+      await expect(service.uploadPhoto(speakerId, file)).rejects.toThrow(NotFoundException);
+      expect(mockSpeakerModel.findOne).toHaveBeenCalledWith({
+        _id: speakerId,
+        deletedAt: null,
+      });
+    });
+
+    it('should propagate StorageService errors', async () => {
+      const speakerId = '507f1f77bcf86cd799439011';
+      const file = createMockFile(Buffer.alloc(1000, 'a'), 'image/jpeg', 1000);
+
+      const mockSpeakerDoc = {
+        ...mockSpeaker,
+        _id: speakerId,
+        photoUrl: 'https://example.com/old-photo.jpg',
+        save: jest.fn(),
+      };
+
+      mockSpeakerModel.findOne.mockResolvedValue(mockSpeakerDoc);
+      mockStorageService.uploadFile.mockRejectedValueOnce(
+        new Error('S3 upload failed'),
+      );
+
+      await expect(service.uploadPhoto(speakerId, file)).rejects.toThrow('S3 upload failed');
+      expect(mockSpeakerDoc.save).not.toHaveBeenCalled();
     });
   });
 });

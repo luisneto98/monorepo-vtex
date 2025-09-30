@@ -8,6 +8,7 @@ import { DownloadTrackingService } from './services/download-tracking.service';
 import { PressMaterial, PressMaterialSchema } from './schemas/press-material.schema';
 import { DownloadLog, DownloadLogSchema } from './schemas/download-log.schema';
 import { AuthModule } from '../auth/auth.module';
+import { StorageModule } from '../storage/storage.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { AuthModule } from '../auth/auth.module';
       { name: PressMaterial.name, schema: PressMaterialSchema },
       { name: DownloadLog.name, schema: DownloadLogSchema },
     ]),
+    StorageModule,
     AuthModule,
   ],
   controllers: [PressMaterialsController],

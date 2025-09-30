@@ -6,10 +6,12 @@ import { LegalPagesService } from './legal-pages.service';
 import { S3StorageService } from './services/s3-storage.service';
 import { VirusScannerService } from './services/virus-scanner.service';
 import { LegalPage, LegalPageSchema } from './schemas/legal-page.schema';
+import { StorageModule } from '../storage/storage.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: LegalPage.name, schema: LegalPageSchema }]),
+    StorageModule,
     MulterModule.register({
       storage: undefined, // Use memory storage for S3 upload
       fileFilter: (_req, file, cb) => {

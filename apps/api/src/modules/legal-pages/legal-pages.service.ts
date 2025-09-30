@@ -10,8 +10,8 @@ import { LegalPage, LegalPageDocument, FileMetadata } from './schemas/legal-page
 import { CreateLegalPageDto } from './dto/create-legal-page.dto';
 import { UpdateLegalPageDto } from './dto/update-legal-page.dto';
 import { SupportedLanguage } from './dto/upload-file.dto';
-import { S3StorageService } from './services/s3-storage.service';
-import { VirusScannerService } from './services/virus-scanner.service';
+import { StorageService } from '../storage/services/storage.service';
+import { FileCategory } from '../storage/types/storage.types';
 import { Readable } from 'stream';
 
 @Injectable()
@@ -19,8 +19,7 @@ export class LegalPagesService {
   constructor(
     @InjectModel(LegalPage.name)
     private legalPageModel: Model<LegalPageDocument>,
-    private s3StorageService: S3StorageService,
-    private virusScannerService: VirusScannerService,
+    private storageService: StorageService,
   ) {}
 
   async create(createLegalPageDto: CreateLegalPageDto): Promise<LegalPage> {
@@ -92,29 +91,23 @@ export class LegalPagesService {
       throw new NotFoundException(`Legal page with ID ${id} not found`);
     }
 
-    // Scan file for viruses before uploading
-    await this.virusScannerService.scanFile(file.buffer, file.originalname);
-
     // Delete old file from S3 if exists
     const oldFile = legalPage.files?.[language];
     if (oldFile?.filename) {
-      await this.s3StorageService.deleteFile(oldFile.filename);
+      await this.storageService.deleteFile(oldFile.filename);
     }
 
-    // Generate S3 key and upload new file
-    const s3Key = this.s3StorageService.generateFileKey(
-      file.originalname,
-      `legal-pages/${legalPage.slug}/${language}`,
-    );
-
-    await this.s3StorageService.uploadFile(s3Key, file, {
-      legalPageId: id,
-      language: language,
-      uploadedBy: userId,
+    // Upload new file using StorageService (includes virus scanning and validation)
+    const uploadResult = await this.storageService.uploadFile(file, FileCategory.LEGAL_DOCUMENTS, {
+      metadata: {
+        legalPageId: id,
+        language: language,
+        uploadedBy: userId,
+      },
     });
 
     const fileMetadata: FileMetadata = {
-      filename: s3Key,
+      filename: uploadResult.key,
       originalName: file.originalname,
       size: file.size,
       uploadedAt: new Date(),
@@ -142,7 +135,7 @@ export class LegalPagesService {
     }
 
     // Delete file from S3
-    await this.s3StorageService.deleteFile(file.filename);
+    await this.storageService.deleteFile(file.filename);
 
     delete legalPage.files[language];
     legalPage.lastModifiedBy = userId;
@@ -157,7 +150,7 @@ export class LegalPagesService {
     if (legalPage.files) {
       const deletePromises = Object.values(legalPage.files)
         .filter((file) => file?.filename)
-        .map((file) => this.s3StorageService.deleteFile(file.filename));
+        .map((file) => this.storageService.deleteFile(file.filename));
 
       await Promise.all(deletePromises);
     }
@@ -197,7 +190,7 @@ export class LegalPagesService {
     }
 
     // Get file stream from S3
-    const stream = await this.s3StorageService.getFile(file.filename);
+    const stream = await this.storageService.getFile(file.filename);
     return { stream, metadata: file };
   }
 
@@ -217,7 +210,7 @@ export class LegalPagesService {
     }
 
     // Generate signed URL for direct S3 access
-    const url = await this.s3StorageService.getSignedDownloadUrl(file.filename);
+    const url = await this.storageService.getSignedUrl(file.filename);
     return { url, metadata: file };
   }
 }
