@@ -17,6 +17,18 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     if (isPublic) {
       return true;
     }
+
+    const request = context.switchToHttp().getRequest();
+
+    // Para requests multipart/form-data, validar header Authorization explicitamente
+    // antes do Passport processar, evitando conflitos com parsing de arquivo
+    if (request.headers['content-type']?.includes('multipart/form-data')) {
+      const authHeader = request.headers.authorization || request.headers.Authorization;
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        throw new UnauthorizedException('Missing or invalid authorization header');
+      }
+    }
+
     return super.canActivate(context);
   }
 

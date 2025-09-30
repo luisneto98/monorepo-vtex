@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Upload, X, Image as ImageIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -17,6 +17,11 @@ export function ImageUpload({ value, onChange, disabled = false, speakerId }: Im
   const [preview, setPreview] = useState<string>(value);
   const [dragActive, setDragActive] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Atualizar preview quando o value prop mudar (ex: ao abrir modal de edição)
+  useEffect(() => {
+    setPreview(value);
+  }, [value]);
 
   const validateFile = (file: File): boolean => {
     const maxSize = 5 * 1024 * 1024; // 5MB
