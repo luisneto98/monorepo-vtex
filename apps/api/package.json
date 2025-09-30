@@ -22,6 +22,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.896.0",
     "@aws-sdk/s3-request-presigner": "^3.896.0",
+    "@nestjs/bull": "^11.0.3",
     "@nestjs/cache-manager": "^3.0.1",
     "@nestjs/common": "^10.3.0",
     "@nestjs/config": "^3.1.1",
@@ -32,15 +33,18 @@
     "@nestjs/platform-express": "^10.3.0",
     "@nestjs/swagger": "^8.1.1",
     "@nestjs/throttler": "^6.4.0",
+    "@types/bull": "^3.15.9",
     "@types/cookie-parser": "^1.4.9",
     "@types/jsdom": "^21.1.7",
     "@types/multer": "^2.0.0",
     "@types/node-cron": "^3.0.11",
+    "@types/sanitize-html": "^2.16.0",
     "@types/sharp": "^0.31.1",
     "@types/uuid": "^10.0.0",
     "@vtexday26/shared": "^1.0.0",
     "aws-sdk": "^2.1692.0",
     "bcrypt": "^5.1.1",
+    "bull": "^4.16.5",
     "cache-manager": "^7.2.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
@@ -56,6 +60,7 @@
     "reflect-metadata": "^0.2.1",
     "rss": "^1.2.2",
     "rxjs": "^7.8.1",
+    "sanitize-html": "^2.17.0",
     "sharp": "^0.34.4",
     "swagger-ui-express": "^5.0.1",
     "uuid": "^13.0.0"
@@ -109,7 +114,9 @@
       "<rootDir>/tests/"
     ],
     "moduleNameMapper": {
-      "@shared/(.*)": "<rootDir>/../../packages/shared/src/$1"
+      "@shared/(.*)": "<rootDir>/../../packages/shared/src/$1",
+      "@modules/(.*)": "<rootDir>/src/modules/$1",
+      "@common/(.*)": "<rootDir>/src/common/$1"
     }
   }
 }

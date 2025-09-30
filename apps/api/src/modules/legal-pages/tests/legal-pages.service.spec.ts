@@ -56,7 +56,6 @@ describe('LegalPagesService', () => {
     save: jest.fn().mockResolvedValue(this),
   };
 
-
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -133,7 +132,7 @@ describe('LegalPagesService', () => {
       const service = new LegalPagesService(
         mockModelWithConstructor as any,
         mockS3Service as any,
-        mockVirusScanner as any
+        mockVirusScanner as any,
       );
       await service.create(createDto);
 

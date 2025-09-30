@@ -15,6 +15,7 @@ import EventSettings from '@/pages/EventSettings';
 import { PressMaterials } from '@/pages/PressMaterials';
 import NewsReleases from '@/pages/NewsReleases';
 import LegalPages from '@/pages/LegalPages';
+import PushNotifications from '@/pages/PushNotifications';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -50,7 +51,7 @@ function App() {
             <Route path="/press-materials" element={<PressMaterials />} />
             <Route path="/news-releases" element={<NewsReleases />} />
             <Route path="/legal-pages" element={<LegalPages />} />
-            <Route path="/notifications" element={<div className="p-6">Notificações (Em breve)</div>} />
+            <Route path="/notifications" element={<PushNotifications />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -71,14 +71,14 @@ class ContactInfoDto {
 
   @ApiProperty({ description: 'Contact phone' })
   @IsNotEmpty()
-  @Matches(/^[+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/, {
+  @Matches(/^\+?[0-9\s\-()]+$/, {
     message: 'Invalid phone number format',
   })
   phone: string;
 
   @ApiPropertyOptional({ description: 'WhatsApp number' })
   @IsOptional()
-  @Matches(/^[+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/, {
+  @Matches(/^\+?[0-9\s\-()]+$/, {
     message: 'Invalid WhatsApp number format',
   })
   whatsapp?: string;

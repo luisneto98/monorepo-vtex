@@ -15,7 +15,7 @@ export function ContactSection() {
         <div className="space-y-4">
           <FormField
             control={control}
-            name="contactInfo.email"
+            name="contact.email"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="flex items-center gap-2">
@@ -36,7 +36,7 @@ export function ContactSection() {
 
           <FormField
             control={control}
-            name="contactInfo.phone"
+            name="contact.phone"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="flex items-center gap-2">
@@ -61,7 +61,7 @@ export function ContactSection() {
 
           <FormField
             control={control}
-            name="contactInfo.whatsapp"
+            name="contact.whatsapp"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="flex items-center gap-2">

@@ -91,14 +91,15 @@ function EventSettingsContent() {
 
   React.useEffect(() => {
     if (settings) {
+      const formatDateTime = (date: string | Date): string => {
+        const d = typeof date === 'string' ? new Date(date) : date;
+        return d.toISOString().slice(0, 16);
+      };
+
       const formData: EventSettingsFormData = {
         eventName: settings.eventName,
-        startDate: typeof settings.startDate === 'string'
-          ? settings.startDate
-          : settings.startDate.toISOString().split('T')[0],
-        endDate: typeof settings.endDate === 'string'
-          ? settings.endDate
-          : settings.endDate.toISOString().split('T')[0],
+        startDate: formatDateTime(settings.startDate),
+        endDate: formatDateTime(settings.endDate),
         venue: settings.venue,
         mapCoordinates: settings.mapCoordinates,
         contact: settings.contact,
@@ -126,14 +127,15 @@ function EventSettingsContent() {
 
   const handleReset = () => {
     if (settings) {
+      const formatDateTime = (date: string | Date): string => {
+        const d = typeof date === 'string' ? new Date(date) : date;
+        return d.toISOString().slice(0, 16);
+      };
+
       const formData: EventSettingsFormData = {
         eventName: settings.eventName,
-        startDate: typeof settings.startDate === 'string'
-          ? settings.startDate
-          : settings.startDate.toISOString().split('T')[0],
-        endDate: typeof settings.endDate === 'string'
-          ? settings.endDate
-          : settings.endDate.toISOString().split('T')[0],
+        startDate: formatDateTime(settings.startDate),
+        endDate: formatDateTime(settings.endDate),
         venue: settings.venue,
         mapCoordinates: settings.mapCoordinates,
         contact: settings.contact,

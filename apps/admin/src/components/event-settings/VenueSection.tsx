@@ -34,14 +34,14 @@ export function VenueSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormField
             control={control}
-            name="venue.address.street"
+            name="venue.address"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Rua</FormLabel>
+              <FormItem className="md:col-span-2">
+                <FormLabel>Endereço</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
-                    placeholder="Ex: Rodovia dos Imigrantes"
+                    placeholder="Ex: Rodovia dos Imigrantes, km 1,5"
                   />
                 </FormControl>
                 <FormMessage />
@@ -51,31 +51,14 @@ export function VenueSection() {
 
           <FormField
             control={control}
-            name="venue.address.number"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Número</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="Ex: 1500"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={control}
-            name="venue.address.complement"
+            name="venue.complement"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Complemento</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
-                    placeholder="Ex: Pavilhão 3"
+                    placeholder="Ex: Água Funda"
                   />
                 </FormControl>
                 <FormMessage />
@@ -85,24 +68,7 @@ export function VenueSection() {
 
           <FormField
             control={control}
-            name="venue.address.neighborhood"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Bairro</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="Ex: Vila Água Funda"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={control}
-            name="venue.address.city"
+            name="venue.city"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Cidade</FormLabel>
@@ -119,7 +85,7 @@ export function VenueSection() {
 
           <FormField
             control={control}
-            name="venue.address.state"
+            name="venue.state"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Estado</FormLabel>
@@ -136,7 +102,7 @@ export function VenueSection() {
 
           <FormField
             control={control}
-            name="venue.address.zipCode"
+            name="venue.zipCode"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
@@ -146,7 +112,7 @@ export function VenueSection() {
                 <FormControl>
                   <Input
                     {...field}
-                    placeholder="Ex: 04329-000"
+                    placeholder="Ex: 04329-100"
                     maxLength={9}
                     onChange={async (e) => {
                       const formatted = formatBrazilianCEP(e.target.value);
@@ -157,31 +123,13 @@ export function VenueSection() {
                         setIsLoadingCEP(true);
                         const address = await fetchAddressByCEP(formatted);
                         if (address) {
-                          setValue('venue.address.street', address.street);
-                          setValue('venue.address.neighborhood', address.neighborhood);
-                          setValue('venue.address.city', address.city);
-                          setValue('venue.address.state', address.state);
+                          setValue('venue.address', address.street);
+                          setValue('venue.city', address.city);
+                          setValue('venue.state', address.state);
                         }
                         setIsLoadingCEP(false);
                       }
                     }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={control}
-            name="venue.address.country"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>País</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="Ex: Brasil"
                   />
                 </FormControl>
                 <FormMessage />

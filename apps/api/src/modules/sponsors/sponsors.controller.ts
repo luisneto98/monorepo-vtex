@@ -32,6 +32,7 @@ import { UpdateSponsorDto } from './dto/update-sponsor.dto';
 import { SponsorFilterDto } from './dto/sponsor-filter.dto';
 import { CreateSponsorTierDto } from './dto/create-sponsor-tier.dto';
 import { UpdateSponsorTierDto } from './dto/update-sponsor-tier.dto';
+import { ReorderTiersDto } from './dto/reorder-tiers.dto';
 import { ApiResponse } from '@common/dto/api-response.dto';
 import { Request } from 'express';
 
@@ -116,6 +117,22 @@ export class SponsorsController {
   async findOneTier(@Param('id') id: string) {
     const tier = await this.sponsorsService.findTierById(id);
     return ApiResponse.success(tier);
+  }
+
+  @ApiTags('Sponsor Tiers')
+  @Patch('tiers/reorder')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.SUPER_ADMIN)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({ summary: 'Reorder sponsor tiers (Super Admin only)' })
+  @ApiBody({ type: ReorderTiersDto })
+  @SwaggerApiResponse({ status: 200, description: 'Tiers reordered successfully' })
+  @SwaggerApiResponse({ status: 400, description: 'Validation error' })
+  @SwaggerApiResponse({ status: 401, description: 'Unauthorized' })
+  @SwaggerApiResponse({ status: 403, description: 'Forbidden' })
+  async reorderTiers(@Body() reorderDto: ReorderTiersDto) {
+    await this.sponsorsService.reorderTiers(reorderDto.tierIds);
+    return ApiResponse.success({ message: 'Tiers reordered successfully' });
   }
 
   @ApiTags('Sponsor Tiers')

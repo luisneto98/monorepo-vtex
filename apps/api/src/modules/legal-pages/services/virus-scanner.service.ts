@@ -76,7 +76,7 @@ export class VirusScannerService {
     for (const pattern of suspiciousPatterns) {
       if (pattern.test(fileContent)) {
         this.logger.warn(
-          `Potentially dangerous content detected in ${filename}: ${pattern.source}`
+          `Potentially dangerous content detected in ${filename}: ${pattern.source}`,
         );
 
         // Allow with warning for now, but log for monitoring
@@ -101,7 +101,7 @@ export class VirusScannerService {
     file: Buffer,
     filename: string,
     host: string,
-    port: number
+    port: number,
   ): Promise<boolean> {
     const net = require('net');
 
@@ -197,7 +197,7 @@ export class VirusScannerService {
     if (suspiciousCount >= 3) {
       this.logger.warn(`File ${filename} contains suspicious obfuscation patterns`);
       throw new BadRequestException(
-        `File ${filename} contains suspicious content and was rejected`
+        `File ${filename} contains suspicious content and was rejected`,
       );
     }
 
@@ -205,9 +205,7 @@ export class VirusScannerService {
     const externalRefs = fileStr.match(/\/URI\s*\(/gi) || [];
     if (externalRefs.length > 10) {
       this.logger.warn(`File ${filename} contains excessive external references`);
-      throw new BadRequestException(
-        `File ${filename} contains too many external references`
-      );
+      throw new BadRequestException(`File ${filename} contains too many external references`);
     }
 
     // If all checks pass, file is considered clean
@@ -218,11 +216,7 @@ export class VirusScannerService {
   /**
    * Quarantines a suspicious file for later analysis
    */
-  async quarantineFile(
-    file: Buffer,
-    filename: string,
-    reason: string
-  ): Promise<void> {
+  async quarantineFile(file: Buffer, filename: string, reason: string): Promise<void> {
     const fileHash = crypto.createHash('sha256').update(file).digest('hex');
 
     this.logger.warn(`Quarantining file ${filename} (${fileHash}): ${reason}`);

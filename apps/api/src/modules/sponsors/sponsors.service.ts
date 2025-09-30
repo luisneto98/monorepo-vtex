@@ -299,4 +299,31 @@ export class SponsorsService {
       throw new NotFoundException(`Sponsor tier with ID ${id} not found`);
     }
   }
+
+  async reorderTiers(tierIds: string[]): Promise<void> {
+    // Validate all tiers exist
+    const tiers = await this.sponsorTierModel.find({ _id: { $in: tierIds } });
+
+    if (tiers.length !== tierIds.length) {
+      throw new NotFoundException('One or more tier IDs not found');
+    }
+
+    // First, set all orders to negative values to avoid unique constraint conflicts
+    const tempUpdatePromises = tierIds.map((tierId, index) =>
+      this.sponsorTierModel.updateOne(
+        { _id: tierId },
+        { $set: { order: -(index + 1) } }
+      )
+    );
+    await Promise.all(tempUpdatePromises);
+
+    // Then update to final positive values
+    const finalUpdatePromises = tierIds.map((tierId, index) =>
+      this.sponsorTierModel.updateOne(
+        { _id: tierId },
+        { $set: { order: index + 1 } }
+      )
+    );
+    await Promise.all(finalUpdatePromises);
+  }
 }

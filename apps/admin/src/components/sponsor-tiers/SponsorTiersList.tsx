@@ -18,7 +18,7 @@ import {
   useSortable,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical, Edit, Trash2, Plus, Users } from 'lucide-react';
+import { GripVertical, Edit, Trash2, Plus } from 'lucide-react';
 import type { SponsorTier } from '@shared/types/sponsor.types';
 import { SponsorTiersService } from '@/services/sponsor-tiers.service';
 import { Button } from '@/components/ui/button';
@@ -81,12 +81,6 @@ function SortableRow({ tier, onEdit, onDelete }: SortableRowProps) {
       <TableCell className="text-center">
         <Badge variant="secondary">{tier.maxPosts}</Badge>
       </TableCell>
-      <TableCell className="text-center">
-        <div className="flex items-center justify-center gap-1">
-          <Users className="h-4 w-4 text-muted-foreground" />
-          <span>0</span>
-        </div>
-      </TableCell>
       <TableCell>
         <div className="flex gap-2">
           <Button
@@ -131,7 +125,7 @@ export function SponsorTiersList({ onEdit, onDelete, onAdd, refreshTrigger }: Sp
 
       const response = await SponsorTiersService.getSponsorTiers({ sort: 'order' });
       // Handle nested data structure from API response
-      const tiersData = response?.data || response || [];
+      const tiersData = response?.data?.data || response?.data || response || [];
       setTiers(Array.isArray(tiersData) ? tiersData : []);
     } catch (err) {
       setError('Failed to load sponsor tiers');
@@ -216,14 +210,13 @@ export function SponsorTiersList({ onEdit, onDelete, onAdd, refreshTrigger }: Sp
               <TableHead>Display Name</TableHead>
               <TableHead>Technical Name</TableHead>
               <TableHead className="text-center">Max Posts</TableHead>
-              <TableHead className="text-center">Sponsors</TableHead>
               <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {loading ? (
               <TableRow>
-                <TableCell colSpan={7} className="h-24 text-center">
+                <TableCell colSpan={6} className="h-24 text-center">
                   Loading...
                 </TableCell>
               </TableRow>
@@ -246,7 +239,7 @@ export function SponsorTiersList({ onEdit, onDelete, onAdd, refreshTrigger }: Sp
               </DndContext>
             ) : (
               <TableRow>
-                <TableCell colSpan={7} className="h-24 text-center">
+                <TableCell colSpan={6} className="h-24 text-center">
                   No sponsor tiers found. Create your first tier to get started.
                 </TableCell>
               </TableRow>

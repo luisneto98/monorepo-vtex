@@ -10,8 +10,10 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import * as Localization from 'expo-localization';
 
 import { useHomeData } from '../../hooks/useHomeData';
+import { useEventSettings } from '../../contexts/EventSettingsContext';
 import ErrorBoundary from '../../components/error/ErrorBoundary';
 import ErrorState from '../../components/error/ErrorState';
 import HighlightCard from '../../components/cards/HighlightCard';
@@ -30,6 +32,11 @@ const { width } = Dimensions.get('window');
 export default function HomeScreen() {
   const navigation = useNavigation<any>();
   const { homeData, homeLoading, homeError, refreshHomeData, retryFetch } = useHomeData();
+  const { getLocalizedEventName, loading: eventSettingsLoading } = useEventSettings();
+
+  // Get device locale for event name
+  const deviceLocale = Localization.getLocales()[0]?.languageCode || 'pt';
+  const eventName = getLocalizedEventName(deviceLocale);
 
   const handleRefresh = useCallback(async () => {
     await refreshHomeData();
@@ -121,7 +128,18 @@ export default function HomeScreen() {
           {/* Header */}
           <View style={styles.header}>
             <Text style={styles.welcomeText}>Bem-vindo ao</Text>
-            <Text style={styles.titleText}>VTEX Events</Text>
+            {eventSettingsLoading || !eventName ? (
+              <View style={styles.titleSkeleton} />
+            ) : (
+              <Text
+                style={styles.titleText}
+                numberOfLines={2}
+                accessibilityRole="header"
+                accessibilityLabel={`Evento: ${eventName}`}
+              >
+                {eventName}
+              </Text>
+            )}
             <Text style={styles.subtitleText}>
               Fique por dentro de tudo que está acontecendo
             </Text>
@@ -212,6 +230,13 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: '700',
     color: '#0F47AF',
+    marginBottom: 8,
+  },
+  titleSkeleton: {
+    height: 32,
+    width: '80%',
+    backgroundColor: '#E0E0E0',
+    borderRadius: 4,
     marginBottom: 8,
   },
   subtitleText: {

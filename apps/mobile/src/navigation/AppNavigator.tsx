@@ -1,4 +1,5 @@
 import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import { NavigationContainer, LinkingOptions } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -10,11 +11,16 @@ import SearchScreen from '../screens/Search/SearchScreen';
 import MoreScreen from '../screens/More/MoreScreen';
 import SessionDetailsScreen from '../screens/SessionDetails/SessionDetailsScreen';
 import SpeakerProfileScreen from '../screens/SpeakerProfile/SpeakerProfileScreen';
+import NotificationsListScreen from '../screens/Notifications/NotificationsListScreen';
+import AboutEventScreen from '../screens/AboutEvent/AboutEventScreen';
+import { useNotifications } from '../contexts/NotificationContext';
 
 export type RootStackParamList = {
   Main: undefined;
   SessionDetails: { sessionId: string };
   SpeakerProfile: { speakerId: string; sessionId?: string };
+  NotificationsList: undefined;
+  AboutEvent: undefined;
 };
 
 export type TabParamList = {
@@ -58,6 +64,8 @@ const linking: LinkingOptions<RootStackParamList> = {
 };
 
 function TabNavigator() {
+  const { unreadCount } = useNotifications();
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -97,6 +105,8 @@ function TabNavigator() {
         component={MoreScreen}
         options={{
           tabBarLabel: 'Mais',
+          tabBarBadge: unreadCount > 0 ? unreadCount : undefined,
+          tabBarBadgeStyle: styles.badge,
         }}
       />
     </Tab.Navigator>
@@ -139,7 +149,35 @@ export default function AppNavigator() {
             headerBackTitle: 'Voltar',
           }}
         />
+        <Stack.Screen
+          name="NotificationsList"
+          component={NotificationsListScreen}
+          options={{
+            title: 'Notificações',
+            headerBackTitle: 'Voltar',
+          }}
+        />
+        <Stack.Screen
+          name="AboutEvent"
+          component={AboutEventScreen}
+          options={{
+            title: 'Sobre o Evento',
+            headerBackTitle: 'Voltar',
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  badge: {
+    backgroundColor: '#F71963',
+    color: '#FFFFFF',
+    minWidth: 18,
+    height: 18,
+    borderRadius: 9,
+    fontSize: 11,
+    fontWeight: '600',
+  },
+});

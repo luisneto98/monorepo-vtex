@@ -47,8 +47,8 @@ const LocationMarker = memo(function LocationMarker({ position, setPosition }: L
 
 export const MapSelector = memo(function MapSelector() {
   const { control, watch, setValue } = useFormContext();
-  const latitude = watch('venue.coordinates.latitude');
-  const longitude = watch('venue.coordinates.longitude');
+  const latitude = watch('mapCoordinates.latitude');
+  const longitude = watch('mapCoordinates.longitude');
   const position: [number, number] = useMemo(
     () => [latitude || -23.5505, longitude || -46.6333],
     [latitude, longitude]
@@ -57,8 +57,8 @@ export const MapSelector = memo(function MapSelector() {
   const setPosition = useMemo(
     () => (newPosition: [number, number]) => {
       if (validateCoordinates(newPosition[0], newPosition[1])) {
-        setValue('venue.coordinates.latitude', newPosition[0]);
-        setValue('venue.coordinates.longitude', newPosition[1]);
+        setValue('mapCoordinates.latitude', newPosition[0]);
+        setValue('mapCoordinates.longitude', newPosition[1]);
       }
     },
     [setValue]
@@ -75,7 +75,7 @@ export const MapSelector = memo(function MapSelector() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <FormField
             control={control}
-            name="venue.coordinates.latitude"
+            name="mapCoordinates.latitude"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Latitude</FormLabel>
@@ -101,7 +101,7 @@ export const MapSelector = memo(function MapSelector() {
 
           <FormField
             control={control}
-            name="venue.coordinates.longitude"
+            name="mapCoordinates.longitude"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Longitude</FormLabel>

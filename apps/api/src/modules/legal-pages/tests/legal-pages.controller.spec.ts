@@ -242,9 +242,9 @@ describe('LegalPagesController', () => {
         new NotFoundException(`Legal page with ID ${id} not found`),
       );
 
-      await expect(
-        controller.uploadFile(id, mockFile, language, mockRequest),
-      ).rejects.toThrow(NotFoundException);
+      await expect(controller.uploadFile(id, mockFile, language, mockRequest)).rejects.toThrow(
+        NotFoundException,
+      );
       expect(service.uploadFile).toHaveBeenCalledWith(id, mockFile, language, mockRequest.user.id);
     });
   });
@@ -421,9 +421,7 @@ describe('LegalPagesController', () => {
         new NotFoundException('This legal page is not available'),
       );
 
-      await expect(controller.getDownloadUrl(slug, language)).rejects.toThrow(
-        NotFoundException,
-      );
+      await expect(controller.getDownloadUrl(slug, language)).rejects.toThrow(NotFoundException);
       expect(service.getSignedDownloadUrl).toHaveBeenCalledWith(slug, language);
     });
   });
