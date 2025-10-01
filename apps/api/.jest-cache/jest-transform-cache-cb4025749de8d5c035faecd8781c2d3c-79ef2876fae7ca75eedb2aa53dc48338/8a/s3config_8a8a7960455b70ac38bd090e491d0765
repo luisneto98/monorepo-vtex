@@ -1,0 +1,559 @@
+58d9ceca7c6bc6381e55b5d9953567a1
+"use strict";
+
+/* istanbul ignore next */
+function cov_1p42nijcwv() {
+  var path = "/home/luisneto98/Documentos/Code/monorepo-vtex/apps/api/src/config/s3.config.ts";
+  var hash = "4ad5e46748e86c02856fdd800552e11c757bced1";
+  var global = new Function("return this")();
+  var gcv = "__coverage__";
+  var coverageData = {
+    path: "/home/luisneto98/Documentos/Code/monorepo-vtex/apps/api/src/config/s3.config.ts",
+    statementMap: {
+      "0": {
+        start: {
+          line: 2,
+          column: 0
+        },
+        end: {
+          line: 2,
+          column: 62
+        }
+      },
+      "1": {
+        start: {
+          line: 3,
+          column: 0
+        },
+        end: {
+          line: 3,
+          column: 78
+        }
+      },
+      "2": {
+        start: {
+          line: 4,
+          column: 20
+        },
+        end: {
+          line: 4,
+          column: 49
+        }
+      },
+      "3": {
+        start: {
+          line: 5,
+          column: 23
+        },
+        end: {
+          line: 22,
+          column: 1
+        }
+      },
+      "4": {
+        start: {
+          line: 6,
+          column: 19
+        },
+        end: {
+          line: 6,
+          column: 53
+        }
+      },
+      "5": {
+        start: {
+          line: 7,
+          column: 24
+        },
+        end: {
+          line: 7,
+          column: 63
+        }
+      },
+      "6": {
+        start: {
+          line: 8,
+          column: 28
+        },
+        end: {
+          line: 8,
+          column: 71
+        }
+      },
+      "7": {
+        start: {
+          line: 9,
+          column: 4
+        },
+        end: {
+          line: 11,
+          column: 5
+        }
+      },
+      "8": {
+        start: {
+          line: 10,
+          column: 8
+        },
+        end: {
+          line: 10,
+          column: 76
+        }
+      },
+      "9": {
+        start: {
+          line: 12,
+          column: 4
+        },
+        end: {
+          line: 21,
+          column: 7
+        }
+      },
+      "10": {
+        start: {
+          line: 23,
+          column: 0
+        },
+        end: {
+          line: 23,
+          column: 40
+        }
+      },
+      "11": {
+        start: {
+          line: 24,
+          column: 24
+        },
+        end: {
+          line: 31,
+          column: 1
+        }
+      },
+      "12": {
+        start: {
+          line: 25,
+          column: 19
+        },
+        end: {
+          line: 25,
+          column: 53
+        }
+      },
+      "13": {
+        start: {
+          line: 26,
+          column: 4
+        },
+        end: {
+          line: 29,
+          column: 5
+        }
+      },
+      "14": {
+        start: {
+          line: 27,
+          column: 8
+        },
+        end: {
+          line: 27,
+          column: 89
+        }
+      },
+      "15": {
+        start: {
+          line: 28,
+          column: 8
+        },
+        end: {
+          line: 28,
+          column: 36
+        }
+      },
+      "16": {
+        start: {
+          line: 30,
+          column: 4
+        },
+        end: {
+          line: 30,
+          column: 18
+        }
+      },
+      "17": {
+        start: {
+          line: 32,
+          column: 0
+        },
+        end: {
+          line: 32,
+          column: 42
+        }
+      },
+      "18": {
+        start: {
+          line: 33,
+          column: 0
+        },
+        end: {
+          line: 46,
+          column: 2
+        }
+      }
+    },
+    fnMap: {
+      "0": {
+        name: "(anonymous_0)",
+        decl: {
+          start: {
+            line: 5,
+            column: 23
+          },
+          end: {
+            line: 5,
+            column: 24
+          }
+        },
+        loc: {
+          start: {
+            line: 5,
+            column: 42
+          },
+          end: {
+            line: 22,
+            column: 1
+          }
+        },
+        line: 5
+      },
+      "1": {
+        name: "(anonymous_1)",
+        decl: {
+          start: {
+            line: 24,
+            column: 24
+          },
+          end: {
+            line: 24,
+            column: 25
+          }
+        },
+        loc: {
+          start: {
+            line: 24,
+            column: 43
+          },
+          end: {
+            line: 31,
+            column: 1
+          }
+        },
+        line: 24
+      }
+    },
+    branchMap: {
+      "0": {
+        loc: {
+          start: {
+            line: 9,
+            column: 4
+          },
+          end: {
+            line: 11,
+            column: 5
+          }
+        },
+        type: "if",
+        locations: [{
+          start: {
+            line: 9,
+            column: 4
+          },
+          end: {
+            line: 11,
+            column: 5
+          }
+        }, {
+          start: {
+            line: undefined,
+            column: undefined
+          },
+          end: {
+            line: undefined,
+            column: undefined
+          }
+        }],
+        line: 9
+      },
+      "1": {
+        loc: {
+          start: {
+            line: 9,
+            column: 8
+          },
+          end: {
+            line: 9,
+            column: 40
+          }
+        },
+        type: "binary-expr",
+        locations: [{
+          start: {
+            line: 9,
+            column: 8
+          },
+          end: {
+            line: 9,
+            column: 20
+          }
+        }, {
+          start: {
+            line: 9,
+            column: 24
+          },
+          end: {
+            line: 9,
+            column: 40
+          }
+        }],
+        line: 9
+      },
+      "2": {
+        loc: {
+          start: {
+            line: 14,
+            column: 12
+          },
+          end: {
+            line: 20,
+            column: 9
+          }
+        },
+        type: "binary-expr",
+        locations: [{
+          start: {
+            line: 14,
+            column: 12
+          },
+          end: {
+            line: 14,
+            column: 23
+          }
+        }, {
+          start: {
+            line: 15,
+            column: 12
+          },
+          end: {
+            line: 15,
+            column: 27
+          }
+        }, {
+          start: {
+            line: 15,
+            column: 31
+          },
+          end: {
+            line: 20,
+            column: 9
+          }
+        }],
+        line: 14
+      },
+      "3": {
+        loc: {
+          start: {
+            line: 26,
+            column: 4
+          },
+          end: {
+            line: 29,
+            column: 5
+          }
+        },
+        type: "if",
+        locations: [{
+          start: {
+            line: 26,
+            column: 4
+          },
+          end: {
+            line: 29,
+            column: 5
+          }
+        }, {
+          start: {
+            line: undefined,
+            column: undefined
+          },
+          end: {
+            line: undefined,
+            column: undefined
+          }
+        }],
+        line: 26
+      }
+    },
+    s: {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0,
+      "11": 0,
+      "12": 0,
+      "13": 0,
+      "14": 0,
+      "15": 0,
+      "16": 0,
+      "17": 0,
+      "18": 0
+    },
+    f: {
+      "0": 0,
+      "1": 0
+    },
+    b: {
+      "0": [0, 0],
+      "1": [0, 0],
+      "2": [0, 0, 0],
+      "3": [0, 0]
+    },
+    inputSourceMap: {
+      file: "/home/luisneto98/Documentos/Code/monorepo-vtex/apps/api/src/config/s3.config.ts",
+      mappings: ";;;AAAA,kDAA8C;AAGvC,MAAM,cAAc,GAAG,CAAC,aAA4B,EAAE,EAAE;IAC7D,MAAM,MAAM,GAAG,aAAa,CAAC,GAAG,CAAC,eAAe,CAAC,CAAC;IAClD,MAAM,WAAW,GAAG,aAAa,CAAC,GAAG,CAAC,oBAAoB,CAAC,CAAC;IAC5D,MAAM,eAAe,GAAG,aAAa,CAAC,GAAG,CAAC,wBAAwB,CAAC,CAAC;IAEpE,IAAI,CAAC,WAAW,IAAI,CAAC,eAAe,EAAE,CAAC;QACrC,OAAO,CAAC,IAAI,CAAC,qDAAqD,CAAC,CAAC;IACtE,CAAC;IAED,OAAO,IAAI,oBAAQ,CAAC;QAClB,MAAM;QACN,GAAG,CAAC,WAAW;YACb,eAAe,IAAI;YACjB,WAAW,EAAE;gBACX,WAAW;gBACX,eAAe;aAChB;SACF,CAAC;KACL,CAAC,CAAC;AACL,CAAC,CAAC;AAnBW,QAAA,cAAc,kBAmBzB;AAEK,MAAM,eAAe,GAAG,CAAC,aAA4B,EAAU,EAAE;IACtE,MAAM,MAAM,GAAG,aAAa,CAAC,GAAG,CAAS,eAAe,CAAC,CAAC;IAC1D,IAAI,CAAC,MAAM,EAAE,CAAC;QACZ,OAAO,CAAC,IAAI,CAAC,kEAAkE,CAAC,CAAC;QACjF,OAAO,oBAAoB,CAAC;IAC9B,CAAC;IACD,OAAO,MAAM,CAAC;AAChB,CAAC,CAAC;AAPW,QAAA,eAAe,mBAO1B;AAEW,QAAA,SAAS,GAAG;IACvB,aAAa,EAAE;QACb,KAAK,EAAE,GAAG,GAAG,IAAI,GAAG,IAAI,EAAE,QAAQ;QAClC,OAAO,EAAE,EAAE,GAAG,IAAI,GAAG,IAAI,EAAE,OAAO;KACnC;IACD,eAAe,EAAE;QACf,SAAS,EAAE,CAAC,KAAK,EAAE,KAAK,CAAC;QACzB,YAAY,EAAE,CAAC,KAAK,EAAE,IAAI,EAAE,KAAK,EAAE,KAAK,CAAC;QACzC,KAAK,EAAE,CAAC,KAAK,EAAE,MAAM,EAAE,KAAK,EAAE,MAAM,CAAC;QACrC,KAAK,EAAE,CAAC,KAAK,EAAE,KAAK,EAAE,MAAM,CAAC;QAC7B,YAAY,EAAE,CAAC,KAAK,EAAE,MAAM,EAAE,KAAK,CAAC;KACrC;IACD,UAAU,EAAE,EAAE,GAAG,EAAE,GAAG,EAAE,EAAE,sBAAsB;CACjD,CAAC",
+      names: [],
+      sources: ["/home/luisneto98/Documentos/Code/monorepo-vtex/apps/api/src/config/s3.config.ts"],
+      sourcesContent: ["import { S3Client } from '@aws-sdk/client-s3';\nimport { ConfigService } from '@nestjs/config';\n\nexport const createS3Client = (configService: ConfigService) => {\n  const region = configService.get('aws.s3.region');\n  const accessKeyId = configService.get('aws.s3.accessKeyId');\n  const secretAccessKey = configService.get('aws.s3.secretAccessKey');\n\n  if (!accessKeyId || !secretAccessKey) {\n    console.warn('AWS credentials not configured, using default chain');\n  }\n\n  return new S3Client({\n    region,\n    ...(accessKeyId &&\n      secretAccessKey && {\n        credentials: {\n          accessKeyId,\n          secretAccessKey,\n        },\n      }),\n  });\n};\n\nexport const getS3BucketName = (configService: ConfigService): string => {\n  const bucket = configService.get<string>('aws.s3.bucket');\n  if (!bucket) {\n    console.warn('S3 bucket name not configured, using default: vtexday-dev-bucket');\n    return 'vtexday-dev-bucket';\n  }\n  return bucket;\n};\n\nexport const S3_CONFIG = {\n  MAX_FILE_SIZE: {\n    video: 500 * 1024 * 1024, // 500MB\n    default: 50 * 1024 * 1024, // 50MB\n  },\n  ALLOWED_FORMATS: {\n    press_kit: ['pdf', 'zip'],\n    logo_package: ['zip', 'ai', 'eps', 'svg'],\n    photo: ['jpg', 'jpeg', 'png', 'webp'],\n    video: ['mp4', 'mov', 'webm'],\n    presentation: ['ppt', 'pptx', 'pdf'],\n  },\n  URL_EXPIRY: 24 * 60 * 60, // 24 hours in seconds\n};\n"],
+      version: 3
+    },
+    _coverageSchema: "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    hash: "4ad5e46748e86c02856fdd800552e11c757bced1"
+  };
+  var coverage = global[gcv] || (global[gcv] = {});
+  if (!coverage[path] || coverage[path].hash !== hash) {
+    coverage[path] = coverageData;
+  }
+  var actualCoverage = coverage[path];
+  {
+    // @ts-ignore
+    cov_1p42nijcwv = function () {
+      return actualCoverage;
+    };
+  }
+  return actualCoverage;
+}
+cov_1p42nijcwv();
+cov_1p42nijcwv().s[0]++;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/* istanbul ignore next */
+cov_1p42nijcwv().s[1]++;
+exports.S3_CONFIG = exports.getS3BucketName = exports.createS3Client = void 0;
+const client_s3_1 =
+/* istanbul ignore next */
+(cov_1p42nijcwv().s[2]++, require("@aws-sdk/client-s3"));
+/* istanbul ignore next */
+cov_1p42nijcwv().s[3]++;
+const createS3Client = configService => {
+  /* istanbul ignore next */
+  cov_1p42nijcwv().f[0]++;
+  const region =
+  /* istanbul ignore next */
+  (cov_1p42nijcwv().s[4]++, configService.get('aws.s3.region'));
+  const accessKeyId =
+  /* istanbul ignore next */
+  (cov_1p42nijcwv().s[5]++, configService.get('aws.s3.accessKeyId'));
+  const secretAccessKey =
+  /* istanbul ignore next */
+  (cov_1p42nijcwv().s[6]++, configService.get('aws.s3.secretAccessKey'));
+  /* istanbul ignore next */
+  cov_1p42nijcwv().s[7]++;
+  if (
+  /* istanbul ignore next */
+  (cov_1p42nijcwv().b[1][0]++, !accessKeyId) ||
+  /* istanbul ignore next */
+  (cov_1p42nijcwv().b[1][1]++, !secretAccessKey)) {
+    /* istanbul ignore next */
+    cov_1p42nijcwv().b[0][0]++;
+    cov_1p42nijcwv().s[8]++;
+    console.warn('AWS credentials not configured, using default chain');
+  } else
+  /* istanbul ignore next */
+  {
+    cov_1p42nijcwv().b[0][1]++;
+  }
+  cov_1p42nijcwv().s[9]++;
+  return new client_s3_1.S3Client({
+    region,
+    ...(
+    /* istanbul ignore next */
+    (cov_1p42nijcwv().b[2][0]++, accessKeyId) &&
+    /* istanbul ignore next */
+    (cov_1p42nijcwv().b[2][1]++, secretAccessKey) &&
+    /* istanbul ignore next */
+    (cov_1p42nijcwv().b[2][2]++, {
+      credentials: {
+        accessKeyId,
+        secretAccessKey
+      }
+    }))
+  });
+};
+/* istanbul ignore next */
+cov_1p42nijcwv().s[10]++;
+exports.createS3Client = createS3Client;
+/* istanbul ignore next */
+cov_1p42nijcwv().s[11]++;
+const getS3BucketName = configService => {
+  /* istanbul ignore next */
+  cov_1p42nijcwv().f[1]++;
+  const bucket =
+  /* istanbul ignore next */
+  (cov_1p42nijcwv().s[12]++, configService.get('aws.s3.bucket'));
+  /* istanbul ignore next */
+  cov_1p42nijcwv().s[13]++;
+  if (!bucket) {
+    /* istanbul ignore next */
+    cov_1p42nijcwv().b[3][0]++;
+    cov_1p42nijcwv().s[14]++;
+    console.warn('S3 bucket name not configured, using default: vtexday-dev-bucket');
+    /* istanbul ignore next */
+    cov_1p42nijcwv().s[15]++;
+    return 'vtexday-dev-bucket';
+  } else
+  /* istanbul ignore next */
+  {
+    cov_1p42nijcwv().b[3][1]++;
+  }
+  cov_1p42nijcwv().s[16]++;
+  return bucket;
+};
+/* istanbul ignore next */
+cov_1p42nijcwv().s[17]++;
+exports.getS3BucketName = getS3BucketName;
+/* istanbul ignore next */
+cov_1p42nijcwv().s[18]++;
+exports.S3_CONFIG = {
+  MAX_FILE_SIZE: {
+    video: 500 * 1024 * 1024,
+    // 500MB
+    default: 50 * 1024 * 1024 // 50MB
+  },
+  ALLOWED_FORMATS: {
+    press_kit: ['pdf', 'zip'],
+    logo_package: ['zip', 'ai', 'eps', 'svg'],
+    photo: ['jpg', 'jpeg', 'png', 'webp'],
+    video: ['mp4', 'mov', 'webm'],
+    presentation: ['ppt', 'pptx', 'pdf']
+  },
+  URL_EXPIRY: 24 * 60 * 60 // 24 hours in seconds
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJjb3ZfMXA0Mm5pamN3diIsImFjdHVhbENvdmVyYWdlIiwicyIsImNsaWVudF9zM18xIiwicmVxdWlyZSIsImNyZWF0ZVMzQ2xpZW50IiwiY29uZmlnU2VydmljZSIsImYiLCJyZWdpb24iLCJnZXQiLCJhY2Nlc3NLZXlJZCIsInNlY3JldEFjY2Vzc0tleSIsImIiLCJjb25zb2xlIiwid2FybiIsIlMzQ2xpZW50IiwiY3JlZGVudGlhbHMiLCJleHBvcnRzIiwiZ2V0UzNCdWNrZXROYW1lIiwiYnVja2V0IiwiUzNfQ09ORklHIiwiTUFYX0ZJTEVfU0laRSIsInZpZGVvIiwiZGVmYXVsdCIsIkFMTE9XRURfRk9STUFUUyIsInByZXNzX2tpdCIsImxvZ29fcGFja2FnZSIsInBob3RvIiwicHJlc2VudGF0aW9uIiwiVVJMX0VYUElSWSJdLCJzb3VyY2VzIjpbIi9ob21lL2x1aXNuZXRvOTgvRG9jdW1lbnRvcy9Db2RlL21vbm9yZXBvLXZ0ZXgvYXBwcy9hcGkvc3JjL2NvbmZpZy9zMy5jb25maWcudHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgUzNDbGllbnQgfSBmcm9tICdAYXdzLXNkay9jbGllbnQtczMnO1xuaW1wb3J0IHsgQ29uZmlnU2VydmljZSB9IGZyb20gJ0BuZXN0anMvY29uZmlnJztcblxuZXhwb3J0IGNvbnN0IGNyZWF0ZVMzQ2xpZW50ID0gKGNvbmZpZ1NlcnZpY2U6IENvbmZpZ1NlcnZpY2UpID0+IHtcbiAgY29uc3QgcmVnaW9uID0gY29uZmlnU2VydmljZS5nZXQoJ2F3cy5zMy5yZWdpb24nKTtcbiAgY29uc3QgYWNjZXNzS2V5SWQgPSBjb25maWdTZXJ2aWNlLmdldCgnYXdzLnMzLmFjY2Vzc0tleUlkJyk7XG4gIGNvbnN0IHNlY3JldEFjY2Vzc0tleSA9IGNvbmZpZ1NlcnZpY2UuZ2V0KCdhd3MuczMuc2VjcmV0QWNjZXNzS2V5Jyk7XG5cbiAgaWYgKCFhY2Nlc3NLZXlJZCB8fCAhc2VjcmV0QWNjZXNzS2V5KSB7XG4gICAgY29uc29sZS53YXJuKCdBV1MgY3JlZGVudGlhbHMgbm90IGNvbmZpZ3VyZWQsIHVzaW5nIGRlZmF1bHQgY2hhaW4nKTtcbiAgfVxuXG4gIHJldHVybiBuZXcgUzNDbGllbnQoe1xuICAgIHJlZ2lvbixcbiAgICAuLi4oYWNjZXNzS2V5SWQgJiZcbiAgICAgIHNlY3JldEFjY2Vzc0tleSAmJiB7XG4gICAgICAgIGNyZWRlbnRpYWxzOiB7XG4gICAgICAgICAgYWNjZXNzS2V5SWQsXG4gICAgICAgICAgc2VjcmV0QWNjZXNzS2V5LFxuICAgICAgICB9LFxuICAgICAgfSksXG4gIH0pO1xufTtcblxuZXhwb3J0IGNvbnN0IGdldFMzQnVja2V0TmFtZSA9IChjb25maWdTZXJ2aWNlOiBDb25maWdTZXJ2aWNlKTogc3RyaW5nID0+IHtcbiAgY29uc3QgYnVja2V0ID0gY29uZmlnU2VydmljZS5nZXQ8c3RyaW5nPignYXdzLnMzLmJ1Y2tldCcpO1xuICBpZiAoIWJ1Y2tldCkge1xuICAgIGNvbnNvbGUud2FybignUzMgYnVja2V0IG5hbWUgbm90IGNvbmZpZ3VyZWQsIHVzaW5nIGRlZmF1bHQ6IHZ0ZXhkYXktZGV2LWJ1Y2tldCcpO1xuICAgIHJldHVybiAndnRleGRheS1kZXYtYnVja2V0JztcbiAgfVxuICByZXR1cm4gYnVja2V0O1xufTtcblxuZXhwb3J0IGNvbnN0IFMzX0NPTkZJRyA9IHtcbiAgTUFYX0ZJTEVfU0laRToge1xuICAgIHZpZGVvOiA1MDAgKiAxMDI0ICogMTAyNCwgLy8gNTAwTUJcbiAgICBkZWZhdWx0OiA1MCAqIDEwMjQgKiAxMDI0LCAvLyA1ME1CXG4gIH0sXG4gIEFMTE9XRURfRk9STUFUUzoge1xuICAgIHByZXNzX2tpdDogWydwZGYnLCAnemlwJ10sXG4gICAgbG9nb19wYWNrYWdlOiBbJ3ppcCcsICdhaScsICdlcHMnLCAnc3ZnJ10sXG4gICAgcGhvdG86IFsnanBnJywgJ2pwZWcnLCAncG5nJywgJ3dlYnAnXSxcbiAgICB2aWRlbzogWydtcDQnLCAnbW92JywgJ3dlYm0nXSxcbiAgICBwcmVzZW50YXRpb246IFsncHB0JywgJ3BwdHgnLCAncGRmJ10sXG4gIH0sXG4gIFVSTF9FWFBJUlk6IDI0ICogNjAgKiA2MCwgLy8gMjQgaG91cnMgaW4gc2Vjb25kc1xufTtcbiJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7SUFnQlE7SUFBQUEsY0FBQSxZQUFBQSxDQUFBO01BQUEsT0FBQUMsY0FBQTtJQUFBO0VBQUE7RUFBQSxPQUFBQSxjQUFBO0FBQUE7QUFBQUQsY0FBQTtBQUFBQSxjQUFBLEdBQUFFLENBQUE7Ozs7Ozs7QUFoQlIsTUFBQUMsV0FBQTtBQUFBO0FBQUEsQ0FBQUgsY0FBQSxHQUFBRSxDQUFBLE9BQUFFLE9BQUE7QUFBOEM7QUFBQUosY0FBQSxHQUFBRSxDQUFBO0FBR3ZDLE1BQU1HLGNBQWMsR0FBSUMsYUFBNEIsSUFBSTtFQUFBO0VBQUFOLGNBQUEsR0FBQU8sQ0FBQTtFQUM3RCxNQUFNQyxNQUFNO0VBQUE7RUFBQSxDQUFBUixjQUFBLEdBQUFFLENBQUEsT0FBR0ksYUFBYSxDQUFDRyxHQUFHLENBQUMs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

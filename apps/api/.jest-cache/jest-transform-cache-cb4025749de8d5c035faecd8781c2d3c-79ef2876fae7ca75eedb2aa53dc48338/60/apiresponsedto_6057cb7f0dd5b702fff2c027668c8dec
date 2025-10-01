@@ -1,0 +1,25 @@
+92579d668cf76347c4de8b96babf7398
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ApiResponse = void 0;
+class ApiResponse {
+    success;
+    data;
+    metadata;
+    error;
+    static success(data, metadata) {
+        return {
+            success: true,
+            data,
+            metadata,
+        };
+    }
+    static error(error) {
+        return {
+            success: false,
+            error,
+        };
+    }
+}
+exports.ApiResponse = ApiResponse;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvY29tbW9uL2R0by9hcGktcmVzcG9uc2UuZHRvLnRzIiwibWFwcGluZ3MiOiI7OztBQUFBLE1BQWEsV0FBVztJQUN0QixPQUFPLENBQVU7SUFDakIsSUFBSSxDQUFLO0lBQ1QsUUFBUSxDQU1OO0lBQ0YsS0FBSyxDQU1IO0lBRUYsTUFBTSxDQUFDLE9BQU8sQ0FBSSxJQUFPLEVBQUUsUUFBYztRQUN2QyxPQUFPO1lBQ0wsT0FBTyxFQUFFLElBQUk7WUFDYixJQUFJO1lBQ0osUUFBUTtTQUNULENBQUM7SUFDSixDQUFDO0lBRUQsTUFBTSxDQUFDLEtBQUssQ0FBQyxLQUFVO1FBQ3JCLE9BQU87WUFDTCxPQUFPLEVBQUUsS0FBSztZQUNkLEtBQUs7U0FDTixDQUFDO0lBQ0osQ0FBQztDQUNGO0FBaENELGtDQWdDQyIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvaG9tZS9sdWlzbmV0bzk4L0RvY3VtZW50b3MvQ29kZS9tb25vcmVwby12dGV4L2FwcHMvYXBpL3NyYy9jb21tb24vZHRvL2FwaS1yZXNwb25zZS5kdG8udHMiXSwic291cmNlc0NvbnRlbnQiOlsiZXhwb3J0IGNsYXNzIEFwaVJlc3BvbnNlPFQgPSBhbnk+IHtcbiAgc3VjY2VzczogYm9vbGVhbjtcbiAgZGF0YT86IFQ7XG4gIG1ldGFkYXRhPzoge1xuICAgIHRvdGFsPzogbnVtYmVyO1xuICAgIHBhZ2U/OiBudW1iZXI7XG4gICAgbGltaXQ/OiBudW1iZXI7XG4gICAgaGFzTmV4dD86IGJvb2xlYW47XG4gICAgaGFzUHJldj86IGJvb2xlYW47XG4gIH07XG4gIGVycm9yPzoge1xuICAgIGNvZGU6IHN0cmluZztcbiAgICBtZXNzYWdlOiBzdHJpbmc7XG4gICAgZGV0YWlscz86IGFueTtcbiAgICB0aW1lc3RhbXA6IHN0cmluZztcbiAgICByZXF1ZXN0SWQ6IHN0cmluZztcbiAgfTtcblxuICBzdGF0aWMgc3VjY2VzczxUPihkYXRhOiBULCBtZXRhZGF0YT86IGFueSk6IEFwaVJlc3BvbnNlPFQ+IHtcbiAgICByZXR1cm4ge1xuICAgICAgc3VjY2VzczogdHJ1ZSxcbiAgICAgIGRhdGEsXG4gICAgICBtZXRhZGF0YSxcbiAgICB9O1xuICB9XG5cbiAgc3RhdGljIGVycm9yKGVycm9yOiBhbnkpOiBBcGlSZXNwb25zZSB7XG4gICAgcmV0dXJuIHtcbiAgICAgIHN1Y2Nlc3M6IGZhbHNlLFxuICAgICAgZXJyb3IsXG4gICAgfTtcbiAgfVxufVxuIl0sInZlcnNpb24iOjN9

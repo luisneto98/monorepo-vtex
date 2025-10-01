@@ -1,0 +1,128 @@
+4db79ee82978ff90e3aa56796dc88acb
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SystemConfigController = void 0;
+const common_1 = require("@nestjs/common");
+const throttler_1 = require("@nestjs/throttler");
+const system_config_service_1 = require("./system-config.service");
+const update_config_dto_1 = require("./dto/update-config.dto");
+const section_visibility_dto_1 = require("./dto/section-visibility.dto");
+const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
+const roles_guard_1 = require("../auth/guards/roles.guard");
+const roles_decorator_1 = require("../auth/decorators/roles.decorator");
+const shared_1 = require("@vtexday26/shared");
+let SystemConfigController = class SystemConfigController {
+    systemConfigService;
+    constructor(systemConfigService) {
+        this.systemConfigService = systemConfigService;
+    }
+    async getConfig() {
+        return this.systemConfigService.getConfig();
+    }
+    async getSectionVisibility(section) {
+        return this.systemConfigService.getSectionVisibility(section);
+    }
+    async updateConfig(updateDto, req, ip) {
+        return this.systemConfigService.updateConfig(updateDto, req.user.id, ip);
+    }
+    async updateSection(section, updateDto, req, ip) {
+        return this.systemConfigService.updateSection(section, updateDto, req.user.id, ip);
+    }
+    async getAuditLogs(page, limit, section) {
+        return this.systemConfigService.getAuditLogs(page ? parseInt(page, 10) : 1, limit ? parseInt(limit, 10) : 20, section);
+    }
+    async getScheduledChanges() {
+        return this.systemConfigService.getScheduledChanges();
+    }
+    async applyScheduledChanges() {
+        await this.systemConfigService.applyScheduledChanges();
+        return { message: 'Scheduled changes applied successfully' };
+    }
+};
+exports.SystemConfigController = SystemConfigController;
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], SystemConfigController.prototype, "getConfig", null);
+__decorate([
+    (0, common_1.Get)('section/:section'),
+    __param(0, (0, common_1.Param)('section')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], SystemConfigController.prototype, "getSectionVisibility", null);
+__decorate([
+    (0, common_1.Put)(),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(shared_1.UserRole.SUPER_ADMIN),
+    (0, throttler_1.Throttle)({ default: { limit: 10, ttl: 60000 } }) // Rate limit: 10 requests per minute
+    ,
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Request)()),
+    __param(2, (0, common_1.Ip)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [update_config_dto_1.UpdateSystemConfigDto, Object, String]),
+    __metadata("design:returntype", Promise)
+], SystemConfigController.prototype, "updateConfig", null);
+__decorate([
+    (0, common_1.Patch)('section/:section'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(shared_1.UserRole.SUPER_ADMIN),
+    (0, throttler_1.Throttle)({ default: { limit: 10, ttl: 60000 } }) // Rate limit: 10 requests per minute
+    ,
+    __param(0, (0, common_1.Param)('section')),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Request)()),
+    __param(3, (0, common_1.Ip)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, section_visibility_dto_1.UpdateSectionVisibilityDto, Object, String]),
+    __metadata("design:returntype", Promise)
+], SystemConfigController.prototype, "updateSection", null);
+__decorate([
+    (0, common_1.Get)('audit'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(shared_1.UserRole.SUPER_ADMIN),
+    __param(0, (0, common_1.Query)('page')),
+    __param(1, (0, common_1.Query)('limit')),
+    __param(2, (0, common_1.Query)('section')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, String]),
+    __metadata("design:returntype", Promise)
+], SystemConfigController.prototype, "getAuditLogs", null);
+__decorate([
+    (0, common_1.Get)('preview'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(shared_1.UserRole.SUPER_ADMIN),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], SystemConfigController.prototype, "getScheduledChanges", null);
+__decorate([
+    (0, common_1.Post)('apply-scheduled'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(shared_1.UserRole.SUPER_ADMIN),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], SystemConfigController.prototype, "applyScheduledChanges", null);
+exports.SystemConfigController = SystemConfigController = __decorate([
+    (0, common_1.Controller)('system-config'),
+    __metadata("design:paramtypes", [system_config_service_1.SystemConfigService])
+], SystemConfigController);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9zeXN0ZW0tY29uZmlnL3N5c3RlbS1jb25maWcuY29udHJvbGxlci50cyIsIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7Ozs7QUFBQSwyQ0Fjd0I7QUFDeEIsaURBQTZDO0FBQzdDLG1FQUE4RDtBQUM5RCwrREFBZ0U7QUFDaEUseUVBQTBFO0FBQzFFLGtFQUE2RDtBQUM3RCw0REFBd0Q7QUFDeEQsd0VBQTJEO0FBQzNELDhDQUErRDtBQUd4RCxJQUFNLHNCQUFzQixHQUE1QixNQUFNLHNCQUFzQjtJQUNKO0lBQTdCLFlBQTZCLG1CQUF3QztRQUF4Qyx3QkFBbUIsR0FBbkIsbUJBQW1CLENBQXFCO0lBQUcsQ0FBQztJQUduRSxBQUFOLEtBQUssQ0FBQyxTQUFTO1FBQ2IsT0FBTyxJQUFJLENBQUMsbUJBQW1CLENBQUMsU0FBUyxFQUFFLENBQUM7SUFDOUMsQ0FBQztJQUdLLEFBQU4sS0FBSyxDQUFDLG9CQUFvQixDQUFtQixPQUFvQjtRQUMvRCxPQUFPLElBQUksQ0FBQyxtQkFBbUIsQ0FBQyxvQkFBb0IsQ0FBQyxPQUFPLENBQUMsQ0FBQztJQUNoRSxDQUFDO0lBT0ssQUFBTixLQUFLLENBQUMsWUFBWSxDQUNSLFNBQWdDLEVBQzdCLEdBQVEsRUFDYixFQUFVO1FBRWhCLE9BQU8sSUFBSSxDQUFDLG1CQUFtQixDQUFDLFlBQVksQ0FBQyxTQUFTLEVBQUUsR0FBRyxDQUFDLElBQUksQ0FBQyxFQUFFLEVBQUUsRUFBRSxDQUFDLENBQUM7SUFDM0UsQ0FBQztJQU1LLEFBQU4sS0FBSyxDQUFDLGFBQWEsQ0FDQyxPQUFvQixFQUM5QixTQUFxQyxFQUNsQyxHQUFRLEVBQ2IsRUFBVTtRQUVoQixPQUFPLElBQUksQ0FBQyxtQkFBbUIsQ0FBQyxhQUFhLENBQUMsT0FBTyxFQUFFLFNBQVMsRUFBRSxHQUFHLENBQUMsSUFBSSxDQUFDLEVBQUUsRUFBRSxFQUFFLENBQUMsQ0FB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QUpMLElBQUEsYUFBSSxFQUFDLGlCQUFpQixDQUFDO0lBQ3ZCLElBQUEsa0JBQVMsRUFBQyw2QkFBWSxFQUFFLHdCQUFVLENBQUM7SUFDbkMsSUFBQSx1QkFBSyxFQUFDLGlCQUFRLENBQUMsV0FBVyxDQUFDO0lBQzNCLElBQUEsaUJBQVEsRUFBQyxtQkFBVSxDQUFDLEVBQUUsQ0FBQzs7OzttRUFJdkI7aUNBcEVVLHNCQUFzQjtJQURsQyxJQUFBLG1CQUFVLEVBQUMsZUFBZSxDQUFDO3FDQUV3QiwyQ0FBbUI7R0FEMUQsc0JBQXNCLENBcUVsQyIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvaG9tZS9sdWlzbmV0bzk4L0RvY3VtZW50b3MvQ29kZS9tb25vcmVwby12dGV4L2FwcHMvYXBpL3NyYy9tb2R1bGVzL3N5c3RlbS1jb25maWcvc3lzdGVtLWNvbmZpZy5jb250cm9sbGVyLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7XG4gIENvbnRyb2xsZXIsXG4gIEdldCxcbiAgUHV0LFxuICBQYXRjaCxcbiAgUG9zdCxcbiAgQm9keSxcbiAgUGFyYW0sXG4gIFF1ZXJ5LFxuICBVc2VHdWFyZHMsXG4gIFJlcXVlc3QsXG4gIElwLFxuICBIdHRwQ29kZSxcbiAgSHR0cFN0YXR1cyxcbn0gZnJvbSAnQG5lc3Rqcy9jb21tb24nO1xuaW1wb3J0IHsgVGhyb3R0bGUgfSBmcm9tICdAbmVzdGpzL3Rocm90dGxlcic7XG5pbXBvcnQgeyBTeXN0ZW1Db25maWdTZXJ2aWNlIH0gZnJvbSAnLi9zeXN0ZW0tY29uZmlnLnNlcnZpY2UnO1xuaW1wb3J0IHsgVXBkYXRlU3lzdGVtQ29uZmlnRHRvIH0gZnJvbSAnLi9kdG8vdXBkYXRlLWNvbmZpZy5kdG8nO1xuaW1wb3J0IHsgVXBkYXRlU2VjdGlvblZpc2liaWxpdHlEdG8gfSBmcm9tICcuL2R0by9zZWN0aW9uLXZpc2liaWxpdHkuZHRvJztcbmltcG9ydCB7IEp3dEF1dGhHdWFyZCB9IGZyb20gJy4uL2F1dGgvZ3VhcmRzL2p3dC1hdXRoLmd1YXJkJztcbmltcG9ydCB7IFJvbGVzR3VhcmQgfSBmcm9tICcuLi9hdXRoL2d1YXJkcy9yb2xlcy5ndWFyZCc7XG5pbXBvcnQgeyBSb2xlcyB9IGZyb20gJy4uL2F1dGgvZGVjb3JhdG9ycy9yb2xlcy5kZWNvcmF0b3InO1xuaW1wb3J0IHsgVXNlclJvbGUsIHR5cGUgU2VjdGlvbk5hbWUgfSBmcm9tICdAdnRleGRheTI2L3NoYXJlZCc7XG5cbkBDb250cm9sbGVyKCdzeXN0ZW0tY29uZmlnJylcbmV4cG9ydCBjbGFzcyBTeXN0ZW1Db25maWdDb250cm9sbGVyIHtcbiAgY29uc3RydWN0b3IocHJpdmF0ZSByZWFkb25seSBzeXN0ZW1Db25maWdTZXJ2aWNlOiBTeXN0ZW1Db25maWdTZXJ2aWNlKSB7fVxuXG4gIEBHZXQoKVxuICBhc3luYyBnZXRDb25maWcoKSB7XG4gICAgcmV0dXJuIHRoaXMuc3lzdGVtQ29uZmlnU2VydmljZS5nZXRDb25maWcoKTtcbiAgfVxuXG4gIEBHZXQoJ3NlY3Rpb24vOnNlY3Rpb24nKVxuICBhc3luYyBnZXRTZWN0aW9uVmlzaWJpbGl0eShAUGFyYW0oJ3NlY3Rpb24nKSBzZWN0aW9uOiBTZWN0aW9uTmFtZSkge1xuICAgIHJldHVybiB0aGlzLnN5c3RlbUNvbmZpZ1NlcnZpY2UuZ2V0U2VjdGlvblZpc2liaWxpdHkoc2VjdGlvbik7XG4gIH1cblxuICBAUHV0KClcbiAgQFVzZUd1YXJkcyhKd3RBdXRoR3VhcmQsIFJvbGVzR3VhcmQpXG4gIEBSb2xlcyhVc2VyUm9sZS5TVVBFUl9BRE1JTilcbiAgQFRocm90dGxlKHsgZGVmYXVsdDogeyBsaW1pdDogMTAsIHR0bDogNjAwMDAgfSB9KSAvLyBSYXRlIGxpbWl0OiAxMCByZXF1ZXN0cyBwZXIgbWludXRlXG4gIEBIdHRwQ29kZShIdHRwU3RhdHVzLk9LKVxuICBhc3luYyB1cGRhdGVDb25maWcoXG4gICAgQEJvZHkoKSB1cGRhdGVEdG86IFVwZGF0ZVN5c3RlbUNvbmZpZ0R0byxcbiAgICBAUmVxdWVzdCgpIHJlcTogYW55LFxuICAgIEBJcCgpIGlwOiBzdHJpbmcsXG4gICkge1xuICAgIHJldHVybiB0aGlzLnN5c3RlbUNvbmZpZ1NlcnZpY2UudXBkYXRlQ29uZmlnKHVwZGF0ZUR0bywgcmVxLnVzZXIuaWQsIGlwKTtcbiAgfVxuXG4gIEBQYXRjaCgnc2VjdGlvbi86c2VjdGlvbicpXG4gIEBVc2VHdWFyZHMoSnd0QXV0aEd1YXJkLCBSb2xlc0d1YXJkKVxuICBAUm9sZXMoVXNlclJvbGUuU1VQRVJfQURNSU4pXG4gIEBUaHJvdHRsZSh7IGRlZmF1bHQ6IHsgbGltaXQ6IDEwLCB0dGw6IDYwMDAwIH0gfSkgLy8gUmF0ZSBsaW1pdDogMTAgcmVxdWVzdHMgcGVyIG1pbnV0ZVxuICBhc3luYyB1cGRhdGVTZWN0aW9uKFxuICAgIEBQYXJhbSgnc2VjdGlvbicpIHNlY3Rpb246IFNlY3Rpb25OYW1lLFxuICAgIEBCb2R5KCkgdXBkYXRlRHRvOiBVcGRhdGVTZWN0aW9uVmlzaWJpbGl0eUR0byxcbiAgICBAUmVxdWVzdCgpIHJlcTogYW55LFxuICAgIEBJcCgpIGlwOiBzdHJpbmcsXG4gICkge1xuICAgIHJldHVybiB0aGlzLnN5c3RlbUNvbmZpZ1NlcnZpY2UudXBkYXRlU2VjdGlvbihzZWN0aW9uLCB1cGRhdGVEdG8sIHJlcS51c2VyLmlkLCBpcCk7XG4gIH1cblxuICBAR2V0KCdhdWRpdCcpXG4gIEBVc2VHdWFyZHMoSnd0QXV0aEd1YXJkLCBSb2xlc0d1YXJkKVxuICBAUm9sZXMoVXNlclJvbGUuU1VQRVJfQURNSU4pXG4gIGFzeW5jIGdldEF1ZGl0TG9ncyhcbiAgICBAUXVlcnkoJ3BhZ2UnKSBwYWdlPzogc3RyaW5nLFxuICAgIEBRdWVyeSgnbGltaXQnKSBsaW1pdD86IHN0cmluZyxcbiAgICBAUXVlcnkoJ3NlY3Rpb24nKSBzZWN0aW9uPzogc3RyaW5nLFxuICApIHtcbiAgICByZXR1cm4gdGhpcy5zeXN0ZW1Db25maWdTZXJ2aWNlLmdldEF1ZGl0TG9ncyhcbiAgICAgIHBhZ2UgPyBwYXJzZUludChwYWdlLCAxMCkgOiAxLFxuICAgICAgbGltaXQgPyBwYXJzZUludChsaW1pdCwgMTApIDogMjAsXG4gICAgICBzZWN0aW9uLFxuICAgICk7XG4gIH1cblxuICBAR2V0KCdwcmV2aWV3JylcbiAgQFVzZUd1YXJkcyhKd3RBdXRoR3VhcmQsIFJvbGVzR3VhcmQpXG4gIEBSb2xlcyhVc2VyUm9sZS5TVVBFUl9BRE1JTilcbiAgYXN5bmMgZ2V0U2NoZWR1bGVkQ2hhbmdlcygpIHtcbiAgICByZXR1cm4gdGhpcy5zeXN0ZW1Db25maWdTZXJ2aWNlLmdldFNjaGVkdWxlZENoYW5nZXMoKTtcbiAgfVxuXG4gIEBQb3N0KCdhcHBseS1zY2hlZHVsZWQnKVxuICBAVXNlR3VhcmRzKEp3dEF1dGhHdWFyZCwgUm9sZXNHdWFyZClcbiAgQFJvbGVzKFVzZXJSb2xlLlNVUEVSX0FETUlOKVxuICBASHR0cENvZGUoSHR0cFN0YXR1cy5PSylcbiAgYXN5bmMgYXBwbHlTY2hlZHVsZWRDaGFuZ2VzKCkge1xuICAgIGF3YWl0IHRoaXMuc3lzdGVtQ29uZmlnU2VydmljZS5hcHBseVNjaGVkdWxlZENoYW5nZXMoKTtcbiAgICByZXR1cm4geyBtZXNzYWdlOiAnU2NoZWR1bGVkIGNoYW5nZXMgYXBwbGllZCBzdWNjZXNzZnVsbHknIH07XG4gIH1cbn1cbiJdLCJ2ZXJzaW9uIjozfQ==

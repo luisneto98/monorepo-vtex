@@ -1,0 +1,34 @@
+afd949aa31af797691f35916cb5e3bb6
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.EventSettingsModule = void 0;
+const common_1 = require("@nestjs/common");
+const mongoose_1 = require("@nestjs/mongoose");
+const cache_manager_1 = require("@nestjs/cache-manager");
+const event_settings_controller_1 = require("./event-settings.controller");
+const event_settings_service_1 = require("./event-settings.service");
+const event_settings_schema_1 = require("./schemas/event-settings.schema");
+let EventSettingsModule = class EventSettingsModule {
+};
+exports.EventSettingsModule = EventSettingsModule;
+exports.EventSettingsModule = EventSettingsModule = __decorate([
+    (0, common_1.Module)({
+        imports: [
+            mongoose_1.MongooseModule.forFeature([{ name: event_settings_schema_1.EventSettings.name, schema: event_settings_schema_1.EventSettingsSchema }]),
+            cache_manager_1.CacheModule.register({
+                ttl: 300, // 5 minutes default TTL in seconds
+                max: 100, // maximum number of items in cache
+            }),
+        ],
+        controllers: [event_settings_controller_1.EventSettingsController],
+        providers: [event_settings_service_1.EventSettingsService],
+        exports: [event_settings_service_1.EventSettingsService],
+    })
+], EventSettingsModule);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9ldmVudC1zZXR0aW5ncy9ldmVudC1zZXR0aW5ncy5tb2R1bGUudHMiLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7O0FBQUEsMkNBQXdDO0FBQ3hDLCtDQUFrRDtBQUNsRCx5REFBb0Q7QUFDcEQsMkVBQXNFO0FBQ3RFLHFFQUFnRTtBQUNoRSwyRUFBcUY7QUFjOUUsSUFBTSxtQkFBbUIsR0FBekIsTUFBTSxtQkFBbUI7Q0FBRyxDQUFBO0FBQXRCLGtEQUFtQjs4QkFBbkIsbUJBQW1CO0lBWi9CLElBQUEsZUFBTSxFQUFDO1FBQ04sT0FBTyxFQUFFO1lBQ1AseUJBQWMsQ0FBQyxVQUFVLENBQUMsQ0FBQyxFQUFFLElBQUksRUFBRSxxQ0FBYSxDQUFDLElBQUksRUFBRSxNQUFNLEVBQUUsMkNBQW1CLEVBQUUsQ0FBQyxDQUFDO1lBQ3RGLDJCQUFXLENBQUMsUUFBUSxDQUFDO2dCQUNuQixHQUFHLEVBQUUsR0FBRyxFQUFFLG1DQUFtQztnQkFDN0MsR0FBRyxFQUFFLEdBQUcsRUFBRSxtQ0FBbUM7YUFDOUMsQ0FBQztTQUNIO1FBQ0QsV0FBVyxFQUFFLENBQUMsbURBQXVCLENBQUM7UUFDdEMsU0FBUyxFQUFFLENBQUMsNkNBQW9CLENBQUM7UUFDakMsT0FBTyxFQUFFLENBQUMsNkNBQW9CLENBQUM7S0FDaEMsQ0FBQztHQUNXLG1CQUFtQixDQUFHIiwibmFtZXMiOltdLCJzb3VyY2VzIjpbIi9ob21lL2x1aXNuZXRvOTgvRG9jdW1lbnRvcy9Db2RlL21vbm9yZXBvLXZ0ZXgvYXBwcy9hcGkvc3JjL21vZHVsZXMvZXZlbnQtc2V0dGluZ3MvZXZlbnQtc2V0dGluZ3MubW9kdWxlLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IE1vZHVsZSB9IGZyb20gJ0BuZXN0anMvY29tbW9uJztcbmltcG9ydCB7IE1vbmdvb3NlTW9kdWxlIH0gZnJvbSAnQG5lc3Rqcy9tb25nb29zZSc7XG5pbXBvcnQgeyBDYWNoZU1vZHVsZSB9IGZyb20gJ0BuZXN0anMvY2FjaGUtbWFuYWdlcic7XG5pbXBvcnQgeyBFdmVudFNldHRpbmdzQ29udHJvbGxlciB9IGZyb20gJy4vZXZlbnQtc2V0dGluZ3MuY29udHJvbGxlcic7XG5pbXBvcnQgeyBFdmVudFNldHRpbmdzU2VydmljZSB9IGZyb20gJy4vZXZlbnQtc2V0dGluZ3Muc2VydmljZSc7XG5pbXBvcnQgeyBFdmVudFNldHRpbmdzLCBFdmVudFNldHRpbmdzU2NoZW1hIH0gZnJvbSAnLi9zY2hlbWFzL2V2ZW50LXNldHRpbmdzLnNjaGVtYSc7XG5cbkBNb2R1bGUoe1xuICBpbXBvcnRzOiBbXG4gICAgTW9uZ29vc2VNb2R1bGUuZm9yRmVhdHVyZShbeyBuYW1lOiBFdmVudFNldHRpbmdzLm5hbWUsIHNjaGVtYTogRXZlbnRTZXR0aW5nc1NjaGVtYSB9XSksXG4gICAgQ2FjaGVNb2R1bGUucmVnaXN0ZXIoe1xuICAgICAgdHRsOiAzMDAsIC8vIDUgbWludXRlcyBkZWZhdWx0IFRUTCBpbiBzZWNvbmRzXG4gICAgICBtYXg6IDEwMCwgLy8gbWF4aW11bSBudW1iZXIgb2YgaXRlbXMgaW4gY2FjaGVcbiAgICB9KSxcbiAgXSxcbiAgY29udHJvbGxlcnM6IFtFdmVudFNldHRpbmdzQ29udHJvbGxlcl0sXG4gIHByb3ZpZGVyczogW0V2ZW50U2V0dGluZ3NTZXJ2aWNlXSxcbiAgZXhwb3J0czogW0V2ZW50U2V0dGluZ3NTZXJ2aWNlXSxcbn0pXG5leHBvcnQgY2xhc3MgRXZlbnRTZXR0aW5nc01vZHVsZSB7fVxuIl0sInZlcnNpb24iOjN9

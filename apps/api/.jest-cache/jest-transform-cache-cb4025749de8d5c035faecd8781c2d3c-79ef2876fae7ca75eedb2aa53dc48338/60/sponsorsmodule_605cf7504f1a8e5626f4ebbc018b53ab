@@ -1,0 +1,35 @@
+2a826bd79950798320a914dfb1d75fc7
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SponsorsModule = void 0;
+const common_1 = require("@nestjs/common");
+const mongoose_1 = require("@nestjs/mongoose");
+const sponsors_controller_1 = require("./sponsors.controller");
+const sponsors_service_1 = require("./sponsors.service");
+const sponsor_schema_1 = require("./schemas/sponsor.schema");
+const sponsor_tier_schema_1 = require("./schemas/sponsor-tier.schema");
+const storage_module_1 = require("../storage/storage.module");
+let SponsorsModule = class SponsorsModule {
+};
+exports.SponsorsModule = SponsorsModule;
+exports.SponsorsModule = SponsorsModule = __decorate([
+    (0, common_1.Module)({
+        imports: [
+            mongoose_1.MongooseModule.forFeature([
+                { name: sponsor_schema_1.Sponsor.name, schema: sponsor_schema_1.SponsorSchema },
+                { name: sponsor_tier_schema_1.SponsorTier.name, schema: sponsor_tier_schema_1.SponsorTierSchema },
+            ]),
+            storage_module_1.StorageModule,
+        ],
+        controllers: [sponsors_controller_1.SponsorsController],
+        providers: [sponsors_service_1.SponsorsService],
+        exports: [sponsors_service_1.SponsorsService],
+    })
+], SponsorsModule);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9zcG9uc29ycy9zcG9uc29ycy5tb2R1bGUudHMiLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7O0FBQUEsMkNBQXdDO0FBQ3hDLCtDQUFrRDtBQUNsRCwrREFBMkQ7QUFDM0QseURBQXFEO0FBQ3JELDZEQUFrRTtBQUNsRSx1RUFBK0U7QUFDL0UsOERBQTBEO0FBY25ELElBQU0sY0FBYyxHQUFwQixNQUFNLGNBQWM7Q0FBRyxDQUFBO0FBQWpCLHdDQUFjO3lCQUFkLGNBQWM7SUFaMUIsSUFBQSxlQUFNLEVBQUM7UUFDTixPQUFPLEVBQUU7WUFDUCx5QkFBYyxDQUFDLFVBQVUsQ0FBQztnQkFDeEIsRUFBRSxJQUFJLEVBQUUsd0JBQU8sQ0FBQyxJQUFJLEVBQUUsTUFBTSxFQUFFLDhCQUFhLEVBQUU7Z0JBQzdDLEVBQUUsSUFBSSxFQUFFLGlDQUFXLENBQUMsSUFBSSxFQUFFLE1BQU0sRUFBRSx1Q0FBaUIsRUFBRTthQUN0RCxDQUFDO1lBQ0YsOEJBQWE7U0FDZDtRQUNELFdBQVcsRUFBRSxDQUFDLHdDQUFrQixDQUFDO1FBQ2pDLFNBQVMsRUFBRSxDQUFDLGtDQUFlLENBQUM7UUFDNUIsT0FBTyxFQUFFLENBQUMsa0NBQWUsQ0FBQztLQUMzQixDQUFDO0dBQ1csY0FBYyxDQUFHIiwibmFtZXMiOltdLCJzb3VyY2VzIjpbIi9ob21lL2x1aXNuZXRvOTgvRG9jdW1lbnRvcy9Db2RlL21vbm9yZXBvLXZ0ZXgvYXBwcy9hcGkvc3JjL21vZHVsZXMvc3BvbnNvcnMvc3BvbnNvcnMubW9kdWxlLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IE1vZHVsZSB9IGZyb20gJ0BuZXN0anMvY29tbW9uJztcbmltcG9ydCB7IE1vbmdvb3NlTW9kdWxlIH0gZnJvbSAnQG5lc3Rqcy9tb25nb29zZSc7XG5pbXBvcnQgeyBTcG9uc29yc0NvbnRyb2xsZXIgfSBmcm9tICcuL3Nwb25zb3JzLmNvbnRyb2xsZXInO1xuaW1wb3J0IHsgU3BvbnNvcnNTZXJ2aWNlIH0gZnJvbSAnLi9zcG9uc29ycy5zZXJ2aWNlJztcbmltcG9ydCB7IFNwb25zb3IsIFNwb25zb3JTY2hlbWEgfSBmcm9tICcuL3NjaGVtYXMvc3BvbnNvci5zY2hlbWEnO1xuaW1wb3J0IHsgU3BvbnNvclRpZXIsIFNwb25zb3JUaWVyU2NoZW1hIH0gZnJvbSAnLi9zY2hlbWFzL3Nwb25zb3ItdGllci5zY2hlbWEnO1xuaW1wb3J0IHsgU3RvcmFnZU1vZHVsZSB9IGZyb20gJy4uL3N0b3JhZ2Uvc3RvcmFnZS5tb2R1bGUnO1xuXG5ATW9kdWxlKHtcbiAgaW1wb3J0czogW1xuICAgIE1vbmdvb3NlTW9kdWxlLmZvckZlYXR1cmUoW1xuICAgICAgeyBuYW1lOiBTcG9uc29yLm5hbWUsIHNjaGVtYTogU3BvbnNvclNjaGVtYSB9LFxuICAgICAgeyBuYW1lOiBTcG9uc29yVGllci5uYW1lLCBzY2hlbWE6IFNwb25zb3JUaWVyU2NoZW1hIH0sXG4gICAgXSksXG4gICAgU3RvcmFnZU1vZHVsZSxcbiAgXSxcbiAgY29udHJvbGxlcnM6IFtTcG9uc29yc0NvbnRyb2xsZXJdLFxuICBwcm92aWRlcnM6IFtTcG9uc29yc1NlcnZpY2VdLFxuICBleHBvcnRzOiBbU3BvbnNvcnNTZXJ2aWNlXSxcbn0pXG5leHBvcnQgY2xhc3MgU3BvbnNvcnNNb2R1bGUge31cbiJdLCJ2ZXJzaW9uIjozfQ==

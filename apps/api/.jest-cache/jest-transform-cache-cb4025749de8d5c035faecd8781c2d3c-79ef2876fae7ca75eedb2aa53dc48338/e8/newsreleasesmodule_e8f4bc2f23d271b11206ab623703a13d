@@ -1,0 +1,48 @@
+278552ca511881bbc4a21e91f8569917
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.NewsReleasesModule = void 0;
+const common_1 = require("@nestjs/common");
+const mongoose_1 = require("@nestjs/mongoose");
+const news_releases_controller_1 = require("./news-releases.controller");
+const news_releases_service_1 = require("./news-releases.service");
+const news_release_schema_1 = require("./schemas/news-release.schema");
+const audit_log_schema_1 = require("./schemas/audit-log.schema");
+const image_processing_service_1 = require("./services/image-processing.service");
+const content_sanitization_service_1 = require("./services/content-sanitization.service");
+const publication_scheduler_service_1 = require("./services/publication-scheduler.service");
+const feed_generator_service_1 = require("./services/feed-generator.service");
+const audit_log_service_1 = require("./services/audit-log.service");
+const platform_express_1 = require("@nestjs/platform-express");
+const multer_config_1 = require("../../config/multer.config");
+let NewsReleasesModule = class NewsReleasesModule {
+};
+exports.NewsReleasesModule = NewsReleasesModule;
+exports.NewsReleasesModule = NewsReleasesModule = __decorate([
+    (0, common_1.Module)({
+        imports: [
+            mongoose_1.MongooseModule.forFeature([
+                { name: news_release_schema_1.NewsRelease.name, schema: news_release_schema_1.NewsReleaseSchema },
+                { name: audit_log_schema_1.NewsReleaseAuditLog.name, schema: audit_log_schema_1.NewsReleaseAuditLogSchema },
+            ]),
+            platform_express_1.MulterModule.register(multer_config_1.multerConfig),
+        ],
+        controllers: [news_releases_controller_1.NewsReleasesController, news_releases_controller_1.PublicNewsController],
+        providers: [
+            news_releases_service_1.NewsReleasesService,
+            image_processing_service_1.ImageProcessingService,
+            content_sanitization_service_1.ContentSanitizationService,
+            publication_scheduler_service_1.PublicationSchedulerService,
+            feed_generator_service_1.FeedGeneratorService,
+            audit_log_service_1.AuditLogService,
+        ],
+        exports: [news_releases_service_1.NewsReleasesService],
+    })
+], NewsReleasesModule);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9uZXdzLXJlbGVhc2VzL25ld3MtcmVsZWFzZXMubW9kdWxlLnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7OztBQUFBLDJDQUF3QztBQUN4QywrQ0FBa0Q7QUFDbEQseUVBQTBGO0FBQzFGLG1FQUE4RDtBQUM5RCx1RUFBK0U7QUFDL0UsaUVBQTRGO0FBQzVGLGtGQUE2RTtBQUM3RSwwRkFBcUY7QUFDckYsNEZBQXVGO0FBQ3ZGLDhFQUF5RTtBQUN6RSxvRUFBK0Q7QUFDL0QsK0RBQXdEO0FBQ3hELDhEQUEwRDtBQXFCbkQsSUFBTSxrQkFBa0IsR0FBeEIsTUFBTSxrQkFBa0I7Q0FBRyxDQUFBO0FBQXJCLGdEQUFrQjs2QkFBbEIsa0JBQWtCO0lBbkI5QixJQUFBLGVBQU0sRUFBQztRQUNOLE9BQU8sRUFBRTtZQUNQLHlCQUFjLENBQUMsVUFBVSxDQUFDO2dCQUN4QixFQUFFLElBQUksRUFBRSxpQ0FBVyxDQUFDLElBQUksRUFBRSxNQUFNLEVBQUUsdUNBQWlCLEVBQUU7Z0JBQ3JELEVBQUUsSUFBSSxFQUFFLHNDQUFtQixDQUFDLElBQUksRUFBRSxNQUFNLEVBQUUsNENBQXlCLEVBQUU7YUFDdEUsQ0FBQztZQUNGLCtCQUFZLENBQUMsUUFBUSxDQUFDLDRCQUFZLENBQUM7U0FDcEM7UUFDRCxXQUFXLEVBQUUsQ0FBQyxpREFBc0IsRUFBRSwrQ0FBb0IsQ0FBQztRQUMzRCxTQUFTLEVBQUU7WUFDVCwyQ0FBbUI7WUFDbkIsaURBQXNCO1lBQ3RCLHlEQUEwQjtZQUMxQiwyREFBMkI7WUFDM0IsNkNBQW9CO1lBQ3BCLG1DQUFlO1NBQ2hCO1FBQ0QsT0FBTyxFQUFFLENBQUMsMkNBQW1CLENBQUM7S0FDL0IsQ0FBQztHQUNXLGtCQUFrQixDQUFHIiwibmFtZXMiOltdLCJzb3VyY2VzIjpbIi9ob21lL2x1aXNuZXRvOTgvRG9jdW1lbnRvcy9Db2RlL21vbm9yZXBvLXZ0ZXgvYXBwcy9hcGkvc3JjL21vZHVsZXMvbmV3cy1yZWxlYXNlcy9uZXdzLXJlbGVhc2VzLm1vZHVsZS50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBNb2R1bGUgfSBmcm9tICdAbmVzdGpzL2NvbW1vbic7XG5pbXBvcnQgeyBNb25nb29zZU1vZHVsZSB9IGZyb20gJ0BuZXN0anMvbW9uZ29vc2UnO1xuaW1wb3J0IHsgTmV3c1JlbGVhc2VzQ29udHJvbGxlciwgUHVibGljTmV3c0NvbnRyb2xsZXIgfSBmcm9tICcuL25ld3MtcmVsZWFzZXMuY29udHJvbGxlcic7XG5pbXBvcnQgeyBOZXdzUmVsZWFzZXNTZXJ2aWNlIH0gZnJvbSAnLi9uZXdzLXJlbGVhc2VzLnNlcnZpY2UnO1xuaW1wb3J0IHsgTmV3c1JlbGVhc2UsIE5ld3NSZWxlYXNlU2NoZW1hIH0gZnJvbSAnLi9zY2hlbWFzL25ld3MtcmVsZWFzZS5zY2hlbWEnO1xuaW1wb3J0IHsgTmV3c1JlbGVhc2VBdWRpdExvZywgTmV3c1JlbGVhc2VBdWRpdExvZ1NjaGVtYSB9IGZyb20gJy4vc2NoZW1hcy9hdWRpdC1sb2cuc2NoZW1hJztcbmltcG9ydCB7IEltYWdlUHJvY2Vzc2luZ1NlcnZpY2UgfSBmcm9tICcuL3NlcnZpY2VzL2ltYWdlLXByb2Nlc3Npbmcuc2VydmljZSc7XG5pbXBvcnQgeyBDb250ZW50U2FuaXRpemF0aW9uU2VydmljZSB9IGZyb20gJy4vc2VydmljZXMvY29udGVudC1zYW5pdGl6YXRpb24uc2VydmljZSc7XG5pbXBvcnQgeyBQdWJsaWNhdGlvblNjaGVkdWxlclNlcnZpY2UgfSBmcm9tICcuL3NlcnZpY2VzL3B1YmxpY2F0aW9uLXNjaGVkdWxlci5zZXJ2aWNlJztcbmltcG9ydCB7IEZlZWRHZW5lcmF0b3JTZXJ2aWNlIH0gZnJvbSAnLi9zZXJ2aWNlcy9mZWVkLWdlbmVyYXRvci5zZXJ2aWNlJztcbmltcG9ydCB7IEF1ZGl0TG9nU2VydmljZSB9IGZyb20gJy4vc2VydmljZXMvYXVkaXQtbG9nLnNlcnZpY2UnO1xuaW1wb3J0IHsgTXVsdGVyTW9kdWxlIH0gZnJvbSAnQG5lc3Rqcy9wbGF0Zm9ybS1leHByZXNzJztcbmltcG9ydCB7IG11bHRlckNvbmZpZyB9IGZyb20gJy4uLy4uL2NvbmZpZy9tdWx0ZXIuY29uZmlnJztcblxuQE1vZHVsZSh7XG4gIGltcG9ydHM6IFtcbiAgICBNb25nb29zZU1vZHVsZS5mb3JGZWF0dXJlKFtcbiAgICAgIHsgbmFtZTogTmV3c1JlbGVhc2UubmFtZSwgc2NoZW1hOiBOZXdzUmVsZWFzZVNjaGVtYSB9LFxuICAgICAgeyBuYW1lOiBOZXdzUmVsZWFzZUF1ZGl0TG9nLm5hbWUsIHNjaGVtYTogTmV3c1JlbGVhc2VBdWRpdExvZ1NjaGVtYSB9LFxuICAgIF0pLFxuICAgIE11bHRlck1vZHVsZS5yZWdpc3RlcihtdWx0ZXJDb25maWcpLFxuICBdLFxuICBjb250cm9sbGVyczogW05ld3NSZWxlYXNlc0NvbnRyb2xsZXIsIFB1YmxpY05ld3NDb250cm9sbGVyXSxcbiAgcHJvdmlkZXJzOiBbXG4gICAgTmV3c1JlbGVhc2VzU2VydmljZSxcbiAgICBJbWFnZVByb2Nlc3NpbmdTZXJ2aWNlLFxuICAgIENvbnRlbnRTYW5pdGl6YXRpb25TZXJ2aWNlLFxuICAgIFB1YmxpY2F0aW9uU2NoZWR1bGVyU2VydmljZSxcbiAgICBGZWVkR2VuZXJhdG9yU2VydmljZSxcbiAgICBBdWRpdExvZ1NlcnZpY2UsXG4gIF0sXG4gIGV4cG9ydHM6IFtOZXdzUmVsZWFzZXNTZXJ2aWNlXSxcbn0pXG5leHBvcnQgY2xhc3MgTmV3c1JlbGVhc2VzTW9kdWxlIHt9XG4iXSwidmVyc2lvbiI6M30=

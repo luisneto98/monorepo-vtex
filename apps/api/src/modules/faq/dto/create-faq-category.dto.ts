@@ -8,6 +8,6 @@ export class CreateFaqCategoryDto {
   name: MultilingualTextDto;
 
   @IsNumber()
-  @Min(1)
+  @Min(0)
   order: number;
 }

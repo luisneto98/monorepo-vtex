@@ -38,6 +38,7 @@ export class StorageService {
       pattern: Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
     },
     { mimeType: 'image/webp', pattern: Buffer.from([0x52, 0x49, 0x46, 0x46]), offset: 0 }, // RIFF
+    { mimeType: 'image/gif', pattern: Buffer.from([0x47, 0x49, 0x46, 0x38]) }, // GIF8
     { mimeType: 'application/pdf', pattern: Buffer.from([0x25, 0x50, 0x44, 0x46]) }, // %PDF
   ];
 
@@ -50,6 +51,10 @@ export class StorageService {
       maxSizeBytes: 5 * 1024 * 1024, // 5MB
       allowedMimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
     },
+    [FileCategory.SPONSOR_LOGOS]: {
+      maxSizeBytes: 5 * 1024 * 1024, // 5MB
+      allowedMimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
+    },
     [FileCategory.LEGAL_DOCUMENTS]: {
       maxSizeBytes: 10 * 1024 * 1024, // 10MB
       allowedMimeTypes: ['application/pdf'],
@@ -57,6 +62,10 @@ export class StorageService {
     [FileCategory.PRESS_MATERIALS]: {
       maxSizeBytes: 10 * 1024 * 1024, // 10MB
       allowedMimeTypes: ['application/pdf', 'image/jpeg', 'image/png'],
+    },
+    [FileCategory.NEWS_IMAGES]: {
+      maxSizeBytes: 10 * 1024 * 1024, // 10MB
+      allowedMimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
     },
   };
 

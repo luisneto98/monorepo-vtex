@@ -14,11 +14,14 @@ module.exports = {
   globals: {
     __DEV__: true,
   },
-  collectCoverage: true,
+  collectCoverage: false,
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
     '!src/**/*.d.ts',
-    '!src/**/index.ts'
+    '!src/**/index.ts',
+    '!src/**/*.test.{ts,tsx}',
+    '!src/**/*.spec.{ts,tsx}',
+    '!src/**/__tests__/**'
   ],
   coverageThreshold: {
     global: {

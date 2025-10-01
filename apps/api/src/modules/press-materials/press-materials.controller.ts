@@ -95,6 +95,10 @@ export class PressMaterialsController {
       throw new BadRequestException('File is required');
     }
 
+    if (!user || !user.sub) {
+      throw new BadRequestException('User authentication failed');
+    }
+
     // Parse multipart form data
     const dto: CreatePressMaterialDto = {
       type: body.type,
@@ -115,7 +119,7 @@ export class PressMaterialsController {
       accessLevel: body.accessLevel,
     };
 
-    return this.pressMaterialsService.create(dto, file, user.id);
+    return this.pressMaterialsService.create(dto, file, user.sub);
   }
 
   @Get()
@@ -170,8 +174,9 @@ export class PressMaterialsController {
     const ipAddress = req.ip || req.socket.remoteAddress || '';
     const userAgent = req.get('user-agent') || '';
 
-    const url = await this.pressMaterialsService.getDownloadUrl(id, ipAddress, userAgent, user?.id);
+    const url = await this.pressMaterialsService.getDownloadUrl(id, ipAddress, userAgent, user?.sub);
 
+    // Return URL as JSON for frontend to open directly
     res.json({ url });
   }
 
@@ -196,7 +201,18 @@ export class PressMaterialsController {
     @Body() dto: UpdatePressMaterialDto,
     @CurrentUser() user: any,
   ) {
-    return this.pressMaterialsService.update(id, dto, user.id);
+    // Remove MongoDB _id fields from nested objects if present
+    const cleanDto = { ...dto };
+    if (cleanDto.title && '_id' in cleanDto.title) {
+      const { _id, ...titleWithoutId } = cleanDto.title as any;
+      cleanDto.title = titleWithoutId;
+    }
+    if (cleanDto.description && '_id' in cleanDto.description) {
+      const { _id, ...descriptionWithoutId } = cleanDto.description as any;
+      cleanDto.description = descriptionWithoutId;
+    }
+
+    return this.pressMaterialsService.update(id, cleanDto, user.sub);
   }
 
   @Delete(':id')
@@ -244,6 +260,6 @@ export class PressMaterialsController {
       throw new BadRequestException('File is required');
     }
 
-    return this.pressMaterialsService.uploadFile(file, materialType, user.id);
+    return this.pressMaterialsService.uploadFile(file, materialType, user.sub);
   }
 }

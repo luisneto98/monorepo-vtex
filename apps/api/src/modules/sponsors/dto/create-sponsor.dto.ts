@@ -79,13 +79,14 @@ export class CreateSponsorDto {
   @Type(() => MultilingualTextDto)
   description: MultilingualTextDto;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'URL to sponsor logo image',
     example: 'https://cdn.vtexday.com/sponsors/vtex-logo.svg',
     format: 'url',
   })
+  @IsOptional()
   @IsUrl()
-  logoUrl: string;
+  logoUrl?: string;
 
   @ApiProperty({
     description: 'MongoDB ID of the sponsor tier',
@@ -103,13 +104,14 @@ export class CreateSponsorDto {
   @Min(1)
   orderInTier: number;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'Sponsor website URL',
     example: 'https://vtex.com',
     format: 'url',
   })
+  @IsOptional()
   @IsUrl()
-  websiteUrl: string;
+  websiteUrl?: string;
 
   @ApiPropertyOptional({
     description: 'Physical stand location at the event',

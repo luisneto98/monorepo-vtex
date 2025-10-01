@@ -127,10 +127,7 @@ describe('Speakers Photo Upload Integration Tests', () => {
   describe('POST /speakers/:id/upload-photo', () => {
     it('should successfully upload a speaker photo as super admin', async () => {
       // Create a mock JPEG file
-      const jpegBuffer = Buffer.concat([
-        Buffer.from([0xff, 0xd8, 0xff]),
-        Buffer.alloc(1000, 'a'),
-      ]);
+      const jpegBuffer = Buffer.concat([Buffer.from([0xff, 0xd8, 0xff]), Buffer.alloc(1000, 'a')]);
 
       const response = await request(app.getHttpServer())
         .post(`/speakers/${testSpeakerId}/upload-photo`)
@@ -149,10 +146,7 @@ describe('Speakers Photo Upload Integration Tests', () => {
     });
 
     it('should successfully upload a speaker photo as producer', async () => {
-      const jpegBuffer = Buffer.concat([
-        Buffer.from([0xff, 0xd8, 0xff]),
-        Buffer.alloc(1000, 'a'),
-      ]);
+      const jpegBuffer = Buffer.concat([Buffer.from([0xff, 0xd8, 0xff]), Buffer.alloc(1000, 'a')]);
 
       const response = await request(app.getHttpServer())
         .post(`/speakers/${testSpeakerId}/upload-photo`)
@@ -165,10 +159,7 @@ describe('Speakers Photo Upload Integration Tests', () => {
     });
 
     it('should reject upload without authentication', async () => {
-      const jpegBuffer = Buffer.concat([
-        Buffer.from([0xff, 0xd8, 0xff]),
-        Buffer.alloc(1000, 'a'),
-      ]);
+      const jpegBuffer = Buffer.concat([Buffer.from([0xff, 0xd8, 0xff]), Buffer.alloc(1000, 'a')]);
 
       await request(app.getHttpServer())
         .post(`/speakers/${testSpeakerId}/upload-photo`)
@@ -179,10 +170,7 @@ describe('Speakers Photo Upload Integration Tests', () => {
     });
 
     it('should reject upload with insufficient role (regular user)', async () => {
-      const jpegBuffer = Buffer.concat([
-        Buffer.from([0xff, 0xd8, 0xff]),
-        Buffer.alloc(1000, 'a'),
-      ]);
+      const jpegBuffer = Buffer.concat([Buffer.from([0xff, 0xd8, 0xff]), Buffer.alloc(1000, 'a')]);
 
       await request(app.getHttpServer())
         .post(`/speakers/${testSpeakerId}/upload-photo`)
@@ -204,10 +192,7 @@ describe('Speakers Photo Upload Integration Tests', () => {
     });
 
     it('should reject upload for non-existent speaker', async () => {
-      const jpegBuffer = Buffer.concat([
-        Buffer.from([0xff, 0xd8, 0xff]),
-        Buffer.alloc(1000, 'a'),
-      ]);
+      const jpegBuffer = Buffer.concat([Buffer.from([0xff, 0xd8, 0xff]), Buffer.alloc(1000, 'a')]);
 
       const fakeId = '507f1f77bcf86cd799439999';
 
@@ -246,10 +231,7 @@ describe('Speakers Photo Upload Integration Tests', () => {
     });
 
     it('should handle invalid speaker ID format gracefully', async () => {
-      const jpegBuffer = Buffer.concat([
-        Buffer.from([0xff, 0xd8, 0xff]),
-        Buffer.alloc(1000, 'a'),
-      ]);
+      const jpegBuffer = Buffer.concat([Buffer.from([0xff, 0xd8, 0xff]), Buffer.alloc(1000, 'a')]);
 
       await request(app.getHttpServer())
         .post('/speakers/invalid-id/upload-photo')

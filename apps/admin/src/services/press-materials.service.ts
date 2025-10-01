@@ -8,10 +8,10 @@ import type {
 } from '@shared/types/press-materials';
 
 export interface PaginatedResponse<T> {
-  data: T[];
+  items: T[];
   total: number;
   page: number;
-  limit: number;
+  limit?: number;
   totalPages: number;
 }
 
@@ -72,7 +72,7 @@ class PressMaterialsService {
   }
 
   async update(id: string, data: UpdatePressMaterialDto): Promise<PressMaterial> {
-    const response = await apiService.patch<PressMaterial>(`${this.baseEndpoint}/${id}`, data);
+    const response = await apiService.put<PressMaterial>(`${this.baseEndpoint}/${id}`, data);
 
     if (response.success && response.data) {
       return response.data;
@@ -102,20 +102,7 @@ class PressMaterialsService {
     formData.append('file', file);
 
     if (materialData) {
-      formData.append('type', materialData.type);
-      formData.append('title', JSON.stringify(materialData.title));
-      if (materialData.description) {
-        formData.append('description', JSON.stringify(materialData.description));
-      }
-      if (materialData.tags) {
-        formData.append('tags', JSON.stringify(materialData.tags));
-      }
-      if (materialData.status) {
-        formData.append('status', materialData.status);
-      }
-      if (materialData.accessLevel) {
-        formData.append('accessLevel', materialData.accessLevel);
-      }
+      formData.append('materialType', materialData.type);
     }
 
     const response = await apiService.post<PressMaterial>(`${this.baseEndpoint}/upload`, formData);
@@ -185,19 +172,15 @@ class PressMaterialsService {
     }
   }
 
-  async download(id: string): Promise<Blob> {
-    // Use fetch directly for blob responses since apiService doesn't support responseType
-    const response = await fetch(`${apiService.apiBaseUrl}${this.baseEndpoint}/${id}/download`, {
-      method: 'GET',
-      headers: apiService.getHeaders(),
-      credentials: 'include',
-    });
+  async download(id: string): Promise<string> {
+    // Get the download URL from the API
+    const response = await apiService.get<{ url: string }>(`${this.baseEndpoint}/${id}/download`);
 
-    if (!response.ok) {
-      throw new Error(`Download failed: ${response.statusText}`);
+    if (response.success && response.data?.url) {
+      return response.data.url;
+    } else {
+      throw new Error(response.error?.message || 'Failed to get download URL');
     }
-
-    return response.blob();
   }
 
   async downloadMultiple(ids: string[]): Promise<Blob> {
@@ -256,12 +239,15 @@ class PressMaterialsService {
   // Helper method to create download link with filename sanitization
   async createDownloadLink(material: PressMaterial, filename?: string): Promise<void> {
     try {
-      const blob = await this.download(material._id!);
-      const url = URL.createObjectURL(blob);
+      // Get the download URL from the API
+      const url = await this.download(material._id!);
+
+      // Open the URL directly (S3 URL) which triggers download
       const a = document.createElement('a');
       a.href = url;
+      a.target = '_blank'; // Open in new tab as fallback
 
-      // Sanitize filename to prevent DOM injection
+      // Set download attribute with sanitized filename
       const sanitizedFilename = DOMPurify.sanitize(filename || material.title.pt || 'download', {
         ALLOWED_TAGS: [],
         ALLOWED_ATTR: [],
@@ -271,7 +257,6 @@ class PressMaterialsService {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Download failed:', error);
       throw error;
@@ -290,17 +275,24 @@ class PressMaterialsService {
 
       formData.append('file', file);
       formData.append('type', materialData.type);
-      formData.append('title', JSON.stringify(materialData.title));
+      formData.append('title[pt]', materialData.title.pt);
+      formData.append('title[en]', materialData.title.en);
+      formData.append('title[es]', materialData.title.es);
 
       if (materialData.description) {
-        formData.append('description', JSON.stringify(materialData.description));
+        formData.append('description[pt]', materialData.description.pt || '');
+        formData.append('description[en]', materialData.description.en || '');
+        formData.append('description[es]', materialData.description.es || '');
       }
-      if (materialData.tags) {
-        formData.append('tags', JSON.stringify(materialData.tags));
+
+      if (materialData.tags && materialData.tags.length > 0) {
+        materialData.tags.forEach(tag => formData.append('tags[]', tag));
       }
+
       if (materialData.status) {
         formData.append('status', materialData.status);
       }
+
       if (materialData.accessLevel) {
         formData.append('accessLevel', materialData.accessLevel);
       }
@@ -319,7 +311,7 @@ class PressMaterialsService {
             // Handle the ApiResponse wrapper format
             if (response.success && response.data) {
               resolve(response.data);
-            } else if (response.statusCode === 200 && response.data) {
+            } else if (response.statusCode === 201 && response.data) {
               resolve(response.data);
             } else {
               resolve(response);
@@ -328,7 +320,12 @@ class PressMaterialsService {
             reject(new Error('Invalid response format'));
           }
         } else {
-          reject(new Error(`Upload failed with status: ${xhr.status}`));
+          try {
+            const errorResponse = JSON.parse(xhr.responseText);
+            reject(new Error(errorResponse.message || `Upload failed with status: ${xhr.status}`));
+          } catch {
+            reject(new Error(`Upload failed with status: ${xhr.status}`));
+          }
         }
       });
 
@@ -336,7 +333,7 @@ class PressMaterialsService {
         reject(new Error('Upload failed'));
       });
 
-      xhr.open('POST', `${apiService.apiBaseUrl}${this.baseEndpoint}/upload`);
+      xhr.open('POST', `${apiService.apiBaseUrl}${this.baseEndpoint}`);
 
       // Set headers from apiService but exclude Content-Type for FormData
       const headers = apiService.getHeaders();

@@ -211,7 +211,7 @@ export class SessionsService {
     const updated = await this.sessionModel.findByIdAndUpdate(
       id,
       { $set: updateSessionDto },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     );
 
     if (!updated) {

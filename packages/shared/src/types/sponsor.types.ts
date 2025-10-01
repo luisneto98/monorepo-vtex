@@ -23,10 +23,10 @@ export interface Sponsor extends BaseEntity {
     'pt-BR': string;
     en: string;
   };
-  logoUrl: string;
+  logoUrl?: string;
   tier: string;
   orderInTier: number;
-  websiteUrl: string;
+  websiteUrl?: string;
   standLocation?: string;
   adminEmail: string;
   contactEmail?: string;

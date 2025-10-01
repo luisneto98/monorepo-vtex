@@ -1,43 +1,19 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import sharp from 'sharp';
-import * as AWS from 'aws-sdk';
-import { v4 as uuidv4 } from 'uuid';
+import { StorageService } from '../../storage/services/storage.service';
+import { FileCategory } from '../../storage/types/storage.types';
 
 @Injectable()
 export class ImageProcessingService {
-  private s3: AWS.S3;
-  private bucketName: string;
-
-  constructor(private configService: ConfigService) {
-    this.s3 = new AWS.S3({
-      accessKeyId: this.configService.get('AWS_ACCESS_KEY_ID'),
-      secretAccessKey: this.configService.get('AWS_SECRET_ACCESS_KEY'),
-      region: this.configService.get('AWS_REGION'),
-    });
-    this.bucketName = this.configService.get('AWS_S3_NEWS_BUCKET') || 'vtex-day-news-images';
-  }
+  constructor(private storageService: StorageService) {}
 
   async uploadImage(file: Express.Multer.File): Promise<{ url: string; thumbnailUrl: string }> {
     if (!file) {
       throw new BadRequestException('No file provided');
     }
 
-    const maxSize = parseInt(this.configService.get('NEWS_IMAGE_MAX_SIZE') || '10485760', 10);
-    if (file.size > maxSize) {
-      throw new BadRequestException(`File size exceeds maximum allowed size of ${maxSize} bytes`);
-    }
-
-    const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
-    if (!allowedMimeTypes.includes(file.mimetype)) {
-      throw new BadRequestException('Invalid file type. Only JPEG, PNG, WebP, and GIF are allowed');
-    }
-
     try {
-      const fileName = `${uuidv4()}-${Date.now()}`;
-      const originalKey = `news-releases/original/${fileName}`;
-      const thumbnailKey = `news-releases/thumbnail/${fileName}`;
-
+      // Process optimized image
       const optimizedImage = await sharp(file.buffer)
         .resize(1920, 1080, {
           fit: 'inside',
@@ -46,6 +22,7 @@ export class ImageProcessingService {
         .jpeg({ quality: 85, progressive: true })
         .toBuffer();
 
+      // Process thumbnail
       const thumbnail = await sharp(file.buffer)
         .resize(400, 300, {
           fit: 'cover',
@@ -53,32 +30,43 @@ export class ImageProcessingService {
         .jpeg({ quality: 80 })
         .toBuffer();
 
-      await this.s3
-        .putObject({
-          Bucket: this.bucketName,
-          Key: originalKey,
-          Body: optimizedImage,
-          ContentType: 'image/jpeg',
-          CacheControl: 'max-age=31536000',
-        })
-        .promise();
+      // Upload optimized image using StorageService
+      const originalFile: Express.Multer.File = {
+        ...file,
+        buffer: optimizedImage,
+        mimetype: 'image/jpeg',
+        size: optimizedImage.length,
+        originalname: file.originalname.replace(/\.[^.]+$/, '.jpg'),
+      };
 
-      await this.s3
-        .putObject({
-          Bucket: this.bucketName,
-          Key: thumbnailKey,
-          Body: thumbnail,
-          ContentType: 'image/jpeg',
-          CacheControl: 'max-age=31536000',
-        })
-        .promise();
+      const thumbnailFile: Express.Multer.File = {
+        ...file,
+        buffer: thumbnail,
+        mimetype: 'image/jpeg',
+        size: thumbnail.length,
+        originalname: `thumb-${file.originalname.replace(/\.[^.]+$/, '.jpg')}`,
+      };
 
-      const cloudFrontUrl = this.configService.get('CLOUDFRONT_URL');
-      const baseUrl = cloudFrontUrl || `https://${this.bucketName}.s3.amazonaws.com`;
+      // Upload both files using StorageService
+      const originalResult = await this.storageService.uploadFile(
+        originalFile,
+        FileCategory.NEWS_IMAGES,
+        {
+          scanForVirus: true,
+        },
+      );
+
+      const thumbnailResult = await this.storageService.uploadFile(
+        thumbnailFile,
+        FileCategory.NEWS_IMAGES,
+        {
+          scanForVirus: false, // Skip virus scan for thumbnail since original was scanned
+        },
+      );
 
       return {
-        url: `${baseUrl}/${originalKey}`,
-        thumbnailUrl: `${baseUrl}/${thumbnailKey}`,
+        url: originalResult.url,
+        thumbnailUrl: thumbnailResult.url,
       };
     } catch (error: any) {
       throw new BadRequestException(
@@ -89,7 +77,7 @@ export class ImageProcessingService {
 
   async deleteImage(imageUrl: string): Promise<void> {
     try {
-      // Properly parse the URL to extract the key
+      // Extract the S3 key from the URL
       const url = new URL(imageUrl);
       let key = url.pathname.substring(1); // Remove leading slash
 
@@ -102,26 +90,22 @@ export class ImageProcessingService {
       key = key.replace(/\.\./g, '').replace(/\/+/g, '/');
 
       if (key) {
-        await this.s3
-          .deleteObject({
-            Bucket: this.bucketName,
-            Key: key,
-          })
-          .promise();
+        // Delete the main image
+        await this.storageService.deleteFile(key);
 
-        const thumbnailKey = key.replace('/original/', '/thumbnail/');
-        await this.s3
-          .deleteObject({
-            Bucket: this.bucketName,
-            Key: thumbnailKey,
-          })
-          .promise();
+        // Try to delete thumbnail (may not exist for all images)
+        const thumbnailKey = key.replace(/\/([^/]+)$/, '/thumb-$1');
+        try {
+          await this.storageService.deleteFile(thumbnailKey);
+        } catch (error) {
+          // Ignore thumbnail deletion errors
+        }
       }
     } catch (error: any) {
       if (error?.message === 'Invalid URL') {
         throw new BadRequestException('Invalid image URL format');
       }
-      console.error('Failed to delete image from S3:', error);
+      console.error('Failed to delete image:', error);
     }
   }
 
@@ -132,7 +116,6 @@ export class ImageProcessingService {
     small: string;
     thumbnail: string;
   }> {
-    const fileName = `${uuidv4()}-${Date.now()}`;
     const sizes = {
       original: { width: null, quality: 95 },
       large: { width: 1920, quality: 85 },
@@ -144,8 +127,6 @@ export class ImageProcessingService {
     const urls: any = {};
 
     for (const [size, config] of Object.entries(sizes)) {
-      const key = `news-releases/${size}/${fileName}`;
-
       let processedImage = sharp(file.buffer);
 
       if (config.width) {
@@ -159,19 +140,25 @@ export class ImageProcessingService {
         .jpeg({ quality: config.quality, progressive: true })
         .toBuffer();
 
-      await this.s3
-        .putObject({
-          Bucket: this.bucketName,
-          Key: key,
-          Body: buffer,
-          ContentType: 'image/jpeg',
-          CacheControl: 'max-age=31536000',
-        })
-        .promise();
+      // Create a new file object with processed buffer
+      const processedFile: Express.Multer.File = {
+        ...file,
+        buffer,
+        mimetype: 'image/jpeg',
+        size: buffer.length,
+        originalname: `${size}-${file.originalname.replace(/\.[^.]+$/, '.jpg')}`,
+      };
 
-      const cloudFrontUrl = this.configService.get('CLOUDFRONT_URL');
-      const baseUrl = cloudFrontUrl || `https://${this.bucketName}.s3.amazonaws.com`;
-      urls[size] = `${baseUrl}/${key}`;
+      // Upload using StorageService
+      const result = await this.storageService.uploadFile(
+        processedFile,
+        FileCategory.NEWS_IMAGES,
+        {
+          scanForVirus: size === 'original', // Only scan original
+        },
+      );
+
+      urls[size] = result.url;
     }
 
     return urls;

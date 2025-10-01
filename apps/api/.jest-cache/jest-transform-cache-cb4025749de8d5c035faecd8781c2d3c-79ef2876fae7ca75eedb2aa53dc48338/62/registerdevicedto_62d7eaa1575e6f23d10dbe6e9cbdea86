@@ -1,0 +1,41 @@
+12f7e45ddf8ec904dde9b30a4039f6e4
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.RegisterDeviceDto = void 0;
+const class_validator_1 = require("class-validator");
+const device_token_schema_1 = require("../schemas/device-token.schema");
+class RegisterDeviceDto {
+    token;
+    platform;
+    appVersion;
+    isTestDevice;
+}
+exports.RegisterDeviceDto = RegisterDeviceDto;
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], RegisterDeviceDto.prototype, "token", void 0);
+__decorate([
+    (0, class_validator_1.IsEnum)(device_token_schema_1.Platform),
+    __metadata("design:type", String)
+], RegisterDeviceDto.prototype, "platform", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], RegisterDeviceDto.prototype, "appVersion", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], RegisterDeviceDto.prototype, "isTestDevice", void 0);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9ub3RpZmljYXRpb25zL2R0by9yZWdpc3Rlci1kZXZpY2UuZHRvLnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7OztBQUFBLHFEQUEwRTtBQUMxRSx3RUFBMEQ7QUFFMUQsTUFBYSxpQkFBaUI7SUFFNUIsS0FBSyxDQUFTO0lBR2QsUUFBUSxDQUFXO0lBSW5CLFVBQVUsQ0FBVTtJQUlwQixZQUFZLENBQVc7Q0FDeEI7QUFkRCw4Q0FjQztBQVpDO0lBREMsSUFBQSwwQkFBUSxHQUFFOztnREFDRztBQUdkO0lBREMsSUFBQSx3QkFBTSxFQUFDLDhCQUFRLENBQUM7O21EQUNFO0FBSW5CO0lBRkMsSUFBQSw0QkFBVSxHQUFFO0lBQ1osSUFBQSwwQkFBUSxHQUFFOztxREFDUztBQUlwQjtJQUZDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsMkJBQVMsR0FBRTs7dURBQ1ciLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9ub3RpZmljYXRpb25zL2R0by9yZWdpc3Rlci1kZXZpY2UuZHRvLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IElzU3RyaW5nLCBJc0VudW0sIElzT3B0aW9uYWwsIElzQm9vbGVhbiB9IGZyb20gJ2NsYXNzLXZhbGlkYXRvcic7XG5pbXBvcnQgeyBQbGF0Zm9ybSB9IGZyb20gJy4uL3NjaGVtYXMvZGV2aWNlLXRva2VuLnNjaGVtYSc7XG5cbmV4cG9ydCBjbGFzcyBSZWdpc3RlckRldmljZUR0byB7XG4gIEBJc1N0cmluZygpXG4gIHRva2VuOiBzdHJpbmc7XG5cbiAgQElzRW51bShQbGF0Zm9ybSlcbiAgcGxhdGZvcm06IFBsYXRmb3JtO1xuXG4gIEBJc09wdGlvbmFsKClcbiAgQElzU3RyaW5nKClcbiAgYXBwVmVyc2lvbj86IHN0cmluZztcblxuICBASXNPcHRpb25hbCgpXG4gIEBJc0Jvb2xlYW4oKVxuICBpc1Rlc3REZXZpY2U/OiBib29sZWFuO1xufVxuIl0sInZlcnNpb24iOjN9

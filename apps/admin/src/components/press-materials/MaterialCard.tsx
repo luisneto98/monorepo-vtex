@@ -21,14 +21,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
 import type { PressMaterial } from '@shared/types/press-materials';
 
 interface MaterialCardProps {
   material: PressMaterial;
-  selected?: boolean;
-  onSelect?: (id: string, selected: boolean) => void;
   onEdit?: (material: PressMaterial) => void;
   onDelete?: (id: string) => void;
   onPreview?: (material: PressMaterial) => void;
@@ -57,8 +54,6 @@ const statusLabels = {
 
 export function MaterialCard({
   material,
-  selected = false,
-  onSelect,
   onEdit,
   onDelete,
   onPreview,
@@ -75,33 +70,15 @@ export function MaterialCard({
     return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
   };
 
-  const handleCheckboxChange = (checked: boolean) => {
-    onSelect?.(material._id!, checked);
-  };
-
   return (
     <div
       className={cn(
         'relative bg-white border border-gray-200 rounded-lg overflow-hidden transition-all duration-200',
-        isHovered && 'shadow-lg border-blue-300',
-        selected && 'ring-2 ring-blue-500'
+        isHovered && 'shadow-lg border-blue-300'
       )}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Checkbox Overlay */}
-      <div
-        className={cn(
-          'absolute top-2 left-2 z-10 transition-opacity',
-          (isHovered || selected) ? 'opacity-100' : 'opacity-0'
-        )}
-      >
-        <Checkbox
-          checked={selected}
-          onCheckedChange={handleCheckboxChange}
-          className="bg-white"
-        />
-      </div>
 
       {/* Thumbnail Area */}
       <div className="relative aspect-video bg-gray-100">

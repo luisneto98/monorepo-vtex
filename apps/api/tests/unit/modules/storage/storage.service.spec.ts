@@ -4,7 +4,13 @@ import { StorageService } from '../../../../src/modules/storage/services/storage
 import { StorageConfigService } from '../../../../src/modules/storage/services/storage-config.service';
 import { VirusScannerService } from '../../../../src/modules/storage/services/virus-scanner.service';
 import { FileCategory } from '../../../../src/modules/storage/types/storage.types';
-import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand, HeadObjectCommand } from '@aws-sdk/client-s3';
+import {
+  S3Client,
+  PutObjectCommand,
+  GetObjectCommand,
+  DeleteObjectCommand,
+  HeadObjectCommand,
+} from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Readable } from 'stream';
 
@@ -79,10 +85,7 @@ describe('StorageService', () => {
   describe('uploadFile', () => {
     it('should successfully upload a valid JPEG image', async () => {
       // JPEG magic bytes: FF D8 FF
-      const jpegBuffer = Buffer.concat([
-        Buffer.from([0xff, 0xd8, 0xff]),
-        Buffer.alloc(100, 'a'),
-      ]);
+      const jpegBuffer = Buffer.concat([Buffer.from([0xff, 0xd8, 0xff]), Buffer.alloc(100, 'a')]);
       const file = createMockFile(jpegBuffer, 'image/jpeg', jpegBuffer.length);
 
       const result = await service.uploadFile(file, FileCategory.SPEAKER_PHOTOS);
@@ -145,10 +148,7 @@ describe('StorageService', () => {
     });
 
     it('should skip virus scanning when scanForVirus is false', async () => {
-      const jpegBuffer = Buffer.concat([
-        Buffer.from([0xff, 0xd8, 0xff]),
-        Buffer.alloc(100, 'a'),
-      ]);
+      const jpegBuffer = Buffer.concat([Buffer.from([0xff, 0xd8, 0xff]), Buffer.alloc(100, 'a')]);
       const file = createMockFile(jpegBuffer, 'image/jpeg', jpegBuffer.length);
 
       await service.uploadFile(file, FileCategory.SPEAKER_PHOTOS, { scanForVirus: false });
@@ -211,10 +211,7 @@ describe('StorageService', () => {
     });
 
     it('should throw BadRequestException when virus is detected', async () => {
-      const jpegBuffer = Buffer.concat([
-        Buffer.from([0xff, 0xd8, 0xff]),
-        Buffer.alloc(100, 'a'),
-      ]);
+      const jpegBuffer = Buffer.concat([Buffer.from([0xff, 0xd8, 0xff]), Buffer.alloc(100, 'a')]);
       const file = createMockFile(jpegBuffer, 'image/jpeg', jpegBuffer.length);
 
       mockVirusScannerService.scanFile.mockRejectedValueOnce(
@@ -230,10 +227,7 @@ describe('StorageService', () => {
     });
 
     it('should throw InternalServerErrorException when S3 upload fails', async () => {
-      const jpegBuffer = Buffer.concat([
-        Buffer.from([0xff, 0xd8, 0xff]),
-        Buffer.alloc(100, 'a'),
-      ]);
+      const jpegBuffer = Buffer.concat([Buffer.from([0xff, 0xd8, 0xff]), Buffer.alloc(100, 'a')]);
       const file = createMockFile(jpegBuffer, 'image/jpeg', jpegBuffer.length);
 
       mockS3Send.mockRejectedValue(new Error('S3 connection error'));
@@ -244,10 +238,7 @@ describe('StorageService', () => {
     });
 
     it('should include custom metadata in S3 upload', async () => {
-      const jpegBuffer = Buffer.concat([
-        Buffer.from([0xff, 0xd8, 0xff]),
-        Buffer.alloc(100, 'a'),
-      ]);
+      const jpegBuffer = Buffer.concat([Buffer.from([0xff, 0xd8, 0xff]), Buffer.alloc(100, 'a')]);
       const file = createMockFile(jpegBuffer, 'image/jpeg', jpegBuffer.length);
       const metadata = { uploadedBy: 'user123', category: 'profile' };
 
@@ -259,10 +250,7 @@ describe('StorageService', () => {
 
   describe('validateFile', () => {
     it('should validate a correct file successfully', async () => {
-      const jpegBuffer = Buffer.concat([
-        Buffer.from([0xff, 0xd8, 0xff]),
-        Buffer.alloc(100, 'a'),
-      ]);
+      const jpegBuffer = Buffer.concat([Buffer.from([0xff, 0xd8, 0xff]), Buffer.alloc(100, 'a')]);
       const file = createMockFile(jpegBuffer, 'image/jpeg', jpegBuffer.length);
 
       const result = await service.validateFile(file, {
@@ -312,7 +300,10 @@ describe('StorageService', () => {
 
     it('should throw error when magic bytes validation fails', async () => {
       // Wrong magic bytes for JPEG
-      const wrongMagicBytes = Buffer.concat([Buffer.from([0x00, 0x00, 0x00]), Buffer.alloc(100, 'a')]);
+      const wrongMagicBytes = Buffer.concat([
+        Buffer.from([0x00, 0x00, 0x00]),
+        Buffer.alloc(100, 'a'),
+      ]);
       const file = createMockFile(wrongMagicBytes, 'image/jpeg', wrongMagicBytes.length);
 
       await expect(
@@ -443,7 +434,9 @@ describe('StorageService', () => {
 
       mockS3Send.mockRejectedValue(new Error('File not found'));
 
-      await expect(service.getFileMetadata(key)).rejects.toThrow('Failed to retrieve file metadata');
+      await expect(service.getFileMetadata(key)).rejects.toThrow(
+        'Failed to retrieve file metadata',
+      );
     });
   });
 });

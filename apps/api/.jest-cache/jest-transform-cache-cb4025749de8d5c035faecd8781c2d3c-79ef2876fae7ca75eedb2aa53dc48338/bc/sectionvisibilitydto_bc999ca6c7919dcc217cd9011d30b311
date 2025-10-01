@@ -1,0 +1,89 @@
+b7db4eb93ccbd2a54306b8316fb4d71c
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UpdateSectionVisibilityDto = void 0;
+const class_validator_1 = require("class-validator");
+const class_transformer_1 = require("class-transformer");
+let IsWithin30DaysConstraint = class IsWithin30DaysConstraint {
+    validate(dateString, _args) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const thirtyDaysFromNow = new Date();
+        thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30);
+        return date > now && date <= thirtyDaysFromNow;
+    }
+    defaultMessage(_args) {
+        return 'Scheduled activation must be between now and 30 days from now';
+    }
+};
+IsWithin30DaysConstraint = __decorate([
+    (0, class_validator_1.ValidatorConstraint)({ name: 'isWithin30Days', async: false })
+], IsWithin30DaysConstraint);
+class CustomMessageDto {
+    'pt-BR';
+    'en';
+}
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(500),
+    __metadata("design:type", String)
+], CustomMessageDto.prototype, "pt-BR", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(500),
+    __metadata("design:type", String)
+], CustomMessageDto.prototype, "en", void 0);
+class ScheduledActivationDto {
+    dateTime;
+    timezone;
+}
+__decorate([
+    (0, class_validator_1.IsDateString)(),
+    (0, class_validator_1.Validate)(IsWithin30DaysConstraint),
+    __metadata("design:type", String)
+], ScheduledActivationDto.prototype, "dateTime", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], ScheduledActivationDto.prototype, "timezone", void 0);
+class UpdateSectionVisibilityDto {
+    isVisible;
+    customMessage;
+    scheduledActivation;
+    changeReason;
+}
+exports.UpdateSectionVisibilityDto = UpdateSectionVisibilityDto;
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], UpdateSectionVisibilityDto.prototype, "isVisible", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsObject)(),
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => CustomMessageDto),
+    __metadata("design:type", CustomMessageDto)
+], UpdateSectionVisibilityDto.prototype, "customMessage", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => ScheduledActivationDto),
+    __metadata("design:type", ScheduledActivationDto)
+], UpdateSectionVisibilityDto.prototype, "scheduledActivation", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(500),
+    __metadata("design:type", String)
+], UpdateSectionVisibilityDto.prototype, "changeReason", void 0);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9zeXN0ZW0tY29uZmlnL2R0by9zZWN0aW9uLXZpc2liaWxpdHkuZHRvLnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7OztBQUFBLHFEQVl5QjtBQUN6Qix5REFBeUM7QUFHekMsSUFBTSx3QkFBd0IsR0FBOUIsTUFBTSx3QkFBd0I7SUFDNUIsUUFBUSxDQUFDLFVBQWtCLEVBQUUsS0FBMEI7UUFDckQsTUFBTSxJQUFJLEdBQUcsSUFBSSxJQUFJLENBQUMsVUFBVSxDQUFDLENBQUM7UUFDbEMsTUFBTSxHQUFHLEdBQUcsSUFBSSxJQUFJLEVBQUUsQ0FBQztRQUN2QixNQUFNLGlCQUFpQixHQUFHLElBQUksSUFBSSxFQUFFLENBQUM7UUFDckMsaUJBQWlCLENBQUMsT0FBTyxDQUFDLGlCQUFpQixDQUFDLE9BQU8sRUFBRSxHQUFHLEVBQUUsQ0FBQyxDQUFDO1FBRTVELE9BQU8sSUFBSSxHQUFHLEdBQUcsSUFBSSxJQUFJLElBQUksaUJBQWlCLENBQUM7SUFDakQsQ0FBQztJQUVELGNBQWMsQ0FBQyxLQUEwQjtRQUN2QyxPQUFPLCtEQUErRCxDQUFDO0lBQ3pFLENBQUM7Q0FDRixDQUFBO0FBYkssd0JBQXdCO0lBRDdCLElBQUEscUNBQW1CLEVBQUMsRUFBRSxJQUFJLEVBQUUsZ0JBQWdCLEVBQUUsS0FBSyxFQUFFLEtBQUssRUFBRSxDQUFDO0dBQ3hELHdCQUF3QixDQWE3QjtBQUVELE1BQU0sZ0JBQWdCO0lBR3BCLE9BQU8sQ0FBUztJQUloQixJQUFJLENBQVM7Q0FDZDtBQUxDO0lBRkMsSUFBQSwwQkFBUSxHQUFFO0lBQ1YsSUFBQSwyQkFBUyxFQUFDLEdBQUcsQ0FBQzs7K0NBQ0M7QUFJaEI7SUFGQyxJQUFBLDBCQUFRLEdBQUU7SUFDVixJQUFBLDJCQUFTLEVBQUMsR0FBRyxDQUFDOzs0Q0FDRjtBQUdmLE1BQU0sc0JBQXNCO0lBRzFCLFFBQVEsQ0FBUztJQUdqQixRQUFRLENBQVM7Q0FDbEI7QUFKQztJQUZDLElBQUEsOEJBQVksR0FBRTtJQUNkLElBQUEsMEJBQVEsRUFBQyx3QkFBd0IsQ0FBQzs7d0RBQ2xCO0FBR2pCO0lBREMsSUFBQSwwQkFBUSxHQUFFOzt3REFDTTtBQUduQixNQUFhLDBCQUEwQjtJQUdyQyxTQUFTLENBQVc7SUFNcEIsYUFBYSxDQUFvQjtJQUtqQyxtQkFBbUIsQ0FBaUM7SUFLcEQsWUFBWSxDQUFVO0NBQ3ZCO0FBcEJELGdFQW9CQztBQWpCQztJQUZDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsMkJBQVMsR0FBRTs7NkRBQ1E7QUFNcEI7SUFKQyxJQUFBLDRCQUFVLEdBQUU7SUFDWixJQUFBLDBCQUFRLEdBQUU7SUFDVixJQUFBLGdDQUFjLEdBQUU7SUFDaEIsSUFBQSx3QkFBSSxFQUFDLEdBQUcsRUFBRSxDQUFDLGdCQUFnQixDQUFDOzhCQUNiLGdCQUFnQjtpRUFBQztBQUtqQztJQUhDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsZ0NBQWMsR0FBRTtJQUNoQixJQUFBLHdCQUFJLEVBQUMsR0FBRyxFQUFFLENBQUMsc0JBQXNCLENBQUM7OEJBQ2Isc0JBQXNCO3VFQUFRO0FBS3BEO0lBSEMsSUFBQSw0QkFBVSxHQUFFO0lBQ1osSUFBQSwwQkFBUSxHQUFFO0lBQ1YsSUFBQSwyQkFBUyxFQUFDLEdBQUcsQ0FBQzs7Z0VBQ08iLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9zeXN0ZW0tY29uZmlnL2R0by9zZWN0aW9uLXZpc2liaWxpdHkuZHRvLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7XG4gIElzT3B0aW9uYWwsXG4gIElzQm9vbGVhbixcbiAgSXNPYmplY3QsXG4gIElzU3RyaW5nLFxuICBJc0RhdGVTdHJpbmcsXG4gIE1heExlbmd0aCxcbiAgVmFsaWRhdGVOZXN0ZWQsXG4gIFZhbGlkYXRvckNvbnN0cmFpbnQsXG4gIFZhbGlkYXRvckNvbnN0cmFpbnRJbnRlcmZhY2UsXG4gIFZhbGlkYXRpb25Bcmd1bWVudHMsXG4gIFZhbGlkYXRlLFxufSBmcm9tICdjbGFzcy12YWxpZGF0b3InO1xuaW1wb3J0IHsgVHlwZSB9IGZyb20gJ2NsYXNzLXRyYW5zZm9ybWVyJztcblxuQFZhbGlkYXRvckNvbnN0cmFpbnQoeyBuYW1lOiAnaXNXaXRoaW4zMERheXMnLCBhc3luYzogZmFsc2UgfSlcbmNsYXNzIElzV2l0aGluMzBEYXlzQ29uc3RyYWludCBpbXBsZW1lbnRzIFZhbGlkYXRvckNvbnN0cmFpbnRJbnRlcmZhY2Uge1xuICB2YWxpZGF0ZShkYXRlU3RyaW5nOiBzdHJpbmcsIF9hcmdzOiBWYWxpZGF0aW9uQXJndW1lbnRzKSB7XG4gICAgY29uc3QgZGF0ZSA9IG5ldyBEYXRlKGRhdGVTdHJpbmcpO1xuICAgIGNvbnN0IG5vdyA9IG5ldyBEYXRlKCk7XG4gICAgY29uc3QgdGhpcnR5RGF5c0Zyb21Ob3cgPSBuZXcgRGF0ZSgpO1xuICAgIHRoaXJ0eURheXNGcm9tTm93LnNldERhdGUodGhpcnR5RGF5c0Zyb21Ob3cuZ2V0RGF0ZSgpICsgMzApO1xuXG4gICAgcmV0dXJuIGRhdGUgPiBub3cgJiYgZGF0ZSA8PSB0aGlydHlEYXlzRnJvbU5vdztcbiAgfVxuXG4gIGRlZmF1bHRNZXNzYWdlKF9hcmdzOiBWYWxpZGF0aW9uQXJndW1lbnRzKSB7XG4gICAgcmV0dXJuICdTY2hlZHVsZWQgYWN0aXZhdGlvbiBtdXN0IGJlIGJldHdlZW4gbm93IGFuZCAzMCBkYXlzIGZyb20gbm93JztcbiAgfVxufVxuXG5jbGFzcyBDdXN0b21NZXNzYWdlRHRvIHtcbiAgQElzU3RyaW5nKClcbiAgQE1heExlbmd0aCg1MDApXG4gICdwdC1CUic6IHN0cmluZztcblxuICBASXNTdHJpbmcoKVxuICBATWF4TGVuZ3RoKDUwMClcbiAgJ2VuJzogc3RyaW5nO1xufVxuXG5jbGFzcyBTY2hlZHVsZWRBY3RpdmF0aW9uRHRvIHtcbiAgQElzRGF0ZVN0cmluZygpXG4gIEBWYWxpZGF0ZShJc1dpdGhpbjMwRGF5c0NvbnN0cmFpbnQpXG4gIGRhdGVUaW1lOiBzdHJpbmc7XG5cbiAgQElzU3RyaW5nKClcbiAgdGltZXpvbmU6IHN0cmluZztcbn1cblxuZXhwb3J0IGNsYXNzIFVwZGF0ZVNlY3Rpb25WaXNpYmlsaXR5RHRvIHtcbiAgQElzT3B0aW9uYWwoKVxuICBASXNCb29sZWFuKClcbiAgaXNWaXNpYmxlPzogYm9vbGVhbjtcblxuICBASXNPcHRpb25hbCgpXG4gIEBJc09iamVjdCgpXG4gIEBWYWxpZGF0ZU5lc3RlZCgpXG4gIEBUeXBlKCgpID0+IEN1c3RvbU1lc3NhZ2VEdG8pXG4gIGN1c3RvbU1lc3NhZ2U/OiBDdXN0b21NZXNzYWdlRHRvO1xuXG4gIEBJc09wdGlvbmFsKClcbiAgQFZhbGlkYXRlTmVzdGVkKClcbiAgQFR5cGUoKCkgPT4gU2NoZWR1bGVkQWN0aXZhdGlvbkR0bylcbiAgc2NoZWR1bGVkQWN0aXZhdGlvbj86IFNjaGVkdWxlZEFjdGl2YXRpb25EdG8gfCBudWxsO1xuXG4gIEBJc09wdGlvbmFsKClcbiAgQElzU3RyaW5nKClcbiAgQE1heExlbmd0aCg1MDApXG4gIGNoYW5nZVJlYXNvbj86IHN0cmluZztcbn1cbiJdLCJ2ZXJzaW9uIjozfQ==

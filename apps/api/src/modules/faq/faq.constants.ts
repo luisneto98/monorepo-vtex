@@ -4,7 +4,7 @@ export const FAQ_CONSTANTS = {
   ANSWER_MAX_LENGTH: 2000,
 
   // Numeric constraints
-  ORDER_MIN_VALUE: 1,
+  ORDER_MIN_VALUE: 0,
   VIEW_COUNT_MIN_VALUE: 0,
 
   // Default values
@@ -29,5 +29,5 @@ export const FAQ_CATEGORY_CONSTANTS = {
   DESCRIPTION_MAX_LENGTH: 500,
 
   // Numeric constraints
-  ORDER_MIN_VALUE: 1,
+  ORDER_MIN_VALUE: 0,
 } as const;

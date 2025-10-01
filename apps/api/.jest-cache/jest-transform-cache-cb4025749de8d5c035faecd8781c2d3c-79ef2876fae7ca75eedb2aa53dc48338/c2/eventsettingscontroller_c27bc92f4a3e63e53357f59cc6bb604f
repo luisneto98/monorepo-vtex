@@ -1,0 +1,112 @@
+7add3e3e8e197ca3882a054e8232ec88
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.EventSettingsController = void 0;
+const common_1 = require("@nestjs/common");
+const swagger_1 = require("@nestjs/swagger");
+const throttler_1 = require("@nestjs/throttler");
+const event_settings_service_1 = require("./event-settings.service");
+const update_event_settings_dto_1 = require("./dto/update-event-settings.dto");
+const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
+const roles_guard_1 = require("../auth/guards/roles.guard");
+const roles_decorator_1 = require("../auth/decorators/roles.decorator");
+const public_decorator_1 = require("../../common/decorators/public.decorator");
+const shared_1 = require("@vtexday26/shared");
+let EventSettingsController = class EventSettingsController {
+    eventSettingsService;
+    constructor(eventSettingsService) {
+        this.eventSettingsService = eventSettingsService;
+    }
+    async getSettings() {
+        return await this.eventSettingsService.getSettings();
+    }
+    async updateSettings(updateEventSettingsDto, req) {
+        return await this.eventSettingsService.updateSettings(updateEventSettingsDto, req.user.userId);
+    }
+    async getPublicSettings() {
+        return await this.eventSettingsService.getPublicSettings();
+    }
+};
+exports.EventSettingsController = EventSettingsController;
+__decorate([
+    (0, common_1.Get)(),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Get event settings' }),
+    (0, swagger_1.ApiResponse)({
+        status: common_1.HttpStatus.OK,
+        description: 'Returns the current event settings',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: common_1.HttpStatus.UNAUTHORIZED,
+        description: 'Unauthorized',
+    }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], EventSettingsController.prototype, "getSettings", null);
+__decorate([
+    (0, common_1.Put)(),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(shared_1.UserRole.SUPER_ADMIN),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Update event settings (Admin only)' }),
+    (0, swagger_1.ApiResponse)({
+        status: common_1.HttpStatus.OK,
+        description: 'Event settings have been successfully updated',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: common_1.HttpStatus.UNAUTHORIZED,
+        description: 'Unauthorized',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: common_1.HttpStatus.FORBIDDEN,
+        description: 'Forbidden - Admin role required',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: common_1.HttpStatus.BAD_REQUEST,
+        description: 'Invalid data provided',
+    }),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [update_event_settings_dto_1.UpdateEventSettingsDto, Object]),
+    __metadata("design:returntype", Promise)
+], EventSettingsController.prototype, "updateSettings", null);
+__decorate([
+    (0, common_1.Get)('public'),
+    (0, public_decorator_1.Public)() // No authentication required
+    ,
+    (0, throttler_1.Throttle)({ default: { limit: 30, ttl: 60000 } }) // 30 requests per minute per IP
+    ,
+    (0, swagger_1.ApiOperation)({ summary: 'Get public event settings (no auth required)' }),
+    (0, swagger_1.ApiResponse)({
+        status: common_1.HttpStatus.OK,
+        description: 'Returns the public event settings',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: common_1.HttpStatus.TOO_MANY_REQUESTS,
+        description: 'Too many requests - rate limit exceeded',
+    }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], EventSettingsController.prototype, "getPublicSettings", null);
+exports.EventSettingsController = EventSettingsController = __decorate([
+    (0, swagger_1.ApiTags)('event-settings'),
+    (0, common_1.Controller)('event-settings'),
+    __metadata("design:paramtypes", [event_settings_service_1.EventSettingsService])
+], EventSettingsController);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9ldmVudC1zZXR0aW5ncy9ldmVudC1zZXR0aW5ncy5jb250cm9sbGVyLnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7OztBQUFBLDJDQUE0RjtBQUM1Riw2Q0FBb0Y7QUFDcEYsaURBQTZDO0FBQzdDLHFFQUFnRTtBQUNoRSwrRUFBeUU7QUFDekUsa0VBQTZEO0FBQzdELDREQUF3RDtBQUN4RCx3RUFBMkQ7QUFDM0QsK0VBQWtFO0FBQ2xFLDhDQUE2QztBQUl0QyxJQUFNLHVCQUF1QixHQUE3QixNQUFNLHVCQUF1QjtJQUNMO0lBQTdCLFlBQTZCLG9CQUEwQztRQUExQyx5QkFBb0IsR0FBcEIsb0JBQW9CLENBQXNCO0lBQUcsQ0FBQztJQWNyRSxBQUFOLEtBQUssQ0FBQyxXQUFXO1FBQ2YsT0FBTyxNQUFNLElBQUksQ0FBQyxvQkFBb0IsQ0FBQyxXQUFXLEVBQUUsQ0FBQztJQUN2RCxDQUFDO0lBdUJLLEFBQU4sS0FBSyxDQUFDLGNBQWMsQ0FDVixzQkFBOEMsRUFDM0MsR0FBUTtRQUVuQixPQUFPLE1BQU0sSUFBSSxDQUFDLG9CQUFvQixDQUFDLGNBQWMsQ0FBQyxzQkFBc0IsRUFBRSxHQUFHLENBQUMsSUFBSSxDQUFDLE1BQU0sQ0FBQyxDQUFDO0lBQ2pHLENBQUM7SUFjSyxBQUFOLEtBQUssQ0FBQyxpQkFBaUI7UUFDckIsT0FBTyxNQUFNLElBQUksQ0FBQyxvQkFBb0IsQ0FBQyxpQkFBaUIsRUFBRSxDQUFDO0lBQzdELENBQUM7Q0FDRixDQUFBO0FBOURZLDBEQUF1QjtBQWU1QjtJQVpMLElBQUEsWUFBRyxHQUFFO0lBQ0wsSUFBQSxrQkFBUyxFQUFDLDZCQUFZLENBQUM7SUFDdkIsSUFBQSx1QkFBYSxHQUFFO0lBQ2YsSUFBQSxzQkFBWSxFQUFDLEVBQUUsT0FBTyxFQUFFLG9CQUFvQixFQUFFLENBQUM7SUFDL0MsSUFBQSxxQkFBVyxFQUFDO1FBQ1gsTUFBTSxFQUFFLG1CQUFVLENBQUMsRUFBRTtRQUNyQixXQUFXLEVBQUUsb0NBQW9DO0tBQ2xELENBQUM7SUFDRCxJQUFBLHFCQUFXLEVBQUM7UUFDWCxNQUFNLEVBQUUsbUJBQVUsQ0FBQyxZQUFZO1FBQy9CLFdBQVcsRUFBRSxjQUFjO0tBQzVCLENBQUM7Ozs7MERBR0Q7QUF1Qks7SUFyQkwsSUFBQSxZQUFHLEdBQUU7SUFDTCxJQUFBLGtCQUFTLEVBQUMsNkJBQVksRUFBRSx3QkFBVSxDQUFDO0lBQ25DLElBQUEsdUJBQUssRUFBQyxpQkFBUSxDQUFDLFdBQVcsQ0FBQztJQUMzQixJQUFBLHVCQUFhLEdBQUU7SUFDZixJQUFBLHNCQUFZLEVBQUMsRUFBRSxPQUFPLEVBQUUsb0NBQW9DLEVBQUUsQ0FBQztJQUMvRCxJQUFBLHFCQUFXLEVBQUM7UUFDWCxNQUFNLEVBQUUsbUJBQVUsQ0FBQyxFQUFFO1FBQ3JCLFdBQVcsRUFBRSwrQ0FBK0M7S0FDN0QsQ0FBQztJQUNELElBQUEscUJBQVcsRUFBQztRQUNYLE1BQU0sRUFBRSxtQkFBVSxDQUFDLFlBQVk7UUFDL0IsV0FBVyxFQUFFLGNBQWM7S0FDNUIsQ0FBQztJQUNELElBQUEscUJBQVcsRUFBQztRQUNYLE1BQU0sRUFBRSxtQkFBVSxDQUFDLFNBQVM7UUFDNUIsV0FBVyxFQUFFLGlDQUFpQztLQUMvQyxDQUFDO0lBQ0QsSUFBQSxxQkFBVyxFQUFDO1FBQ1gsTUFBTSxFQUFFLG1CQUFVLENBQUMsV0FBVztRQUM5QixXQUFXLEVBQUUsdUJBQXVCO0tBQ3JDLENBQUM7SUFFQyxXQUFBLElBQUEsYUFBSSxHQUFFLENBQUE7SUFDTixXQUFBLElBQUEsZ0JBQU8sR0FBRSxDQUFBOztxQ0FEc0Isa0RBQXNCOzs2REFJdkQ7QUFjSztJQVpMLElBQUEsWUFBRyxFQUFDLFFBQVEsQ0FBQztJQUNiLElBQUEseUJBQU0sR0FBRSxDQUFDLDZCQUE2Qjs7SUFDdEMsSUFBQSxvQkFBUSxFQUFDLEVBQUUsT0FBTyxFQUFFLEVBQUUsS0FBSyxFQUFFLEVBQUUsRUFBRSxHQUFHLEVBQUUsS0FBSyxFQUFFLEVBQUUsQ0FBQyxDQUFDLGdDQUFnQzs7SUFDakYsSUFBQSxzQkFBWSxFQUFDLEVBQUUsT0FBTyxFQUFFLDhDQUE4QyxFQUFFLENBQUM7SUFDekUsSUFBQSxxQkFBVyxFQUFDO1FBQ1gsTUFBTSxFQUFFLG1CQUFVLENBQUMsRUFBRTtRQUNyQixXQUFXLEVBQUUsbUNBQW1DO0tBQ2pELENBQUM7SUFDRCxJQUFBLHFCQUFXLEVBQUM7UUFDWCxNQUFNLEVBQUUsbUJBQVUsQ0FBQyxpQkFBaUI7UUFDcEMsV0FBVyxFQUFFLHlDQUF5QztLQUN2RCxDQUFDOzs7O2dFQUdEO2tDQTdEVSx1QkFBdUI7SUFGbkMsSUFBQSxpQkFBTyxFQUFDLGdCQUFnQixDQUFDO0lBQ3pCLElBQUEsbUJBQVUsRUFBQyxnQkFBZ0IsQ0FBQztxQ0FFd0IsNkNBQW9CO0dBRDVELHVCQUF1QixDQThEbkMiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9ldmVudC1zZXR0aW5ncy9ldmVudC1zZXR0aW5ncy5jb250cm9sbGVyLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IENvbnRyb2xsZXIsIEdldCwgUHV0LCBCb2R5LCBVc2VHdWFyZHMsIFJlcXVlc3QsIEh0dHBTdGF0dXMgfSBmcm9tICdAbmVzdGpzL2NvbW1vbic7XG5pbXBvcnQgeyBBcGlUYWdzLCBBcGlPcGVyYXRpb24sIEFwaVJlc3BvbnNlLCBBcGlCZWFyZXJBdXRoIH0gZnJvbSAnQG5lc3Rqcy9zd2FnZ2VyJztcbmltcG9ydCB7IFRocm90dGxlIH0gZnJvbSAnQG5lc3Rqcy90aHJvdHRsZXInO1xuaW1wb3J0IHsgRXZlbnRTZXR0aW5nc1NlcnZpY2UgfSBmcm9tICcuL2V2ZW50LXNldHRpbmdzLnNlcnZpY2UnO1xuaW1wb3J0IHsgVXBkYXRlRXZlbnRTZXR0aW5nc0R0byB9IGZyb20gJy4vZHRvL3VwZGF0ZS1ldmVudC1zZXR0aW5ncy5kdG8nO1xuaW1wb3J0IHsgSnd0QXV0aEd1YXJkIH0gZnJvbSAnLi4vYXV0aC9ndWFyZHMvand0LWF1dGguZ3VhcmQnO1xuaW1wb3J0IHsgUm9sZXNHdWFyZCB9IGZyb20gJy4uL2F1dGgvZ3VhcmRzL3JvbGVzLmd1YXJkJztcbmltcG9ydCB7IFJvbGVzIH0gZnJvbSAnLi4vYXV0aC9kZWNvcmF0b3JzL3JvbGVzLmRlY29yYXRvcic7XG5pbXBvcnQgeyBQdWJsaWMgfSBmcm9tICcuLi8uLi9jb21tb24vZGVjb3JhdG9ycy9wdWJsaWMuZGVjb3JhdG9yJztcbmltcG9ydCB7IFVzZXJSb2xlIH0gZnJvbSAnQHZ0ZXhkYXkyNi9zaGFyZWQnO1xuXG5AQXBpVGFncygnZXZlbnQtc2V0dGluZ3MnKVxuQENvbnRyb2xsZXIoJ2V2ZW50LXNldHRpbmdzJylcbmV4cG9ydCBjbGFzcyBFdmVudFNldHRpbmdzQ29udHJvbGxlciB7XG4gIGNvbnN0cnVjdG9yKHByaXZhdGUgcmVhZG9ubHkgZXZlbnRTZXR0aW5nc1NlcnZpY2U6IEV2ZW50U2V0dGluZ3NTZXJ2aWNlKSB7fVxuXG4gIEBHZXQoKVxuICBAVXNlR3VhcmRzKEp3dEF1dGhHdWFyZClcbiAgQEFwaUJlYXJlckF1dGgoKVxuICBAQXBpT3BlcmF0aW9uKHsgc3VtbWFyeTogJ0dldCBldmVudCBzZXR0aW5ncycgfSlcbiAgQEFwaVJlc3BvbnNlKHtcbiAgICBzdGF0dXM6IEh0dHBTdGF0dXMuT0ssXG4gICAgZGVzY3JpcHRpb246ICdSZXR1cm5zIHRoZSBjdXJyZW50IGV2ZW50IHNldHRpbmdzJyxcbiAgfSlcbiAgQEFwaVJlc3BvbnNlKHtcbiAgICBzdGF0dXM6IEh0dHBTdGF0dXMuVU5BVVRIT1JJWkVELFxuICAgIGRlc2NyaXB0aW9uOiAnVW5hdXRob3JpemVkJyxcbiAgfSlcbiAgYXN5bmMgZ2V0U2V0dGluZ3MoKSB7XG4gICAgcmV0dXJuIGF3YWl0IHRoaXMuZXZlbnRTZXR0aW5nc1NlcnZpY2UuZ2V0U2V0dGluZ3MoKTtcbiAgfVxuXG4gIEBQdXQoKVxuICBAVXNlR3VhcmRzKEp3dEF1dGhHdWFyZCwgUm9sZXNHdWFyZClcbiAgQFJvbGVzKFVzZXJSb2xlLlNVUEVSX0FETUlOKVxuICBAQXBpQmVhcmVyQXV0aCgpXG4gIEBBcGlPcGVyYXRpb24oeyBzdW1tYXJ5OiAnVXBkYXRlIGV2ZW50IHNldHRpbmdzIChBZG1pbiBvbmx5KScgfSlcbiAgQEFwaVJlc3BvbnNlKHtcbiAgICBzdGF0dXM6IEh0dHBTdGF0dXMuT0ssXG4gICAgZGVzY3JpcHRpb246ICdFdmVudCBzZXR0aW5ncyBoYXZlIGJlZW4gc3VjY2Vzc2Z1bGx5IHVwZGF0ZWQnLFxuICB9KVxuICBAQXBpUmVzcG9uc2Uoe1xuICAgIHN0YXR1czogSHR0cFN0YXR1cy5VTkFVVEhPUklaRUQsXG4gICAgZGVzY3JpcHRpb246ICdVbmF1dGhvcml6ZWQnLFxuICB9KVxuICBAQXBpUmVzcG9uc2Uoe1xuICAgIHN0YXR1czogSHR0cFN0YXR1cy5GT1JCSURERU4sXG4gICAgZGVzY3JpcHRpb246ICdGb3JiaWRkZW4gLSBBZG1pbiByb2xlIHJlcXVpcmVkJyxcbiAgfSlcbiAgQEFwaVJlc3BvbnNlKHtcbiAgICBzdGF0dXM6IEh0dHBTdGF0dXMuQkFEX1JFUVVFU1QsXG4gICAgZGVzY3JpcHRpb246ICdJbnZhbGlkIGRhdGEgcHJvdmlkZWQnLFxuICB9KVxuICBhc3luYyB1cGRhdGVTZXR0aW5ncyhcbiAgICBAQm9keSgpIHVwZGF0ZUV2ZW50U2V0dGluZ3NEdG86IFVwZGF0ZUV2ZW50U2V0dGluZ3NEdG8sXG4gICAgQFJlcXVlc3QoKSByZXE6IGFueSxcbiAgKSB7XG4gICAgcmV0dXJuIGF3YWl0IHRoaXMuZXZlbnRTZXR0aW5nc1NlcnZpY2UudXBkYXRlU2V0dGluZ3ModXBkYXRlRXZlbnRTZXR0aW5nc0R0bywgcmVxLnVzZXIudXNlcklkKTtcbiAgfVxuXG4gIEBHZXQoJ3B1YmxpYycpXG4gIEBQdWJsaWMoKSAvLyBObyBhdXRoZW50aWNhdGlvbiByZXF1aXJlZFxuICBAVGhyb3R0bGUoeyBkZWZhdWx0OiB7IGxpbWl0OiAzMCwgdHRsOiA2MDAwMCB9IH0pIC8vIDMwIHJlcXVlc3RzIHBlciBtaW51dGUgcGVyIElQXG4gIEBBcGlPcGVyYXRpb24oeyBzdW1tYXJ5OiAnR2V0IHB1YmxpYyBldmVudCBzZXR0aW5ncyAobm8gYXV0aCByZXF1aXJlZCknIH0pXG4gIEBBcGlSZXNwb25zZSh7XG4gICAgc3RhdHVzOiBIdHRwU3RhdHVzLk9LLFxuICAgIGRlc2NyaXB0aW9uOiAnUmV0dXJucyB0aGUgcHVibGljIGV2ZW50IHNldHRpbmdzJyxcbiAgfSlcbiAgQEFwaVJlc3BvbnNlKHtcbiAgICBzdGF0dXM6IEh0dHBTdGF0dXMuVE9PX01BTllfUkVRVUVTVFMsXG4gICAgZGVzY3JpcHRpb246ICdUb28gbWFueSByZXF1ZXN0cyAtIHJhdGUgbGltaXQgZXhjZWVkZWQnLFxuICB9KVxuICBhc3luYyBnZXRQdWJsaWNTZXR0aW5ncygpIHtcbiAgICByZXR1cm4gYXdhaXQgdGhpcy5ldmVudFNldHRpbmdzU2VydmljZS5nZXRQdWJsaWNTZXR0aW5ncygpO1xuICB9XG59XG4iXSwidmVyc2lvbiI6M30=

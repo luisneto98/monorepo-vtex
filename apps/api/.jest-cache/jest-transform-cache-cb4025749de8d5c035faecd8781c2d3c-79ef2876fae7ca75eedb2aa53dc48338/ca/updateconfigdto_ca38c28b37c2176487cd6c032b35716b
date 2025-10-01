@@ -1,0 +1,41 @@
+997199f3c4acfb00155cfe37bd2eea84
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UpdateSystemConfigDto = void 0;
+const class_validator_1 = require("class-validator");
+const class_transformer_1 = require("class-transformer");
+const section_visibility_dto_1 = require("./section-visibility.dto");
+class UpdateSystemConfigDto {
+    sections;
+    changeReason;
+    version;
+}
+exports.UpdateSystemConfigDto = UpdateSystemConfigDto;
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsObject)(),
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => section_visibility_dto_1.UpdateSectionVisibilityDto),
+    __metadata("design:type", Object)
+], UpdateSystemConfigDto.prototype, "sections", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], UpdateSystemConfigDto.prototype, "changeReason", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.Min)(1),
+    __metadata("design:type", Number)
+], UpdateSystemConfigDto.prototype, "version", void 0);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9zeXN0ZW0tY29uZmlnL2R0by91cGRhdGUtY29uZmlnLmR0by50cyIsIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7QUFBQSxxREFBZ0c7QUFDaEcseURBQXlDO0FBQ3pDLHFFQUFzRTtBQUV0RSxNQUFhLHFCQUFxQjtJQUtoQyxRQUFRLENBT047SUFJRixZQUFZLENBQVU7SUFLdEIsT0FBTyxDQUFVO0NBQ2xCO0FBdEJELHNEQXNCQztBQWpCQztJQUpDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsMEJBQVEsR0FBRTtJQUNWLElBQUEsZ0NBQWMsR0FBRTtJQUNoQixJQUFBLHdCQUFJLEVBQUMsR0FBRyxFQUFFLENBQUMsbURBQTBCLENBQUM7O3VEQVFyQztBQUlGO0lBRkMsSUFBQSw0QkFBVSxHQUFFO0lBQ1osSUFBQSwwQkFBUSxHQUFFOzsyREFDVztBQUt0QjtJQUhDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsMEJBQVEsR0FBRTtJQUNWLElBQUEscUJBQUcsRUFBQyxDQUFDLENBQUM7O3NEQUNVIiwibmFtZXMiOltdLCJzb3VyY2VzIjpbIi9ob21lL2x1aXNuZXRvOTgvRG9jdW1lbnRvcy9Db2RlL21vbm9yZXBvLXZ0ZXgvYXBwcy9hcGkvc3JjL21vZHVsZXMvc3lzdGVtLWNvbmZpZy9kdG8vdXBkYXRlLWNvbmZpZy5kdG8udHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgSXNPcHRpb25hbCwgSXNPYmplY3QsIFZhbGlkYXRlTmVzdGVkLCBJc1N0cmluZywgSXNOdW1iZXIsIE1pbiB9IGZyb20gJ2NsYXNzLXZhbGlkYXRvcic7XG5pbXBvcnQgeyBUeXBlIH0gZnJvbSAnY2xhc3MtdHJhbnNmb3JtZXInO1xuaW1wb3J0IHsgVXBkYXRlU2VjdGlvblZpc2liaWxpdHlEdG8gfSBmcm9tICcuL3NlY3Rpb24tdmlzaWJpbGl0eS5kdG8nO1xuXG5leHBvcnQgY2xhc3MgVXBkYXRlU3lzdGVtQ29uZmlnRHRvIHtcbiAgQElzT3B0aW9uYWwoKVxuICBASXNPYmplY3QoKVxuICBAVmFsaWRhdGVOZXN0ZWQoKVxuICBAVHlwZSgoKSA9PiBVcGRhdGVTZWN0aW9uVmlzaWJpbGl0eUR0bylcbiAgc2VjdGlvbnM/OiB7XG4gICAgc3BlYWtlcnM/OiBVcGRhdGVTZWN0aW9uVmlzaWJpbGl0eUR0bztcbiAgICBzcG9uc29ycz86IFVwZGF0ZVNlY3Rpb25WaXNpYmlsaXR5RHRvO1xuICAgIHNlc3Npb25zPzogVXBkYXRlU2VjdGlvblZpc2liaWxpdHlEdG87XG4gICAgZmFxPzogVXBkYXRlU2VjdGlvblZpc2liaWxpdHlEdG87XG4gICAgcmVnaXN0cmF0aW9uPzogVXBkYXRlU2VjdGlvblZpc2liaWxpdHlEdG87XG4gICAgc2NoZWR1bGU/OiBVcGRhdGVTZWN0aW9uVmlzaWJpbGl0eUR0bztcbiAgfTtcblxuICBASXNPcHRpb25hbCgpXG4gIEBJc1N0cmluZygpXG4gIGNoYW5nZVJlYXNvbj86IHN0cmluZztcblxuICBASXNPcHRpb25hbCgpXG4gIEBJc051bWJlcigpXG4gIEBNaW4oMSlcbiAgdmVyc2lvbj86IG51bWJlcjtcbn1cbiJdLCJ2ZXJzaW9uIjozfQ==

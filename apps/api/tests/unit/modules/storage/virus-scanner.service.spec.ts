@@ -42,10 +42,7 @@ describe('VirusScannerService', () => {
 
     it('should pass a clean JPEG file through heuristic scanning', async () => {
       // JPEG magic bytes + clean content
-      const cleanJpeg = Buffer.concat([
-        Buffer.from([0xff, 0xd8, 0xff]),
-        Buffer.alloc(1000, 'a'),
-      ]);
+      const cleanJpeg = Buffer.concat([Buffer.from([0xff, 0xd8, 0xff]), Buffer.alloc(1000, 'a')]);
 
       const result = await service.scanFile(cleanJpeg, 'clean.jpg', 'image/jpeg');
 
@@ -94,12 +91,12 @@ describe('VirusScannerService', () => {
         Buffer.alloc(500, 'a'),
       ]);
 
-      await expect(
-        service.scanFile(maliciousImage, 'malicious.jpg', 'image/jpeg'),
-      ).rejects.toThrow(BadRequestException);
-      await expect(
-        service.scanFile(maliciousImage, 'malicious.jpg', 'image/jpeg'),
-      ).rejects.toThrow('contains suspicious content and was rejected');
+      await expect(service.scanFile(maliciousImage, 'malicious.jpg', 'image/jpeg')).rejects.toThrow(
+        BadRequestException,
+      );
+      await expect(service.scanFile(maliciousImage, 'malicious.jpg', 'image/jpeg')).rejects.toThrow(
+        'contains suspicious content and was rejected',
+      );
     });
 
     it('should reject an image with javascript: protocol', async () => {
@@ -109,9 +106,9 @@ describe('VirusScannerService', () => {
         Buffer.alloc(500, 'a'),
       ]);
 
-      await expect(
-        service.scanFile(maliciousImage, 'malicious.jpg', 'image/jpeg'),
-      ).rejects.toThrow(BadRequestException);
+      await expect(service.scanFile(maliciousImage, 'malicious.jpg', 'image/jpeg')).rejects.toThrow(
+        BadRequestException,
+      );
     });
 
     it('should reject an image with onerror= attribute', async () => {
@@ -121,9 +118,9 @@ describe('VirusScannerService', () => {
         Buffer.alloc(500, 'a'),
       ]);
 
-      await expect(
-        service.scanFile(maliciousImage, 'malicious.jpg', 'image/jpeg'),
-      ).rejects.toThrow(BadRequestException);
+      await expect(service.scanFile(maliciousImage, 'malicious.jpg', 'image/jpeg')).rejects.toThrow(
+        BadRequestException,
+      );
     });
 
     it('should reject an image with onload= attribute', async () => {
@@ -133,9 +130,9 @@ describe('VirusScannerService', () => {
         Buffer.alloc(500, 'a'),
       ]);
 
-      await expect(
-        service.scanFile(maliciousImage, 'malicious.jpg', 'image/jpeg'),
-      ).rejects.toThrow(BadRequestException);
+      await expect(service.scanFile(maliciousImage, 'malicious.jpg', 'image/jpeg')).rejects.toThrow(
+        BadRequestException,
+      );
     });
 
     it('should reject an image with iframe tag', async () => {
@@ -145,9 +142,9 @@ describe('VirusScannerService', () => {
         Buffer.alloc(500, 'a'),
       ]);
 
-      await expect(
-        service.scanFile(maliciousImage, 'malicious.jpg', 'image/jpeg'),
-      ).rejects.toThrow(BadRequestException);
+      await expect(service.scanFile(maliciousImage, 'malicious.jpg', 'image/jpeg')).rejects.toThrow(
+        BadRequestException,
+      );
     });
 
     it('should reject an image with object tag', async () => {
@@ -157,9 +154,9 @@ describe('VirusScannerService', () => {
         Buffer.alloc(500, 'a'),
       ]);
 
-      await expect(
-        service.scanFile(maliciousImage, 'malicious.jpg', 'image/jpeg'),
-      ).rejects.toThrow(BadRequestException);
+      await expect(service.scanFile(maliciousImage, 'malicious.jpg', 'image/jpeg')).rejects.toThrow(
+        BadRequestException,
+      );
     });
 
     it('should reject an image with embed tag', async () => {
@@ -169,9 +166,9 @@ describe('VirusScannerService', () => {
         Buffer.alloc(500, 'a'),
       ]);
 
-      await expect(
-        service.scanFile(maliciousImage, 'malicious.jpg', 'image/jpeg'),
-      ).rejects.toThrow(BadRequestException);
+      await expect(service.scanFile(maliciousImage, 'malicious.jpg', 'image/jpeg')).rejects.toThrow(
+        BadRequestException,
+      );
     });
 
     it('should reject an image with excessive metadata (>100 Exif markers)', async () => {
@@ -182,12 +179,12 @@ describe('VirusScannerService', () => {
         Buffer.alloc(500, 'a'),
       ]);
 
-      await expect(
-        service.scanFile(maliciousImage, 'malicious.jpg', 'image/jpeg'),
-      ).rejects.toThrow(BadRequestException);
-      await expect(
-        service.scanFile(maliciousImage, 'malicious.jpg', 'image/jpeg'),
-      ).rejects.toThrow('contains suspicious metadata');
+      await expect(service.scanFile(maliciousImage, 'malicious.jpg', 'image/jpeg')).rejects.toThrow(
+        BadRequestException,
+      );
+      await expect(service.scanFile(maliciousImage, 'malicious.jpg', 'image/jpeg')).rejects.toThrow(
+        'contains suspicious metadata',
+      );
     });
 
     it('should reject a PDF that is too small (<1024 bytes)', async () => {
@@ -251,12 +248,12 @@ describe('VirusScannerService', () => {
         Buffer.alloc(500, 'a'),
       ]);
 
-      await expect(
-        service.scanFile(maliciousFile, 'obfuscated.jpg', 'image/jpeg'),
-      ).rejects.toThrow(BadRequestException);
-      await expect(
-        service.scanFile(maliciousFile, 'obfuscated.jpg', 'image/jpeg'),
-      ).rejects.toThrow('File failed security scan and was rejected');
+      await expect(service.scanFile(maliciousFile, 'obfuscated.jpg', 'image/jpeg')).rejects.toThrow(
+        BadRequestException,
+      );
+      await expect(service.scanFile(maliciousFile, 'obfuscated.jpg', 'image/jpeg')).rejects.toThrow(
+        'File failed security scan and was rejected',
+      );
     });
 
     it('should reject a file with excessive external references (>20)', async () => {
@@ -267,12 +264,12 @@ describe('VirusScannerService', () => {
         Buffer.alloc(500, 'a'),
       ]);
 
-      await expect(
-        service.scanFile(suspiciousFile, 'phishing.jpg', 'image/jpeg'),
-      ).rejects.toThrow(BadRequestException);
-      await expect(
-        service.scanFile(suspiciousFile, 'phishing.jpg', 'image/jpeg'),
-      ).rejects.toThrow('File contains too many external references');
+      await expect(service.scanFile(suspiciousFile, 'phishing.jpg', 'image/jpeg')).rejects.toThrow(
+        BadRequestException,
+      );
+      await expect(service.scanFile(suspiciousFile, 'phishing.jpg', 'image/jpeg')).rejects.toThrow(
+        'File contains too many external references',
+      );
     });
 
     it('should handle scanning error gracefully and fail-safe (reject)', async () => {
@@ -361,11 +358,7 @@ describe('VirusScannerService', () => {
         Buffer.alloc(500, 'a'),
       ]);
 
-      const result = await service.scanFile(
-        slightlyObfuscated,
-        'slight.jpg',
-        'image/jpeg',
-      );
+      const result = await service.scanFile(slightlyObfuscated, 'slight.jpg', 'image/jpeg');
 
       expect(result).toBe(true);
     });

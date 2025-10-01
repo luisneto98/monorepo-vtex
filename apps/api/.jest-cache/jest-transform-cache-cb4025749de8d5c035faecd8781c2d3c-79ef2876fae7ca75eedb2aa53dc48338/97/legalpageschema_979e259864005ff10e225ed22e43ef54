@@ -1,0 +1,85 @@
+4576eab14512c65d4c12cd628382303e
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.LegalPageSchema = exports.LegalPage = exports.LegalPageType = void 0;
+const mongoose_1 = require("@nestjs/mongoose");
+const shared_1 = require("@vtexday26/shared");
+Object.defineProperty(exports, "LegalPageType", { enumerable: true, get: function () { return shared_1.LegalPageType; } });
+let LegalPage = class LegalPage {
+    slug;
+    type;
+    files;
+    title;
+    lastModifiedBy;
+    isActive;
+};
+exports.LegalPage = LegalPage;
+__decorate([
+    (0, mongoose_1.Prop)({ required: true, unique: true, index: true }),
+    __metadata("design:type", String)
+], LegalPage.prototype, "slug", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true, enum: Object.values(shared_1.LegalPageType), index: true }),
+    __metadata("design:type", String)
+], LegalPage.prototype, "type", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        type: {
+            pt: {
+                filename: String,
+                originalName: String,
+                size: Number,
+                uploadedAt: Date,
+                uploadedBy: String,
+            },
+            en: {
+                filename: String,
+                originalName: String,
+                size: Number,
+                uploadedAt: Date,
+                uploadedBy: String,
+            },
+            es: {
+                filename: String,
+                originalName: String,
+                size: Number,
+                uploadedAt: Date,
+                uploadedBy: String,
+            },
+        },
+    }),
+    __metadata("design:type", Object)
+], LegalPage.prototype, "files", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        type: {
+            pt: String,
+            en: String,
+            es: String,
+        },
+        required: true,
+    }),
+    __metadata("design:type", Object)
+], LegalPage.prototype, "title", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], LegalPage.prototype, "lastModifiedBy", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: true }),
+    __metadata("design:type", Boolean)
+], LegalPage.prototype, "isActive", void 0);
+exports.LegalPage = LegalPage = __decorate([
+    (0, mongoose_1.Schema)({ collection: 'LegalPage', timestamps: true })
+], LegalPage);
+exports.LegalPageSchema = mongoose_1.SchemaFactory.createForClass(LegalPage);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9sZWdhbC1wYWdlcy9zY2hlbWFzL2xlZ2FsLXBhZ2Uuc2NoZW1hLnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7OztBQUFBLCtDQUErRDtBQUUvRCw4Q0FLMkI7QUFLbEIsOEZBVFAsc0JBQWEsT0FTTztBQUdmLElBQU0sU0FBUyxHQUFmLE1BQU0sU0FBUztJQUVwQixJQUFJLENBQVM7SUFHYixJQUFJLENBQWdCO0lBMkJwQixLQUFLLENBQWlCO0lBVXRCLEtBQUssQ0FBa0I7SUFHdkIsY0FBYyxDQUFTO0lBR3ZCLFFBQVEsQ0FBVTtDQUNuQixDQUFBO0FBakRZLDhCQUFTO0FBRXBCO0lBREMsSUFBQSxlQUFJLEVBQUMsRUFBRSxRQUFRLEVBQUUsSUFBSSxFQUFFLE1BQU0sRUFBRSxJQUFJLEVBQUUsS0FBSyxFQUFFLElBQUksRUFBRSxDQUFDOzt1Q0FDdkM7QUFHYjtJQURDLElBQUEsZUFBSSxFQUFDLEVBQUUsUUFBUSxFQUFFLElBQUksRUFBRSxJQUFJLEVBQUUsTUFBTSxDQUFDLE1BQU0sQ0FBQyxzQkFBYSxDQUFDLEVBQUUsS0FBSyxFQUFFLElBQUksRUFBRSxDQUFDOzt1Q0FDdEQ7QUEyQnBCO0lBekJDLElBQUEsZUFBSSxFQUFDO1FBQ0osSUFBSSxFQUFFO1lBQ0osRUFBRSxFQUFFO2dCQUNGLFFBQVEsRUFBRSxNQUFNO2dCQUNoQixZQUFZLEVBQUUsTUFBTTtnQkFDcEIsSUFBSSxFQUFFLE1BQU07Z0JBQ1osVUFBVSxFQUFFLElBQUk7Z0JBQ2hCLFVBQVUsRUFBRSxNQUFNO2FBQ25CO1lBQ0QsRUFBRSxFQUFFO2dCQUNGLFFBQVEsRUFBRSxNQUFNO2dCQUNoQixZQUFZLEVBQUUsTUFBTTtnQkFDcEIsSUFBSSxFQUFFLE1BQU07Z0JBQ1osVUFBVSxFQUFFLElBQUk7Z0JBQ2hCLFVBQVUsRUFBRSxNQUFNO2FBQ25CO1lBQ0QsRUFBRSxFQUFFO2dCQUNGLFFBQVEsRUFBRSxNQUFNO2dCQUNoQixZQUFZLEVBQUUsTUFBTTtnQkFDcEIsSUFBSSxFQUFFLE1BQU07Z0JBQ1osVUFBVSxFQUFFLElBQUk7Z0JBQ2hCLFVBQVUsRUFBRSxNQUFNO2FBQ25CO1NBQ0Y7S0FDRixDQUFDOzt3Q0FDb0I7QUFVdEI7SUFSQyxJQUFBLGVBQUksRUFBQztRQUNKLElBQUksRUFBRTtZQUNKLEVBQUUsRUFBRSxNQUFNO1lBQ1YsRUFBRSxFQUFFLE1BQU07WUFDVixFQUFFLEVBQUUsTUFBTTtTQUNYO1FBQ0QsUUFBUSxFQUFFLElBQUk7S0FDZixDQUFDOzt3Q0FDcUI7QUFHdkI7SUFEQyxJQUFBLGVBQUksR0FBRTs7aURBQ2dCO0FBR3ZCO0lBREMsSUFBQSxlQUFJLEVBQUMsRUFBRSxPQUFPLEVBQUUsSUFBSSxFQUFFLENBQUM7OzJDQUNOO29CQWhEUCxTQUFTO0lBRHJCLElBQUEsaUJBQU0sRUFBQyxFQUFFLFVBQVUsRUFBRSxXQUFXLEVBQUUsVUFBVSxFQUFFLElBQUksRUFBRSxDQUFDO0dBQ3pDLFNBQVMsQ0FpRHJCO0FBRVksUUFBQSxlQUFlLEdBQUcsd0JBQWEsQ0FBQyxjQUFjLENBQUMsU0FBUyxDQUFDLENBQUMiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9sZWdhbC1wYWdlcy9zY2hlbWFzL2xlZ2FsLXBhZ2Uuc2NoZW1hLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IFByb3AsIFNjaGVtYSwgU2NoZW1hRmFjdG9yeSB9IGZyb20gJ0BuZXN0anMvbW9uZ29vc2UnO1xuaW1wb3J0IHsgRG9jdW1lbnQgfSBmcm9tICdtb25nb29zZSc7XG5pbXBvcnQge1xuICBMZWdhbFBhZ2VUeXBlLFxuICBMZWdhbEZpbGVNZXRhZGF0YSBhcyBGaWxlTWV0YWRhdGEsXG4gIExlZ2FsTG9jYWxpemVkU3RyaW5nIGFzIExvY2FsaXplZFN0cmluZyxcbiAgTGVnYWxMb2NhbGl6ZWRGaWxlcyBhcyBMb2NhbGl6ZWRGaWxlcyxcbn0gZnJvbSAnQHZ0ZXhkYXkyNi9zaGFyZWQnO1xuXG5leHBvcnQgdHlwZSBMZWdhbFBhZ2VEb2N1bWVudCA9IExlZ2FsUGFnZSAmIERvY3VtZW50O1xuXG4vLyBSZS1leHBvcnQgZm9yIGJhY2t3YXJkIGNvbXBhdGliaWxpdHlcbmV4cG9ydCB7IExlZ2FsUGFnZVR5cGUsIEZpbGVNZXRhZGF0YSwgTG9jYWxpemVkU3RyaW5nLCBMb2NhbGl6ZWRGaWxlcyB9O1xuXG5AU2NoZW1hKHsgY29sbGVjdGlvbjogJ0xlZ2FsUGFnZScsIHRpbWVzdGFtcHM6IHRydWUgfSlcbmV4cG9ydCBjbGFzcyBMZWdhbFBhZ2Uge1xuICBAUHJvcCh7IHJlcXVpcmVkOiB0cnVlLCB1bmlxdWU6IHRydWUsIGluZGV4OiB0cnVlIH0pXG4gIHNsdWc6IHN0cmluZztcblxuICBAUHJvcCh7IHJlcXVpcmVkOiB0cnVlLCBlbnVtOiBPYmplY3QudmFsdWVzKExlZ2FsUGFnZVR5cGUpLCBpbmRleDogdHJ1ZSB9KVxuICB0eXBlOiBMZWdhbFBhZ2VUeXBlO1xuXG4gIEBQcm9wKHtcbiAgICB0eXBlOiB7XG4gICAgICBwdDoge1xuICAgICAgICBmaWxlbmFtZTogU3RyaW5nLFxuICAgICAgICBvcmlnaW5hbE5hbWU6IFN0cmluZyxcbiAgICAgICAgc2l6ZTogTnVtYmVyLFxuICAgICAgICB1cGxvYWRlZEF0OiBEYXRlLFxuICAgICAgICB1cGxvYWRlZEJ5OiBTdHJpbmcsXG4gICAgICB9LFxuICAgICAgZW46IHtcbiAgICAgICAgZmlsZW5hbWU6IFN0cmluZyxcbiAgICAgICAgb3JpZ2luYWxOYW1lOiBTdHJpbmcsXG4gICAgICAgIHNpemU6IE51bWJlcixcbiAgICAgICAgdXBsb2FkZWRBdDogRGF0ZSxcbiAgICAgICAgdXBsb2FkZWRCeTogU3RyaW5nLFxuICAgICAgfSxcbiAgICAgIGVzOiB7XG4gICAgICAgIGZpbGVuYW1lOiBTdHJpbmcsXG4gICAgICAgIG9yaWdpbmFsTmFtZTogU3RyaW5nLFxuICAgICAgICBzaXplOiBOdW1iZXIsXG4gICAgICAgIHVwbG9hZGVkQXQ6IERhdGUsXG4gICAgICAgIHVwbG9hZGVkQnk6IFN0cmluZyxcbiAgICAgIH0sXG4gICAgfSxcbiAgfSlcbiAgZmlsZXM6IExvY2FsaXplZEZpbGVzO1xuXG4gIEBQcm9wKHtcbiAgICB0eXBlOiB7XG4gICAgICBwdDogU3RyaW5nLFxuICAgICAgZW46IFN0cmluZyxcbiAgICAgIGVzOiBTdHJpbmcsXG4gICAgfSxcbiAgICByZXF1aXJlZDogdHJ1ZSxcbiAgfSlcbiAgdGl0bGU6IExvY2FsaXplZFN0cmluZztcblxuICBAUHJvcCgpXG4gIGxhc3RNb2RpZmllZEJ5OiBzdHJpbmc7XG5cbiAgQFByb3AoeyBkZWZhdWx0OiB0cnVlIH0pXG4gIGlzQWN0aXZlOiBib29sZWFuO1xufVxuXG5leHBvcnQgY29uc3QgTGVnYWxQYWdlU2NoZW1hID0gU2NoZW1hRmFjdG9yeS5jcmVhdGVGb3JDbGFzcyhMZWdhbFBhZ2UpO1xuIl0sInZlcnNpb24iOjN9

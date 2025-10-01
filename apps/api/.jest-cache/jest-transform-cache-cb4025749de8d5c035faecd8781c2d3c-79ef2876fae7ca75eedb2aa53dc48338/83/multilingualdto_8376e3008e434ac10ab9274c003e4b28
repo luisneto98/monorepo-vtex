@@ -1,0 +1,49 @@
+3822aca48ddc742ed3c47243e711b16f
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MultilingualTextDto = void 0;
+const class_validator_1 = require("class-validator");
+const swagger_1 = require("@nestjs/swagger");
+class MultilingualTextDto {
+    'pt-BR';
+    en;
+    es;
+}
+exports.MultilingualTextDto = MultilingualTextDto;
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'Text in Brazilian Portuguese',
+        example: 'Texto em português',
+    }),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], MultilingualTextDto.prototype, "pt-BR", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'Text in English',
+        example: 'Text in English',
+    }),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], MultilingualTextDto.prototype, "en", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        description: 'Text in Spanish',
+        example: 'Texto en español',
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], MultilingualTextDto.prototype, "es", void 0);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvY29tbW9uL2R0by9tdWx0aWxpbmd1YWwuZHRvLnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7OztBQUFBLHFEQUFtRTtBQUNuRSw2Q0FBbUU7QUFFbkUsTUFBYSxtQkFBbUI7SUFPOUIsT0FBTyxDQUFTO0lBUWhCLEVBQUUsQ0FBUztJQVFYLEVBQUUsQ0FBVTtDQUNiO0FBeEJELGtEQXdCQztBQWpCQztJQU5DLElBQUEscUJBQVcsRUFBQztRQUNYLFdBQVcsRUFBRSw4QkFBOEI7UUFDM0MsT0FBTyxFQUFFLG9CQUFvQjtLQUM5QixDQUFDO0lBQ0QsSUFBQSwwQkFBUSxHQUFFO0lBQ1YsSUFBQSw0QkFBVSxHQUFFOztrREFDRztBQVFoQjtJQU5DLElBQUEscUJBQVcsRUFBQztRQUNYLFdBQVcsRUFBRSxpQkFBaUI7UUFDOUIsT0FBTyxFQUFFLGlCQUFpQjtLQUMzQixDQUFDO0lBQ0QsSUFBQSwwQkFBUSxHQUFFO0lBQ1YsSUFBQSw0QkFBVSxHQUFFOzsrQ0FDRjtBQVFYO0lBTkMsSUFBQSw2QkFBbUIsRUFBQztRQUNuQixXQUFXLEVBQUUsaUJBQWlCO1FBQzlCLE9BQU8sRUFBRSxrQkFBa0I7S0FDNUIsQ0FBQztJQUNELElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsMEJBQVEsR0FBRTs7K0NBQ0MiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvY29tbW9uL2R0by9tdWx0aWxpbmd1YWwuZHRvLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IElzU3RyaW5nLCBJc05vdEVtcHR5LCBJc09wdGlvbmFsIH0gZnJvbSAnY2xhc3MtdmFsaWRhdG9yJztcbmltcG9ydCB7IEFwaVByb3BlcnR5LCBBcGlQcm9wZXJ0eU9wdGlvbmFsIH0gZnJvbSAnQG5lc3Rqcy9zd2FnZ2VyJztcblxuZXhwb3J0IGNsYXNzIE11bHRpbGluZ3VhbFRleHREdG8ge1xuICBAQXBpUHJvcGVydHkoe1xuICAgIGRlc2NyaXB0aW9uOiAnVGV4dCBpbiBCcmF6aWxpYW4gUG9ydHVndWVzZScsXG4gICAgZXhhbXBsZTogJ1RleHRvIGVtIHBvcnR1Z3XDqnMnLFxuICB9KVxuICBASXNTdHJpbmcoKVxuICBASXNOb3RFbXB0eSgpXG4gICdwdC1CUic6IHN0cmluZztcblxuICBAQXBpUHJvcGVydHkoe1xuICAgIGRlc2NyaXB0aW9uOiAnVGV4dCBpbiBFbmdsaXNoJyxcbiAgICBleGFtcGxlOiAnVGV4dCBpbiBFbmdsaXNoJyxcbiAgfSlcbiAgQElzU3RyaW5nKClcbiAgQElzTm90RW1wdHkoKVxuICBlbjogc3RyaW5nO1xuXG4gIEBBcGlQcm9wZXJ0eU9wdGlvbmFsKHtcbiAgICBkZXNjcmlwdGlvbjogJ1RleHQgaW4gU3BhbmlzaCcsXG4gICAgZXhhbXBsZTogJ1RleHRvIGVuIGVzcGHDsW9sJyxcbiAgfSlcbiAgQElzT3B0aW9uYWwoKVxuICBASXNTdHJpbmcoKVxuICBlcz86IHN0cmluZztcbn1cbiJdLCJ2ZXJzaW9uIjozfQ==

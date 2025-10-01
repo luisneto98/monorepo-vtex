@@ -65,15 +65,18 @@ class FaqService {
     return result;
   }
 
-  async getPopularFAQs(limit: number = 5, lang?: 'pt-BR' | 'en'): Promise<PaginatedResponse<Faq>> {
+  async getPopularFAQs(limit: number = 5, lang?: 'pt-BR' | 'en'): Promise<{ data: Faq[] }> {
     const params: Record<string, any> = {
-      page: 1,
       limit,
     };
 
     if (lang) params.lang = lang;
 
-    return apiService.getPaginated<Faq>('/faq/popular', params.page, params.limit, params);
+    const response = await apiService.get<{ success: boolean; data: Faq[] }>('/faq/popular', params);
+
+    // API returns { success: true, data: [...] }, so we need response.data.data
+    const faqs = (response.data as any).data || response.data;
+    return { data: faqs };
   }
 
   async getFAQCategories(): Promise<PaginatedResponse<FaqCategory>> {

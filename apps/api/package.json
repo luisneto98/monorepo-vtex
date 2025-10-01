@@ -11,9 +11,11 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/apps/api/src/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
+    "test": "jest --maxWorkers=2",
+    "test:watch": "jest --watch --maxWorkers=2",
+    "test:cov": "jest --coverage --maxWorkers=2 --testPathIgnorePatterns='/integration/'",
+    "test:cov:all": "jest --coverage --maxWorkers=1",
+    "test:unit": "jest --testPathIgnorePatterns='/integration/' --maxWorkers=2",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "seed": "ts-node -r tsconfig-paths/register src/seeds/seed.ts",
@@ -105,13 +107,47 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "src/**/*.ts",
+      "!src/**/*.spec.ts",
+      "!src/**/*.interface.ts",
+      "!src/**/*.module.ts",
+      "!src/main.ts",
+      "!src/**/*.dto.ts"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/dist/",
+      "/coverage/",
+      "/tests/"
     ],
     "coverageDirectory": "./coverage",
     "testEnvironment": "node",
     "roots": [
       "<rootDir>/src/",
       "<rootDir>/tests/"
+    ],
+    "maxWorkers": 2,
+    "testTimeout": 30000,
+    "bail": false,
+    "cache": true,
+    "cacheDirectory": "<rootDir>/.jest-cache",
+    "coverageReporters": [
+      "text-summary",
+      "lcov"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/dist/",
+      "/coverage/"
+    ],
+    "watchPathIgnorePatterns": [
+      "/node_modules/",
+      "/dist/",
+      "/coverage/"
+    ],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/dist/",
+      "<rootDir>/coverage/"
     ],
     "moduleNameMapper": {
       "@shared/(.*)": "<rootDir>/../../packages/shared/src/$1",

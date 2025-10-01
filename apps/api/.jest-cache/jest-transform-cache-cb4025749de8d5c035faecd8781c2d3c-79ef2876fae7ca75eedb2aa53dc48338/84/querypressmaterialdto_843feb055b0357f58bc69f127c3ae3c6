@@ -1,0 +1,94 @@
+54eb4bfa9b7b73fd3dcd6d14a0105cd4
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.QueryPressMaterialDto = void 0;
+const swagger_1 = require("@nestjs/swagger");
+const class_transformer_1 = require("class-transformer");
+const class_validator_1 = require("class-validator");
+class QueryPressMaterialDto {
+    page = 1;
+    limit = 20;
+    sortBy = 'createdAt';
+    sortOrder = 'desc';
+    type;
+    status;
+    accessLevel;
+    tags;
+    search;
+}
+exports.QueryPressMaterialDto = QueryPressMaterialDto;
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({ minimum: 1, default: 1 }),
+    (0, class_transformer_1.Type)(() => Number),
+    (0, class_validator_1.IsInt)(),
+    (0, class_validator_1.Min)(1),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], QueryPressMaterialDto.prototype, "page", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({ minimum: 1, maximum: 100, default: 20 }),
+    (0, class_transformer_1.Type)(() => Number),
+    (0, class_validator_1.IsInt)(),
+    (0, class_validator_1.Min)(1),
+    (0, class_validator_1.Max)(100),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], QueryPressMaterialDto.prototype, "limit", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        enum: ['createdAt', 'downloadCount', 'title'],
+        default: 'createdAt',
+    }),
+    (0, class_validator_1.IsEnum)(['createdAt', 'downloadCount', 'title']),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], QueryPressMaterialDto.prototype, "sortBy", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({ enum: ['asc', 'desc'], default: 'desc' }),
+    (0, class_validator_1.IsEnum)(['asc', 'desc']),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], QueryPressMaterialDto.prototype, "sortOrder", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        enum: ['press_kit', 'logo_package', 'photo', 'video', 'presentation'],
+    }),
+    (0, class_validator_1.IsEnum)(['press_kit', 'logo_package', 'photo', 'video', 'presentation']),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], QueryPressMaterialDto.prototype, "type", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({ enum: ['draft', 'published', 'archived'] }),
+    (0, class_validator_1.IsEnum)(['draft', 'published', 'archived']),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], QueryPressMaterialDto.prototype, "status", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({ enum: ['public', 'restricted'] }),
+    (0, class_validator_1.IsEnum)(['public', 'restricted']),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], QueryPressMaterialDto.prototype, "accessLevel", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({ type: [String] }),
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.IsString)({ each: true }),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Array)
+], QueryPressMaterialDto.prototype, "tags", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], QueryPressMaterialDto.prototype, "search", void 0);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9wcmVzcy1tYXRlcmlhbHMvZHRvL3F1ZXJ5LXByZXNzLW1hdGVyaWFsLmR0by50cyIsIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7QUFBQSw2Q0FBc0Q7QUFDdEQseURBQXlDO0FBQ3pDLHFEQUF5RjtBQUd6RixNQUFhLHFCQUFxQjtJQU1oQyxJQUFJLEdBQVksQ0FBQyxDQUFDO0lBUWxCLEtBQUssR0FBWSxFQUFFLENBQUM7SUFRcEIsTUFBTSxHQUFZLFdBQVcsQ0FBQztJQUs5QixTQUFTLEdBQW9CLE1BQU0sQ0FBQztJQU9wQyxJQUFJLENBQXFCO0lBS3pCLE1BQU0sQ0FBcUI7SUFLM0IsV0FBVyxDQUFlO0lBTTFCLElBQUksQ0FBWTtJQUtoQixNQUFNLENBQVU7Q0FDakI7QUF4REQsc0RBd0RDO0FBbERDO0lBTEMsSUFBQSw2QkFBbUIsRUFBQyxFQUFFLE9BQU8sRUFBRSxDQUFDLEVBQUUsT0FBTyxFQUFFLENBQUMsRUFBRSxDQUFDO0lBQy9DLElBQUEsd0JBQUksRUFBQyxHQUFHLEVBQUUsQ0FBQyxNQUFNLENBQUM7SUFDbEIsSUFBQSx1QkFBSyxHQUFFO0lBQ1AsSUFBQSxxQkFBRyxFQUFDLENBQUMsQ0FBQztJQUNOLElBQUEsNEJBQVUsR0FBRTs7bURBQ0s7QUFRbEI7SUFOQyxJQUFBLDZCQUFtQixFQUFDLEVBQUUsT0FBTyxFQUFFLENBQUMsRUFBRSxPQUFPLEVBQUUsR0FBRyxFQUFFLE9BQU8sRUFBRSxFQUFFLEVBQUUsQ0FBQztJQUM5RCxJQUFBLHdCQUFJLEVBQUMsR0FBRyxFQUFFLENBQUMsTUFBTSxDQUFDO0lBQ2xCLElBQUEsdUJBQUssR0FBRTtJQUNQLElBQUEscUJBQUcsRUFBQyxDQUFDLENBQUM7SUFDTixJQUFBLHFCQUFHLEVBQUMsR0FBRyxDQUFDO0lBQ1IsSUFBQSw0QkFBVSxHQUFFOztvREFDTztBQVFwQjtJQU5DLElBQUEsNkJBQW1CLEVBQUM7UUFDbkIsSUFBSSxFQUFFLENBQUMsV0FBVyxFQUFFLGVBQWUsRUFBRSxPQUFPLENBQUM7UUFDN0MsT0FBTyxFQUFFLFdBQVc7S0FDckIsQ0FBQztJQUNELElBQUEsd0JBQU0sRUFBQyxDQUFDLFdBQVcsRUFBRSxlQUFlLEVBQUUsT0FBTyxDQUFDLENBQUM7SUFDL0MsSUFBQSw0QkFBVSxHQUFFOztxREFDaUI7QUFLOUI7SUFIQyxJQUFBLDZCQUFtQixFQUFDLEVBQUUsSUFBSSxFQUFFLENBQUMsS0FBSyxFQUFFLE1BQU0sQ0FBQyxFQUFFLE9BQU8sRUFBRSxNQUFNLEVBQUUsQ0FBQztJQUMvRCxJQUFBLHdCQUFNLEVBQUMsQ0FBQyxLQUFLLEVBQUUsTUFBTSxDQUFDLENBQUM7SUFDdkIsSUFBQSw0QkFBVSxHQUFFOzt3REFDdUI7QUFPcEM7SUFMQyxJQUFBLDZCQUFtQixFQUFDO1FBQ25CLElBQUksRUFBRSxDQUFDLFdBQVcsRUFBRSxjQUFjLEVBQUUsT0FBTyxFQUFFLE9BQU8sRUFBRSxjQUFjLENBQUM7S0FDdEUsQ0FBQztJQUNELElBQUEsd0JBQU0sRUFBQyxDQUFDLFdBQVcsRUFBRSxjQUFjLEVBQUUsT0FBTyxFQUFFLE9BQU8sRUFBRSxjQUFjLENBQUMsQ0FBQztJQUN2RSxJQUFBLDRCQUFVLEdBQUU7O21EQUNZO0FBS3pCO0lBSEMsSUFBQSw2QkFBbUIsRUFBQyxFQUFFLElBQUksRUFBRSxDQUFDLE9BQU8sRUFBRSxXQUFXLEVBQUUsVUFBVSxDQUFDLEVBQUUsQ0FBQztJQUNqRSxJQUFBLHdCQUFNLEVBQUMsQ0FBQyxPQUFPLEVBQUUsV0FBVyxFQUFFLFVBQVUsQ0FBQyxDQUFDO0lBQzFDLElBQUEsNEJBQVUsR0FBRTs7cURBQ2M7QUFLM0I7SUFIQyxJQUFBLDZCQUFtQixFQUFDLEVBQUUsSUFBSSxFQUFFLENBQUMsUUFBUSxFQUFFLFlBQVksQ0FBQyxFQUFFLENBQUM7SUFDdkQsSUFBQSx3QkFBTSxFQUFDLENBQUMsUUFBUSxFQUFFLFlBQVksQ0FBQyxDQUFDO0lBQ2hDLElBQUEsNEJBQVUsR0FBRTs7MERBQ2E7QUFNMUI7SUFKQyxJQUFBLDZCQUFtQixFQUFDLEVBQUUsSUFBSSxFQUFFLENBQUMsTUFBTSxDQUFDLEVBQUUsQ0FBQztJQUN2QyxJQUFBLHlCQUFPLEdBQUU7SUFDVCxJQUFBLDBCQUFRLEVBQUMsRUFBRSxJQUFJLEVBQUUsSUFBSSxFQUFFLENBQUM7SUFDeEIsSUFBQSw0QkFBVSxHQUFFOzttREFDRztBQUtoQjtJQUhDLElBQUEsNkJBQW1CLEdBQUU7SUFDckIsSUFBQSwwQkFBUSxHQUFFO0lBQ1YsSUFBQSw0QkFBVSxHQUFFOztxREFDRyIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvaG9tZS9sdWlzbmV0bzk4L0RvY3VtZW50b3MvQ29kZS9tb25vcmVwby12dGV4L2FwcHMvYXBpL3NyYy9tb2R1bGVzL3ByZXNzLW1hdGVyaWFscy9kdG8vcXVlcnktcHJlc3MtbWF0ZXJpYWwuZHRvLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEFwaVByb3BlcnR5T3B0aW9uYWwgfSBmcm9tICdAbmVzdGpzL3N3YWdnZXInO1xuaW1wb3J0IHsgVHlwZSB9IGZyb20gJ2NsYXNzLXRyYW5zZm9ybWVyJztcbmltcG9ydCB7IElzT3B0aW9uYWwsIElzSW50LCBNaW4sIE1heCwgSXNFbnVtLCBJc1N0cmluZywgSXNBcnJheSB9IGZyb20gJ2NsYXNzLXZhbGlkYXRvcic7XG5pbXBvcnQgeyBQcmVzc01hdGVyaWFsVHlwZSwgUHVibGljYXRpb25TdGF0dXMsIEFjY2Vzc0xldmVsIH0gZnJvbSAnQHZ0ZXhkYXkyNi9zaGFyZWQnO1xuXG5leHBvcnQgY2xhc3MgUXVlcnlQcmVzc01hdGVyaWFsRHRvIHtcbiAgQEFwaVByb3BlcnR5T3B0aW9uYWwoeyBtaW5pbXVtOiAxLCBkZWZhdWx0OiAxIH0pXG4gIEBUeXBlKCgpID0+IE51bWJlcilcbiAgQElzSW50KClcbiAgQE1pbigxKVxuICBASXNPcHRpb25hbCgpXG4gIHBhZ2U/OiBudW1iZXIgPSAxO1xuXG4gIEBBcGlQcm9wZXJ0eU9wdGlvbmFsKHsgbWluaW11bTogMSwgbWF4aW11bTogMTAwLCBkZWZhdWx0OiAyMCB9KVxuICBAVHlwZSgoKSA9PiBOdW1iZXIpXG4gIEBJc0ludCgpXG4gIEBNaW4oMSlcbiAgQE1heCgxMDApXG4gIEBJc09wdGlvbmFsKClcbiAgbGltaXQ/OiBudW1iZXIgPSAyMDtcblxuICBAQXBpUHJvcGVydHlPcHRpb25hbCh7XG4gICAgZW51bTogWydjcmVhdGVkQXQnLCAnZG93bmxvYWRDb3VudCcsICd0aXRsZSddLFxuICAgIGRlZmF1bHQ6ICdjcmVhdGVkQXQnLFxuICB9KVxuICBASXNFbnVtKFsnY3JlYXRlZEF0JywgJ2Rvd25sb2FkQ291bnQnLCAndGl0bGUnXSlcbiAgQElzT3B0aW9uYWwoKVxuICBzb3J0Qnk/OiBzdHJpbmcgPSAnY3JlYXRlZEF0JztcblxuICBAQXBpUHJvcGVydHlPcHRpb25hbCh7IGVudW06IFsnYXNjJywgJ2Rlc2MnXSwgZGVmYXVsdDogJ2Rlc2MnIH0pXG4gIEBJc0VudW0oWydhc2MnLCAnZGVzYyddKVxuICBASXNPcHRpb25hbCgpXG4gIHNvcnRPcmRlcj86ICdhc2MnIHwgJ2Rlc2MnID0gJ2Rlc2MnO1xuXG4gIEBBcGlQcm9wZXJ0eU9wdGlvbmFsKHtcbiAgICBlbnVtOiBbJ3ByZXNzX2tpdCcsICdsb2dvX3BhY2thZ2UnLCAncGhvdG8nLCAndmlkZW8nLCAncHJlc2VudGF0aW9uJ10sXG4gIH0pXG4gIEBJc0VudW0oWydwcmVzc19raXQnLCAnbG9nb19wYWNrYWdlJywgJ3Bob3RvJywgJ3ZpZGVvJywgJ3ByZXNlbnRhdGlvbiddKVxuICBASXNPcHRpb25hbCgpXG4gIHR5cGU/OiBQcmVzc01hdGVyaWFsVHlwZTtcblxuICBAQXBpUHJvcGVydHlPcHRpb25hbCh7IGVudW06IFsnZHJhZnQnLCAncHVibGlzaGVkJywgJ2FyY2hpdmVkJ10gfSlcbiAgQElzRW51bShbJ2RyYWZ0JywgJ3B1Ymxpc2hlZCcsICdhcmNoaXZlZCddKVxuICBASXNPcHRpb25hbCgpXG4gIHN0YXR1cz86IFB1YmxpY2F0aW9uU3RhdHVzO1xuXG4gIEBBcGlQcm9wZXJ0eU9wdGlvbmFsKHsgZW51bTogWydwdWJsaWMnLCAncmVzdHJpY3RlZCddIH0pXG4gIEBJc0VudW0oWydwdWJsaWMnLCAncmVzdHJpY3RlZCddKVxuICBASXNPcHRpb25hbCgpXG4gIGFjY2Vzc0xldmVsPzogQWNjZXNzTGV2ZWw7XG5cbiAgQEFwaVByb3BlcnR5T3B0aW9uYWwoeyB0eXBlOiBbU3RyaW5nXSB9KVxuICBASXNBcnJheSgpXG4gIEBJc1N0cmluZyh7IGVhY2g6IHRydWUgfSlcbiAgQElzT3B0aW9uYWwoKVxuICB0YWdzPzogc3RyaW5nW107XG5cbiAgQEFwaVByb3BlcnR5T3B0aW9uYWwoKVxuICBASXNTdHJpbmcoKVxuICBASXNPcHRpb25hbCgpXG4gIHNlYXJjaD86IHN0cmluZztcbn1cbiJdLCJ2ZXJzaW9uIjozfQ==

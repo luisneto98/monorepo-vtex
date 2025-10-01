@@ -11,6 +11,7 @@ export interface UploadFile {
   progress: number;
   status: 'pending' | 'uploading' | 'completed' | 'error';
   error?: string;
+  metadata?: CreatePressMaterialDto;
 }
 
 interface FileValidationResult {
@@ -162,7 +163,8 @@ export function useFileUpload() {
       );
 
       try {
-        const materialData: CreatePressMaterialDto = {
+        // Use custom metadata if provided, otherwise use defaults
+        const materialData: CreatePressMaterialDto = uploadFile.metadata || {
           type: detectMaterialType(file),
           title: {
             pt: file.name.replace(/\.[^/.]+$/, ''),
@@ -262,45 +264,55 @@ export function useFileUpload() {
     [uploadQueue, uploadMutation],
   );
 
-  const processQueue = useCallback(async () => {
-    const pendingFiles = uploadQueue.filter((f) => f.status === 'pending');
+  const processQueue = useCallback(
+    async (filesToProcess?: UploadFile[]) => {
+      // Allow passing files directly or use current queue
+      const pendingFiles = filesToProcess || uploadQueue.filter((f) => f.status === 'pending');
 
-    if (pendingFiles.length === 0) {
-      toast({
-        title: 'Info',
-        description: 'Nenhum arquivo pendente para enviar',
-      });
-      return;
-    }
-
-    let successCount = 0;
-    let errorCount = 0;
-
-    for (const file of pendingFiles) {
-      try {
-        await uploadSingleFile(file);
-        successCount++;
-      } catch (error) {
-        errorCount++;
-        console.error(`Failed to upload ${file.file.name}:`, error);
+      if (pendingFiles.length === 0) {
+        toast({
+          title: 'Info',
+          description: 'Nenhum arquivo pendente para enviar',
+        });
+        return;
       }
-    }
 
-    if (successCount > 0) {
-      toast({
-        title: 'Upload Concluído',
-        description: `${successCount} arquivo(s) enviado(s) com sucesso`,
-      });
-    }
+      let successCount = 0;
+      let errorCount = 0;
 
-    if (errorCount > 0) {
-      toast({
-        title: 'Erros no Upload',
-        description: `${errorCount} arquivo(s) falharam ao enviar`,
-        variant: 'destructive',
-      });
-    }
-  }, [uploadQueue, uploadSingleFile, toast]);
+      for (const file of pendingFiles) {
+        try {
+          await uploadSingleFile(file);
+          successCount++;
+        } catch (error) {
+          errorCount++;
+          console.error(`Failed to upload ${file.file.name}:`, error);
+        }
+      }
+
+      if (successCount > 0) {
+        toast({
+          title: 'Upload Concluído',
+          description: `${successCount} arquivo(s) enviado(s) com sucesso`,
+        });
+      }
+
+      if (errorCount > 0) {
+        toast({
+          title: 'Erros no Upload',
+          description: `${errorCount} arquivo(s) falharam ao enviar`,
+          variant: 'destructive',
+        });
+      }
+    },
+    [uploadQueue, uploadSingleFile, toast],
+  );
+
+  const updateFileMetadata = useCallback((id: string, metadata: CreatePressMaterialDto) => {
+    setUploadQueue((prev) =>
+      prev.map((f) => (f.id === id ? { ...f, metadata } : f)),
+    );
+  }, []);
 
   return {
     uploadQueue,
@@ -310,6 +322,7 @@ export function useFileUpload() {
     clearCompleted,
     retryUpload,
     processQueue,
+    updateFileMetadata,
     isUploading: uploadQueue.some((f) => f.status === 'uploading'),
     hasErrors: uploadQueue.some((f) => f.status === 'error'),
     pendingCount: uploadQueue.filter((f) => f.status === 'pending').length,

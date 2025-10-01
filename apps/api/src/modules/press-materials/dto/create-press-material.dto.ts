@@ -6,8 +6,9 @@ import {
   IsString,
   IsArray,
   ValidateNested,
+  Allow,
 } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Type, Exclude } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   PressMaterialType,
@@ -31,6 +32,31 @@ class LocalizedStringDto implements LocalizedString {
   @IsString()
   @IsNotEmpty()
   es: string;
+
+  @Allow()
+  @Exclude()
+  _id?: any;
+}
+
+class OptionalLocalizedStringDto implements LocalizedString {
+  @ApiPropertyOptional({ description: 'Portuguese (Brazil) text' })
+  @IsString()
+  @IsOptional()
+  pt: string;
+
+  @ApiPropertyOptional({ description: 'English text' })
+  @IsString()
+  @IsOptional()
+  en: string;
+
+  @ApiPropertyOptional({ description: 'Spanish text' })
+  @IsString()
+  @IsOptional()
+  es: string;
+
+  @Allow()
+  @Exclude()
+  _id?: any;
 }
 
 export class CreatePressMaterialDto {
@@ -52,13 +78,13 @@ export class CreatePressMaterialDto {
   title: LocalizedString;
 
   @ApiPropertyOptional({
-    type: LocalizedStringDto,
+    type: OptionalLocalizedStringDto,
     description: 'Description in multiple languages',
   })
   @IsOptional()
   @IsObject()
   @ValidateNested()
-  @Type(() => LocalizedStringDto)
+  @Type(() => OptionalLocalizedStringDto)
   description?: LocalizedString;
 
   @ApiPropertyOptional({

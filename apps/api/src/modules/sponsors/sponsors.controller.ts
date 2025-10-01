@@ -11,7 +11,12 @@ import {
   HttpCode,
   HttpStatus,
   Req,
+  UseInterceptors,
+  UploadedFile,
+  BadRequestException,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Throttle } from '@nestjs/throttler';
 import {
   ApiTags,
   ApiOperation,
@@ -20,6 +25,7 @@ import {
   ApiParam,
   ApiQuery,
   ApiBody,
+  ApiConsumes,
 } from '@nestjs/swagger';
 import { SponsorsService } from './sponsors.service';
 import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
@@ -258,6 +264,110 @@ export class SponsorsController {
     return ApiResponse.success(result.data, result.metadata);
   }
 
+  @Get('public')
+  @Public()
+  @ApiOperation({ summary: 'List all visible sponsors for public display' })
+  @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
+  @ApiQuery({ name: 'limit', required: false, type: Number, example: 20 })
+  @SwaggerApiResponse({
+    status: 200,
+    description: 'List of visible sponsors (excludes sensitive fields)',
+    schema: {
+      example: {
+        success: true,
+        data: [
+          {
+            _id: '507f1f77bcf86cd799439011',
+            name: 'VTEX',
+            slug: 'vtex',
+            description: {
+              'pt-BR': 'Plataforma de comércio digital',
+              en: 'Digital commerce platform',
+            },
+            logoUrl: 'https://cdn.vtexday.com/sponsors/vtex.png',
+            tier: '507f1f77bcf86cd799439012',
+            orderInTier: 1,
+            websiteUrl: 'https://vtex.com',
+            standLocation: 'A1',
+            contactEmail: 'contact@vtex.com',
+            socialLinks: { linkedin: 'https://linkedin.com/company/vtex' },
+            tags: ['technology', 'ecommerce'],
+            isVisible: true,
+          },
+        ],
+        metadata: {
+          total: 25,
+          page: 1,
+          limit: 20,
+          hasNext: true,
+          hasPrev: false,
+        },
+      },
+    },
+  })
+  async findPublicSponsors(@Query('page') page?: number, @Query('limit') limit?: number) {
+    const result = await this.sponsorsService.findPublicSponsors(page, limit);
+    return ApiResponse.success(result.data, result.metadata);
+  }
+
+  @Get('public/grouped-by-tier')
+  @Public()
+  @ApiOperation({ summary: 'Get visible sponsors grouped by tier for public display' })
+  @SwaggerApiResponse({
+    status: 200,
+    description: 'Visible sponsors grouped by tier (excludes sensitive fields)',
+    schema: {
+      example: {
+        success: true,
+        data: [
+          {
+            tier: { _id: '507f1f77bcf86cd799439012', name: 'Diamond', order: 1 },
+            sponsors: [
+              {
+                _id: '507f1f77bcf86cd799439011',
+                name: 'VTEX',
+                slug: 'vtex',
+                description: {
+                  'pt-BR': 'Plataforma de comércio digital',
+                  en: 'Digital commerce platform',
+                },
+                logoUrl: 'https://cdn.vtexday.com/sponsors/vtex.png',
+                tier: '507f1f77bcf86cd799439012',
+                orderInTier: 1,
+                websiteUrl: 'https://vtex.com',
+                standLocation: 'A1',
+                socialLinks: { linkedin: 'https://linkedin.com/company/vtex' },
+                tags: ['technology'],
+                isVisible: true,
+              },
+            ],
+          },
+          {
+            tier: { _id: '507f1f77bcf86cd799439013', name: 'Gold', order: 2 },
+            sponsors: [
+              {
+                _id: '507f1f77bcf86cd799439014',
+                name: 'AWS',
+                slug: 'aws',
+                description: { 'pt-BR': 'Computação em nuvem', en: 'Cloud computing' },
+                logoUrl: 'https://cdn.vtexday.com/sponsors/aws.png',
+                tier: '507f1f77bcf86cd799439013',
+                orderInTier: 1,
+                websiteUrl: 'https://aws.amazon.com',
+                tags: ['cloud'],
+                isVisible: true,
+              },
+            ],
+          },
+        ],
+      },
+    },
+  })
+  async findPublicSponsorsByTier() {
+    const sponsors = await this.sponsorsService.findPublicSponsorsByTier();
+    return ApiResponse.success(sponsors);
+  }
+
   @Get('grouped-by-tier')
   @Public()
   @ApiOperation({ summary: 'Get sponsors grouped by tier' })
@@ -295,6 +405,42 @@ export class SponsorsController {
   async findGroupedByTier() {
     const sponsors = await this.sponsorsService.findSponsorsByTier();
     return ApiResponse.success(sponsors);
+  }
+
+  @Get('public/:id')
+  @Public()
+  @ApiOperation({ summary: 'Get visible sponsor details by ID for public display' })
+  @ApiParam({ name: 'id', description: 'Sponsor ID', example: '507f1f77bcf86cd799439011' })
+  @SwaggerApiResponse({
+    status: 200,
+    description: 'Sponsor details (excludes sensitive fields)',
+    schema: {
+      example: {
+        success: true,
+        data: {
+          _id: '507f1f77bcf86cd799439011',
+          name: 'VTEX',
+          slug: 'vtex',
+          description: {
+            'pt-BR': 'Plataforma de comércio digital',
+            en: 'Digital commerce platform',
+          },
+          logoUrl: 'https://cdn.vtexday.com/sponsors/vtex.png',
+          tier: '507f1f77bcf86cd799439012',
+          orderInTier: 1,
+          websiteUrl: 'https://vtex.com',
+          standLocation: 'A1',
+          contactEmail: 'contact@vtex.com',
+          socialLinks: { linkedin: 'https://linkedin.com/company/vtex' },
+          tags: ['technology', 'ecommerce'],
+        },
+      },
+    },
+  })
+  @SwaggerApiResponse({ status: 404, description: 'Sponsor not found or not visible' })
+  async findPublicSponsorById(@Param('id') id: string) {
+    const sponsor = await this.sponsorsService.findPublicSponsorById(id);
+    return ApiResponse.success(sponsor);
   }
 
   @Get(':id')
@@ -380,5 +526,70 @@ export class SponsorsController {
   async restore(@Param('id') id: string) {
     const sponsor = await this.sponsorsService.restoreSponsor(id);
     return ApiResponse.success(sponsor);
+  }
+
+  @Post(':id/upload-logo')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.PRODUCER)
+  @UseInterceptors(FileInterceptor('file'))
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
+  @ApiBearerAuth('JWT-auth')
+  @ApiConsumes('multipart/form-data')
+  @ApiOperation({ summary: 'Upload sponsor logo (Admin/Producer only)' })
+  @ApiParam({ name: 'id', description: 'Sponsor ID', example: '507f1f77bcf86cd799439011' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+          description: 'Sponsor logo (JPEG, PNG, or WebP, max 5MB)',
+        },
+      },
+    },
+  })
+  @SwaggerApiResponse({
+    status: 200,
+    description: 'Logo uploaded successfully',
+    schema: {
+      example: {
+        success: true,
+        data: {
+          logoUrl: 'https://bucket.s3.region.amazonaws.com/sponsor-logos/1234567890-abc123.jpg',
+        },
+      },
+    },
+  })
+  @SwaggerApiResponse({
+    status: 400,
+    description: 'Invalid file type or size, or virus detected',
+    schema: {
+      example: {
+        success: false,
+        error: 'Invalid file type. Only JPEG, PNG, WEBP files are allowed.',
+      },
+    },
+  })
+  @SwaggerApiResponse({ status: 401, description: 'Unauthorized' })
+  @SwaggerApiResponse({ status: 403, description: 'Forbidden - insufficient role' })
+  @SwaggerApiResponse({ status: 404, description: 'Sponsor not found' })
+  @SwaggerApiResponse({
+    status: 429,
+    description: 'Rate limit exceeded',
+    schema: {
+      example: {
+        success: false,
+        error: 'Upload rate limit exceeded. Please try again later.',
+      },
+    },
+  })
+  async uploadLogo(@Param('id') id: string, @UploadedFile() file: Express.Multer.File) {
+    if (!file) {
+      throw new BadRequestException('No file provided');
+    }
+
+    const logoUrl = await this.sponsorsService.uploadLogo(id, file);
+    return ApiResponse.success({ logoUrl });
   }
 }

@@ -1,0 +1,33 @@
+ca423b77eacf2cbf1fcd942233af5fa7
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.FaqModule = void 0;
+const common_1 = require("@nestjs/common");
+const mongoose_1 = require("@nestjs/mongoose");
+const faq_controller_1 = require("./faq.controller");
+const faq_service_1 = require("./faq.service");
+const faq_schema_1 = require("./schemas/faq.schema");
+const faq_category_schema_1 = require("./schemas/faq-category.schema");
+let FaqModule = class FaqModule {
+};
+exports.FaqModule = FaqModule;
+exports.FaqModule = FaqModule = __decorate([
+    (0, common_1.Module)({
+        imports: [
+            mongoose_1.MongooseModule.forFeature([
+                { name: faq_schema_1.Faq.name, schema: faq_schema_1.FaqSchema },
+                { name: faq_category_schema_1.FaqCategory.name, schema: faq_category_schema_1.FaqCategorySchema },
+            ]),
+        ],
+        controllers: [faq_controller_1.FaqController],
+        providers: [faq_service_1.FaqService],
+        exports: [faq_service_1.FaqService],
+    })
+], FaqModule);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9mYXEvZmFxLm1vZHVsZS50cyIsIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7QUFBQSwyQ0FBd0M7QUFDeEMsK0NBQWtEO0FBQ2xELHFEQUFpRDtBQUNqRCwrQ0FBMkM7QUFDM0MscURBQXNEO0FBQ3RELHVFQUErRTtBQWF4RSxJQUFNLFNBQVMsR0FBZixNQUFNLFNBQVM7Q0FBRyxDQUFBO0FBQVosOEJBQVM7b0JBQVQsU0FBUztJQVhyQixJQUFBLGVBQU0sRUFBQztRQUNOLE9BQU8sRUFBRTtZQUNQLHlCQUFjLENBQUMsVUFBVSxDQUFDO2dCQUN4QixFQUFFLElBQUksRUFBRSxnQkFBRyxDQUFDLElBQUksRUFBRSxNQUFNLEVBQUUsc0JBQVMsRUFBRTtnQkFDckMsRUFBRSxJQUFJLEVBQUUsaUNBQVcsQ0FBQyxJQUFJLEVBQUUsTUFBTSxFQUFFLHVDQUFpQixFQUFFO2FBQ3RELENBQUM7U0FDSDtRQUNELFdBQVcsRUFBRSxDQUFDLDhCQUFhLENBQUM7UUFDNUIsU0FBUyxFQUFFLENBQUMsd0JBQVUsQ0FBQztRQUN2QixPQUFPLEVBQUUsQ0FBQyx3QkFBVSxDQUFDO0tBQ3RCLENBQUM7R0FDVyxTQUFTLENBQUciLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9mYXEvZmFxLm1vZHVsZS50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBNb2R1bGUgfSBmcm9tICdAbmVzdGpzL2NvbW1vbic7XG5pbXBvcnQgeyBNb25nb29zZU1vZHVsZSB9IGZyb20gJ0BuZXN0anMvbW9uZ29vc2UnO1xuaW1wb3J0IHsgRmFxQ29udHJvbGxlciB9IGZyb20gJy4vZmFxLmNvbnRyb2xsZXInO1xuaW1wb3J0IHsgRmFxU2VydmljZSB9IGZyb20gJy4vZmFxLnNlcnZpY2UnO1xuaW1wb3J0IHsgRmFxLCBGYXFTY2hlbWEgfSBmcm9tICcuL3NjaGVtYXMvZmFxLnNjaGVtYSc7XG5pbXBvcnQgeyBGYXFDYXRlZ29yeSwgRmFxQ2F0ZWdvcnlTY2hlbWEgfSBmcm9tICcuL3NjaGVtYXMvZmFxLWNhdGVnb3J5LnNjaGVtYSc7XG5cbkBNb2R1bGUoe1xuICBpbXBvcnRzOiBbXG4gICAgTW9uZ29vc2VNb2R1bGUuZm9yRmVhdHVyZShbXG4gICAgICB7IG5hbWU6IEZhcS5uYW1lLCBzY2hlbWE6IEZhcVNjaGVtYSB9LFxuICAgICAgeyBuYW1lOiBGYXFDYXRlZ29yeS5uYW1lLCBzY2hlbWE6IEZhcUNhdGVnb3J5U2NoZW1hIH0sXG4gICAgXSksXG4gIF0sXG4gIGNvbnRyb2xsZXJzOiBbRmFxQ29udHJvbGxlcl0sXG4gIHByb3ZpZGVyczogW0ZhcVNlcnZpY2VdLFxuICBleHBvcnRzOiBbRmFxU2VydmljZV0sXG59KVxuZXhwb3J0IGNsYXNzIEZhcU1vZHVsZSB7fVxuIl0sInZlcnNpb24iOjN9

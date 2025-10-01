@@ -37,7 +37,7 @@ export class FaqCategory implements Omit<IFaqCategory, '_id'> {
   @Prop({
     required: true,
     unique: true,
-    min: 1,
+    min: 0,
   })
   order: number;
 }

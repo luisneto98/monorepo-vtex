@@ -1,0 +1,26 @@
+ddd9a452b2f6a3eab88e81c98f096759
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UpdateLegalPageDto = void 0;
+const mapped_types_1 = require("@nestjs/mapped-types");
+const class_validator_1 = require("class-validator");
+const create_legal_page_dto_1 = require("./create-legal-page.dto");
+class UpdateLegalPageDto extends (0, mapped_types_1.PartialType)(create_legal_page_dto_1.CreateLegalPageDto) {
+    isActive;
+}
+exports.UpdateLegalPageDto = UpdateLegalPageDto;
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], UpdateLegalPageDto.prototype, "isActive", void 0);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9sZWdhbC1wYWdlcy9kdG8vdXBkYXRlLWxlZ2FsLXBhZ2UuZHRvLnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7OztBQUFBLHVEQUFtRDtBQUNuRCxxREFBd0Q7QUFDeEQsbUVBQTZEO0FBRTdELE1BQWEsa0JBQW1CLFNBQVEsSUFBQSwwQkFBVyxFQUFDLDBDQUFrQixDQUFDO0lBR3JFLFFBQVEsQ0FBVztDQUNwQjtBQUpELGdEQUlDO0FBREM7SUFGQyxJQUFBLDRCQUFVLEdBQUU7SUFDWixJQUFBLDJCQUFTLEdBQUU7O29EQUNPIiwibmFtZXMiOltdLCJzb3VyY2VzIjpbIi9ob21lL2x1aXNuZXRvOTgvRG9jdW1lbnRvcy9Db2RlL21vbm9yZXBvLXZ0ZXgvYXBwcy9hcGkvc3JjL21vZHVsZXMvbGVnYWwtcGFnZXMvZHRvL3VwZGF0ZS1sZWdhbC1wYWdlLmR0by50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBQYXJ0aWFsVHlwZSB9IGZyb20gJ0BuZXN0anMvbWFwcGVkLXR5cGVzJztcbmltcG9ydCB7IElzQm9vbGVhbiwgSXNPcHRpb25hbCB9IGZyb20gJ2NsYXNzLXZhbGlkYXRvcic7XG5pbXBvcnQgeyBDcmVhdGVMZWdhbFBhZ2VEdG8gfSBmcm9tICcuL2NyZWF0ZS1sZWdhbC1wYWdlLmR0byc7XG5cbmV4cG9ydCBjbGFzcyBVcGRhdGVMZWdhbFBhZ2VEdG8gZXh0ZW5kcyBQYXJ0aWFsVHlwZShDcmVhdGVMZWdhbFBhZ2VEdG8pIHtcbiAgQElzT3B0aW9uYWwoKVxuICBASXNCb29sZWFuKClcbiAgaXNBY3RpdmU/OiBib29sZWFuO1xufVxuIl0sInZlcnNpb24iOjN9

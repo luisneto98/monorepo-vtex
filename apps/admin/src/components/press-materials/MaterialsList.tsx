@@ -28,14 +28,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import type { PressMaterial } from '@shared/types/press-materials';
 
 interface MaterialsListProps {
   materials: PressMaterial[];
-  selectedIds: Set<string>;
-  onSelectAll: (selected: boolean) => void;
-  onSelect: (id: string, selected: boolean) => void;
   onEdit: (material: PressMaterial) => void;
   onDelete: (id: string) => void;
   onPreview: (material: PressMaterial) => void;
@@ -73,9 +69,6 @@ const statusLabels = {
 
 export function MaterialsList({
   materials,
-  selectedIds,
-  onSelectAll,
-  onSelect,
   onEdit,
   onDelete,
   onPreview,
@@ -101,16 +94,11 @@ export function MaterialsList({
     });
   };
 
-  const allSelected = materials.length > 0 && materials.every(m => selectedIds.has(m._id!));
-
   if (loading) {
     return (
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-12">
-              <Checkbox disabled />
-            </TableHead>
             <TableHead>Título</TableHead>
             <TableHead>Tipo</TableHead>
             <TableHead>Status</TableHead>
@@ -123,7 +111,7 @@ export function MaterialsList({
         <TableBody>
           {[...Array(5)].map((_, index) => (
             <TableRow key={index}>
-              <TableCell colSpan={8}>
+              <TableCell colSpan={7}>
                 <div className="h-12 bg-gray-100 rounded animate-pulse" />
               </TableCell>
             </TableRow>
@@ -141,12 +129,6 @@ export function MaterialsList({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-12">
-            <Checkbox
-              checked={allSelected}
-              onCheckedChange={onSelectAll}
-            />
-          </TableHead>
           <TableHead>Título</TableHead>
           <TableHead>Tipo</TableHead>
           <TableHead>Status</TableHead>
@@ -161,12 +143,6 @@ export function MaterialsList({
           const Icon = typeIcons[material.type] || FileText;
           return (
             <TableRow key={material._id}>
-              <TableCell>
-                <Checkbox
-                  checked={selectedIds.has(material._id!)}
-                  onCheckedChange={(checked) => onSelect(material._id!, !!checked)}
-                />
-              </TableCell>
               <TableCell>
                 <div className="flex items-center gap-3">
                   <div className="flex-shrink-0 w-10 h-10 bg-gray-100 rounded flex items-center justify-center">

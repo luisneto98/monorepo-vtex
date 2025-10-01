@@ -177,4 +177,80 @@ describe('FaqCategories', () => {
       expect(getByText('3')).toBeTruthy(); // faqCount for cat2
     });
   });
+
+  it('should extract categories from provided FAQs instead of calling API', async () => {
+    const mockFaqs = [
+      {
+        _id: 'faq1',
+        question: { 'pt-BR': 'Pergunta 1?', en: 'Question 1?' },
+        answer: { 'pt-BR': 'Resposta 1', en: 'Answer 1' },
+        category: mockCategories[0],
+        order: 1,
+        viewCount: 10,
+        isVisible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        _id: 'faq2',
+        question: { 'pt-BR': 'Pergunta 2?', en: 'Question 2?' },
+        answer: { 'pt-BR': 'Resposta 2', en: 'Answer 2' },
+        category: mockCategories[1],
+        order: 2,
+        viewCount: 5,
+        isVisible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ];
+
+    const { getByText } = render(
+      <FaqCategories selectedCategory={null} onCategorySelect={jest.fn()} faqs={mockFaqs} />
+    );
+
+    await waitFor(() => {
+      expect(getByText('Categoria 1')).toBeTruthy();
+      expect(getByText('Categoria 2')).toBeTruthy();
+    });
+
+    // Should NOT call API when FAQs are provided
+    expect(mockFaqService.getFAQCategories).not.toHaveBeenCalled();
+  });
+
+  it('should handle FAQs with string category IDs gracefully', async () => {
+    const mockFaqs = [
+      {
+        _id: 'faq1',
+        question: { 'pt-BR': 'Pergunta 1?', en: 'Question 1?' },
+        answer: { 'pt-BR': 'Resposta 1', en: 'Answer 1' },
+        category: 'cat1', // String ID instead of object
+        order: 1,
+        viewCount: 10,
+        isVisible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ];
+
+    mockFaqService.getFAQCategories.mockResolvedValue({
+      success: true,
+      data: mockCategories,
+      metadata: {
+        total: 2,
+        page: 1,
+        limit: 100,
+        hasNext: false,
+        hasPrev: false,
+      },
+    });
+
+    const { getByText } = render(
+      <FaqCategories selectedCategory={null} onCategorySelect={jest.fn()} faqs={mockFaqs} />
+    );
+
+    await waitFor(() => {
+      // Should fallback to API call when categories are not populated
+      expect(getByText('Todas')).toBeTruthy();
+    });
+  });
 });

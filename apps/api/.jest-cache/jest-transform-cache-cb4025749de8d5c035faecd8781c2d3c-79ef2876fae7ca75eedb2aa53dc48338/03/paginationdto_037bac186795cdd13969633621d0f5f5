@@ -1,0 +1,48 @@
+010aee0538285235f610a590c047b2a4
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PaginationDto = void 0;
+const class_transformer_1 = require("class-transformer");
+const class_validator_1 = require("class-validator");
+class PaginationDto {
+    page = 1;
+    limit = 20;
+    sort;
+    search;
+}
+exports.PaginationDto = PaginationDto;
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_transformer_1.Type)(() => Number),
+    (0, class_validator_1.IsInt)(),
+    (0, class_validator_1.Min)(1),
+    __metadata("design:type", Number)
+], PaginationDto.prototype, "page", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_transformer_1.Type)(() => Number),
+    (0, class_validator_1.IsInt)(),
+    (0, class_validator_1.Min)(1),
+    (0, class_validator_1.Max)(100),
+    __metadata("design:type", Number)
+], PaginationDto.prototype, "limit", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], PaginationDto.prototype, "sort", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], PaginationDto.prototype, "search", void 0);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvY29tbW9uL2R0by9wYWdpbmF0aW9uLmR0by50cyIsIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7QUFBQSx5REFBeUM7QUFDekMscURBQXdFO0FBRXhFLE1BQWEsYUFBYTtJQUt4QixJQUFJLEdBQVksQ0FBQyxDQUFDO0lBT2xCLEtBQUssR0FBWSxFQUFFLENBQUM7SUFJcEIsSUFBSSxDQUFVO0lBSWQsTUFBTSxDQUFVO0NBQ2pCO0FBckJELHNDQXFCQztBQWhCQztJQUpDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsd0JBQUksRUFBQyxHQUFHLEVBQUUsQ0FBQyxNQUFNLENBQUM7SUFDbEIsSUFBQSx1QkFBSyxHQUFFO0lBQ1AsSUFBQSxxQkFBRyxFQUFDLENBQUMsQ0FBQzs7MkNBQ1c7QUFPbEI7SUFMQyxJQUFBLDRCQUFVLEdBQUU7SUFDWixJQUFBLHdCQUFJLEVBQUMsR0FBRyxFQUFFLENBQUMsTUFBTSxDQUFDO0lBQ2xCLElBQUEsdUJBQUssR0FBRTtJQUNQLElBQUEscUJBQUcsRUFBQyxDQUFDLENBQUM7SUFDTixJQUFBLHFCQUFHLEVBQUMsR0FBRyxDQUFDOzs0Q0FDVztBQUlwQjtJQUZDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsMEJBQVEsR0FBRTs7MkNBQ0c7QUFJZDtJQUZDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsMEJBQVEsR0FBRTs7NkNBQ0siLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvY29tbW9uL2R0by9wYWdpbmF0aW9uLmR0by50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBUeXBlIH0gZnJvbSAnY2xhc3MtdHJhbnNmb3JtZXInO1xuaW1wb3J0IHsgSXNJbnQsIElzT3B0aW9uYWwsIElzU3RyaW5nLCBNYXgsIE1pbiB9IGZyb20gJ2NsYXNzLXZhbGlkYXRvcic7XG5cbmV4cG9ydCBjbGFzcyBQYWdpbmF0aW9uRHRvIHtcbiAgQElzT3B0aW9uYWwoKVxuICBAVHlwZSgoKSA9PiBOdW1iZXIpXG4gIEBJc0ludCgpXG4gIEBNaW4oMSlcbiAgcGFnZT86IG51bWJlciA9IDE7XG5cbiAgQElzT3B0aW9uYWwoKVxuICBAVHlwZSgoKSA9PiBOdW1iZXIpXG4gIEBJc0ludCgpXG4gIEBNaW4oMSlcbiAgQE1heCgxMDApXG4gIGxpbWl0PzogbnVtYmVyID0gMjA7XG5cbiAgQElzT3B0aW9uYWwoKVxuICBASXNTdHJpbmcoKVxuICBzb3J0Pzogc3RyaW5nO1xuXG4gIEBJc09wdGlvbmFsKClcbiAgQElzU3RyaW5nKClcbiAgc2VhcmNoPzogc3RyaW5nO1xufVxuXG5leHBvcnQgaW50ZXJmYWNlIFBhZ2luYXRlZFJlc3BvbnNlPFQ+IHtcbiAgc3VjY2VzczogYm9vbGVhbjtcbiAgZGF0YTogVFtdO1xuICBtZXRhZGF0YToge1xuICAgIHRvdGFsOiBudW1iZXI7XG4gICAgcGFnZTogbnVtYmVyO1xuICAgIGxpbWl0OiBudW1iZXI7XG4gICAgaGFzTmV4dDogYm9vbGVhbjtcbiAgICBoYXNQcmV2OiBib29sZWFuO1xuICB9O1xufVxuIl0sInZlcnNpb24iOjN9

@@ -1,0 +1,32 @@
+468fd229e5b33164ba8eb16aa0a0afe5
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CreateFaqCategoryDto = void 0;
+const class_transformer_1 = require("class-transformer");
+const class_validator_1 = require("class-validator");
+const multilingual_dto_1 = require("@common/dto/multilingual.dto");
+class CreateFaqCategoryDto {
+    name;
+    order;
+}
+exports.CreateFaqCategoryDto = CreateFaqCategoryDto;
+__decorate([
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => multilingual_dto_1.MultilingualTextDto),
+    __metadata("design:type", multilingual_dto_1.MultilingualTextDto)
+], CreateFaqCategoryDto.prototype, "name", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.Min)(0),
+    __metadata("design:type", Number)
+], CreateFaqCategoryDto.prototype, "order", void 0);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9mYXEvZHRvL2NyZWF0ZS1mYXEtY2F0ZWdvcnkuZHRvLnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7OztBQUFBLHlEQUF5QztBQUN6QyxxREFBZ0U7QUFDaEUsbUVBQW1FO0FBRW5FLE1BQWEsb0JBQW9CO0lBRy9CLElBQUksQ0FBc0I7SUFJMUIsS0FBSyxDQUFTO0NBQ2Y7QUFSRCxvREFRQztBQUxDO0lBRkMsSUFBQSxnQ0FBYyxHQUFFO0lBQ2hCLElBQUEsd0JBQUksRUFBQyxHQUFHLEVBQUUsQ0FBQyxzQ0FBbUIsQ0FBQzs4QkFDMUIsc0NBQW1CO2tEQUFDO0FBSTFCO0lBRkMsSUFBQSwwQkFBUSxHQUFFO0lBQ1YsSUFBQSxxQkFBRyxFQUFDLENBQUMsQ0FBQzs7bURBQ08iLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9mYXEvZHRvL2NyZWF0ZS1mYXEtY2F0ZWdvcnkuZHRvLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IFR5cGUgfSBmcm9tICdjbGFzcy10cmFuc2Zvcm1lcic7XG5pbXBvcnQgeyBJc051bWJlciwgTWluLCBWYWxpZGF0ZU5lc3RlZCB9IGZyb20gJ2NsYXNzLXZhbGlkYXRvcic7XG5pbXBvcnQgeyBNdWx0aWxpbmd1YWxUZXh0RHRvIH0gZnJvbSAnQGNvbW1vbi9kdG8vbXVsdGlsaW5ndWFsLmR0byc7XG5cbmV4cG9ydCBjbGFzcyBDcmVhdGVGYXFDYXRlZ29yeUR0byB7XG4gIEBWYWxpZGF0ZU5lc3RlZCgpXG4gIEBUeXBlKCgpID0+IE11bHRpbGluZ3VhbFRleHREdG8pXG4gIG5hbWU6IE11bHRpbGluZ3VhbFRleHREdG87XG5cbiAgQElzTnVtYmVyKClcbiAgQE1pbigwKVxuICBvcmRlcjogbnVtYmVyO1xufVxuIl0sInZlcnNpb24iOjN9

@@ -1,0 +1,60 @@
+5cfc97b5b609541c38d7221ae8b312cd
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SpeakerFilterDto = void 0;
+const class_validator_1 = require("class-validator");
+const class_transformer_1 = require("class-transformer");
+const pagination_dto_1 = require("@common/dto/pagination.dto");
+class SpeakerFilterDto extends pagination_dto_1.PaginationDto {
+    isHighlight;
+    isVisible;
+    company;
+    tags;
+}
+exports.SpeakerFilterDto = SpeakerFilterDto;
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsBoolean)(),
+    (0, class_transformer_1.Transform)(({ value }) => {
+        if (value === 'true' || value === true)
+            return true;
+        if (value === 'false' || value === false)
+            return false;
+        return undefined;
+    }),
+    __metadata("design:type", Boolean)
+], SpeakerFilterDto.prototype, "isHighlight", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsBoolean)(),
+    (0, class_transformer_1.Transform)(({ value }) => {
+        if (value === 'true' || value === true)
+            return true;
+        if (value === 'false' || value === false)
+            return false;
+        return undefined;
+    }),
+    __metadata("design:type", Boolean)
+], SpeakerFilterDto.prototype, "isVisible", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], SpeakerFilterDto.prototype, "company", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.IsString)({ each: true }),
+    (0, class_transformer_1.Transform)(({ value }) => (typeof value === 'string' ? value.split(',') : value)),
+    __metadata("design:type", Array)
+], SpeakerFilterDto.prototype, "tags", void 0);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9zcGVha2Vycy9kdG8vc3BlYWtlci1maWx0ZXIuZHRvLnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7OztBQUFBLHFEQUEyRTtBQUMzRSx5REFBOEM7QUFDOUMsK0RBQTJEO0FBRTNELE1BQWEsZ0JBQWlCLFNBQVEsOEJBQWE7SUFRakQsV0FBVyxDQUFXO0lBU3RCLFNBQVMsQ0FBVztJQUlwQixPQUFPLENBQVU7SUFNakIsSUFBSSxDQUFZO0NBQ2pCO0FBNUJELDRDQTRCQztBQXBCQztJQVBDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsMkJBQVMsR0FBRTtJQUNYLElBQUEsNkJBQVMsRUFBQyxDQUFDLEVBQUUsS0FBSyxFQUFFLEVBQUUsRUFBRTtRQUN2QixJQUFJLEtBQUssS0FBSyxNQUFNLElBQUksS0FBSyxLQUFLLElBQUk7WUFBRSxPQUFPLElBQUksQ0FBQztRQUNwRCxJQUFJLEtBQUssS0FBSyxPQUFPLElBQUksS0FBSyxLQUFLLEtBQUs7WUFBRSxPQUFPLEtBQUssQ0FBQztRQUN2RCxPQUFPLFNBQVMsQ0FBQztJQUNuQixDQUFDLENBQUM7O3FEQUNvQjtBQVN0QjtJQVBDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsMkJBQVMsR0FBRTtJQUNYLElBQUEsNkJBQVMsRUFBQyxDQUFDLEVBQUUsS0FBSyxFQUFFLEVBQUUsRUFBRTtRQUN2QixJQUFJLEtBQUssS0FBSyxNQUFNLElBQUksS0FBSyxLQUFLLElBQUk7WUFBRSxPQUFPLElBQUksQ0FBQztRQUNwRCxJQUFJLEtBQUssS0FBSyxPQUFPLElBQUksS0FBSyxLQUFLLEtBQUs7WUFBRSxPQUFPLEtBQUssQ0FBQztRQUN2RCxPQUFPLFNBQVMsQ0FBQztJQUNuQixDQUFDLENBQUM7O21EQUNrQjtBQUlwQjtJQUZDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsMEJBQVEsR0FBRTs7aURBQ007QUFNakI7SUFKQyxJQUFBLDRCQUFVLEdBQUU7SUFDWixJQUFBLHlCQUFPLEdBQUU7SUFDVCxJQUFBLDBCQUFRLEVBQUMsRUFBRSxJQUFJLEVBQUUsSUFBSSxFQUFFLENBQUM7SUFDeEIsSUFBQSw2QkFBUyxFQUFDLENBQUMsRUFBRSxLQUFLLEVBQUUsRUFBRSxFQUFFLENBQUMsQ0FBQyxPQUFPLEtBQUssS0FBSyxRQUFRLENBQUMsQ0FBQyxDQUFDLEtBQUssQ0FBQyxLQUFLLENBQUMsR0FBRyxDQUFDLENBQUMsQ0FBQyxDQUFDLEtBQUssQ0FBQyxDQUFDOzs4Q0FDakUiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9zcGVha2Vycy9kdG8vc3BlYWtlci1maWx0ZXIuZHRvLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IElzQm9vbGVhbiwgSXNPcHRpb25hbCwgSXNTdHJpbmcsIElzQXJyYXkgfSBmcm9tICdjbGFzcy12YWxpZGF0b3InO1xuaW1wb3J0IHsgVHJhbnNmb3JtIH0gZnJvbSAnY2xhc3MtdHJhbnNmb3JtZXInO1xuaW1wb3J0IHsgUGFnaW5hdGlvbkR0byB9IGZyb20gJ0Bjb21tb24vZHRvL3BhZ2luYXRpb24uZHRvJztcblxuZXhwb3J0IGNsYXNzIFNwZWFrZXJGaWx0ZXJEdG8gZXh0ZW5kcyBQYWdpbmF0aW9uRHRvIHtcbiAgQElzT3B0aW9uYWwoKVxuICBASXNCb29sZWFuKClcbiAgQFRyYW5zZm9ybSgoeyB2YWx1ZSB9KSA9PiB7XG4gICAgaWYgKHZhbHVlID09PSAndHJ1ZScgfHwgdmFsdWUgPT09IHRydWUpIHJldHVybiB0cnVlO1xuICAgIGlmICh2YWx1ZSA9PT0gJ2ZhbHNlJyB8fCB2YWx1ZSA9PT0gZmFsc2UpIHJldHVybiBmYWxzZTtcbiAgICByZXR1cm4gdW5kZWZpbmVkO1xuICB9KVxuICBpc0hpZ2hsaWdodD86IGJvb2xlYW47XG5cbiAgQElzT3B0aW9uYWwoKVxuICBASXNCb29sZWFuKClcbiAgQFRyYW5zZm9ybSgoeyB2YWx1ZSB9KSA9PiB7XG4gICAgaWYgKHZhbHVlID09PSAndHJ1ZScgfHwgdmFsdWUgPT09IHRydWUpIHJldHVybiB0cnVlO1xuICAgIGlmICh2YWx1ZSA9PT0gJ2ZhbHNlJyB8fCB2YWx1ZSA9PT0gZmFsc2UpIHJldHVybiBmYWxzZTtcbiAgICByZXR1cm4gdW5kZWZpbmVkO1xuICB9KVxuICBpc1Zpc2libGU/OiBib29sZWFuO1xuXG4gIEBJc09wdGlvbmFsKClcbiAgQElzU3RyaW5nKClcbiAgY29tcGFueT86IHN0cmluZztcblxuICBASXNPcHRpb25hbCgpXG4gIEBJc0FycmF5KClcbiAgQElzU3RyaW5nKHsgZWFjaDogdHJ1ZSB9KVxuICBAVHJhbnNmb3JtKCh7IHZhbHVlIH0pID0+ICh0eXBlb2YgdmFsdWUgPT09ICdzdHJpbmcnID8gdmFsdWUuc3BsaXQoJywnKSA6IHZhbHVlKSlcbiAgdGFncz86IHN0cmluZ1tdO1xufVxuIl0sInZlcnNpb24iOjN9

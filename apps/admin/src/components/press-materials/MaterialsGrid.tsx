@@ -3,8 +3,6 @@ import type { PressMaterial } from '@shared/types/press-materials';
 
 interface MaterialsGridProps {
   materials: PressMaterial[];
-  selectedIds: Set<string>;
-  onSelect: (id: string, selected: boolean) => void;
   onEdit: (material: PressMaterial) => void;
   onDelete: (id: string) => void;
   onPreview: (material: PressMaterial) => void;
@@ -14,8 +12,6 @@ interface MaterialsGridProps {
 
 export function MaterialsGrid({
   materials,
-  selectedIds,
-  onSelect,
   onEdit,
   onDelete,
   onPreview,
@@ -52,8 +48,6 @@ export function MaterialsGrid({
         <MaterialCard
           key={material._id}
           material={material}
-          selected={selectedIds.has(material._id!)}
-          onSelect={onSelect}
           onEdit={onEdit}
           onDelete={onDelete}
           onPreview={onPreview}

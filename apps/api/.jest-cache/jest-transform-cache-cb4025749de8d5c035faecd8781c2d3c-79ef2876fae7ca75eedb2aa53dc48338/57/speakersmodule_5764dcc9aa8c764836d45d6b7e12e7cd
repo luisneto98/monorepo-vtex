@@ -1,0 +1,31 @@
+18b6bc1733a9cadbad8d14d2933959fa
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SpeakersModule = void 0;
+const common_1 = require("@nestjs/common");
+const mongoose_1 = require("@nestjs/mongoose");
+const speakers_controller_1 = require("./speakers.controller");
+const speakers_service_1 = require("./speakers.service");
+const speaker_schema_1 = require("./schemas/speaker.schema");
+const storage_module_1 = require("../storage/storage.module");
+let SpeakersModule = class SpeakersModule {
+};
+exports.SpeakersModule = SpeakersModule;
+exports.SpeakersModule = SpeakersModule = __decorate([
+    (0, common_1.Module)({
+        imports: [
+            mongoose_1.MongooseModule.forFeature([{ name: speaker_schema_1.Speaker.name, schema: speaker_schema_1.SpeakerSchema }]),
+            storage_module_1.StorageModule,
+        ],
+        controllers: [speakers_controller_1.SpeakersController],
+        providers: [speakers_service_1.SpeakersService],
+        exports: [speakers_service_1.SpeakersService],
+    })
+], SpeakersModule);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9zcGVha2Vycy9zcGVha2Vycy5tb2R1bGUudHMiLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7O0FBQUEsMkNBQXdDO0FBQ3hDLCtDQUFrRDtBQUNsRCwrREFBMkQ7QUFDM0QseURBQXFEO0FBQ3JELDZEQUFrRTtBQUNsRSw4REFBMEQ7QUFXbkQsSUFBTSxjQUFjLEdBQXBCLE1BQU0sY0FBYztDQUFHLENBQUE7QUFBakIsd0NBQWM7eUJBQWQsY0FBYztJQVQxQixJQUFBLGVBQU0sRUFBQztRQUNOLE9BQU8sRUFBRTtZQUNQLHlCQUFjLENBQUMsVUFBVSxDQUFDLENBQUMsRUFBRSxJQUFJLEVBQUUsd0JBQU8sQ0FBQyxJQUFJLEVBQUUsTUFBTSxFQUFFLDhCQUFhLEVBQUUsQ0FBQyxDQUFDO1lBQzFFLDhCQUFhO1NBQ2Q7UUFDRCxXQUFXLEVBQUUsQ0FBQyx3Q0FBa0IsQ0FBQztRQUNqQyxTQUFTLEVBQUUsQ0FBQyxrQ0FBZSxDQUFDO1FBQzVCLE9BQU8sRUFBRSxDQUFDLGtDQUFlLENBQUM7S0FDM0IsQ0FBQztHQUNXLGNBQWMsQ0FBRyIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvaG9tZS9sdWlzbmV0bzk4L0RvY3VtZW50b3MvQ29kZS9tb25vcmVwby12dGV4L2FwcHMvYXBpL3NyYy9tb2R1bGVzL3NwZWFrZXJzL3NwZWFrZXJzLm1vZHVsZS50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBNb2R1bGUgfSBmcm9tICdAbmVzdGpzL2NvbW1vbic7XG5pbXBvcnQgeyBNb25nb29zZU1vZHVsZSB9IGZyb20gJ0BuZXN0anMvbW9uZ29vc2UnO1xuaW1wb3J0IHsgU3BlYWtlcnNDb250cm9sbGVyIH0gZnJvbSAnLi9zcGVha2Vycy5jb250cm9sbGVyJztcbmltcG9ydCB7IFNwZWFrZXJzU2VydmljZSB9IGZyb20gJy4vc3BlYWtlcnMuc2VydmljZSc7XG5pbXBvcnQgeyBTcGVha2VyLCBTcGVha2VyU2NoZW1hIH0gZnJvbSAnLi9zY2hlbWFzL3NwZWFrZXIuc2NoZW1hJztcbmltcG9ydCB7IFN0b3JhZ2VNb2R1bGUgfSBmcm9tICcuLi9zdG9yYWdlL3N0b3JhZ2UubW9kdWxlJztcblxuQE1vZHVsZSh7XG4gIGltcG9ydHM6IFtcbiAgICBNb25nb29zZU1vZHVsZS5mb3JGZWF0dXJlKFt7IG5hbWU6IFNwZWFrZXIubmFtZSwgc2NoZW1hOiBTcGVha2VyU2NoZW1hIH1dKSxcbiAgICBTdG9yYWdlTW9kdWxlLFxuICBdLFxuICBjb250cm9sbGVyczogW1NwZWFrZXJzQ29udHJvbGxlcl0sXG4gIHByb3ZpZGVyczogW1NwZWFrZXJzU2VydmljZV0sXG4gIGV4cG9ydHM6IFtTcGVha2Vyc1NlcnZpY2VdLFxufSlcbmV4cG9ydCBjbGFzcyBTcGVha2Vyc01vZHVsZSB7fVxuIl0sInZlcnNpb24iOjN9

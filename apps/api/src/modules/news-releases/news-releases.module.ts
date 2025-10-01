@@ -11,6 +11,7 @@ import { FeedGeneratorService } from './services/feed-generator.service';
 import { AuditLogService } from './services/audit-log.service';
 import { MulterModule } from '@nestjs/platform-express';
 import { multerConfig } from '../../config/multer.config';
+import { StorageModule } from '../storage/storage.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { multerConfig } from '../../config/multer.config';
       { name: NewsReleaseAuditLog.name, schema: NewsReleaseAuditLogSchema },
     ]),
     MulterModule.register(multerConfig),
+    StorageModule,
   ],
   controllers: [NewsReleasesController, PublicNewsController],
   providers: [

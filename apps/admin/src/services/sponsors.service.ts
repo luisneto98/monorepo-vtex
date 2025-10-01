@@ -51,7 +51,21 @@ export class SponsorsService {
       throw new Error('Failed to fetch sponsors');
     }
 
-    return response.json();
+    const apiResponse = await response.json();
+
+    // Handle nested API response structure: { data: { data: [...], metadata: {...} } }
+    if (apiResponse.data && apiResponse.data.data && apiResponse.data.metadata) {
+      return {
+        data: apiResponse.data.data,
+        total: apiResponse.data.metadata.total,
+        page: apiResponse.data.metadata.page,
+        limit: apiResponse.data.metadata.limit,
+        success: apiResponse.data.success !== undefined ? apiResponse.data.success : true,
+      };
+    }
+
+    // Fallback for direct structure
+    return apiResponse;
   }
 
   static async getSponsor(id: string): Promise<ISponsorResponse> {
@@ -86,7 +100,7 @@ export class SponsorsService {
 
   static async updateSponsor(id: string, sponsor: Partial<Sponsor>): Promise<ISponsorResponse> {
     const response = await fetch(`${API_URL}/sponsors/${id}`, {
-      method: 'PUT',
+      method: 'PATCH',
       headers: this.getAuthHeaders(),
       body: JSON.stringify(sponsor),
     });
@@ -237,6 +251,30 @@ export class SponsorsService {
 
     if (!response.ok) {
       throw new Error('Failed to fetch archived sponsors');
+    }
+
+    return response.json();
+  }
+
+  static async uploadLogo(
+    sponsorId: string,
+    file: File,
+  ): Promise<{ data: { data: { logoUrl: string } } }> {
+    const token = localStorage.getItem('access_token');
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await fetch(`${API_URL}/sponsors/${sponsorId}/upload-logo`, {
+      method: 'POST',
+      headers: {
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || error.error || 'Failed to upload logo');
     }
 
     return response.json();

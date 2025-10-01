@@ -1,0 +1,173 @@
+d43930d3fbad04f5de907db98754bd80
+"use strict";
+
+/* istanbul ignore next */
+function cov_rtzt4y3d() {
+  var path = "/home/luisneto98/Documentos/Code/monorepo-vtex/apps/api/src/modules/auth/decorators/roles.decorator.ts";
+  var hash = "08a1aedb90f09b8a6ad21d86c7449c9de2b7f958";
+  var global = new Function("return this")();
+  var gcv = "__coverage__";
+  var coverageData = {
+    path: "/home/luisneto98/Documentos/Code/monorepo-vtex/apps/api/src/modules/auth/decorators/roles.decorator.ts",
+    statementMap: {
+      "0": {
+        start: {
+          line: 2,
+          column: 0
+        },
+        end: {
+          line: 2,
+          column: 62
+        }
+      },
+      "1": {
+        start: {
+          line: 3,
+          column: 0
+        },
+        end: {
+          line: 3,
+          column: 43
+        }
+      },
+      "2": {
+        start: {
+          line: 4,
+          column: 17
+        },
+        end: {
+          line: 4,
+          column: 42
+        }
+      },
+      "3": {
+        start: {
+          line: 5,
+          column: 0
+        },
+        end: {
+          line: 5,
+          column: 28
+        }
+      },
+      "4": {
+        start: {
+          line: 6,
+          column: 14
+        },
+        end: {
+          line: 6,
+          column: 79
+        }
+      },
+      "5": {
+        start: {
+          line: 6,
+          column: 28
+        },
+        end: {
+          line: 6,
+          column: 79
+        }
+      },
+      "6": {
+        start: {
+          line: 7,
+          column: 0
+        },
+        end: {
+          line: 7,
+          column: 22
+        }
+      }
+    },
+    fnMap: {
+      "0": {
+        name: "(anonymous_0)",
+        decl: {
+          start: {
+            line: 6,
+            column: 14
+          },
+          end: {
+            line: 6,
+            column: 15
+          }
+        },
+        loc: {
+          start: {
+            line: 6,
+            column: 28
+          },
+          end: {
+            line: 6,
+            column: 79
+          }
+        },
+        line: 6
+      }
+    },
+    branchMap: {},
+    s: {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0
+    },
+    f: {
+      "0": 0
+    },
+    b: {},
+    inputSourceMap: {
+      file: "/home/luisneto98/Documentos/Code/monorepo-vtex/apps/api/src/modules/auth/decorators/roles.decorator.ts",
+      mappings: ";;;AAAA,2CAA6C;AAEhC,QAAA,SAAS,GAAG,OAAO,CAAC;AAC1B,MAAM,KAAK,GAAG,CAAC,GAAG,KAAe,EAAE,EAAE,CAAC,IAAA,oBAAW,EAAC,iBAAS,EAAE,KAAK,CAAC,CAAC;AAA9D,QAAA,KAAK,SAAyD",
+      names: [],
+      sources: ["/home/luisneto98/Documentos/Code/monorepo-vtex/apps/api/src/modules/auth/decorators/roles.decorator.ts"],
+      sourcesContent: ["import { SetMetadata } from '@nestjs/common';\n\nexport const ROLES_KEY = 'roles';\nexport const Roles = (...roles: string[]) => SetMetadata(ROLES_KEY, roles);\n"],
+      version: 3
+    },
+    _coverageSchema: "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    hash: "08a1aedb90f09b8a6ad21d86c7449c9de2b7f958"
+  };
+  var coverage = global[gcv] || (global[gcv] = {});
+  if (!coverage[path] || coverage[path].hash !== hash) {
+    coverage[path] = coverageData;
+  }
+  var actualCoverage = coverage[path];
+  {
+    // @ts-ignore
+    cov_rtzt4y3d = function () {
+      return actualCoverage;
+    };
+  }
+  return actualCoverage;
+}
+cov_rtzt4y3d();
+cov_rtzt4y3d().s[0]++;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/* istanbul ignore next */
+cov_rtzt4y3d().s[1]++;
+exports.Roles = exports.ROLES_KEY = void 0;
+const common_1 =
+/* istanbul ignore next */
+(cov_rtzt4y3d().s[2]++, require("@nestjs/common"));
+/* istanbul ignore next */
+cov_rtzt4y3d().s[3]++;
+exports.ROLES_KEY = 'roles';
+/* istanbul ignore next */
+cov_rtzt4y3d().s[4]++;
+const Roles = (...roles) => {
+  /* istanbul ignore next */
+  cov_rtzt4y3d().f[0]++;
+  cov_rtzt4y3d().s[5]++;
+  return (0, common_1.SetMetadata)(exports.ROLES_KEY, roles);
+};
+/* istanbul ignore next */
+cov_rtzt4y3d().s[6]++;
+exports.Roles = Roles;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJjb21tb25fMSIsImNvdl9ydHp0NHkzZCIsInMiLCJyZXF1aXJlIiwiZXhwb3J0cyIsIlJPTEVTX0tFWSIsIlJvbGVzIiwicm9sZXMiLCJmIiwiU2V0TWV0YWRhdGEiXSwic291cmNlcyI6WyIvaG9tZS9sdWlzbmV0bzk4L0RvY3VtZW50b3MvQ29kZS9tb25vcmVwby12dGV4L2FwcHMvYXBpL3NyYy9tb2R1bGVzL2F1dGgvZGVjb3JhdG9ycy9yb2xlcy5kZWNvcmF0b3IudHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgU2V0TWV0YWRhdGEgfSBmcm9tICdAbmVzdGpzL2NvbW1vbic7XG5cbmV4cG9ydCBjb25zdCBST0xFU19LRVkgPSAncm9sZXMnO1xuZXhwb3J0IGNvbnN0IFJvbGVzID0gKC4uLnJvbGVzOiBzdHJpbmdbXSkgPT4gU2V0TWV0YWRhdGEoUk9MRVNfS0VZLCByb2xlcyk7XG4iXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQSxNQUFBQSxRQUFBO0FBQUE7QUFBQSxDQUFBQyxZQUFBLEdBQUFDLENBQUEsT0FBQUMsT0FBQTtBQUE2QztBQUFBRixZQUFBLEdBQUFDLENBQUE7QUFFaENFLE9BQUEsQ0FBQUMsU0FBUyxHQUFHLE9BQU87QUFBQztBQUFBSixZQUFBLEdBQUFDLENBQUE7QUFDMUIsTUFBTUksS0FBSyxHQUFHQSxDQUFDLEdBQUdDLEtBQWUsS0FBSztFQUFBO0VBQUFOLFlBQUEsR0FBQU8sQ0FBQTtFQUFBUCxZQUFBLEdBQUFDLENBQUE7RUFBQSxXQUFBRixRQUFBLENBQUFTLFdBQVcsRUFBQ0wsT0FBQSxDQUFBQyxTQUFTLEVBQUVFLEtBQUssQ0FBQztBQUFELENBQUM7QUFBQztBQUFBTixZQUFBLEdBQUFDLENBQUE7QUFBOURFLE9BQUEsQ0FBQUUsS0FBSyxHQUFBQSxLQUFBIiwiaWdub3JlTGlzdCI6W119

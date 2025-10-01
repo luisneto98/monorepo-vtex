@@ -1,0 +1,102 @@
+624d504f605196ac81f9784650849a81
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DownloadTrackingService = void 0;
+const common_1 = require("@nestjs/common");
+const mongoose_1 = require("@nestjs/mongoose");
+const mongoose_2 = require("mongoose");
+const download_log_schema_1 = require("../schemas/download-log.schema");
+const press_material_schema_1 = require("../schemas/press-material.schema");
+let DownloadTrackingService = class DownloadTrackingService {
+    downloadLogModel;
+    pressMaterialModel;
+    constructor(downloadLogModel, pressMaterialModel) {
+        this.downloadLogModel = downloadLogModel;
+        this.pressMaterialModel = pressMaterialModel;
+    }
+    async trackDownload(materialId, ipAddress, userAgent, userId) {
+        try {
+            // Create download log
+            await this.downloadLogModel.create({
+                materialId: new mongoose_2.Types.ObjectId(materialId),
+                ipAddress,
+                userAgent,
+                userId,
+                downloadedAt: new Date(),
+            });
+            // Increment download count on the material
+            await this.pressMaterialModel.findByIdAndUpdate(materialId, { $inc: { downloadCount: 1 } }, { new: false });
+        }
+        catch (error) {
+            console.error('Error tracking download:', error);
+            // Don't throw error - we don't want download tracking failure to prevent download
+        }
+    }
+    async getDownloadStatistics(materialId, days = 30) {
+        const startDate = new Date();
+        startDate.setDate(startDate.getDate() - days);
+        const stats = await this.downloadLogModel.aggregate([
+            {
+                $match: {
+                    materialId: new mongoose_2.Types.ObjectId(materialId),
+                    downloadedAt: { $gte: startDate },
+                },
+            },
+            {
+                $group: {
+                    _id: {
+                        $dateToString: {
+                            format: '%Y-%m-%d',
+                            date: '$downloadedAt',
+                        },
+                    },
+                    count: { $sum: 1 },
+                },
+            },
+            {
+                $sort: { _id: 1 },
+            },
+        ]);
+        const totalDownloads = await this.downloadLogModel.countDocuments({
+            materialId: new mongoose_2.Types.ObjectId(materialId),
+        });
+        const uniqueIPs = await this.downloadLogModel.distinct('ipAddress', {
+            materialId: new mongoose_2.Types.ObjectId(materialId),
+        });
+        return {
+            totalDownloads,
+            uniqueVisitors: uniqueIPs.length,
+            dailyStats: stats,
+            period: `${days} days`,
+        };
+    }
+    async getTopDownloadedMaterials(limit = 10) {
+        return this.pressMaterialModel
+            .find({ status: 'published' })
+            .sort({ downloadCount: -1 })
+            .limit(limit)
+            .select('title type downloadCount thumbnailUrl')
+            .lean();
+    }
+};
+exports.DownloadTrackingService = DownloadTrackingService;
+exports.DownloadTrackingService = DownloadTrackingService = __decorate([
+    (0, common_1.Injectable)(),
+    __param(0, (0, mongoose_1.InjectModel)(download_log_schema_1.DownloadLog.name)),
+    __param(1, (0, mongoose_1.InjectModel)(press_material_schema_1.PressMaterial.name)),
+    __metadata("design:paramtypes", [mongoose_2.Model,
+        mongoose_2.Model])
+], DownloadTrackingService);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9wcmVzcy1tYXRlcmlhbHMvc2VydmljZXMvZG93bmxvYWQtdHJhY2tpbmcuc2VydmljZS50cyIsIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7Ozs7QUFBQSwyQ0FBNEM7QUFDNUMsK0NBQStDO0FBQy9DLHVDQUF3QztBQUN4Qyx3RUFBa0Y7QUFDbEYsNEVBQXdGO0FBR2pGLElBQU0sdUJBQXVCLEdBQTdCLE1BQU0sdUJBQXVCO0lBR3hCO0lBRUE7SUFKVixZQUVVLGdCQUE0QyxFQUU1QyxrQkFBZ0Q7UUFGaEQscUJBQWdCLEdBQWhCLGdCQUFnQixDQUE0QjtRQUU1Qyx1QkFBa0IsR0FBbEIsa0JBQWtCLENBQThCO0lBQ3ZELENBQUM7SUFFSixLQUFLLENBQUMsYUFBYSxDQUNqQixVQUFrQixFQUNsQixTQUFpQixFQUNqQixTQUFpQixFQUNqQixNQUFlO1FBRWYsSUFBSSxDQUFDO1lBQ0gsc0JBQXNCO1lBQ3RCLE1BQU0sSUFBSSxDQUFDLGdCQUFnQixDQUFDLE1BQU0sQ0FBQztnQkFDakMsVUFBVSxFQUFFLElBQUksZ0JBQUssQ0FBQyxRQUFRLENBQUMsVUFBVSxDQUFDO2dCQUMxQyxTQUFTO2dCQUNULFNBQVM7Z0JBQ1QsTUFBTTtnQkFDTixZQUFZLEVBQUUsSUFBSSxJQUFJLEVBQUU7YUFDekIsQ0FBQyxDQUFDO1lBRUgsMkNBQTJDO1lBQzNDLE1BQU0sSUFBSSxDQUFDLGtCQUFrQixDQUFDLGlCQUFpQixDQUM3QyxVQUFVLEVBQ1YsRUFBRSxJQUFJLEVBQUUsRUFBRSxhQUFhLEVBQUUsQ0FBQyxFQUFFLEVBQUUsRUFDOUIsRUFBRSxHQUFHLEVBQUUsS0FBSyxFQUFFLENBQ2YsQ0FBQztRQUNKLENBQUM7UUFBQyxPQUFPLEtBQUssRUFBRSxDQUFDO1lBQ2YsT0FBTyxDQUFDLEtBQUssQ0FBQywwQkFBMEIsRUFBRSxLQUFLLENBQUMsQ0FBQztZQUNqRCxrRkFBa0Y7UUFDcEYsQ0FBQztJQUNILENBQUM7SUFFRCxLQUFLLENBQUMscUJBQXFCLENBQUMsVUFBa0IsRUFBRSxJQUFJLEdBQUcsRUFBRTtRQUN2RCxNQUFNLFNBQVMsR0FBRyxJQUFJLElBQUksRUFBRSxDQUFDO1FBQzdCLFNBQVMsQ0FBQyxPQUFPLENBQUMsU0FBUyxDQUFDLE9BQU8sRUFBRSxHQUFHLElBQUksQ0FBQyxDQUFDO1FBRTlDLE1BQU0sS0FBSyxHQUFHLE1BQU0sSUFBSSxDQUFDLGdCQUFnQixDQUFDLFNBQVMsQ0FBQztZQUNsRDtnQkFDRSxNQUFNLEVBQUU7b0JBQ04sVUFBVSxFQUFFLElBQUksZ0JBQUssQ0FBQyxRQUFRLENBQUMsVUFBVSxDQUFDO29CQUMxQyxZQUFZLEVBQUUsRUFBRSxJQUFJLEVBQUUsU0FBUyxFQUFFO2lCQUNsQzthQUNGO1lBQ0Q7Z0JBQ0UsTUFBTSxFQUFFO29CQUNOLEdBQUcsRUFBRTt3QkFDSCxhQUFhLEVBQUU7NEJBQ2IsTUFBTSxFQUFFLFVBQVU7NEJBQ2xCLElBQUksRUFBRSxlQUFlO3lCQUN0QjtxQkFDRjtvQkFDRCxLQUFLLEVBQUUsRUFBRSxJQUFJLEVBQUUsQ0FBQyxFQUFFO2lCQUNuQjthQUNGO1lBQ0Q7Z0JBQ0UsS0FBSyxFQUFFLEVBQUUsR0FBRyxFQUFFLENBQUMsRUFBRTthQUNsQjtTQUNGLENBQUMsQ0FBQztRQUVILE1BQU0sY0FBYyxHQUFHLE1BQU0sSUFBSSxDQUFDLGdCQUFnQixDQUFDLGNBQWMsQ0FBQztZQUNoRSxVQUFVLEVBQUUsSUFBSSxnQkFBSyxDQUFDLFFBQVEsQ0FBQyxVQUFVLENBQUM7U0FDM0MsQ0FBQyxDQUFDO1FBRUgsTUFBTSxTQUFTLEdBQUcsTUFBTSxJQUFJLENBQUMsZ0JBQWdCLENBQUMsUUFBUSxDQUFDLFdBQVcsRUFBRTtZQUNsRSxVQUFVLEVBQUUsSUFBSSxnQkFBSyxDQUFDLFFBQVEsQ0FBQyxVQUFVLENBQUM7U0FDM0MsQ0FBQyxDQUFDO1FBRUgsT0FBTztZQUNMLGNBQWM7WUFDZCxjQUFjLEVBQUUsU0FBUyxDQUFDLE1BQU07WUFDaEMsVUFBVSxFQUFFLEtBQUs7WUFDakIsTUFBTSxFQUFFLEdBQUcsSUFBSSxPQUFPO1NBQ3ZCLENBQUM7SUFDSixDQUFDO0lBRUQsS0FBSyxDQUFDLHlCQUF5QixDQUFDLEtBQUssR0FBRyxFQUFFO1FBQ3hDLE9BQU8sSUFBSSxDQUFDLGtCQUFrQjthQUMzQixJQUFJLENBQUMsRUFBRSxNQUFNLEVBQUUsV0FBVyxFQUFFLENBQUM7YUFDN0IsSUFBSSxDQUFDLEVBQUUsYUFBYSxFQUFFLENBQUMsQ0FBQyxFQUFFLENBQUM7YUFDM0IsS0FBSyxDQUFDLEtBQUssQ0FBQzthQUNaLE1BQU0sQ0FBQyx1Q0FBdUMsQ0FBQzthQUMvQyxJQUFJLEVBQUUsQ0FBQztJQUNaLENBQUM7Q0FDRixDQUFBO0FBdkZZLDBEQUF1QjtrQ0FBdkIsdUJBQXVCO0lBRG5DLElBQUEsbUJBQVUsR0FBRTtJQUdSLFdBQUEsSUFBQSxzQkFBVyxFQUFDLGlDQUFXLENBQUMsSUFBSSxDQUFDLENBQUE7SUFFN0IsV0FBQSxJQUFBLHNCQUFXLEVBQUMscUNBQWEsQ0FBQyxJQUFJLENBQUMsQ0FBQTtxQ0FETixnQkFBSztRQUVILGdCQUFLO0dBTHhCLHVCQUF1QixDQXVGbkMiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9wcmVzcy1tYXRlcmlhbHMvc2VydmljZXMvZG93bmxvYWQtdHJhY2tpbmcuc2VydmljZS50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBJbmplY3RhYmxlIH0gZnJvbSAnQG5lc3Rqcy9jb21tb24nO1xuaW1wb3J0IHsgSW5qZWN0TW9kZWwgfSBmcm9tICdAbmVzdGpzL21vbmdvb3NlJztcbmltcG9ydCB7IE1vZGVsLCBUeXBlcyB9IGZyb20gJ21vbmdvb3NlJztcbmltcG9ydCB7IERvd25sb2FkTG9nLCBEb3dubG9hZExvZ0RvY3VtZW50IH0gZnJvbSAnLi4vc2NoZW1hcy9kb3dubG9hZC1sb2cuc2NoZW1hJztcbmltcG9ydCB7IFByZXNzTWF0ZXJpYWwsIFByZXNzTWF0ZXJpYWxEb2N1bWVudCB9IGZyb20gJy4uL3NjaGVtYXMvcHJlc3MtbWF0ZXJpYWwuc2NoZW1hJztcblxuQEluamVjdGFibGUoKVxuZXhwb3J0IGNsYXNzIERvd25sb2FkVHJhY2tpbmdTZXJ2aWNlIHtcbiAgY29uc3RydWN0b3IoXG4gICAgQEluamVjdE1vZGVsKERvd25sb2FkTG9nLm5hbWUpXG4gICAgcHJpdmF0ZSBkb3dubG9hZExvZ01vZGVsOiBNb2RlbDxEb3dubG9hZExvZ0RvY3VtZW50PixcbiAgICBASW5qZWN0TW9kZWwoUHJlc3NNYXRlcmlhbC5uYW1lKVxuICAgIHByaXZhdGUgcHJlc3NNYXRlcmlhbE1vZGVsOiBNb2RlbDxQcmVzc01hdGVyaWFsRG9jdW1lbnQ+LFxuICApIHt9XG5cbiAgYXN5bmMgdHJhY2tEb3dubG9hZChcbiAgICBtYXRlcmlhbElkOiBzdHJpbmcsXG4gICAgaXBBZGRyZXNzOiBzdHJpbmcsXG4gICAgdXNlckFnZW50OiBzdHJpbmcsXG4gICAgdXNlcklkPzogc3RyaW5nLFxuICApOiBQcm9taXNlPHZvaWQ+IHtcbiAgICB0cnkge1xuICAgICAgLy8gQ3JlYXRlIGRvd25sb2FkIGxvZ1xuICAgICAgYXdhaXQgdGhpcy5kb3dubG9hZExvZ01vZGVsLmNyZWF0ZSh7XG4gICAgICAgIG1hdGVyaWFsSWQ6IG5ldyBUeXBlcy5PYmplY3RJZChtYXRlcmlhbElkKSxcbiAgICAgICAgaXBBZGRyZXNzLFxuICAgICAgICB1c2VyQWdlbnQsXG4gICAgICAgIHVzZXJJZCxcbiAgICAgICAgZG93bmxvYWRlZEF0OiBuZXcgRGF0ZSgpLFxuICAgICAgfSk7XG5cbiAgICAgIC8vIEluY3JlbWVudCBkb3dubG9hZCBjb3VudCBvbiB0aGUgbWF0ZXJpYWxcbiAgICAgIGF3YWl0IHRoaXMucHJlc3NNYXRlcmlhbE1vZGVsLmZpbmRCeUlkQW5kVXBkYXRlKFxuICAgICAgICBtYXRlcmlhbElkLFxuICAgICAgICB7ICRpbmM6IHsgZG93bmxvYWRDb3VudDogMSB9IH0sXG4gICAgICAgIHsgbmV3OiBmYWxzZSB9LFxuICAgICAgKTtcbiAgICB9IGNhdGNoIChlcnJvcikge1xuICAgICAgY29uc29sZS5lcnJvcignRXJyb3IgdHJhY2tpbmcgZG93bmxvYWQ6JywgZXJyb3IpO1xuICAgICAgLy8gRG9uJ3QgdGhyb3cgZXJyb3IgLSB3ZSBkb24ndCB3YW50IGRvd25sb2FkIHRyYWNraW5nIGZhaWx1cmUgdG8gcHJldmVudCBkb3dubG9hZFxuICAgIH1cbiAgfVxuXG4gIGFzeW5jIGdldERvd25sb2FkU3RhdGlzdGljcyhtYXRlcmlhbElkOiBzdHJpbmcsIGRheXMgPSAzMCk6IFByb21pc2U8YW55PiB7XG4gICAgY29uc3Qgc3RhcnREYXRlID0gbmV3IERhdGUoKTtcbiAgICBzdGFydERhdGUuc2V0RGF0ZShzdGFydERhdGUuZ2V0RGF0ZSgpIC0gZGF5cyk7XG5cbiAgICBjb25zdCBzdGF0cyA9IGF3YWl0IHRoaXMuZG93bmxvYWRMb2dNb2RlbC5hZ2dyZWdhdGUoW1xuICAgICAge1xuICAgICAgICAkbWF0Y2g6IHtcbiAgICAgICAgICBtYXRlcmlhbElkOiBuZXcgVHlwZXMuT2JqZWN0SWQobWF0ZXJpYWxJZCksXG4gICAgICAgICAgZG93bmxvYWRlZEF0OiB7ICRndGU6IHN0YXJ0RGF0ZSB9LFxuICAgICAgICB9LFxuICAgICAgfSxcbiAgICAgIHtcbiAgICAgICAgJGdyb3VwOiB7XG4gICAgICAgICAgX2lkOiB7XG4gICAgICAgICAgICAkZGF0ZVRvU3RyaW5nOiB7XG4gICAgICAgICAgICAgIGZvcm1hdDogJyVZLSVtLSVkJyxcbiAgICAgICAgICAgICAgZGF0ZTogJyRkb3dubG9hZGVkQXQnLFxuICAgICAgICAgICAgfSxcbiAgICAgICAgICB9LFxuICAgICAgICAgIGNvdW50OiB7ICRzdW06IDEgfSxcbiAgICAgICAgfSxcbiAgICAgIH0sXG4gICAgICB7XG4gICAgICAgICRzb3J0OiB7IF9pZDogMSB9LFxuICAgICAgfSxcbiAgICBdKTtcblxuICAgIGNvbnN0IHRvdGFsRG93bmxvYWRzID0gYXdhaXQgdGhpcy5kb3dubG9hZExvZ01vZGVsLmNvdW50RG9jdW1lbnRzKHtcbiAgICAgIG1hdGVyaWFsSWQ6IG5ldyBUeXBlcy5PYmplY3RJZChtYXRlcmlhbElkKSxcbiAgICB9KTtcblxuICAgIGNvbnN0IHVuaXF1ZUlQcyA9IGF3YWl0IHRoaXMuZG93bmxvYWRMb2dNb2RlbC5kaXN0aW5jdCgnaXBBZGRyZXNzJywge1xuICAgICAgbWF0ZXJpYWxJZDogbmV3IFR5cGVzLk9iamVjdElkKG1hdGVyaWFsSWQpLFxuICAgIH0pO1xuXG4gICAgcmV0dXJuIHtcbiAgICAgIHRvdGFsRG93bmxvYWRzLFxuICAgICAgdW5pcXVlVmlzaXRvcnM6IHVuaXF1ZUlQcy5sZW5ndGgsXG4gICAgICBkYWlseVN0YXRzOiBzdGF0cyxcbiAgICAgIHBlcmlvZDogYCR7ZGF5c30gZGF5c2AsXG4gICAgfTtcbiAgfVxuXG4gIGFzeW5jIGdldFRvcERvd25sb2FkZWRNYXRlcmlhbHMobGltaXQgPSAxMCk6IFByb21pc2U8YW55W10+IHtcbiAgICByZXR1cm4gdGhpcy5wcmVzc01hdGVyaWFsTW9kZWxcbiAgICAgIC5maW5kKHsgc3RhdHVzOiAncHVibGlzaGVkJyB9KVxuICAgICAgLnNvcnQoeyBkb3dubG9hZENvdW50OiAtMSB9KVxuICAgICAgLmxpbWl0KGxpbWl0KVxuICAgICAgLnNlbGVjdCgndGl0bGUgdHlwZSBkb3dubG9hZENvdW50IHRodW1ibmFpbFVybCcpXG4gICAgICAubGVhbigpO1xuICB9XG59XG4iXSwidmVyc2lvbiI6M30=

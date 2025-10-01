@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import * as Localization from 'expo-localization';
 
 import { useHomeData } from '../../hooks/useHomeData';
@@ -23,14 +24,17 @@ import SponsorsButton from '../../components/buttons/SponsorsButton';
 import SkeletonCard from '../../components/skeleton/SkeletonCard';
 import SkeletonSpeaker from '../../components/skeleton/SkeletonSpeaker';
 import SkeletonLoader from '../../components/skeleton/SkeletonLoader';
+import { RootStackParamList } from '../../navigation/AppNavigator';
 
 import { ISession } from '../../../../../packages/shared/src/types/session.types';
 import { Speaker } from '../../../../../packages/shared/src/types/speaker.types';
 
 const { width } = Dimensions.get('window');
 
+type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
 export default function HomeScreen() {
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<HomeScreenNavigationProp>();
   const { homeData, homeLoading, homeError, refreshHomeData, retryFetch } = useHomeData();
   const { getLocalizedEventName, loading: eventSettingsLoading } = useEventSettings();
 
@@ -57,6 +61,16 @@ export default function HomeScreen() {
     navigation.navigate('Sponsors');
   }, [navigation]);
 
+  const handlePressMaterialsPress = useCallback(() => {
+    // Navigate to press materials page
+    navigation.navigate('PressMaterials');
+  }, [navigation]);
+
+  const handleNewsReleasesPress = useCallback(() => {
+    // Navigate to news releases page
+    navigation.navigate('NewsReleases');
+  }, [navigation]);
+
   const quickLinks = [
     {
       id: 'agenda',
@@ -78,6 +92,20 @@ export default function HomeScreen() {
       subtitle: 'Encontre salas e espaços',
       icon: '📍',
       onPress: () => navigation.navigate('Location'),
+    },
+    {
+      id: 'news',
+      title: 'Notícias',
+      subtitle: 'Últimas notícias e comunicados',
+      icon: '📰',
+      onPress: handleNewsReleasesPress,
+    },
+    {
+      id: 'press-materials',
+      title: 'Materiais de Imprensa',
+      subtitle: 'Acesse logos, fotos e kits de imprensa',
+      icon: '📄',
+      onPress: handlePressMaterialsPress,
     },
     {
       id: 'networking',

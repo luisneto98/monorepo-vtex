@@ -1,0 +1,39 @@
+6f692844b190d3ecb22f127edb7e0336
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.NotificationsModule = void 0;
+const common_1 = require("@nestjs/common");
+const mongoose_1 = require("@nestjs/mongoose");
+const bull_1 = require("@nestjs/bull");
+const notifications_controller_1 = require("./notifications.controller");
+const notifications_service_1 = require("./notifications.service");
+const notifications_processor_1 = require("./notifications.processor");
+const notification_throttle_guard_1 = require("@common/guards/notification-throttle.guard");
+const notification_schema_1 = require("./schemas/notification.schema");
+const device_token_schema_1 = require("./schemas/device-token.schema");
+let NotificationsModule = class NotificationsModule {
+};
+exports.NotificationsModule = NotificationsModule;
+exports.NotificationsModule = NotificationsModule = __decorate([
+    (0, common_1.Module)({
+        imports: [
+            mongoose_1.MongooseModule.forFeature([
+                { name: notification_schema_1.Notification.name, schema: notification_schema_1.NotificationSchema },
+                { name: device_token_schema_1.DeviceToken.name, schema: device_token_schema_1.DeviceTokenSchema },
+            ]),
+            bull_1.BullModule.registerQueue({
+                name: 'notifications',
+            }),
+        ],
+        controllers: [notifications_controller_1.NotificationsController],
+        providers: [notifications_service_1.NotificationsService, notifications_processor_1.NotificationsProcessor, notification_throttle_guard_1.NotificationThrottleGuard],
+        exports: [notifications_service_1.NotificationsService],
+    })
+], NotificationsModule);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9ub3RpZmljYXRpb25zL25vdGlmaWNhdGlvbnMubW9kdWxlLnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7OztBQUFBLDJDQUF3QztBQUN4QywrQ0FBa0Q7QUFDbEQsdUNBQTBDO0FBQzFDLHlFQUFxRTtBQUNyRSxtRUFBK0Q7QUFDL0QsdUVBQW1FO0FBQ25FLDRGQUF1RjtBQUN2Rix1RUFBaUY7QUFDakYsdUVBQStFO0FBZ0J4RSxJQUFNLG1CQUFtQixHQUF6QixNQUFNLG1CQUFtQjtDQUFHLENBQUE7QUFBdEIsa0RBQW1COzhCQUFuQixtQkFBbUI7SUFkL0IsSUFBQSxlQUFNLEVBQUM7UUFDTixPQUFPLEVBQUU7WUFDUCx5QkFBYyxDQUFDLFVBQVUsQ0FBQztnQkFDeEIsRUFBRSxJQUFJLEVBQUUsa0NBQVksQ0FBQyxJQUFJLEVBQUUsTUFBTSxFQUFFLHdDQUFrQixFQUFFO2dCQUN2RCxFQUFFLElBQUksRUFBRSxpQ0FBVyxDQUFDLElBQUksRUFBRSxNQUFNLEVBQUUsdUNBQWlCLEVBQUU7YUFDdEQsQ0FBQztZQUNGLGlCQUFVLENBQUMsYUFBYSxDQUFDO2dCQUN2QixJQUFJLEVBQUUsZUFBZTthQUN0QixDQUFDO1NBQ0g7UUFDRCxXQUFXLEVBQUUsQ0FBQyxrREFBdUIsQ0FBQztRQUN0QyxTQUFTLEVBQUUsQ0FBQyw0Q0FBb0IsRUFBRSxnREFBc0IsRUFBRSx1REFBeUIsQ0FBQztRQUNwRixPQUFPLEVBQUUsQ0FBQyw0Q0FBb0IsQ0FBQztLQUNoQyxDQUFDO0dBQ1csbUJBQW1CLENBQUciLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9ub3RpZmljYXRpb25zL25vdGlmaWNhdGlvbnMubW9kdWxlLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IE1vZHVsZSB9IGZyb20gJ0BuZXN0anMvY29tbW9uJztcbmltcG9ydCB7IE1vbmdvb3NlTW9kdWxlIH0gZnJvbSAnQG5lc3Rqcy9tb25nb29zZSc7XG5pbXBvcnQgeyBCdWxsTW9kdWxlIH0gZnJvbSAnQG5lc3Rqcy9idWxsJztcbmltcG9ydCB7IE5vdGlmaWNhdGlvbnNDb250cm9sbGVyIH0gZnJvbSAnLi9ub3RpZmljYXRpb25zLmNvbnRyb2xsZXInO1xuaW1wb3J0IHsgTm90aWZpY2F0aW9uc1NlcnZpY2UgfSBmcm9tICcuL25vdGlmaWNhdGlvbnMuc2VydmljZSc7XG5pbXBvcnQgeyBOb3RpZmljYXRpb25zUHJvY2Vzc29yIH0gZnJvbSAnLi9ub3RpZmljYXRpb25zLnByb2Nlc3Nvcic7XG5pbXBvcnQgeyBOb3RpZmljYXRpb25UaHJvdHRsZUd1YXJkIH0gZnJvbSAnQGNvbW1vbi9ndWFyZHMvbm90aWZpY2F0aW9uLXRocm90dGxlLmd1YXJkJztcbmltcG9ydCB7IE5vdGlmaWNhdGlvbiwgTm90aWZpY2F0aW9uU2NoZW1hIH0gZnJvbSAnLi9zY2hlbWFzL25vdGlmaWNhdGlvbi5zY2hlbWEnO1xuaW1wb3J0IHsgRGV2aWNlVG9rZW4sIERldmljZVRva2VuU2NoZW1hIH0gZnJvbSAnLi9zY2hlbWFzL2RldmljZS10b2tlbi5zY2hlbWEnO1xuXG5ATW9kdWxlKHtcbiAgaW1wb3J0czogW1xuICAgIE1vbmdvb3NlTW9kdWxlLmZvckZlYXR1cmUoW1xuICAgICAgeyBuYW1lOiBOb3RpZmljYXRpb24ubmFtZSwgc2NoZW1hOiBOb3RpZmljYXRpb25TY2hlbWEgfSxcbiAgICAgIHsgbmFtZTogRGV2aWNlVG9rZW4ubmFtZSwgc2NoZW1hOiBEZXZpY2VUb2tlblNjaGVtYSB9LFxuICAgIF0pLFxuICAgIEJ1bGxNb2R1bGUucmVnaXN0ZXJRdWV1ZSh7XG4gICAgICBuYW1lOiAnbm90aWZpY2F0aW9ucycsXG4gICAgfSksXG4gIF0sXG4gIGNvbnRyb2xsZXJzOiBbTm90aWZpY2F0aW9uc0NvbnRyb2xsZXJdLFxuICBwcm92aWRlcnM6IFtOb3RpZmljYXRpb25zU2VydmljZSwgTm90aWZpY2F0aW9uc1Byb2Nlc3NvciwgTm90aWZpY2F0aW9uVGhyb3R0bGVHdWFyZF0sXG4gIGV4cG9ydHM6IFtOb3RpZmljYXRpb25zU2VydmljZV0sXG59KVxuZXhwb3J0IGNsYXNzIE5vdGlmaWNhdGlvbnNNb2R1bGUge31cbiJdLCJ2ZXJzaW9uIjozfQ==

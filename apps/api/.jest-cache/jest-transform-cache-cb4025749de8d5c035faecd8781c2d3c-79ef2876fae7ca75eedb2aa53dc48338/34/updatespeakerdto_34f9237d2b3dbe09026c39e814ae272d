@@ -1,0 +1,90 @@
+383e5353433310085badf9521d93af5a
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UpdateSpeakerDto = void 0;
+const class_transformer_1 = require("class-transformer");
+const class_validator_1 = require("class-validator");
+const multilingual_dto_1 = require("@common/dto/multilingual.dto");
+const create_speaker_dto_1 = require("./create-speaker.dto");
+class UpdateSpeakerDto {
+    name;
+    bio;
+    photoUrl;
+    company;
+    position;
+    socialLinks;
+    priority;
+    isHighlight;
+    tags;
+    isVisible;
+}
+exports.UpdateSpeakerDto = UpdateSpeakerDto;
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(3),
+    (0, class_validator_1.MaxLength)(100),
+    __metadata("design:type", String)
+], UpdateSpeakerDto.prototype, "name", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => multilingual_dto_1.MultilingualTextDto),
+    __metadata("design:type", multilingual_dto_1.MultilingualTextDto)
+], UpdateSpeakerDto.prototype, "bio", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsUrl)(),
+    __metadata("design:type", String)
+], UpdateSpeakerDto.prototype, "photoUrl", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(100),
+    __metadata("design:type", String)
+], UpdateSpeakerDto.prototype, "company", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => multilingual_dto_1.MultilingualTextDto),
+    __metadata("design:type", multilingual_dto_1.MultilingualTextDto)
+], UpdateSpeakerDto.prototype, "position", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => create_speaker_dto_1.SocialLinksDto),
+    __metadata("design:type", create_speaker_dto_1.SocialLinksDto)
+], UpdateSpeakerDto.prototype, "socialLinks", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.Min)(0),
+    (0, class_validator_1.Max)(999),
+    __metadata("design:type", Number)
+], UpdateSpeakerDto.prototype, "priority", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], UpdateSpeakerDto.prototype, "isHighlight", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.IsString)({ each: true }),
+    __metadata("design:type", Array)
+], UpdateSpeakerDto.prototype, "tags", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], UpdateSpeakerDto.prototype, "isVisible", void 0);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9zcGVha2Vycy9kdG8vdXBkYXRlLXNwZWFrZXIuZHRvLnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7OztBQUFBLHlEQUF5QztBQUN6QyxxREFZeUI7QUFDekIsbUVBQW1FO0FBQ25FLDZEQUFzRDtBQUV0RCxNQUFhLGdCQUFnQjtJQUszQixJQUFJLENBQVU7SUFLZCxHQUFHLENBQXVCO0lBSTFCLFFBQVEsQ0FBVTtJQUtsQixPQUFPLENBQVU7SUFLakIsUUFBUSxDQUF1QjtJQUsvQixXQUFXLENBQWtCO0lBTTdCLFFBQVEsQ0FBVTtJQUlsQixXQUFXLENBQVc7SUFLdEIsSUFBSSxDQUFZO0lBSWhCLFNBQVMsQ0FBVztDQUNyQjtBQWpERCw0Q0FpREM7QUE1Q0M7SUFKQyxJQUFBLDRCQUFVLEdBQUU7SUFDWixJQUFBLDBCQUFRLEdBQUU7SUFDVixJQUFBLDJCQUFTLEVBQUMsQ0FBQyxDQUFDO0lBQ1osSUFBQSwyQkFBUyxFQUFDLEdBQUcsQ0FBQzs7OENBQ0Q7QUFLZDtJQUhDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsZ0NBQWMsR0FBRTtJQUNoQixJQUFBLHdCQUFJLEVBQUMsR0FBRyxFQUFFLENBQUMsc0NBQW1CLENBQUM7OEJBQzFCLHNDQUFtQjs2Q0FBQztBQUkxQjtJQUZDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsdUJBQUssR0FBRTs7a0RBQ1U7QUFLbEI7SUFIQyxJQUFBLDRCQUFVLEdBQUU7SUFDWixJQUFBLDBCQUFRLEdBQUU7SUFDVixJQUFBLDJCQUFTLEVBQUMsR0FBRyxDQUFDOztpREFDRTtBQUtqQjtJQUhDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsZ0NBQWMsR0FBRTtJQUNoQixJQUFBLHdCQUFJLEVBQUMsR0FBRyxFQUFFLENBQUMsc0NBQW1CLENBQUM7OEJBQ3JCLHNDQUFtQjtrREFBQztBQUsvQjtJQUhDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsZ0NBQWMsR0FBRTtJQUNoQixJQUFBLHdCQUFJLEVBQUMsR0FBRyxFQUFFLENBQUMsbUNBQWMsQ0FBQzs4QkFDYixtQ0FBYztxREFBQztBQU03QjtJQUpDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsMEJBQVEsR0FBRTtJQUNWLElBQUEscUJBQUcsRUFBQyxDQUFDLENBQUM7SUFDTixJQUFBLHFCQUFHLEVBQUMsR0FBRyxDQUFDOztrREFDUztBQUlsQjtJQUZDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsMkJBQVMsR0FBRTs7cURBQ1U7QUFLdEI7SUFIQyxJQUFBLDRCQUFVLEdBQUU7SUFDWixJQUFBLHlCQUFPLEdBQUU7SUFDVCxJQUFBLDBCQUFRLEVBQUMsRUFBRSxJQUFJLEVBQUUsSUFBSSxFQUFFLENBQUM7OzhDQUNUO0FBSWhCO0lBRkMsSUFBQSw0QkFBVSxHQUFFO0lBQ1osSUFBQSwyQkFBUyxHQUFFOzttREFDUSIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvaG9tZS9sdWlzbmV0bzk4L0RvY3VtZW50b3MvQ29kZS9tb25vcmVwby12dGV4L2FwcHMvYXBpL3NyYy9tb2R1bGVzL3NwZWFrZXJzL2R0by91cGRhdGUtc3BlYWtlci5kdG8udHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgVHlwZSB9IGZyb20gJ2NsYXNzLXRyYW5zZm9ybWVyJztcbmltcG9ydCB7XG4gIElzQm9vbGVhbixcbiAgSXNPcHRpb25hbCxcbiAgSXNTdHJpbmcsXG4gIElzVXJsLFxuICBJc051bWJlcixcbiAgTWluLFxuICBNYXgsXG4gIE1heExlbmd0aCxcbiAgTWluTGVuZ3RoLFxuICBWYWxpZGF0ZU5lc3RlZCxcbiAgSXNBcnJheSxcbn0gZnJvbSAnY2xhc3MtdmFsaWRhdG9yJztcbmltcG9ydCB7IE11bHRpbGluZ3VhbFRleHREdG8gfSBmcm9tICdAY29tbW9uL2R0by9tdWx0aWxpbmd1YWwuZHRvJztcbmltcG9ydCB7IFNvY2lhbExpbmtzRHRvIH0gZnJvbSAnLi9jcmVhdGUtc3BlYWtlci5kdG8nO1xuXG5leHBvcnQgY2xhc3MgVXBkYXRlU3BlYWtlckR0byB7XG4gIEBJc09wdGlvbmFsKClcbiAgQElzU3RyaW5nKClcbiAgQE1pbkxlbmd0aCgzKVxuICBATWF4TGVuZ3RoKDEwMClcbiAgbmFtZT86IHN0cmluZztcblxuICBASXNPcHRpb25hbCgpXG4gIEBWYWxpZGF0ZU5lc3RlZCgpXG4gIEBUeXBlKCgpID0+IE11bHRpbGluZ3VhbFRleHREdG8pXG4gIGJpbz86IE11bHRpbGluZ3VhbFRleHREdG87XG5cbiAgQElzT3B0aW9uYWwoKVxuICBASXNVcmwoKVxuICBwaG90b1VybD86IHN0cmluZztcblxuICBASXNPcHRpb25hbCgpXG4gIEBJc1N0cmluZygpXG4gIEBNYXhMZW5ndGgoMTAwKVxuICBjb21wYW55Pzogc3RyaW5nO1xuXG4gIEBJc09wdGlvbmFsKClcbiAgQFZhbGlkYXRlTmVzdGVkKClcbiAgQFR5cGUoKCkgPT4gTXVsdGlsaW5ndWFsVGV4dER0bylcbiAgcG9zaXRpb24/OiBNdWx0aWxpbmd1YWxUZXh0RHRvO1xuXG4gIEBJc09wdGlvbmFsKClcbiAgQFZhbGlkYXRlTmVzdGVkKClcbiAgQFR5cGUoKCkgPT4gU29jaWFsTGlua3NEdG8pXG4gIHNvY2lhbExpbmtzPzogU29jaWFsTGlua3NEdG87XG5cbiAgQElzT3B0aW9uYWwoKVxuICBASXNOdW1iZXIoKVxuICBATWluKDApXG4gIEBNYXgoOTk5KVxuICBwcmlvcml0eT86IG51bWJlcjtcblxuICBASXNPcHRpb25hbCgpXG4gIEBJc0Jvb2xlYW4oKVxuICBpc0hpZ2hsaWdodD86IGJvb2xlYW47XG5cbiAgQElzT3B0aW9uYWwoKVxuICBASXNBcnJheSgpXG4gIEBJc1N0cmluZyh7IGVhY2g6IHRydWUgfSlcbiAgdGFncz86IHN0cmluZ1tdO1xuXG4gIEBJc09wdGlvbmFsKClcbiAgQElzQm9vbGVhbigpXG4gIGlzVmlzaWJsZT86IGJvb2xlYW47XG59XG4iXSwidmVyc2lvbiI6M30=

@@ -9,8 +9,7 @@ import {
   type ColumnFiltersState,
   getFilteredRowModel,
 } from '@tanstack/react-table';
-import { ChevronUp, ChevronDown, Search, Plus, Edit, Trash2, Eye, EyeOff, Building, Copy, Archive } from 'lucide-react';
-import { Checkbox } from '@/components/ui/checkbox';
+import { ChevronUp, ChevronDown, Search, Plus, Edit, Trash2, Eye, EyeOff, Building } from 'lucide-react';
 import type { Sponsor } from '@shared/types/sponsor.types';
 import { SponsorsService, type ISponsorListResponse } from '@/services/sponsors.service';
 import { Button } from '@/components/ui/button';
@@ -30,10 +29,7 @@ interface SponsorsListProps {
   onEdit: (sponsor: Sponsor) => void;
   onDelete: (sponsor: Sponsor) => void;
   onAdd: () => void;
-  onDuplicate?: (sponsor: Sponsor) => void;
-  onSelectionChange?: (selectedIds: string[]) => void;
   refreshTrigger?: number;
-  showArchived?: boolean;
 }
 
 export interface SponsorsFilters {
@@ -46,7 +42,7 @@ export interface SponsorsFilters {
   standLocation?: string;
 }
 
-export function SponsorsList({ onEdit, onDelete, onAdd, onDuplicate, onSelectionChange, refreshTrigger, showArchived = false }: SponsorsListProps) {
+export function SponsorsList({ onEdit, onDelete, onAdd, refreshTrigger }: SponsorsListProps) {
   const [sponsors, setSponsors] = useState<Sponsor[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -55,7 +51,6 @@ export function SponsorsList({ onEdit, onDelete, onAdd, onDuplicate, onSelection
   const [searchTerm, setSearchTerm] = useState('');
   const [tierFilter, setTierFilter] = useState<string>('all');
   const [visibilityFilter, setVisibilityFilter] = useState<string>('all');
-  const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set());
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 10,
@@ -86,9 +81,7 @@ export function SponsorsList({ onEdit, onDelete, onAdd, onDuplicate, onSelection
         filters.sort = `${sort.desc ? '-' : ''}${sort.id}`;
       }
 
-      const response: ISponsorListResponse = showArchived
-        ? await SponsorsService.getArchivedSponsors()
-        : await SponsorsService.getSponsors(filters);
+      const response: ISponsorListResponse = await SponsorsService.getSponsors(filters);
       setSponsors(response.data);
       setPagination({
         ...pagination,
@@ -138,48 +131,7 @@ export function SponsorsList({ onEdit, onDelete, onAdd, onDuplicate, onSelection
     }
   };
 
-  const handleRowSelection = (sponsorId: string, selected: boolean) => {
-    const newSelection = new Set(selectedRows);
-    if (selected) {
-      newSelection.add(sponsorId);
-    } else {
-      newSelection.delete(sponsorId);
-    }
-    setSelectedRows(newSelection);
-    onSelectionChange?.(Array.from(newSelection));
-  };
-
-  const handleSelectAll = (selected: boolean) => {
-    if (selected) {
-      const allIds = sponsors.map(s => s._id || '').filter(Boolean);
-      setSelectedRows(new Set(allIds));
-      onSelectionChange?.(allIds);
-    } else {
-      setSelectedRows(new Set());
-      onSelectionChange?.([]);
-    }
-  };
-
   const columns: ColumnDef<Sponsor>[] = [
-    {
-      id: 'select',
-      header: () => (
-        <Checkbox
-          checked={sponsors.length > 0 && selectedRows.size === sponsors.length}
-          onCheckedChange={(value: boolean | 'indeterminate') => handleSelectAll(!!value)}
-          aria-label="Select all"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={selectedRows.has(row.original._id || '')}
-          onCheckedChange={(value: boolean | 'indeterminate') => handleRowSelection(row.original._id || '', !!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
     {
       accessorKey: 'logoUrl',
       header: 'Logo',
@@ -225,9 +177,13 @@ export function SponsorsList({ onEdit, onDelete, onAdd, onDuplicate, onSelection
           ) : null}
         </Button>
       ),
-      cell: ({ row }) => (
-        <Badge variant="secondary">{row.original.tier}</Badge>
-      ),
+      cell: ({ row }) => {
+        const tier = row.original.tier;
+        const tierName = typeof tier === 'object' && tier !== null
+          ? (tier.displayName?.['pt-BR'] || tier.name || 'Unknown')
+          : tier || 'Unknown';
+        return <Badge variant="secondary">{tierName}</Badge>;
+      },
     },
     {
       accessorKey: 'orderInTier',
@@ -326,27 +282,13 @@ export function SponsorsList({ onEdit, onDelete, onAdd, onDuplicate, onSelection
           >
             <Edit className="h-4 w-4" />
           </Button>
-          {onDuplicate && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => onDuplicate(row.original)}
-              aria-label={`Duplicate ${row.original.name}`}
-            >
-              <Copy className="h-4 w-4" />
-            </Button>
-          )}
           <Button
             variant="ghost"
             size="icon"
             onClick={() => onDelete(row.original)}
-            aria-label={`${showArchived ? 'Permanently delete' : 'Archive'} ${row.original.name}`}
+            aria-label={`Delete ${row.original.name}`}
           >
-            {showArchived ? (
-              <Trash2 className="h-4 w-4 text-destructive" />
-            ) : (
-              <Archive className="h-4 w-4 text-warning" />
-            )}
+            <Trash2 className="h-4 w-4 text-destructive" />
           </Button>
         </div>
       ),

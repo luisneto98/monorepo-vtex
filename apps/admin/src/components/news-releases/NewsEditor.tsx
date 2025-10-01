@@ -90,10 +90,17 @@ export function NewsEditor({ releaseId, onClose }: NewsEditorProps) {
       onClose();
     },
     onError: (error: any) => {
+      const errorData = error.response?.data?.error || error.response?.data;
+      const messages = errorData?.message;
+      const description = Array.isArray(messages)
+        ? messages.join(', ')
+        : messages || 'Failed to create news release';
+
       toast({
-        title: 'Error',
-        description: error.response?.data?.message || 'Failed to create news release',
+        title: 'Validation Error',
+        description,
         variant: 'destructive',
+        duration: 8000,
       });
     },
   });
@@ -109,25 +116,43 @@ export function NewsEditor({ releaseId, onClose }: NewsEditorProps) {
       onClose();
     },
     onError: (error: any) => {
+      const errorData = error.response?.data?.error || error.response?.data;
+      const messages = errorData?.message;
+      const description = Array.isArray(messages)
+        ? messages.join(', ')
+        : messages || 'Failed to update news release';
+
       toast({
-        title: 'Error',
-        description: error.response?.data?.message || 'Failed to update news release',
+        title: 'Validation Error',
+        description,
         variant: 'destructive',
+        duration: 8000,
       });
     },
   });
 
   const handleSave = () => {
-    const isValid = ['pt-BR', 'en', 'es'].every((lang) => {
+    const validationErrors: string[] = [];
+
+    ['pt-BR', 'en', 'es'].forEach((lang) => {
       const content = formData.content[lang as keyof typeof formData.content];
-      return content.title.trim() && content.content.trim();
+      const langName = lang === 'pt-BR' ? 'Portuguese' : lang === 'en' ? 'English' : 'Spanish';
+
+      if (!content.title.trim() || content.title.trim().length < 3) {
+        validationErrors.push(`${langName}: Title must be at least 3 characters`);
+      }
+
+      if (!content.content.trim() || content.content.trim().length < 10) {
+        validationErrors.push(`${langName}: Content must be at least 10 characters`);
+      }
     });
 
-    if (!isValid) {
+    if (validationErrors.length > 0) {
       toast({
         title: 'Validation Error',
-        description: 'Please fill in title and content for all languages',
+        description: validationErrors.join('. '),
         variant: 'destructive',
+        duration: 8000,
       });
       return;
     }

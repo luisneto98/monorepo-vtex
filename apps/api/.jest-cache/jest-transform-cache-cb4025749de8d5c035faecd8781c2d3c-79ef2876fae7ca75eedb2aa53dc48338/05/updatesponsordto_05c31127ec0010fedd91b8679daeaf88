@@ -1,0 +1,197 @@
+82c897a57db9aa70d039c68e9c0b249b
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UpdateSponsorDto = void 0;
+const swagger_1 = require("@nestjs/swagger");
+const class_transformer_1 = require("class-transformer");
+const class_validator_1 = require("class-validator");
+const multilingual_dto_1 = require("@common/dto/multilingual.dto");
+const create_sponsor_dto_1 = require("./create-sponsor.dto");
+class UpdateSponsorDto {
+    name;
+    slug;
+    description;
+    logoUrl;
+    tier;
+    orderInTier;
+    websiteUrl;
+    standLocation;
+    adminEmail;
+    contactEmail;
+    socialLinks;
+    maxPosts;
+    postsUsed;
+    tags;
+    isVisible;
+}
+exports.UpdateSponsorDto = UpdateSponsorDto;
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        description: 'Sponsor company name',
+        example: 'VTEX',
+        maxLength: 100,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(100),
+    __metadata("design:type", String)
+], UpdateSponsorDto.prototype, "name", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        description: 'URL-friendly identifier',
+        example: 'vtex',
+        pattern: '^[a-z0-9-]+$',
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.Matches)(/^[a-z0-9-]+$/),
+    __metadata("design:type", String)
+], UpdateSponsorDto.prototype, "slug", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        description: 'Sponsor description in multiple languages',
+        example: {
+            'pt-BR': 'Líder em plataforma de comércio digital',
+            en: 'Leader in digital commerce platform',
+        },
+        type: multilingual_dto_1.MultilingualTextDto,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => multilingual_dto_1.MultilingualTextDto),
+    __metadata("design:type", multilingual_dto_1.MultilingualTextDto)
+], UpdateSponsorDto.prototype, "description", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        description: 'URL to sponsor logo image',
+        example: 'https://cdn.vtexday.com/sponsors/vtex-logo.svg',
+        format: 'url',
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsUrl)(),
+    __metadata("design:type", String)
+], UpdateSponsorDto.prototype, "logoUrl", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        description: 'MongoDB ID of the sponsor tier',
+        example: '507f1f77bcf86cd799439014',
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsMongoId)(),
+    __metadata("design:type", String)
+], UpdateSponsorDto.prototype, "tier", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        description: 'Display order within the tier',
+        example: 1,
+        minimum: 1,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.Min)(1),
+    __metadata("design:type", Number)
+], UpdateSponsorDto.prototype, "orderInTier", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        description: 'Sponsor website URL',
+        example: 'https://vtex.com',
+        format: 'url',
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsUrl)(),
+    __metadata("design:type", String)
+], UpdateSponsorDto.prototype, "websiteUrl", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        description: 'Physical stand location at the event',
+        example: 'Hall A, Stand 42',
+        maxLength: 100,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(100),
+    __metadata("design:type", String)
+], UpdateSponsorDto.prototype, "standLocation", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        description: 'Admin contact email',
+        example: 'admin@vtex.com',
+        format: 'email',
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEmail)(),
+    __metadata("design:type", String)
+], UpdateSponsorDto.prototype, "adminEmail", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        description: 'General contact email',
+        example: 'contact@vtex.com',
+        format: 'email',
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEmail)(),
+    __metadata("design:type", String)
+], UpdateSponsorDto.prototype, "contactEmail", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        description: 'Social media profile links',
+        type: create_sponsor_dto_1.SponsorSocialLinksDto,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => create_sponsor_dto_1.SponsorSocialLinksDto),
+    __metadata("design:type", create_sponsor_dto_1.SponsorSocialLinksDto)
+], UpdateSponsorDto.prototype, "socialLinks", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        description: 'Maximum number of posts allowed',
+        example: 10,
+        minimum: 0,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.Min)(0),
+    __metadata("design:type", Number)
+], UpdateSponsorDto.prototype, "maxPosts", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        description: 'Number of posts already used',
+        example: 3,
+        minimum: 0,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.Min)(0),
+    __metadata("design:type", Number)
+], UpdateSponsorDto.prototype, "postsUsed", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        description: 'Tags for categorization',
+        type: [String],
+        example: ['technology', 'ecommerce', 'platform'],
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.IsString)({ each: true }),
+    __metadata("design:type", Array)
+], UpdateSponsorDto.prototype, "tags", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        description: 'Sponsor visibility status',
+        type: Boolean,
+        example: true,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], UpdateSponsorDto.prototype, "isVisible", void 0);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9zcG9uc29ycy9kdG8vdXBkYXRlLXNwb25zb3IuZHRvLnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7OztBQUFBLDZDQUFzRDtBQUN0RCx5REFBeUM7QUFDekMscURBYXlCO0FBQ3pCLG1FQUFtRTtBQUNuRSw2REFBNkQ7QUFFN0QsTUFBYSxnQkFBZ0I7SUFTM0IsSUFBSSxDQUFVO0lBVWQsSUFBSSxDQUFVO0lBYWQsV0FBVyxDQUF1QjtJQVNsQyxPQUFPLENBQVU7SUFRakIsSUFBSSxDQUFVO0lBVWQsV0FBVyxDQUFVO0lBU3JCLFVBQVUsQ0FBVTtJQVVwQixhQUFhLENBQVU7SUFTdkIsVUFBVSxDQUFVO0lBU3BCLFlBQVksQ0FBVTtJQVN0QixXQUFXLENBQXlCO0lBVXBDLFFBQVEsQ0FBVTtJQVVsQixTQUFTLENBQVU7SUFVbkIsSUFBSSxDQUFZO0lBU2hCLFNBQVMsQ0FBVztDQUNyQjtBQWpKRCw0Q0FpSkM7QUF4SUM7SUFSQyxJQUFBLDZCQUFtQixFQUFDO1FBQ25CLFdBQVcsRUFBRSxzQkFBc0I7UUFDbkMsT0FBTyxFQUFFLE1BQU07UUFDZixTQUFTLEVBQUUsR0FBRztLQUNmLENBQUM7SUFDRCxJQUFBLDRCQUFVLEdBQUU7SUFDWixJQUFBLDBCQUFRLEdBQUU7SUFDVixJQUFBLDJCQUFTLEVBQUMsR0FBRyxDQUFDOzs4Q0FDRDtBQVVkO0lBUkMsSUFBQSw2QkFBbUIsRUFBQztRQUNuQixXQUFXLEVBQUUseUJBQXlCO1FBQ3RDLE9BQU8sRUFBRSxNQUFNO1FBQ2YsT0FBTyxFQUFFLGNBQWM7S0FDeEIsQ0FBQztJQUNELElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsMEJBQVEsR0FBRTtJQUNWLElBQUEseUJBQU8sRUFBQyxjQUFjLENBQUM7OzhDQUNWO0FBYWQ7SUFYQyxJQUFBLDZCQUFtQixFQUFDO1FBQ25CLFdBQVcsRUFBRSwyQ0FBMkM7UUFDeEQsT0FB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SUFDRCxJQUFBLDRCQUFVLEdBQUU7SUFDWixJQUFBLDBCQUFRLEdBQUU7SUFDVixJQUFBLHFCQUFHLEVBQUMsQ0FBQyxDQUFDOzttREFDWTtBQVVuQjtJQVJDLElBQUEsNkJBQW1CLEVBQUM7UUFDbkIsV0FBVyxFQUFFLHlCQUF5QjtRQUN0QyxJQUFJLEVBQUUsQ0FBQyxNQUFNLENBQUM7UUFDZCxPQUFPLEVBQUUsQ0FBQyxZQUFZLEVBQUUsV0FBVyxFQUFFLFVBQVUsQ0FBQztLQUNqRCxDQUFDO0lBQ0QsSUFBQSw0QkFBVSxHQUFFO0lBQ1osSUFBQSx5QkFBTyxHQUFFO0lBQ1QsSUFBQSwwQkFBUSxFQUFDLEVBQUUsSUFBSSxFQUFFLElBQUksRUFBRSxDQUFDOzs4Q0FDVDtBQVNoQjtJQVBDLElBQUEsNkJBQW1CLEVBQUM7UUFDbkIsV0FBVyxFQUFFLDJCQUEyQjtRQUN4QyxJQUFJLEVBQUUsT0FBTztRQUNiLE9BQU8sRUFBRSxJQUFJO0tBQ2QsQ0FBQztJQUNELElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsMkJBQVMsR0FBRTs7bURBQ1EiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9zcG9uc29ycy9kdG8vdXBkYXRlLXNwb25zb3IuZHRvLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEFwaVByb3BlcnR5T3B0aW9uYWwgfSBmcm9tICdAbmVzdGpzL3N3YWdnZXInO1xuaW1wb3J0IHsgVHlwZSB9IGZyb20gJ2NsYXNzLXRyYW5zZm9ybWVyJztcbmltcG9ydCB7XG4gIElzQm9vbGVhbixcbiAgSXNPcHRpb25hbCxcbiAgSXNTdHJpbmcsXG4gIElzRW1haWwsXG4gIElzVXJsLFxuICBJc051bWJlcixcbiAgTWluLFxuICBNYXhMZW5ndGgsXG4gIFZhbGlkYXRlTmVzdGVkLFxuICBJc0FycmF5LFxuICBJc01vbmdvSWQsXG4gIE1hdGNoZXMsXG59IGZyb20gJ2NsYXNzLXZhbGlkYXRvcic7XG5pbXBvcnQgeyBNdWx0aWxpbmd1YWxUZXh0RHRvIH0gZnJvbSAnQGNvbW1vbi9kdG8vbXVsdGlsaW5ndWFsLmR0byc7XG5pbXBvcnQgeyBTcG9uc29yU29jaWFsTGlua3NEdG8gfSBmcm9tICcuL2NyZWF0ZS1zcG9uc29yLmR0byc7XG5cbmV4cG9ydCBjbGFzcyBVcGRhdGVTcG9uc29yRHRvIHtcbiAgQEFwaVByb3BlcnR5T3B0aW9uYWwoe1xuICAgIGRlc2NyaXB0aW9uOiAnU3BvbnNvciBjb21wYW55IG5hbWUnLFxuICAgIGV4YW1wbGU6ICdWVEVYJyxcbiAgICBtYXhMZW5ndGg6IDEwMCxcbiAgfSlcbiAgQElzT3B0aW9uYWwoKVxuICBASXNTdHJpbmcoKVxuICBATWF4TGVuZ3RoKDEwMClcbiAgbmFtZT86IHN0cmluZztcblxuICBAQXBpUHJvcGVydHlPcHRpb25hbCh7XG4gICAgZGVzY3JpcHRpb246ICdVUkwtZnJpZW5kbHkgaWRlbnRpZmllcicsXG4gICAgZXhhbXBsZTogJ3Z0ZXgnLFxuICAgIHBhdHRlcm46ICdeW2EtejAtOS1dKyQnLFxuICB9KVxuICBASXNPcHRpb25hbCgpXG4gIEBJc1N0cmluZygpXG4gIEBNYXRjaGVzKC9eW2EtejAtOS1dKyQvKVxuICBzbHVnPzogc3RyaW5nO1xuXG4gIEBBcGlQcm9wZXJ0eU9wdGlvbmFsKHtcbiAgICBkZXNjcmlwdGlvbjogJ1Nwb25zb3IgZGVzY3JpcHRpb24gaW4gbXVsdGlwbGUgbGFuZ3VhZ2VzJyxcbiAgICBleGFtcGxlOiB7XG4gICAgICAncHQtQlInOiAnTMOtZGVyIGVtIHBsYXRhZm9ybWEgZGUgY29tw6lyY2lvIGRpZ2l0YWwnLFxuICAgICAgZW46ICdMZWFkZXIgaW4gZGlnaXRhbCBjb21tZXJjZSBwbGF0Zm9ybScsXG4gICAgfSxcbiAgICB0eXBlOiBNdWx0aWxpbmd1YWxUZXh0RHRvLFxuICB9KVxuICBASXNPcHRpb25hbCgpXG4gIEBWYWxpZGF0ZU5lc3RlZCgpXG4gIEBUeXBlKCgpID0+IE11bHRpbGluZ3VhbFRleHREdG8pXG4gIGRlc2NyaXB0aW9uPzogTXVsdGlsaW5ndWFsVGV4dER0bztcblxuICBAQXBpUHJvcGVydHlPcHRpb25hbCh7XG4gICAgZGVzY3JpcHRpb246ICdVUkwgdG8gc3BvbnNvciBsb2dvIGltYWdlJyxcbiAgICBleGFtcGxlOiAnaHR0cHM6Ly9jZG4udnRleGRheS5jb20vc3BvbnNvcnMvdnRleC1sb2dvLnN2ZycsXG4gICAgZm9ybWF0OiAndXJsJyxcbiAgfSlcbiAgQElzT3B0aW9uYWwoKVxuICBASXNVcmwoKVxuICBsb2dvVXJsPzogc3RyaW5nO1xuXG4gIEBBcGlQcm9wZXJ0eU9wdGlvbmFsKHtcbiAgICBkZXNjcmlwdGlvbjogJ01vbmdvREIgSUQgb2YgdGhlIHNwb25zb3IgdGllcicsXG4gICAgZXhhbXBsZTogJzUwN2YxZjc3YmNmODZjZDc5OTQzOTAxNCcsXG4gIH0pXG4gIEBJc09wdGlvbmFsKClcbiAgQElzTW9uZ29JZCgpXG4gIHRpZXI/OiBzdHJpbmc7XG5cbiAgQEFwaVByb3BlcnR5T3B0aW9uYWwoe1xuICAgIGRlc2NyaXB0aW9uOiAnRGlzcGxheSBvcmRlciB3aXRoaW4gdGhlIHRpZXInLFxuICAgIGV4YW1wbGU6IDEsXG4gICAgbWluaW11bTogMSxcbiAgfSlcbiAgQElzT3B0aW9uYWwoKVxuICBASXNOdW1iZXIoKVxuICBATWluKDEpXG4gIG9yZGVySW5UaWVyPzogbnVtYmVyO1xuXG4gIEBBcGlQcm9wZXJ0eU9wdGlvbmFsKHtcbiAgICBkZXNjcmlwdGlvbjogJ1Nwb25zb3Igd2Vic2l0ZSBVUkwnLFxuICAgIGV4YW1wbGU6ICdodHRwczovL3Z0ZXguY29tJyxcbiAgICBmb3JtYXQ6ICd1cmwnLFxuICB9KVxuICBASXNPcHRpb25hbCgpXG4gIEBJc1VybCgpXG4gIHdlYnNpdGVVcmw/OiBzdHJpbmc7XG5cbiAgQEFwaVByb3BlcnR5T3B0aW9uYWwoe1xuICAgIGRlc2NyaXB0aW9uOiAnUGh5c2ljYWwgc3RhbmQgbG9jYXRpb24gYXQgdGhlIGV2ZW50JyxcbiAgICBleGFtcGxlOiAnSGFsbCBBLCBTdGFuZCA0MicsXG4gICAgbWF4TGVuZ3RoOiAxMDAsXG4gIH0pXG4gIEBJc09wdGlvbmFsKClcbiAgQElzU3RyaW5nKClcbiAgQE1heExlbmd0aCgxMDApXG4gIHN0YW5kTG9jYXRpb24/OiBzdHJpbmc7XG5cbiAgQEFwaVByb3BlcnR5T3B0aW9uYWwoe1xuICAgIGRlc2NyaXB0aW9uOiAnQWRtaW4gY29udGFjdCBlbWFpbCcsXG4gICAgZXhhbXBsZTogJ2FkbWluQHZ0ZXguY29tJyxcbiAgICBmb3JtYXQ6ICdlbWFpbCcsXG4gIH0pXG4gIEBJc09wdGlvbmFsKClcbiAgQElzRW1haWwoKVxuICBhZG1pbkVtYWlsPzogc3RyaW5nO1xuXG4gIEBBcGlQcm9wZXJ0eU9wdGlvbmFsKHtcbiAgICBkZXNjcmlwdGlvbjogJ0dlbmVyYWwgY29udGFjdCBlbWFpbCcsXG4gICAgZXhhbXBsZTogJ2NvbnRhY3RAdnRleC5jb20nLFxuICAgIGZvcm1hdDogJ2VtYWlsJyxcbiAgfSlcbiAgQElzT3B0aW9uYWwoKVxuICBASXNFbWFpbCgpXG4gIGNvbnRhY3RFbWFpbD86IHN0cmluZztcblxuICBAQXBpUHJvcGVydHlPcHRpb25hbCh7XG4gICAgZGVzY3JpcHRpb246ICdTb2NpYWwgbWVkaWEgcHJvZmlsZSBsaW5rcycsXG4gICAgdHlwZTogU3BvbnNvclNvY2lhbExpbmtzRHRvLFxuICB9KVxuICBASXNPcHRpb25hbCgpXG4gIEBWYWxpZGF0ZU5lc3RlZCgpXG4gIEBUeXBlKCgpID0+IFNwb25zb3JTb2NpYWxMaW5rc0R0bylcbiAgc29jaWFsTGlua3M/OiBTcG9uc29yU29jaWFsTGlua3NEdG87XG5cbiAgQEFwaVByb3BlcnR5T3B0aW9uYWwoe1xuICAgIGRlc2NyaXB0aW9uOiAnTWF4aW11bSBudW1iZXIgb2YgcG9zdHMgYWxsb3dlZCcsXG4gICAgZXhhbXBsZTogMTAsXG4gICAgbWluaW11bTogMCxcbiAgfSlcbiAgQElzT3B0aW9uYWwoKVxuICBASXNOdW1iZXIoKVxuICBATWluKDApXG4gIG1heFBvc3RzPzogbnVtYmVyO1xuXG4gIEBBcGlQcm9wZXJ0eU9wdGlvbmFsKHtcbiAgICBkZXNjcmlwdGlvbjogJ051bWJlciBvZiBwb3N0cyBhbHJlYWR5IHVzZWQnLFxuICAgIGV4YW1wbGU6IDMsXG4gICAgbWluaW11bTogMCxcbiAgfSlcbiAgQElzT3B0aW9uYWwoKVxuICBASXNOdW1iZXIoKVxuICBATWluKDApXG4gIHBvc3RzVXNlZD86IG51bWJlcjtcblxuICBAQXBpUHJvcGVydHlPcHRpb25hbCh7XG4gICAgZGVzY3JpcHRpb246ICdUYWdzIGZvciBjYXRlZ29yaXphdGlvbicsXG4gICAgdHlwZTogW1N0cmluZ10sXG4gICAgZXhhbXBsZTogWyd0ZWNobm9sb2d5JywgJ2Vjb21tZXJjZScsICdwbGF0Zm9ybSddLFxuICB9KVxuICBASXNPcHRpb25hbCgpXG4gIEBJc0FycmF5KClcbiAgQElzU3RyaW5nKHsgZWFjaDogdHJ1ZSB9KVxuICB0YWdzPzogc3RyaW5nW107XG5cbiAgQEFwaVByb3BlcnR5T3B0aW9uYWwoe1xuICAgIGRlc2NyaXB0aW9uOiAnU3BvbnNvciB2aXNpYmlsaXR5IHN0YXR1cycsXG4gICAgdHlwZTogQm9vbGVhbixcbiAgICBleGFtcGxlOiB0cnVlLFxuICB9KVxuICBASXNPcHRpb25hbCgpXG4gIEBJc0Jvb2xlYW4oKVxuICBpc1Zpc2libGU/OiBib29sZWFuO1xufVxuIl0sInZlcnNpb24iOjN9

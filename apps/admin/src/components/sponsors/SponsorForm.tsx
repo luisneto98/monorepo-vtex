@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useEffect } from 'react';
 import type { Sponsor } from '@shared/types/sponsor.types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -45,7 +46,7 @@ interface SponsorFormProps {
   onSubmit: (data: SponsorFormData) => void;
   onCancel: () => void;
   loading?: boolean;
-  availableTiers?: Array<{ name: string; displayName: { 'pt-BR': string; 'en': string; }; maxPosts: number; }>;
+  availableTiers?: Array<{ _id?: string; name: string; displayName: { 'pt-BR': string; 'en': string; }; maxPosts: number; }>;
 }
 
 export function SponsorForm({
@@ -58,14 +59,15 @@ export function SponsorForm({
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     setValue,
     watch,
   } = useForm<SponsorFormData>({
     resolver: zodResolver(sponsorSchema),
+    mode: 'onChange',
     defaultValues: sponsor ? {
       name: sponsor.name,
-      tier: sponsor.tier,
+      tier: typeof sponsor.tier === 'object' ? (sponsor.tier as any)._id : sponsor.tier,
       logoUrl: sponsor.logoUrl || '',
       description: sponsor.description,
       websiteUrl: sponsor.websiteUrl || '',
@@ -103,13 +105,23 @@ export function SponsorForm({
 
   const formData = watch();
   const selectedTier = Array.isArray(availableTiers)
-    ? availableTiers.find(tier => tier.name === formData.tier)
+    ? availableTiers.find(tier => tier._id === formData.tier)
     : undefined;
 
-  const handleTierChange = (tierName: string) => {
-    setValue('tier', tierName);
+  // Set default tier if not set and tiers are available
+  useEffect(() => {
+    if (!formData.tier && availableTiers.length > 0 && availableTiers[0]._id) {
+      setValue('tier', availableTiers[0]._id, { shouldValidate: true });
+      if (!sponsor) {
+        setValue('maxPosts', availableTiers[0].maxPosts);
+      }
+    }
+  }, [availableTiers, formData.tier, setValue, sponsor]);
+
+  const handleTierChange = (tierId: string) => {
+    setValue('tier', tierId, { shouldValidate: true });
     const tier = Array.isArray(availableTiers)
-      ? availableTiers.find(t => t.name === tierName)
+      ? availableTiers.find(t => t._id === tierId)
       : undefined;
     if (tier && !sponsor) {
       // Set default maxPosts from tier for new sponsors
@@ -146,7 +158,7 @@ export function SponsorForm({
               <SelectContent>
                 {Array.isArray(availableTiers) && availableTiers.length > 0 ? (
                   availableTiers.map((tier) => (
-                    <SelectItem key={tier.name} value={tier.name}>
+                    <SelectItem key={tier._id || tier.name} value={tier._id || tier.name}>
                       {tier.displayName['pt-BR']} ({tier.maxPosts} posts)
                     </SelectItem>
                   ))
@@ -230,6 +242,7 @@ export function SponsorForm({
           <LogoUpload
             currentLogoUrl={formData.logoUrl}
             onLogoChange={(logoUrl) => setValue('logoUrl', logoUrl)}
+            sponsorId={sponsor?._id}
           />
 
           <div>

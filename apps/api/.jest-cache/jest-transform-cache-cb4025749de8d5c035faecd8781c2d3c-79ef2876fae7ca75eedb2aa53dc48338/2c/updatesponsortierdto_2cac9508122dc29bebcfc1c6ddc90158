@@ -1,0 +1,48 @@
+0aaeb249a9a668464cea3a3493d90c14
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UpdateSponsorTierDto = void 0;
+const class_transformer_1 = require("class-transformer");
+const class_validator_1 = require("class-validator");
+const multilingual_dto_1 = require("@common/dto/multilingual.dto");
+class UpdateSponsorTierDto {
+    name;
+    displayName;
+    order;
+    maxPosts;
+}
+exports.UpdateSponsorTierDto = UpdateSponsorTierDto;
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(50),
+    __metadata("design:type", String)
+], UpdateSponsorTierDto.prototype, "name", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => multilingual_dto_1.MultilingualTextDto),
+    __metadata("design:type", multilingual_dto_1.MultilingualTextDto)
+], UpdateSponsorTierDto.prototype, "displayName", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.Min)(1),
+    __metadata("design:type", Number)
+], UpdateSponsorTierDto.prototype, "order", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.Min)(0),
+    __metadata("design:type", Number)
+], UpdateSponsorTierDto.prototype, "maxPosts", void 0);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9zcG9uc29ycy9kdG8vdXBkYXRlLXNwb25zb3ItdGllci5kdG8udHMiLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7O0FBQUEseURBQXlDO0FBQ3pDLHFEQUFpRztBQUNqRyxtRUFBbUU7QUFFbkUsTUFBYSxvQkFBb0I7SUFJL0IsSUFBSSxDQUFVO0lBS2QsV0FBVyxDQUF1QjtJQUtsQyxLQUFLLENBQVU7SUFLZixRQUFRLENBQVU7Q0FDbkI7QUFwQkQsb0RBb0JDO0FBaEJDO0lBSEMsSUFBQSw0QkFBVSxHQUFFO0lBQ1osSUFBQSwwQkFBUSxHQUFFO0lBQ1YsSUFBQSwyQkFBUyxFQUFDLEVBQUUsQ0FBQzs7a0RBQ0E7QUFLZDtJQUhDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsZ0NBQWMsR0FBRTtJQUNoQixJQUFBLHdCQUFJLEVBQUMsR0FBRyxFQUFFLENBQUMsc0NBQW1CLENBQUM7OEJBQ2xCLHNDQUFtQjt5REFBQztBQUtsQztJQUhDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsMEJBQVEsR0FBRTtJQUNWLElBQUEscUJBQUcsRUFBQyxDQUFDLENBQUM7O21EQUNRO0FBS2Y7SUFIQyxJQUFBLDRCQUFVLEdBQUU7SUFDWixJQUFBLDBCQUFRLEdBQUU7SUFDVixJQUFBLHFCQUFHLEVBQUMsQ0FBQyxDQUFDOztzREFDVyIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvaG9tZS9sdWlzbmV0bzk4L0RvY3VtZW50b3MvQ29kZS9tb25vcmVwby12dGV4L2FwcHMvYXBpL3NyYy9tb2R1bGVzL3Nwb25zb3JzL2R0by91cGRhdGUtc3BvbnNvci10aWVyLmR0by50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBUeXBlIH0gZnJvbSAnY2xhc3MtdHJhbnNmb3JtZXInO1xuaW1wb3J0IHsgSXNTdHJpbmcsIElzTnVtYmVyLCBNaW4sIE1heExlbmd0aCwgVmFsaWRhdGVOZXN0ZWQsIElzT3B0aW9uYWwgfSBmcm9tICdjbGFzcy12YWxpZGF0b3InO1xuaW1wb3J0IHsgTXVsdGlsaW5ndWFsVGV4dER0byB9IGZyb20gJ0Bjb21tb24vZHRvL211bHRpbGluZ3VhbC5kdG8nO1xuXG5leHBvcnQgY2xhc3MgVXBkYXRlU3BvbnNvclRpZXJEdG8ge1xuICBASXNPcHRpb25hbCgpXG4gIEBJc1N0cmluZygpXG4gIEBNYXhMZW5ndGgoNTApXG4gIG5hbWU/OiBzdHJpbmc7XG5cbiAgQElzT3B0aW9uYWwoKVxuICBAVmFsaWRhdGVOZXN0ZWQoKVxuICBAVHlwZSgoKSA9PiBNdWx0aWxpbmd1YWxUZXh0RHRvKVxuICBkaXNwbGF5TmFtZT86IE11bHRpbGluZ3VhbFRleHREdG87XG5cbiAgQElzT3B0aW9uYWwoKVxuICBASXNOdW1iZXIoKVxuICBATWluKDEpXG4gIG9yZGVyPzogbnVtYmVyO1xuXG4gIEBJc09wdGlvbmFsKClcbiAgQElzTnVtYmVyKClcbiAgQE1pbigwKVxuICBtYXhQb3N0cz86IG51bWJlcjtcbn1cbiJdLCJ2ZXJzaW9uIjozfQ==

@@ -1,0 +1,38 @@
+8c93405d77c809392329bfad44bfee97
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SystemConfigModule = void 0;
+const common_1 = require("@nestjs/common");
+const mongoose_1 = require("@nestjs/mongoose");
+const cache_manager_1 = require("@nestjs/cache-manager");
+const system_config_controller_1 = require("./system-config.controller");
+const system_config_service_1 = require("./system-config.service");
+const system_config_schema_1 = require("./schemas/system-config.schema");
+const visibility_audit_schema_1 = require("./schemas/visibility-audit.schema");
+let SystemConfigModule = class SystemConfigModule {
+};
+exports.SystemConfigModule = SystemConfigModule;
+exports.SystemConfigModule = SystemConfigModule = __decorate([
+    (0, common_1.Module)({
+        imports: [
+            mongoose_1.MongooseModule.forFeature([
+                { name: system_config_schema_1.SystemConfig.name, schema: system_config_schema_1.SystemConfigSchema },
+                { name: visibility_audit_schema_1.VisibilityAudit.name, schema: visibility_audit_schema_1.VisibilityAuditSchema },
+            ]),
+            cache_manager_1.CacheModule.register({
+                ttl: 60000, // 1 minute default TTL
+                max: 100, // maximum number of items in cache
+            }),
+        ],
+        controllers: [system_config_controller_1.SystemConfigController],
+        providers: [system_config_service_1.SystemConfigService],
+        exports: [system_config_service_1.SystemConfigService],
+    })
+], SystemConfigModule);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9zeXN0ZW0tY29uZmlnL3N5c3RlbS1jb25maWcubW9kdWxlLnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7OztBQUFBLDJDQUF3QztBQUN4QywrQ0FBa0Q7QUFDbEQseURBQW9EO0FBQ3BELHlFQUFvRTtBQUNwRSxtRUFBOEQ7QUFDOUQseUVBQWtGO0FBQ2xGLCtFQUEyRjtBQWlCcEYsSUFBTSxrQkFBa0IsR0FBeEIsTUFBTSxrQkFBa0I7Q0FBRyxDQUFBO0FBQXJCLGdEQUFrQjs2QkFBbEIsa0JBQWtCO0lBZjlCLElBQUEsZUFBTSxFQUFDO1FBQ04sT0FBTyxFQUFFO1lBQ1AseUJBQWMsQ0FBQyxVQUFVLENBQUM7Z0JBQ3hCLEVBQUUsSUFBSSxFQUFFLG1DQUFZLENBQUMsSUFBSSxFQUFFLE1BQU0sRUFBRSx5Q0FBa0IsRUFBRTtnQkFDdkQsRUFBRSxJQUFJLEVBQUUseUNBQWUsQ0FBQyxJQUFJLEVBQUUsTUFBTSxFQUFFLCtDQUFxQixFQUFFO2FBQzlELENBQUM7WUFDRiwyQkFBVyxDQUFDLFFBQVEsQ0FBQztnQkFDbkIsR0FBRyxFQUFFLEtBQUssRUFBRSx1QkFBdUI7Z0JBQ25DLEdBQUcsRUFBRSxHQUFHLEVBQUUsbUNBQW1DO2FBQzlDLENBQUM7U0FDSDtRQUNELFdBQVcsRUFBRSxDQUFDLGlEQUFzQixDQUFDO1FBQ3JDLFNBQVMsRUFBRSxDQUFDLDJDQUFtQixDQUFDO1FBQ2hDLE9BQU8sRUFBRSxDQUFDLDJDQUFtQixDQUFDO0tBQy9CLENBQUM7R0FDVyxrQkFBa0IsQ0FBRyIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvaG9tZS9sdWlzbmV0bzk4L0RvY3VtZW50b3MvQ29kZS9tb25vcmVwby12dGV4L2FwcHMvYXBpL3NyYy9tb2R1bGVzL3N5c3RlbS1jb25maWcvc3lzdGVtLWNvbmZpZy5tb2R1bGUudHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgTW9kdWxlIH0gZnJvbSAnQG5lc3Rqcy9jb21tb24nO1xuaW1wb3J0IHsgTW9uZ29vc2VNb2R1bGUgfSBmcm9tICdAbmVzdGpzL21vbmdvb3NlJztcbmltcG9ydCB7IENhY2hlTW9kdWxlIH0gZnJvbSAnQG5lc3Rqcy9jYWNoZS1tYW5hZ2VyJztcbmltcG9ydCB7IFN5c3RlbUNvbmZpZ0NvbnRyb2xsZXIgfSBmcm9tICcuL3N5c3RlbS1jb25maWcuY29udHJvbGxlcic7XG5pbXBvcnQgeyBTeXN0ZW1Db25maWdTZXJ2aWNlIH0gZnJvbSAnLi9zeXN0ZW0tY29uZmlnLnNlcnZpY2UnO1xuaW1wb3J0IHsgU3lzdGVtQ29uZmlnLCBTeXN0ZW1Db25maWdTY2hlbWEgfSBmcm9tICcuL3NjaGVtYXMvc3lzdGVtLWNvbmZpZy5zY2hlbWEnO1xuaW1wb3J0IHsgVmlzaWJpbGl0eUF1ZGl0LCBWaXNpYmlsaXR5QXVkaXRTY2hlbWEgfSBmcm9tICcuL3NjaGVtYXMvdmlzaWJpbGl0eS1hdWRpdC5zY2hlbWEnO1xuXG5ATW9kdWxlKHtcbiAgaW1wb3J0czogW1xuICAgIE1vbmdvb3NlTW9kdWxlLmZvckZlYXR1cmUoW1xuICAgICAgeyBuYW1lOiBTeXN0ZW1Db25maWcubmFtZSwgc2NoZW1hOiBTeXN0ZW1Db25maWdTY2hlbWEgfSxcbiAgICAgIHsgbmFtZTogVmlzaWJpbGl0eUF1ZGl0Lm5hbWUsIHNjaGVtYTogVmlzaWJpbGl0eUF1ZGl0U2NoZW1hIH0sXG4gICAgXSksXG4gICAgQ2FjaGVNb2R1bGUucmVnaXN0ZXIoe1xuICAgICAgdHRsOiA2MDAwMCwgLy8gMSBtaW51dGUgZGVmYXVsdCBUVExcbiAgICAgIG1heDogMTAwLCAvLyBtYXhpbXVtIG51bWJlciBvZiBpdGVtcyBpbiBjYWNoZVxuICAgIH0pLFxuICBdLFxuICBjb250cm9sbGVyczogW1N5c3RlbUNvbmZpZ0NvbnRyb2xsZXJdLFxuICBwcm92aWRlcnM6IFtTeXN0ZW1Db25maWdTZXJ2aWNlXSxcbiAgZXhwb3J0czogW1N5c3RlbUNvbmZpZ1NlcnZpY2VdLFxufSlcbmV4cG9ydCBjbGFzcyBTeXN0ZW1Db25maWdNb2R1bGUge31cbiJdLCJ2ZXJzaW9uIjozfQ==

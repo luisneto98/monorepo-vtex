@@ -1,0 +1,102 @@
+428bb648996f69799e0a61822f6a92d4
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AuthResponseDto = exports.RefreshTokenDto = exports.LoginDto = void 0;
+const class_validator_1 = require("class-validator");
+const swagger_1 = require("@nestjs/swagger");
+class LoginDto {
+    email;
+    password;
+}
+exports.LoginDto = LoginDto;
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'User email address',
+        example: 'admin@vtexday.com',
+        format: 'email',
+    }),
+    (0, class_validator_1.IsEmail)({}, { message: 'Please provide a valid email address' }),
+    __metadata("design:type", String)
+], LoginDto.prototype, "email", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'User password',
+        example: 'SecurePassword123!',
+        minLength: 12,
+    }),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(12, { message: 'Password must be at least 12 characters long' }),
+    __metadata("design:type", String)
+], LoginDto.prototype, "password", void 0);
+class RefreshTokenDto {
+    refreshToken;
+}
+exports.RefreshTokenDto = RefreshTokenDto;
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'JWT refresh token',
+        example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+    }),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], RefreshTokenDto.prototype, "refreshToken", void 0);
+class AuthResponseDto {
+    accessToken;
+    refreshToken;
+    expiresIn;
+    tokenType = 'Bearer';
+    user;
+}
+exports.AuthResponseDto = AuthResponseDto;
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'JWT access token',
+        example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+    }),
+    __metadata("design:type", String)
+], AuthResponseDto.prototype, "accessToken", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'JWT refresh token',
+        example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+    }),
+    __metadata("design:type", String)
+], AuthResponseDto.prototype, "refreshToken", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'Token expiration time in seconds',
+        example: 900,
+        default: 900,
+    }),
+    __metadata("design:type", Number)
+], AuthResponseDto.prototype, "expiresIn", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'Token type',
+        example: 'Bearer',
+        default: 'Bearer',
+    }),
+    __metadata("design:type", String)
+], AuthResponseDto.prototype, "tokenType", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'User information',
+        example: {
+            id: '507f1f77bcf86cd799439011',
+            email: 'admin@vtexday.com',
+            role: 'admin',
+            name: 'Admin User',
+        },
+    }),
+    __metadata("design:type", Object)
+], AuthResponseDto.prototype, "user", void 0);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9hdXRoL2R0by9sb2dpbi5kdG8udHMiLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7O0FBQUEscURBQStEO0FBQy9ELDZDQUE4QztBQUU5QyxNQUFhLFFBQVE7SUFPbkIsS0FBSyxDQUFVO0lBU2YsUUFBUSxDQUFVO0NBQ25CO0FBakJELDRCQWlCQztBQVZDO0lBTkMsSUFBQSxxQkFBVyxFQUFDO1FBQ1gsV0FBVyxFQUFFLG9CQUFvQjtRQUNqQyxPQUFPLEVBQUUsbUJBQW1CO1FBQzVCLE1BQU0sRUFBRSxPQUFPO0tBQ2hCLENBQUM7SUFDRCxJQUFBLHlCQUFPLEVBQUMsRUFBRSxFQUFFLEVBQUUsT0FBTyxFQUFFLHNDQUFzQyxFQUFFLENBQUM7O3VDQUNsRDtBQVNmO0lBUEMsSUFBQSxxQkFBVyxFQUFDO1FBQ1gsV0FBVyxFQUFFLGVBQWU7UUFDNUIsT0FBTyxFQUFFLG9CQUFvQjtRQUM3QixTQUFTLEVBQUUsRUFBRTtLQUNkLENBQUM7SUFDRCxJQUFBLDBCQUFRLEdBQUU7SUFDVixJQUFBLDJCQUFTLEVBQUMsRUFBRSxFQUFFLEVBQUUsT0FBTyxFQUFFLDhDQUE4QyxFQUFFLENBQUM7OzBDQUN6RDtBQUdwQixNQUFhLGVBQWU7SUFNMUIsWUFBWSxDQUFVO0NBQ3ZCO0FBUEQsMENBT0M7QUFEQztJQUxDLElBQUEscUJBQVcsRUFBQztRQUNYLFdBQVcsRUFBRSxtQkFBbUI7UUFDaEMsT0FBTyxFQUFFLHlDQUF5QztLQUNuRCxDQUFDO0lBQ0QsSUFBQSwwQkFBUSxHQUFFOztxREFDVztBQUd4QixNQUFhLGVBQWU7SUFLMUIsV0FBVyxDQUFVO0lBTXJCLFlBQVksQ0FBVTtJQU90QixTQUFTLENBQVU7SUFPbkIsU0FBUyxHQUFXLFFBQVEsQ0FBQztJQVc3QixJQUFJLENBS0Y7Q0FDSDtBQTFDRCwwQ0EwQ0M7QUFyQ0M7SUFKQyxJQUFBLHFCQUFXLEVBQUM7UUFDWCxXQUFXLEVBQUUsa0JBQWtCO1FBQy9CLE9BQU8sRUFBRSx5Q0FBeUM7S0FDbkQsQ0FBQzs7b0RBQ21CO0FBTXJCO0lBSkMsSUFBQSxxQkFBVyxFQUFDO1FBQ1gsV0FBVyxFQUFFLG1CQUFtQjtRQUNoQyxPQUFPLEVBQUUseUNBQXlDO0tBQ25ELENBQUM7O3FEQUNvQjtBQU90QjtJQUxDLElBQUEscUJBQVcsRUFBQztRQUNYLFdBQVcsRUFBRSxrQ0FBa0M7UUFDL0MsT0FBTyxFQUFFLEdBQUc7UUFDWixPQUFPLEVBQUUsR0FBRztLQUNiLENBQUM7O2tEQUNpQjtBQU9uQjtJQUxDLElBQUEscUJBQVcsRUFBQztRQUNYLFdBQVcsRUFBRSxZQUFZO1FBQ3pCLE9BQU8sRUFBRSxRQUFRO1FBQ2pCLE9BQU8sRUFBRSxRQUFRO0tBQ2xCLENBQUM7O2tEQUMyQjtBQVc3QjtJQVRDLElBQUEscUJBQVcsRUFBQztRQUNYLFdBQVcsRUFBRSxrQkFBa0I7UUFDL0IsT0FBTyxFQUFFO1lBQ1AsRUFBRSxFQUFFLDBCQUEwQjtZQUM5QixLQUFLLEVBQUUsbUJBQW1CO1lBQzFCLElBQUksRUFBRSxPQUFPO1lBQ2IsSUFBSSxFQUFFLFlBQVk7U0FDbkI7S0FDRixDQUFDOzs2Q0FNQSIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvaG9tZS9sdWlzbmV0bzk4L0RvY3VtZW50b3MvQ29kZS9tb25vcmVwby12dGV4L2FwcHMvYXBpL3NyYy9tb2R1bGVzL2F1dGgvZHRvL2xvZ2luLmR0by50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBJc0VtYWlsLCBJc1N0cmluZywgTWluTGVuZ3RoIH0gZnJvbSAnY2xhc3MtdmFsaWRhdG9yJztcbmltcG9ydCB7IEFwaVByb3BlcnR5IH0gZnJvbSAnQG5lc3Rqcy9zd2FnZ2VyJztcblxuZXhwb3J0IGNsYXNzIExvZ2luRHRvIHtcbiAgQEFwaVByb3BlcnR5KHtcbiAgICBkZXNjcmlwdGlvbjogJ1VzZXIgZW1haWwgYWRkcmVzcycsXG4gICAgZXhhbXBsZTogJ2FkbWluQHZ0ZXhkYXkuY29tJyxcbiAgICBmb3JtYXQ6ICdlbWFpbCcsXG4gIH0pXG4gIEBJc0VtYWlsKHt9LCB7IG1lc3NhZ2U6ICdQbGVhc2UgcHJvdmlkZSBhIHZhbGlkIGVtYWlsIGFkZHJlc3MnIH0pXG4gIGVtYWlsITogc3RyaW5nO1xuXG4gIEBBcGlQcm9wZXJ0eSh7XG4gICAgZGVzY3JpcHRpb246ICdVc2VyIHBhc3N3b3JkJyxcbiAgICBleGFtcGxlOiAnU2VjdXJlUGFzc3dvcmQxMjMhJyxcbiAgICBtaW5MZW5ndGg6IDEyLFxuICB9KVxuICBASXNTdHJpbmcoKVxuICBATWluTGVuZ3RoKDEyLCB7IG1lc3NhZ2U6ICdQYXNzd29yZCBtdXN0IGJlIGF0IGxlYXN0IDEyIGNoYXJhY3RlcnMgbG9uZycgfSlcbiAgcGFzc3dvcmQhOiBzdHJpbmc7XG59XG5cbmV4cG9ydCBjbGFzcyBSZWZyZXNoVG9rZW5EdG8ge1xuICBAQXBpUHJvcGVydHkoe1xuICAgIGRlc2NyaXB0aW9uOiAnSldUIHJlZnJlc2ggdG9rZW4nLFxuICAgIGV4YW1wbGU6ICdleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuLi4nLFxuICB9KVxuICBASXNTdHJpbmcoKVxuICByZWZyZXNoVG9rZW4hOiBzdHJpbmc7XG59XG5cbmV4cG9ydCBjbGFzcyBBdXRoUmVzcG9uc2VEdG8ge1xuICBAQXBpUHJvcGVydHkoe1xuICAgIGRlc2NyaXB0aW9uOiAnSldUIGFjY2VzcyB0b2tlbicsXG4gICAgZXhhbXBsZTogJ2V5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS4uLicsXG4gIH0pXG4gIGFjY2Vzc1Rva2VuITogc3RyaW5nO1xuXG4gIEBBcGlQcm9wZXJ0eSh7XG4gICAgZGVzY3JpcHRpb246ICdKV1QgcmVmcmVzaCB0b2tlbicsXG4gICAgZXhhbXBsZTogJ2V5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS4uLicsXG4gIH0pXG4gIHJlZnJlc2hUb2tlbiE6IHN0cmluZztcblxuICBAQXBpUHJvcGVydHkoe1xuICAgIGRlc2NyaXB0aW9uOiAnVG9rZW4gZXhwaXJhdGlvbiB0aW1lIGluIHNlY29uZHMnLFxuICAgIGV4YW1wbGU6IDkwMCxcbiAgICBkZWZhdWx0OiA5MDAsXG4gIH0pXG4gIGV4cGlyZXNJbiE6IG51bWJlcjtcblxuICBAQXBpUHJvcGVydHkoe1xuICAgIGRlc2NyaXB0aW9uOiAnVG9rZW4gdHlwZScsXG4gICAgZXhhbXBsZTogJ0JlYXJlcicsXG4gICAgZGVmYXVsdDogJ0JlYXJlcicsXG4gIH0pXG4gIHRva2VuVHlwZTogc3RyaW5nID0gJ0JlYXJlcic7XG5cbiAgQEFwaVByb3BlcnR5KHtcbiAgICBkZXNjcmlwdGlvbjogJ1VzZXIgaW5mb3JtYXRpb24nLFxuICAgIGV4YW1wbGU6IHtcbiAgICAgIGlkOiAnNTA3ZjFmNzdiY2Y4NmNkNzk5NDM5MDExJyxcbiAgICAgIGVtYWlsOiAnYWRtaW5AdnRleGRheS5jb20nLFxuICAgICAgcm9sZTogJ2FkbWluJyxcbiAgICAgIG5hbWU6ICdBZG1pbiBVc2VyJyxcbiAgICB9LFxuICB9KVxuICB1c2VyIToge1xuICAgIGlkOiBzdHJpbmc7XG4gICAgZW1haWw6IHN0cmluZztcbiAgICByb2xlOiBzdHJpbmc7XG4gICAgbmFtZTogc3RyaW5nO1xuICB9O1xufVxuIl0sInZlcnNpb24iOjN9

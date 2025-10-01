@@ -1,0 +1,219 @@
+43bc29dc4ab87496f9cc10cd270194b9
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CreateEventSettingsDto = void 0;
+const class_validator_1 = require("class-validator");
+const class_transformer_1 = require("class-transformer");
+const swagger_1 = require("@nestjs/swagger");
+class MultilingualTextDto {
+    pt;
+    en;
+    es;
+}
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'Portuguese text' }),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], MultilingualTextDto.prototype, "pt", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'English text' }),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], MultilingualTextDto.prototype, "en", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'Spanish text' }),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], MultilingualTextDto.prototype, "es", void 0);
+class VenueInfoDto {
+    name;
+    address;
+    city;
+    state;
+    zipCode;
+    complement;
+}
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'Venue name' }),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], VenueInfoDto.prototype, "name", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'Street address' }),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], VenueInfoDto.prototype, "address", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'City' }),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], VenueInfoDto.prototype, "city", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'State' }),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], VenueInfoDto.prototype, "state", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'ZIP code' }),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], VenueInfoDto.prototype, "zipCode", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({ description: 'Address complement' }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], VenueInfoDto.prototype, "complement", void 0);
+class ContactInfoDto {
+    email;
+    phone;
+    whatsapp;
+}
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'Contact email' }),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsEmail)(),
+    __metadata("design:type", String)
+], ContactInfoDto.prototype, "email", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'Contact phone' }),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.Matches)(/^\+?[0-9\s\-()]+$/, {
+        message: 'Invalid phone number format',
+    }),
+    __metadata("design:type", String)
+], ContactInfoDto.prototype, "phone", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({ description: 'WhatsApp number' }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.Matches)(/^\+?[0-9\s\-()]+$/, {
+        message: 'Invalid WhatsApp number format',
+    }),
+    __metadata("design:type", String)
+], ContactInfoDto.prototype, "whatsapp", void 0);
+class SocialMediaLinksDto {
+    instagram;
+    facebook;
+    linkedin;
+    twitter;
+    youtube;
+}
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({ description: 'Instagram URL' }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsUrl)(),
+    __metadata("design:type", String)
+], SocialMediaLinksDto.prototype, "instagram", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({ description: 'Facebook URL' }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsUrl)(),
+    __metadata("design:type", String)
+], SocialMediaLinksDto.prototype, "facebook", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({ description: 'LinkedIn URL' }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsUrl)(),
+    __metadata("design:type", String)
+], SocialMediaLinksDto.prototype, "linkedin", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({ description: 'Twitter URL' }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsUrl)(),
+    __metadata("design:type", String)
+], SocialMediaLinksDto.prototype, "twitter", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({ description: 'YouTube URL' }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsUrl)(),
+    __metadata("design:type", String)
+], SocialMediaLinksDto.prototype, "youtube", void 0);
+class MapCoordinatesDto {
+    latitude;
+    longitude;
+}
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'Latitude', minimum: -90, maximum: 90 }),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.Min)(-90),
+    (0, class_validator_1.Max)(90),
+    __metadata("design:type", Number)
+], MapCoordinatesDto.prototype, "latitude", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'Longitude', minimum: -180, maximum: 180 }),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.Min)(-180),
+    (0, class_validator_1.Max)(180),
+    __metadata("design:type", Number)
+], MapCoordinatesDto.prototype, "longitude", void 0);
+class CreateEventSettingsDto {
+    eventName;
+    startDate;
+    endDate;
+    venue;
+    contact;
+    socialMedia;
+    mapCoordinates;
+}
+exports.CreateEventSettingsDto = CreateEventSettingsDto;
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'Event name in multiple languages', type: MultilingualTextDto }),
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => MultilingualTextDto),
+    __metadata("design:type", MultilingualTextDto)
+], CreateEventSettingsDto.prototype, "eventName", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'Event start date', type: String, format: 'date-time' }),
+    (0, class_validator_1.IsDateString)(),
+    __metadata("design:type", String)
+], CreateEventSettingsDto.prototype, "startDate", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'Event end date', type: String, format: 'date-time' }),
+    (0, class_validator_1.IsDateString)(),
+    __metadata("design:type", String)
+], CreateEventSettingsDto.prototype, "endDate", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'Venue information', type: VenueInfoDto }),
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => VenueInfoDto),
+    __metadata("design:type", VenueInfoDto)
+], CreateEventSettingsDto.prototype, "venue", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'Contact information', type: ContactInfoDto }),
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => ContactInfoDto),
+    __metadata("design:type", ContactInfoDto)
+], CreateEventSettingsDto.prototype, "contact", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({ description: 'Social media links', type: SocialMediaLinksDto }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => SocialMediaLinksDto),
+    __metadata("design:type", SocialMediaLinksDto)
+], CreateEventSettingsDto.prototype, "socialMedia", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'Map coordinates', type: MapCoordinatesDto }),
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => MapCoordinatesDto),
+    __metadata("design:type", MapCoordinatesDto)
+], CreateEventSettingsDto.prototype, "mapCoordinates", void 0);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9ldmVudC1zZXR0aW5ncy9kdG8vY3JlYXRlLWV2ZW50LXNldHRpbmdzLmR0by50cyIsIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7QUFBQSxxREFZeUI7QUFDekIseURBQXlDO0FBQ3pDLDZDQUFtRTtBQUVuRSxNQUFNLG1CQUFtQjtJQUl2QixFQUFFLENBQVM7SUFLWCxFQUFFLENBQVM7SUFLWCxFQUFFLENBQVM7Q0FDWjtBQVhDO0lBSEMsSUFBQSxxQkFBVyxFQUFDLEVBQUUsV0FBVyxFQUFFLGlCQUFpQixFQUFFLENBQUM7SUFDL0MsSUFBQSw0QkFBVSxHQUFFO0lBQ1osSUFBQSwwQkFBUSxHQUFFOzsrQ0FDQTtBQUtYO0lBSEMsSUFBQSxxQkFBVyxFQUFDLEVBQUUsV0FBVyxFQUFFLGNBQWMsRUFBRSxDQUFDO0lBQzVDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsMEJBQVEsR0FBRTs7K0NBQ0E7QUFLWDtJQUhDLElBQUEscUJBQVcsRUFBQyxFQUFFLFdBQVcsRUFBRSxjQUFjLEVBQUUsQ0FBQztJQUM1QyxJQUFBLDRCQUFVLEdBQUU7SUFDWixJQUFBLDBCQUFRLEdBQUU7OytDQUNBO0FBR2IsTUFBTSxZQUFZO0lBSWhCLElBQUksQ0FBUztJQUtiLE9BQU8sQ0FBUztJQUtoQixJQUFJLENBQVM7SUFLYixLQUFLLENBQVM7SUFLZCxPQUFPLENBQVM7SUFLaEIsVUFBVSxDQUFVO0NBQ3JCO0FBMUJDO0lBSEMsSUFBQSxxQkFBVyxFQUFDLEVBQUUsV0FBVyxFQUFFLFlBQVksRUFBRSxDQUFDO0lBQzFDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsMEJBQVEsR0FBRTs7MENBQ0U7QUFLYjtJQUhDLElBQUEscUJBQVcsRUFBQyxFQUFFLFdBQVcsRUFBRSxnQkFBZ0IsRUFBRSxDQUFDO0lBQzlDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsMEJBQVEsR0FBRTs7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QUFZLEVBQUUsQ0FBQztJQUNyRSxJQUFBLGdDQUFjLEdBQUU7SUFDaEIsSUFBQSx3QkFBSSxFQUFDLEdBQUcsRUFBRSxDQUFDLFlBQVksQ0FBQzs4QkFDbEIsWUFBWTtxREFBQztBQUtwQjtJQUhDLElBQUEscUJBQVcsRUFBQyxFQUFFLFdBQVcsRUFBRSxxQkFBcUIsRUFBRSxJQUFJLEVBQUUsY0FBYyxFQUFFLENBQUM7SUFDekUsSUFBQSxnQ0FBYyxHQUFFO0lBQ2hCLElBQUEsd0JBQUksRUFBQyxHQUFHLEVBQUUsQ0FBQyxjQUFjLENBQUM7OEJBQ2xCLGNBQWM7dURBQUM7QUFNeEI7SUFKQyxJQUFBLDZCQUFtQixFQUFDLEVBQUUsV0FBVyxFQUFFLG9CQUFvQixFQUFFLElBQUksRUFBRSxtQkFBbUIsRUFBRSxDQUFDO0lBQ3JGLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsZ0NBQWMsR0FBRTtJQUNoQixJQUFBLHdCQUFJLEVBQUMsR0FBRyxFQUFFLENBQUMsbUJBQW1CLENBQUM7OEJBQ2xCLG1CQUFtQjsyREFBQztBQUtsQztJQUhDLElBQUEscUJBQVcsRUFBQyxFQUFFLFdBQVcsRUFBRSxpQkFBaUIsRUFBRSxJQUFJLEVBQUUsaUJBQWlCLEVBQUUsQ0FBQztJQUN4RSxJQUFBLGdDQUFjLEdBQUU7SUFDaEIsSUFBQSx3QkFBSSxFQUFDLEdBQUcsRUFBRSxDQUFDLGlCQUFpQixDQUFDOzhCQUNkLGlCQUFpQjs4REFBQyIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvaG9tZS9sdWlzbmV0bzk4L0RvY3VtZW50b3MvQ29kZS9tb25vcmVwby12dGV4L2FwcHMvYXBpL3NyYy9tb2R1bGVzL2V2ZW50LXNldHRpbmdzL2R0by9jcmVhdGUtZXZlbnQtc2V0dGluZ3MuZHRvLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7XG4gIElzTm90RW1wdHksXG4gIElzU3RyaW5nLFxuICBJc0VtYWlsLFxuICBJc09wdGlvbmFsLFxuICBWYWxpZGF0ZU5lc3RlZCxcbiAgSXNEYXRlU3RyaW5nLFxuICBJc051bWJlcixcbiAgTWluLFxuICBNYXgsXG4gIE1hdGNoZXMsXG4gIElzVXJsLFxufSBmcm9tICdjbGFzcy12YWxpZGF0b3InO1xuaW1wb3J0IHsgVHlwZSB9IGZyb20gJ2NsYXNzLXRyYW5zZm9ybWVyJztcbmltcG9ydCB7IEFwaVByb3BlcnR5LCBBcGlQcm9wZXJ0eU9wdGlvbmFsIH0gZnJvbSAnQG5lc3Rqcy9zd2FnZ2VyJztcblxuY2xhc3MgTXVsdGlsaW5ndWFsVGV4dER0byB7XG4gIEBBcGlQcm9wZXJ0eSh7IGRlc2NyaXB0aW9uOiAnUG9ydHVndWVzZSB0ZXh0JyB9KVxuICBASXNOb3RFbXB0eSgpXG4gIEBJc1N0cmluZygpXG4gIHB0OiBzdHJpbmc7XG5cbiAgQEFwaVByb3BlcnR5KHsgZGVzY3JpcHRpb246ICdFbmdsaXNoIHRleHQnIH0pXG4gIEBJc05vdEVtcHR5KClcbiAgQElzU3RyaW5nKClcbiAgZW46IHN0cmluZztcblxuICBAQXBpUHJvcGVydHkoeyBkZXNjcmlwdGlvbjogJ1NwYW5pc2ggdGV4dCcgfSlcbiAgQElzTm90RW1wdHkoKVxuICBASXNTdHJpbmcoKVxuICBlczogc3RyaW5nO1xufVxuXG5jbGFzcyBWZW51ZUluZm9EdG8ge1xuICBAQXBpUHJvcGVydHkoeyBkZXNjcmlwdGlvbjogJ1ZlbnVlIG5hbWUnIH0pXG4gIEBJc05vdEVtcHR5KClcbiAgQElzU3RyaW5nKClcbiAgbmFtZTogc3RyaW5nO1xuXG4gIEBBcGlQcm9wZXJ0eSh7IGRlc2NyaXB0aW9uOiAnU3RyZWV0IGFkZHJlc3MnIH0pXG4gIEBJc05vdEVtcHR5KClcbiAgQElzU3RyaW5nKClcbiAgYWRkcmVzczogc3RyaW5nO1xuXG4gIEBBcGlQcm9wZXJ0eSh7IGRlc2NyaXB0aW9uOiAnQ2l0eScgfSlcbiAgQElzTm90RW1wdHkoKVxuICBASXNTdHJpbmcoKVxuICBjaXR5OiBzdHJpbmc7XG5cbiAgQEFwaVByb3BlcnR5KHsgZGVzY3JpcHRpb246ICdTdGF0ZScgfSlcbiAgQElzTm90RW1wdHkoKVxuICBASXNTdHJpbmcoKVxuICBzdGF0ZTogc3RyaW5nO1xuXG4gIEBBcGlQcm9wZXJ0eSh7IGRlc2NyaXB0aW9uOiAnWklQIGNvZGUnIH0pXG4gIEBJc05vdEVtcHR5KClcbiAgQElzU3RyaW5nKClcbiAgemlwQ29kZTogc3RyaW5nO1xuXG4gIEBBcGlQcm9wZXJ0eU9wdGlvbmFsKHsgZGVzY3JpcHRpb246ICdBZGRyZXNzIGNvbXBsZW1lbnQnIH0pXG4gIEBJc09wdGlvbmFsKClcbiAgQElzU3RyaW5nKClcbiAgY29tcGxlbWVudD86IHN0cmluZztcbn1cblxuY2xhc3MgQ29udGFjdEluZm9EdG8ge1xuICBAQXBpUHJvcGVydHkoeyBkZXNjcmlwdGlvbjogJ0NvbnRhY3QgZW1haWwnIH0pXG4gIEBJc05vdEVtcHR5KClcbiAgQElzRW1haWwoKVxuICBlbWFpbDogc3RyaW5nO1xuXG4gIEBBcGlQcm9wZXJ0eSh7IGRlc2NyaXB0aW9uOiAnQ29udGFjdCBwaG9uZScgfSlcbiAgQElzTm90RW1wdHkoKVxuICBATWF0Y2hlcygvXlxcKz9bMC05XFxzXFwtKCldKyQvLCB7XG4gICAgbWVzc2FnZTogJ0ludmFsaWQgcGhvbmUgbnVtYmVyIGZvcm1hdCcsXG4gIH0pXG4gIHBob25lOiBzdHJpbmc7XG5cbiAgQEFwaVByb3BlcnR5T3B0aW9uYWwoeyBkZXNjcmlwdGlvbjogJ1doYXRzQXBwIG51bWJlcicgfSlcbiAgQElzT3B0aW9uYWwoKVxuICBATWF0Y2hlcygvXlxcKz9bMC05XFxzXFwtKCldKyQvLCB7XG4gICAgbWVzc2FnZTogJ0ludmFsaWQgV2hhdHNBcHAgbnVtYmVyIGZvcm1hdCcsXG4gIH0pXG4gIHdoYXRzYXBwPzogc3RyaW5nO1xufVxuXG5jbGFzcyBTb2NpYWxNZWRpYUxpbmtzRHRvIHtcbiAgQEFwaVByb3BlcnR5T3B0aW9uYWwoeyBkZXNjcmlwdGlvbjogJ0luc3RhZ3JhbSBVUkwnIH0pXG4gIEBJc09wdGlvbmFsKClcbiAgQElzVXJsKClcbiAgaW5zdGFncmFtPzogc3RyaW5nO1xuXG4gIEBBcGlQcm9wZXJ0eU9wdGlvbmFsKHsgZGVzY3JpcHRpb246ICdGYWNlYm9vayBVUkwnIH0pXG4gIEBJc09wdGlvbmFsKClcbiAgQElzVXJsKClcbiAgZmFjZWJvb2s/OiBzdHJpbmc7XG5cbiAgQEFwaVByb3BlcnR5T3B0aW9uYWwoeyBkZXNjcmlwdGlvbjogJ0xpbmtlZEluIFVSTCcgfSlcbiAgQElzT3B0aW9uYWwoKVxuICBASXNVcmwoKVxuICBsaW5rZWRpbj86IHN0cmluZztcblxuICBAQXBpUHJvcGVydHlPcHRpb25hbCh7IGRlc2NyaXB0aW9uOiAnVHdpdHRlciBVUkwnIH0pXG4gIEBJc09wdGlvbmFsKClcbiAgQElzVXJsKClcbiAgdHdpdHRlcj86IHN0cmluZztcblxuICBAQXBpUHJvcGVydHlPcHRpb25hbCh7IGRlc2NyaXB0aW9uOiAnWW91VHViZSBVUkwnIH0pXG4gIEBJc09wdGlvbmFsKClcbiAgQElzVXJsKClcbiAgeW91dHViZT86IHN0cmluZztcbn1cblxuY2xhc3MgTWFwQ29vcmRpbmF0ZXNEdG8ge1xuICBAQXBpUHJvcGVydHkoeyBkZXNjcmlwdGlvbjogJ0xhdGl0dWRlJywgbWluaW11bTogLTkwLCBtYXhpbXVtOiA5MCB9KVxuICBASXNOb3RFbXB0eSgpXG4gIEBJc051bWJlcigpXG4gIEBNaW4oLTkwKVxuICBATWF4KDkwKVxuICBsYXRpdHVkZTogbnVtYmVyO1xuXG4gIEBBcGlQcm9wZXJ0eSh7IGRlc2NyaXB0aW9uOiAnTG9uZ2l0dWRlJywgbWluaW11bTogLTE4MCwgbWF4aW11bTogMTgwIH0pXG4gIEBJc05vdEVtcHR5KClcbiAgQElzTnVtYmVyKClcbiAgQE1pbigtMTgwKVxuICBATWF4KDE4MClcbiAgbG9uZ2l0dWRlOiBudW1iZXI7XG59XG5cbmV4cG9ydCBjbGFzcyBDcmVhdGVFdmVudFNldHRpbmdzRHRvIHtcbiAgQEFwaVByb3BlcnR5KHsgZGVzY3JpcHRpb246ICdFdmVudCBuYW1lIGluIG11bHRpcGxlIGxhbmd1YWdlcycsIHR5cGU6IE11bHRpbGluZ3VhbFRleHREdG8gfSlcbiAgQFZhbGlkYXRlTmVzdGVkKClcbiAgQFR5cGUoKCkgPT4gTXVsdGlsaW5ndWFsVGV4dER0bylcbiAgZXZlbnROYW1lOiBNdWx0aWxpbmd1YWxUZXh0RHRvO1xuXG4gIEBBcGlQcm9wZXJ0eSh7IGRlc2NyaXB0aW9uOiAnRXZlbnQgc3RhcnQgZGF0ZScsIHR5cGU6IFN0cmluZywgZm9ybWF0OiAnZGF0ZS10aW1lJyB9KVxuICBASXNEYXRlU3RyaW5nKClcbiAgc3RhcnREYXRlOiBzdHJpbmc7XG5cbiAgQEFwaVByb3BlcnR5KHsgZGVzY3JpcHRpb246ICdFdmVudCBlbmQgZGF0ZScsIHR5cGU6IFN0cmluZywgZm9ybWF0OiAnZGF0ZS10aW1lJyB9KVxuICBASXNEYXRlU3RyaW5nKClcbiAgZW5kRGF0ZTogc3RyaW5nO1xuXG4gIEBBcGlQcm9wZXJ0eSh7IGRlc2NyaXB0aW9uOiAnVmVudWUgaW5mb3JtYXRpb24nLCB0eXBlOiBWZW51ZUluZm9EdG8gfSlcbiAgQFZhbGlkYXRlTmVzdGVkKClcbiAgQFR5cGUoKCkgPT4gVmVudWVJbmZvRHRvKVxuICB2ZW51ZTogVmVudWVJbmZvRHRvO1xuXG4gIEBBcGlQcm9wZXJ0eSh7IGRlc2NyaXB0aW9uOiAnQ29udGFjdCBpbmZvcm1hdGlvbicsIHR5cGU6IENvbnRhY3RJbmZvRHRvIH0pXG4gIEBWYWxpZGF0ZU5lc3RlZCgpXG4gIEBUeXBlKCgpID0+IENvbnRhY3RJbmZvRHRvKVxuICBjb250YWN0OiBDb250YWN0SW5mb0R0bztcblxuICBAQXBpUHJvcGVydHlPcHRpb25hbCh7IGRlc2NyaXB0aW9uOiAnU29jaWFsIG1lZGlhIGxpbmtzJywgdHlwZTogU29jaWFsTWVkaWFMaW5rc0R0byB9KVxuICBASXNPcHRpb25hbCgpXG4gIEBWYWxpZGF0ZU5lc3RlZCgpXG4gIEBUeXBlKCgpID0+IFNvY2lhbE1lZGlhTGlua3NEdG8pXG4gIHNvY2lhbE1lZGlhPzogU29jaWFsTWVkaWFMaW5rc0R0bztcblxuICBAQXBpUHJvcGVydHkoeyBkZXNjcmlwdGlvbjogJ01hcCBjb29yZGluYXRlcycsIHR5cGU6IE1hcENvb3JkaW5hdGVzRHRvIH0pXG4gIEBWYWxpZGF0ZU5lc3RlZCgpXG4gIEBUeXBlKCgpID0+IE1hcENvb3JkaW5hdGVzRHRvKVxuICBtYXBDb29yZGluYXRlczogTWFwQ29vcmRpbmF0ZXNEdG87XG59XG4iXSwidmVyc2lvbiI6M30=

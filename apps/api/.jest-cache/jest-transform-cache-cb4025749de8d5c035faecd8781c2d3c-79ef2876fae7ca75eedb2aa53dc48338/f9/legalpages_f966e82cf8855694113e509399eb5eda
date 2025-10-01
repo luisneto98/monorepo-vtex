@@ -1,0 +1,18 @@
+3d6d70afde295ac22efaba0f7d7c00c1
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.LegalPageType = exports.SupportedLanguage = void 0;
+var SupportedLanguage;
+(function (SupportedLanguage) {
+    SupportedLanguage["PT"] = "pt";
+    SupportedLanguage["EN"] = "en";
+    SupportedLanguage["ES"] = "es";
+})(SupportedLanguage || (exports.SupportedLanguage = SupportedLanguage = {}));
+var LegalPageType;
+(function (LegalPageType) {
+    LegalPageType["TERMS"] = "terms";
+    LegalPageType["PRIVACY"] = "privacy";
+    LegalPageType["COOKIES"] = "cookies";
+    LegalPageType["OTHER"] = "other";
+})(LegalPageType || (exports.LegalPageType = LegalPageType = {}));
+//# sourceMappingURL=legal-pages.js.map

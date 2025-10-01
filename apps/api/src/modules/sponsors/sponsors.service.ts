@@ -9,12 +9,15 @@ import { SponsorFilterDto } from './dto/sponsor-filter.dto';
 import { CreateSponsorTierDto } from './dto/create-sponsor-tier.dto';
 import { UpdateSponsorTierDto } from './dto/update-sponsor-tier.dto';
 import { PaginatedResponse } from '@common/dto/pagination.dto';
+import { StorageService } from '../storage/services/storage.service';
+import { FileCategory } from '../storage/types/storage.types';
 
 @Injectable()
 export class SponsorsService {
   constructor(
     @InjectModel(Sponsor.name) private sponsorModel: Model<SponsorDocument>,
     @InjectModel(SponsorTier.name) private sponsorTierModel: Model<SponsorTierDocument>,
+    private storageService: StorageService,
   ) {}
 
   // Sponsor CRUD
@@ -186,8 +189,18 @@ export class SponsorsService {
       }
     }
 
-    Object.assign(sponsor, updateSponsorDto);
-    return sponsor.save();
+    // Use findByIdAndUpdate to avoid validation issues with required fields
+    const updatedSponsor = await this.sponsorModel.findByIdAndUpdate(
+      id,
+      { $set: updateSponsorDto },
+      {
+        new: true,
+        runValidators: true,
+        context: 'query',
+      },
+    );
+
+    return updatedSponsor;
   }
 
   async removeSponsor(id: string, reason?: string, userId?: string): Promise<void> {
@@ -319,5 +332,112 @@ export class SponsorsService {
       this.sponsorTierModel.updateOne({ _id: tierId }, { $set: { order: index + 1 } }),
     );
     await Promise.all(finalUpdatePromises);
+  }
+
+  async uploadLogo(id: string, file: Express.Multer.File): Promise<string> {
+    // Verify sponsor exists
+    const sponsor = await this.sponsorModel.findOne({
+      _id: id,
+      deletedAt: null,
+    });
+
+    if (!sponsor) {
+      throw new NotFoundException(`Sponsor with ID ${id} not found`);
+    }
+
+    // Upload file to S3
+    const uploadResult = await this.storageService.uploadFile(file, FileCategory.SPONSOR_LOGOS);
+
+    // Update sponsor logoUrl
+    sponsor.logoUrl = uploadResult.url;
+    await sponsor.save();
+
+    return uploadResult.url;
+  }
+
+  // Public methods for mobile app
+  async findPublicSponsors(page = 1, limit = 20): Promise<PaginatedResponse<any>> {
+    const query = { isVisible: true, deletedAt: null };
+    const skip = (page - 1) * limit;
+
+    const [data, total] = await Promise.all([
+      this.sponsorModel
+        .find(query)
+        .populate('tier')
+        .sort({ 'tier.order': 1, orderInTier: 1 })
+        .skip(skip)
+        .limit(limit)
+        .select('-maxPosts -postsUsed -adminEmail -isVisible -deletedAt -deletedBy -deleteReason -__v')
+        .lean()
+        .exec(),
+      this.sponsorModel.countDocuments(query),
+    ]);
+
+    return {
+      success: true,
+      data,
+      metadata: {
+        total,
+        page,
+        limit,
+        hasNext: skip + data.length < total,
+        hasPrev: page > 1,
+      },
+    };
+  }
+
+  async findPublicSponsorsByTier(): Promise<any[]> {
+    const sponsors = await this.sponsorModel
+      .find({
+        isVisible: true,
+        deletedAt: null,
+      })
+      .populate('tier')
+      .sort({ 'tier.order': 1, orderInTier: 1 })
+      .select('-maxPosts -postsUsed -adminEmail -isVisible -deletedAt -deletedBy -deleteReason -__v')
+      .lean()
+      .exec();
+
+    // Group sponsors by tier
+    const tierMap = new Map<string, any>();
+
+    sponsors.forEach((sponsor: any) => {
+      const tierId = sponsor.tier._id.toString();
+
+      if (!tierMap.has(tierId)) {
+        tierMap.set(tierId, {
+          tier: {
+            _id: sponsor.tier._id,
+            name: sponsor.tier.name,
+            displayName: sponsor.tier.displayName,
+            order: sponsor.tier.order,
+          },
+          sponsors: [],
+        });
+      }
+
+      tierMap.get(tierId).sponsors.push(sponsor);
+    });
+
+    // Convert map to array and sort by tier order
+    return Array.from(tierMap.values()).sort((a, b) => a.tier.order - b.tier.order);
+  }
+
+  async findPublicSponsorById(id: string): Promise<any> {
+    const sponsor = await this.sponsorModel
+      .findOne({
+        _id: id,
+        isVisible: true,
+        deletedAt: null,
+      })
+      .select('-maxPosts -postsUsed -adminEmail -isVisible -deletedAt -deletedBy -deleteReason -__v')
+      .lean()
+      .exec();
+
+    if (!sponsor) {
+      throw new NotFoundException(`Sponsor with ID ${id} not found or not visible`);
+    }
+
+    return sponsor;
   }
 }

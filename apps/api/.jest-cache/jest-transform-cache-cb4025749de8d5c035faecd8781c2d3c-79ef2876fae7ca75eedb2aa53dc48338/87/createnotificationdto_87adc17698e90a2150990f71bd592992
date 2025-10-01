@@ -1,0 +1,58 @@
+2e10f3a15207d8ed6b0b851e25842a7c
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CreateNotificationDto = void 0;
+const class_validator_1 = require("class-validator");
+const class_transformer_1 = require("class-transformer");
+const notification_schema_1 = require("../schemas/notification.schema");
+class CreateNotificationDto {
+    title;
+    message;
+    scheduledAt;
+    status;
+    segments;
+    metadata;
+}
+exports.CreateNotificationDto = CreateNotificationDto;
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(65, { message: 'Title must not exceed 65 characters' }),
+    __metadata("design:type", String)
+], CreateNotificationDto.prototype, "title", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(240, { message: 'Message must not exceed 240 characters' }),
+    __metadata("design:type", String)
+], CreateNotificationDto.prototype, "message", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsDate)(),
+    (0, class_transformer_1.Type)(() => Date),
+    __metadata("design:type", Date)
+], CreateNotificationDto.prototype, "scheduledAt", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(notification_schema_1.NotificationStatus),
+    __metadata("design:type", String)
+], CreateNotificationDto.prototype, "status", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.IsString)({ each: true }),
+    __metadata("design:type", Array)
+], CreateNotificationDto.prototype, "segments", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsObject)(),
+    __metadata("design:type", Object)
+], CreateNotificationDto.prototype, "metadata", void 0);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9ub3RpZmljYXRpb25zL2R0by9jcmVhdGUtbm90aWZpY2F0aW9uLmR0by50cyIsIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7QUFBQSxxREFReUI7QUFDekIseURBQXlDO0FBQ3pDLHdFQUFvRTtBQUVwRSxNQUFhLHFCQUFxQjtJQUdoQyxLQUFLLENBQVM7SUFJZCxPQUFPLENBQVM7SUFLaEIsV0FBVyxDQUFRO0lBSW5CLE1BQU0sQ0FBc0I7SUFLNUIsUUFBUSxDQUFZO0lBSXBCLFFBQVEsQ0FBdUI7Q0FDaEM7QUExQkQsc0RBMEJDO0FBdkJDO0lBRkMsSUFBQSwwQkFBUSxHQUFFO0lBQ1YsSUFBQSwyQkFBUyxFQUFDLEVBQUUsRUFBRSxFQUFFLE9BQU8sRUFBRSxxQ0FBcUMsRUFBRSxDQUFDOztvREFDcEQ7QUFJZDtJQUZDLElBQUEsMEJBQVEsR0FBRTtJQUNWLElBQUEsMkJBQVMsRUFBQyxHQUFHLEVBQUUsRUFBRSxPQUFPLEVBQUUsd0NBQXdDLEVBQUUsQ0FBQzs7c0RBQ3REO0FBS2hCO0lBSEMsSUFBQSw0QkFBVSxHQUFFO0lBQ1osSUFBQSx3QkFBTSxHQUFFO0lBQ1IsSUFBQSx3QkFBSSxFQUFDLEdBQUcsRUFBRSxDQUFDLElBQUksQ0FBQzs4QkFDSCxJQUFJOzBEQUFDO0FBSW5CO0lBRkMsSUFBQSw0QkFBVSxHQUFFO0lBQ1osSUFBQSx3QkFBTSxFQUFDLHdDQUFrQixDQUFDOztxREFDQztBQUs1QjtJQUhDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEseUJBQU8sR0FBRTtJQUNULElBQUEsMEJBQVEsRUFBQyxFQUFFLElBQUksRUFBRSxJQUFJLEVBQUUsQ0FBQzs7dURBQ0w7QUFJcEI7SUFGQyxJQUFBLDRCQUFVLEdBQUU7SUFDWixJQUFBLDBCQUFRLEdBQUU7O3VEQUNvQiIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvaG9tZS9sdWlzbmV0bzk4L0RvY3VtZW50b3MvQ29kZS9tb25vcmVwby12dGV4L2FwcHMvYXBpL3NyYy9tb2R1bGVzL25vdGlmaWNhdGlvbnMvZHRvL2NyZWF0ZS1ub3RpZmljYXRpb24uZHRvLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7XG4gIElzU3RyaW5nLFxuICBJc09wdGlvbmFsLFxuICBJc0RhdGUsXG4gIElzQXJyYXksXG4gIElzT2JqZWN0LFxuICBNYXhMZW5ndGgsXG4gIElzRW51bSxcbn0gZnJvbSAnY2xhc3MtdmFsaWRhdG9yJztcbmltcG9ydCB7IFR5cGUgfSBmcm9tICdjbGFzcy10cmFuc2Zvcm1lcic7XG5pbXBvcnQgeyBOb3RpZmljYXRpb25TdGF0dXMgfSBmcm9tICcuLi9zY2hlbWFzL25vdGlmaWNhdGlvbi5zY2hlbWEnO1xuXG5leHBvcnQgY2xhc3MgQ3JlYXRlTm90aWZpY2F0aW9uRHRvIHtcbiAgQElzU3RyaW5nKClcbiAgQE1heExlbmd0aCg2NSwgeyBtZXNzYWdlOiAnVGl0bGUgbXVzdCBub3QgZXhjZWVkIDY1IGNoYXJhY3RlcnMnIH0pXG4gIHRpdGxlOiBzdHJpbmc7XG5cbiAgQElzU3RyaW5nKClcbiAgQE1heExlbmd0aCgyNDAsIHsgbWVzc2FnZTogJ01lc3NhZ2UgbXVzdCBub3QgZXhjZWVkIDI0MCBjaGFyYWN0ZXJzJyB9KVxuICBtZXNzYWdlOiBzdHJpbmc7XG5cbiAgQElzT3B0aW9uYWwoKVxuICBASXNEYXRlKClcbiAgQFR5cGUoKCkgPT4gRGF0ZSlcbiAgc2NoZWR1bGVkQXQ/OiBEYXRlO1xuXG4gIEBJc09wdGlvbmFsKClcbiAgQElzRW51bShOb3RpZmljYXRpb25TdGF0dXMpXG4gIHN0YXR1cz86IE5vdGlmaWNhdGlvblN0YXR1cztcblxuICBASXNPcHRpb25hbCgpXG4gIEBJc0FycmF5KClcbiAgQElzU3RyaW5nKHsgZWFjaDogdHJ1ZSB9KVxuICBzZWdtZW50cz86IHN0cmluZ1tdO1xuXG4gIEBJc09wdGlvbmFsKClcbiAgQElzT2JqZWN0KClcbiAgbWV0YWRhdGE/OiBSZWNvcmQ8c3RyaW5nLCBhbnk+O1xufVxuIl0sInZlcnNpb24iOjN9

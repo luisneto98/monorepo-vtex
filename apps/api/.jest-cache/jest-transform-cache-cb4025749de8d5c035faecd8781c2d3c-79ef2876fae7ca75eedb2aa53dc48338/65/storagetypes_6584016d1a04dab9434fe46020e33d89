@@ -1,0 +1,214 @@
+65eceeb47f33a8f79928d9bca45d0dee
+"use strict";
+
+/* istanbul ignore next */
+function cov_ggyutsaue() {
+  var path = "/home/luisneto98/Documentos/Code/monorepo-vtex/apps/api/src/modules/storage/types/storage.types.ts";
+  var hash = "199ff039646435d0751e212aa100d967697787cf";
+  var global = new Function("return this")();
+  var gcv = "__coverage__";
+  var coverageData = {
+    path: "/home/luisneto98/Documentos/Code/monorepo-vtex/apps/api/src/modules/storage/types/storage.types.ts",
+    statementMap: {
+      "0": {
+        start: {
+          line: 2,
+          column: 0
+        },
+        end: {
+          line: 2,
+          column: 62
+        }
+      },
+      "1": {
+        start: {
+          line: 3,
+          column: 0
+        },
+        end: {
+          line: 3,
+          column: 30
+        }
+      },
+      "2": {
+        start: {
+          line: 5,
+          column: 0
+        },
+        end: {
+          line: 10,
+          column: 63
+        }
+      },
+      "3": {
+        start: {
+          line: 6,
+          column: 4
+        },
+        end: {
+          line: 6,
+          column: 54
+        }
+      },
+      "4": {
+        start: {
+          line: 7,
+          column: 4
+        },
+        end: {
+          line: 7,
+          column: 52
+        }
+      },
+      "5": {
+        start: {
+          line: 8,
+          column: 4
+        },
+        end: {
+          line: 8,
+          column: 56
+        }
+      },
+      "6": {
+        start: {
+          line: 9,
+          column: 4
+        },
+        end: {
+          line: 9,
+          column: 56
+        }
+      }
+    },
+    fnMap: {
+      "0": {
+        name: "(anonymous_0)",
+        decl: {
+          start: {
+            line: 5,
+            column: 1
+          },
+          end: {
+            line: 5,
+            column: 2
+          }
+        },
+        loc: {
+          start: {
+            line: 5,
+            column: 25
+          },
+          end: {
+            line: 10,
+            column: 1
+          }
+        },
+        line: 5
+      }
+    },
+    branchMap: {
+      "0": {
+        loc: {
+          start: {
+            line: 10,
+            column: 3
+          },
+          end: {
+            line: 10,
+            column: 61
+          }
+        },
+        type: "binary-expr",
+        locations: [{
+          start: {
+            line: 10,
+            column: 3
+          },
+          end: {
+            line: 10,
+            column: 15
+          }
+        }, {
+          start: {
+            line: 10,
+            column: 20
+          },
+          end: {
+            line: 10,
+            column: 60
+          }
+        }],
+        line: 10
+      }
+    },
+    s: {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0
+    },
+    f: {
+      "0": 0
+    },
+    b: {
+      "0": [0, 0]
+    },
+    inputSourceMap: {
+      file: "/home/luisneto98/Documentos/Code/monorepo-vtex/apps/api/src/modules/storage/types/storage.types.ts",
+      mappings: ";;;AAAA,IAAY,YAKX;AALD,WAAY,YAAY;IACtB,iDAAiC,CAAA;IACjC,+CAA+B,CAAA;IAC/B,mDAAmC,CAAA;IACnC,mDAAmC,CAAA;AACrC,CAAC,EALW,YAAY,4BAAZ,YAAY,QAKvB",
+      names: [],
+      sources: ["/home/luisneto98/Documentos/Code/monorepo-vtex/apps/api/src/modules/storage/types/storage.types.ts"],
+      sourcesContent: ["export enum FileCategory {\n  SPEAKER_PHOTOS = 'speaker-photos',\n  SPONSOR_LOGOS = 'sponsor-logos',\n  LEGAL_DOCUMENTS = 'legal-documents',\n  PRESS_MATERIALS = 'press-materials',\n}\n\nexport interface UploadResult {\n  key: string;\n  url: string;\n}\n\nexport interface UploadOptions {\n  maxSizeBytes?: number;\n  allowedMimeTypes?: string[];\n  scanForVirus?: boolean;\n  metadata?: Record<string, string>;\n}\n\nexport interface FileValidationOptions {\n  maxSizeBytes: number;\n  allowedMimeTypes: string[];\n  validateMagicBytes?: boolean;\n}\n\nexport interface MagicBytesPattern {\n  mimeType: string;\n  pattern: Buffer;\n  offset?: number;\n}\n"],
+      version: 3
+    },
+    _coverageSchema: "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    hash: "199ff039646435d0751e212aa100d967697787cf"
+  };
+  var coverage = global[gcv] || (global[gcv] = {});
+  if (!coverage[path] || coverage[path].hash !== hash) {
+    coverage[path] = coverageData;
+  }
+  var actualCoverage = coverage[path];
+  {
+    // @ts-ignore
+    cov_ggyutsaue = function () {
+      return actualCoverage;
+    };
+  }
+  return actualCoverage;
+}
+cov_ggyutsaue();
+cov_ggyutsaue().s[0]++;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/* istanbul ignore next */
+cov_ggyutsaue().s[1]++;
+exports.FileCategory = void 0;
+var FileCategory;
+/* istanbul ignore next */
+cov_ggyutsaue().s[2]++;
+(function (FileCategory) {
+  /* istanbul ignore next */
+  cov_ggyutsaue().f[0]++;
+  cov_ggyutsaue().s[3]++;
+  FileCategory["SPEAKER_PHOTOS"] = "speaker-photos";
+  /* istanbul ignore next */
+  cov_ggyutsaue().s[4]++;
+  FileCategory["SPONSOR_LOGOS"] = "sponsor-logos";
+  /* istanbul ignore next */
+  cov_ggyutsaue().s[5]++;
+  FileCategory["LEGAL_DOCUMENTS"] = "legal-documents";
+  /* istanbul ignore next */
+  cov_ggyutsaue().s[6]++;
+  FileCategory["PRESS_MATERIALS"] = "press-materials";
+})(
+/* istanbul ignore next */
+(cov_ggyutsaue().b[0][0]++, FileCategory) ||
+/* istanbul ignore next */
+(cov_ggyutsaue().b[0][1]++, exports.FileCategory = FileCategory = {}));
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJGaWxlQ2F0ZWdvcnkiLCJjb3ZfZ2d5dXRzYXVlIiwicyIsImYiLCJiIiwiZXhwb3J0cyJdLCJzb3VyY2VzIjpbIi9ob21lL2x1aXNuZXRvOTgvRG9jdW1lbnRvcy9Db2RlL21vbm9yZXBvLXZ0ZXgvYXBwcy9hcGkvc3JjL21vZHVsZXMvc3RvcmFnZS90eXBlcy9zdG9yYWdlLnR5cGVzLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBlbnVtIEZpbGVDYXRlZ29yeSB7XG4gIFNQRUFLRVJfUEhPVE9TID0gJ3NwZWFrZXItcGhvdG9zJyxcbiAgU1BPTlNPUl9MT0dPUyA9ICdzcG9uc29yLWxvZ29zJyxcbiAgTEVHQUxfRE9DVU1FTlRTID0gJ2xlZ2FsLWRvY3VtZW50cycsXG4gIFBSRVNTX01BVEVSSUFMUyA9ICdwcmVzcy1tYXRlcmlhbHMnLFxufVxuXG5leHBvcnQgaW50ZXJmYWNlIFVwbG9hZFJlc3VsdCB7XG4gIGtleTogc3RyaW5nO1xuICB1cmw6IHN0cmluZztcbn1cblxuZXhwb3J0IGludGVyZmFjZSBVcGxvYWRPcHRpb25zIHtcbiAgbWF4U2l6ZUJ5dGVzPzogbnVtYmVyO1xuICBhbGxvd2VkTWltZVR5cGVzPzogc3RyaW5nW107XG4gIHNjYW5Gb3JWaXJ1cz86IGJvb2xlYW47XG4gIG1ldGFkYXRhPzogUmVjb3JkPHN0cmluZywgc3RyaW5nPjtcbn1cblxuZXhwb3J0IGludGVyZmFjZSBGaWxlVmFsaWRhdGlvbk9wdGlvbnMge1xuICBtYXhTaXplQnl0ZXM6IG51bWJlcjtcbiAgYWxsb3dlZE1pbWVUeXBlczogc3RyaW5nW107XG4gIHZhbGlkYXRlTWFnaWNCeXRlcz86IGJvb2xlYW47XG59XG5cbmV4cG9ydCBpbnRlcmZhY2UgTWFnaWNCeXRlc1BhdHRlcm4ge1xuICBtaW1lVHlwZTogc3RyaW5nO1xuICBwYXR0ZXJuOiBCdWZmZXI7XG4gIG9mZnNldD86IG51bWJlcjtcbn1cbiJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBLElBQVlBLFlBS1g7QUFBQTtBQUFBQyxhQUFBLEdBQUFDLENBQUE7QUFMRCxXQUFZRixZQUFZO0VBQUE7RUFBQUMsYUFBQSxHQUFBRSxDQUFBO0VBQUFGLGFBQUEsR0FBQUMsQ0FBQTtFQUN0QkYsWUFBQSxxQ0FBaUM7RUFBQTtFQUFBQyxhQUFBLEdBQUFDLENBQUE7RUFDakNGLFlBQUEsbUNBQStCO0VBQUE7RUFBQUMsYUFBQSxHQUFBQyxDQUFBO0VBQy9CRixZQUFBLHVDQUFtQztFQUFBO0VBQUFDLGFBQUEsR0FBQUMsQ0FBQTtFQUNuQ0YsWUFBQSx1Q0FBbUM7QUFDckMsQ0FBQztBQUxXO0FBQUEsQ0FBQUMsYUFBQSxHQUFBRyxDQUFBLFVBQUFKLFlBQVk7QUFBQTtBQUFBLENBQUFDLGFBQUEsR0FBQUcsQ0FBQSxVQUFBQyxPQUFBLENBQUFMLFlBQUEsR0FBWkEsWUFBWSIsImlnbm9yZUxpc3QiOltdfQ==

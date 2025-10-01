@@ -108,24 +108,17 @@ describe('FaqService', () => {
       const mockResponse = {
         success: true,
         data: [],
-        metadata: {
-          total: 0,
-          page: 1,
-          limit: 5,
-          hasNext: false,
-          hasPrev: false,
-        },
       };
 
-      mockApiService.getPaginated.mockResolvedValue(mockResponse);
+      mockApiService.get.mockResolvedValue(mockResponse);
 
-      await FaqService.getPopularFAQs(5, 'pt-BR');
+      const result = await FaqService.getPopularFAQs(5, 'pt-BR');
 
-      expect(mockApiService.getPaginated).toHaveBeenCalledWith('/faq/popular', 1, 5, {
-        page: 1,
+      expect(mockApiService.get).toHaveBeenCalledWith('/faq/popular', {
         limit: 5,
         lang: 'pt-BR',
       });
+      expect(result).toEqual({ data: [] });
     });
   });
 

@@ -87,10 +87,15 @@ export function FaqDialog({
 
   useEffect(() => {
     if (faq) {
+      // Extract category ID if it's a populated object
+      const categoryId = typeof faq.category === 'string'
+        ? faq.category
+        : (faq.category as any)?._id || '';
+
       form.reset({
         question: faq.question,
         answer: faq.answer,
-        category: faq.category,
+        category: categoryId,
         isVisible: faq.isVisible,
       });
     } else {

@@ -78,10 +78,15 @@ class ApiService {
   }
 
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<ApiResponse<T>> {
+    const isFormData = options.body instanceof FormData;
     const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
       ...(options.headers as Record<string, string>),
     };
+
+    // Don't set Content-Type for FormData - let browser set it with boundary
+    if (!isFormData) {
+      headers['Content-Type'] = 'application/json';
+    }
 
     if (this.token) {
       headers['Authorization'] = `Bearer ${this.token}`;
@@ -135,7 +140,7 @@ class ApiService {
 
       // Handle different response formats
       // If the response has a statusCode field, it's the direct API response
-      if ('statusCode' in data && data.statusCode === 200) {
+      if ('statusCode' in data && data.statusCode >= 200 && data.statusCode < 300) {
         return {
           success: true,
           data: data.data as T,
@@ -222,16 +227,20 @@ class ApiService {
   }
 
   async post<T>(endpoint: string, data?: unknown): Promise<ApiResponse<T>> {
+    const isFormData = data instanceof FormData;
     return this.request<T>(endpoint, {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: isFormData ? data : JSON.stringify(data),
+      headers: isFormData ? {} : undefined, // Let browser set Content-Type for FormData
     });
   }
 
   async put<T>(endpoint: string, data?: unknown): Promise<ApiResponse<T>> {
+    const isFormData = data instanceof FormData;
     return this.request<T>(endpoint, {
       method: 'PUT',
-      body: JSON.stringify(data),
+      body: isFormData ? data : JSON.stringify(data),
+      headers: isFormData ? {} : undefined,
     });
   }
 
@@ -242,9 +251,11 @@ class ApiService {
   }
 
   async patch<T>(endpoint: string, data?: unknown): Promise<ApiResponse<T>> {
+    const isFormData = data instanceof FormData;
     return this.request<T>(endpoint, {
       method: 'PATCH',
-      body: JSON.stringify(data),
+      body: isFormData ? data : JSON.stringify(data),
+      headers: isFormData ? {} : undefined,
     });
   }
 

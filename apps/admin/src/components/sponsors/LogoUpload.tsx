@@ -2,17 +2,19 @@ import { useState, useRef, useCallback } from 'react';
 import { Upload, X, FileImage, AlertCircle, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { SponsorsService } from '@/services/sponsors.service';
 
 interface LogoUploadProps {
   currentLogoUrl?: string;
   onLogoChange: (logoUrl: string) => void;
   loading?: boolean;
+  sponsorId?: string;
 }
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-const SUPPORTED_FORMATS = ['image/jpeg', 'image/jpg', 'image/png', 'image/svg+xml', 'image/webp'];
+const SUPPORTED_FORMATS = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
 
-export function LogoUpload({ currentLogoUrl, onLogoChange, loading = false }: LogoUploadProps) {
+export function LogoUpload({ currentLogoUrl, onLogoChange, loading = false, sponsorId }: LogoUploadProps) {
   const [dragActive, setDragActive] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -21,7 +23,7 @@ export function LogoUpload({ currentLogoUrl, onLogoChange, loading = false }: Lo
 
   const validateFile = (file: File): string | null => {
     if (!SUPPORTED_FORMATS.includes(file.type)) {
-      return 'Unsupported file format. Please use JPG, PNG, SVG, or WEBP.';
+      return 'Unsupported file format. Please use JPG, PNG, or WEBP.';
     }
 
     if (file.size > MAX_FILE_SIZE) {
@@ -31,54 +33,13 @@ export function LogoUpload({ currentLogoUrl, onLogoChange, loading = false }: Lo
     return null;
   };
 
-  const resizeImage = (file: File, maxWidth: number, maxHeight: number): Promise<Blob> => {
-    return new Promise((resolve) => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      const img = new Image();
-
-      img.onload = () => {
-        const { width, height } = img;
-
-        // Calculate new dimensions
-        let newWidth = width;
-        let newHeight = height;
-
-        if (width > maxWidth || height > maxHeight) {
-          const aspectRatio = width / height;
-
-          if (width > height) {
-            newWidth = maxWidth;
-            newHeight = maxWidth / aspectRatio;
-          } else {
-            newHeight = maxHeight;
-            newWidth = maxHeight * aspectRatio;
-          }
-        }
-
-        canvas.width = newWidth;
-        canvas.height = newHeight;
-
-        ctx?.drawImage(img, 0, 0, newWidth, newHeight);
-
-        canvas.toBlob((blob) => {
-          resolve(blob as Blob);
-        }, 'image/jpeg', 0.9);
-      };
-
-      img.src = URL.createObjectURL(file);
-    });
-  };
-
   const uploadFile = async (file: File): Promise<string> => {
-    // Simulate file upload - replace with actual implementation
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        // Mock successful upload
-        const mockUrl = URL.createObjectURL(file);
-        resolve(mockUrl);
-      }, 2000);
-    });
+    if (!sponsorId) {
+      throw new Error('Sponsor ID is required for upload. Please save the sponsor first.');
+    }
+
+    const response = await SponsorsService.uploadLogo(sponsorId, file);
+    return response.data.data.logoUrl;
   };
 
   const handleFileSelect = useCallback(async (file: File) => {
@@ -96,25 +57,20 @@ export function LogoUpload({ currentLogoUrl, onLogoChange, loading = false }: Lo
       const previewUrl = URL.createObjectURL(file);
       setPreview(previewUrl);
 
-      // Resize image if needed (except SVG)
-      let processedFile = file;
-      if (file.type !== 'image/svg+xml') {
-        const resizedBlob = await resizeImage(file, 500, 500);
-        processedFile = new File([resizedBlob], file.name, { type: 'image/jpeg' });
-      }
-
       // Upload file
-      const logoUrl = await uploadFile(processedFile);
+      const logoUrl = await uploadFile(file);
       onLogoChange(logoUrl);
+      setPreview(logoUrl);
 
     } catch (err) {
       console.error('Upload failed:', err);
-      setError('Upload failed. Please try again.');
+      const errorMessage = err instanceof Error ? err.message : 'Upload failed. Please try again.';
+      setError(errorMessage);
       setPreview(currentLogoUrl || null);
     } finally {
       setUploading(false);
     }
-  }, [currentLogoUrl, onLogoChange]);
+  }, [currentLogoUrl, onLogoChange, sponsorId]);
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -240,7 +196,7 @@ export function LogoUpload({ currentLogoUrl, onLogoChange, loading = false }: Lo
                 {uploading ? 'Uploading logo...' : 'Drop logo here or click to browse'}
               </p>
               <p className="text-xs text-muted-foreground">
-                Supports JPG, PNG, SVG, WEBP up to 5MB
+                Supports JPG, PNG, WEBP up to 5MB
               </p>
             </div>
 
@@ -265,8 +221,10 @@ export function LogoUpload({ currentLogoUrl, onLogoChange, loading = false }: Lo
 
       <div className="text-xs text-muted-foreground space-y-1">
         <p>• Recommended dimensions: 500x500 pixels or smaller</p>
-        <p>• Images will be automatically resized and optimized</p>
-        <p>• SVG files are supported for vector logos</p>
+        <p>• Images will be automatically validated and optimized</p>
+        {!sponsorId && (
+          <p className="text-yellow-600">⚠️ Save the sponsor before uploading a logo</p>
+        )}
       </div>
     </div>
   );

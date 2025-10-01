@@ -68,10 +68,9 @@ export class Sponsor implements Omit<ISponsor, '_id'> {
   };
 
   @Prop({
-    required: true,
     match: /^https?:\/\/.+/,
   })
-  logoUrl: string;
+  logoUrl?: string;
 
   @Prop({
     type: MongooseSchema.Types.ObjectId,
@@ -88,10 +87,9 @@ export class Sponsor implements Omit<ISponsor, '_id'> {
   orderInTier: number;
 
   @Prop({
-    required: true,
     match: /^https?:\/\/.+/,
   })
-  websiteUrl: string;
+  websiteUrl?: string;
 
   @Prop({
     maxlength: 100,
@@ -170,6 +168,9 @@ SponsorSchema.index({ isVisible: 1 });
 SponsorSchema.index({ deletedAt: 1 });
 SponsorSchema.index({ tags: 1 });
 SponsorSchema.index({ name: 'text', 'description.pt-BR': 'text', 'description.en': 'text' });
+
+// Composite index for public API queries (optimizes {isVisible: true, deletedAt: null} pattern)
+SponsorSchema.index({ isVisible: 1, deletedAt: 1, tier: 1, orderInTier: 1 });
 
 // Pre-save middleware for data normalization
 SponsorSchema.pre('save', function (next) {

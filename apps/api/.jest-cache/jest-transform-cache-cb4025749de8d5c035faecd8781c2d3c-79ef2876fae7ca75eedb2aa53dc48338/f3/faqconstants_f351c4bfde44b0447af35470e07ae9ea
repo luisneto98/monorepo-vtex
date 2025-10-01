@@ -1,0 +1,128 @@
+4df26a7b10520716865d477005f70081
+"use strict";
+
+/* istanbul ignore next */
+function cov_1xfjiot6ny() {
+  var path = "/home/luisneto98/Documentos/Code/monorepo-vtex/apps/api/src/modules/faq/faq.constants.ts";
+  var hash = "555e39f88f9ed5975e84b2ebcd5c50c42ddb45a2";
+  var global = new Function("return this")();
+  var gcv = "__coverage__";
+  var coverageData = {
+    path: "/home/luisneto98/Documentos/Code/monorepo-vtex/apps/api/src/modules/faq/faq.constants.ts",
+    statementMap: {
+      "0": {
+        start: {
+          line: 2,
+          column: 0
+        },
+        end: {
+          line: 2,
+          column: 62
+        }
+      },
+      "1": {
+        start: {
+          line: 3,
+          column: 0
+        },
+        end: {
+          line: 3,
+          column: 64
+        }
+      },
+      "2": {
+        start: {
+          line: 4,
+          column: 0
+        },
+        end: {
+          line: 22,
+          column: 2
+        }
+      },
+      "3": {
+        start: {
+          line: 23,
+          column: 0
+        },
+        end: {
+          line: 29,
+          column: 2
+        }
+      }
+    },
+    fnMap: {},
+    branchMap: {},
+    s: {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 0
+    },
+    f: {},
+    b: {},
+    inputSourceMap: {
+      file: "/home/luisneto98/Documentos/Code/monorepo-vtex/apps/api/src/modules/faq/faq.constants.ts",
+      mappings: ";;;AAAa,QAAA,aAAa,GAAG;IAC3B,sBAAsB;IACtB,mBAAmB,EAAE,GAAG;IACxB,iBAAiB,EAAE,IAAI;IAEvB,sBAAsB;IACtB,eAAe,EAAE,CAAC;IAClB,oBAAoB,EAAE,CAAC;IAEvB,iBAAiB;IACjB,qBAAqB,EAAE,EAAE;IACzB,kBAAkB,EAAE,EAAE;IAEtB,sBAAsB;IACtB,uBAAuB,EAAE,EAAE;IAC3B,0BAA0B,EAAE,EAAE,GAAG,IAAI,EAAE,OAAO;IAE9C,gBAAgB;IAChB,mCAAmC,EAAE,EAAE,GAAG,IAAI,EAAE,WAAW;IAC3D,sCAAsC,EAAE,CAAC;IAEzC,kBAAkB;IAClB,kBAAkB,EAAE,GAAG;CACf,CAAC;AAEE,QAAA,sBAAsB,GAAG;IACpC,sBAAsB;IACtB,eAAe,EAAE,GAAG;IACpB,sBAAsB,EAAE,GAAG;IAE3B,sBAAsB;IACtB,eAAe,EAAE,CAAC;CACV,CAAC",
+      names: [],
+      sources: ["/home/luisneto98/Documentos/Code/monorepo-vtex/apps/api/src/modules/faq/faq.constants.ts"],
+      sourcesContent: ["export const FAQ_CONSTANTS = {\n  // Field length limits\n  QUESTION_MAX_LENGTH: 200,\n  ANSWER_MAX_LENGTH: 2000,\n\n  // Numeric constraints\n  ORDER_MIN_VALUE: 0,\n  VIEW_COUNT_MIN_VALUE: 0,\n\n  // Default values\n  DEFAULT_POPULAR_LIMIT: 10,\n  DEFAULT_PAGE_LIMIT: 20,\n\n  // HTML content limits\n  ANSWER_HTML_MAX_SIZE_KB: 10,\n  ANSWER_HTML_MAX_SIZE_BYTES: 10 * 1024, // 10KB\n\n  // Rate limiting\n  VIEW_INCREMENT_RATE_LIMIT_WINDOW_MS: 60 * 1000, // 1 minute\n  VIEW_INCREMENT_MAX_REQUESTS_PER_WINDOW: 5,\n\n  // Search debounce\n  SEARCH_DEBOUNCE_MS: 500,\n} as const;\n\nexport const FAQ_CATEGORY_CONSTANTS = {\n  // Field length limits\n  NAME_MAX_LENGTH: 100,\n  DESCRIPTION_MAX_LENGTH: 500,\n\n  // Numeric constraints\n  ORDER_MIN_VALUE: 0,\n} as const;\n"],
+      version: 3
+    },
+    _coverageSchema: "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    hash: "555e39f88f9ed5975e84b2ebcd5c50c42ddb45a2"
+  };
+  var coverage = global[gcv] || (global[gcv] = {});
+  if (!coverage[path] || coverage[path].hash !== hash) {
+    coverage[path] = coverageData;
+  }
+  var actualCoverage = coverage[path];
+  {
+    // @ts-ignore
+    cov_1xfjiot6ny = function () {
+      return actualCoverage;
+    };
+  }
+  return actualCoverage;
+}
+cov_1xfjiot6ny();
+cov_1xfjiot6ny().s[0]++;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/* istanbul ignore next */
+cov_1xfjiot6ny().s[1]++;
+exports.FAQ_CATEGORY_CONSTANTS = exports.FAQ_CONSTANTS = void 0;
+/* istanbul ignore next */
+cov_1xfjiot6ny().s[2]++;
+exports.FAQ_CONSTANTS = {
+  // Field length limits
+  QUESTION_MAX_LENGTH: 200,
+  ANSWER_MAX_LENGTH: 2000,
+  // Numeric constraints
+  ORDER_MIN_VALUE: 0,
+  VIEW_COUNT_MIN_VALUE: 0,
+  // Default values
+  DEFAULT_POPULAR_LIMIT: 10,
+  DEFAULT_PAGE_LIMIT: 20,
+  // HTML content limits
+  ANSWER_HTML_MAX_SIZE_KB: 10,
+  ANSWER_HTML_MAX_SIZE_BYTES: 10 * 1024,
+  // 10KB
+  // Rate limiting
+  VIEW_INCREMENT_RATE_LIMIT_WINDOW_MS: 60 * 1000,
+  // 1 minute
+  VIEW_INCREMENT_MAX_REQUESTS_PER_WINDOW: 5,
+  // Search debounce
+  SEARCH_DEBOUNCE_MS: 500
+};
+/* istanbul ignore next */
+cov_1xfjiot6ny().s[3]++;
+exports.FAQ_CATEGORY_CONSTANTS = {
+  // Field length limits
+  NAME_MAX_LENGTH: 100,
+  DESCRIPTION_MAX_LENGTH: 500,
+  // Numeric constraints
+  ORDER_MIN_VALUE: 0
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJjb3ZfMXhmamlvdDZueSIsImFjdHVhbENvdmVyYWdlIiwicyIsImV4cG9ydHMiLCJGQVFfQ09OU1RBTlRTIiwiUVVFU1RJT05fTUFYX0xFTkdUSCIsIkFOU1dFUl9NQVhfTEVOR1RIIiwiT1JERVJfTUlOX1ZBTFVFIiwiVklFV19DT1VOVF9NSU5fVkFMVUUiLCJERUZBVUxUX1BPUFVMQVJfTElNSVQiLCJERUZBVUxUX1BBR0VfTElNSVQiLCJBTlNXRVJfSFRNTF9NQVhfU0laRV9LQiIsIkFOU1dFUl9IVE1MX01BWF9TSVpFX0JZVEVTIiwiVklFV19JTkNSRU1FTlRfUkFURV9MSU1JVF9XSU5ET1dfTVMiLCJWSUVXX0lOQ1JFTUVOVF9NQVhfUkVRVUVTVFNfUEVSX1dJTkRPVyIsIlNFQVJDSF9ERUJPVU5DRV9NUyIsIkZBUV9DQVRFR09SWV9DT05TVEFOVFMiLCJOQU1FX01BWF9MRU5HVEgiLCJERVNDUklQVElPTl9NQVhfTEVOR1RIIl0sInNvdXJjZXMiOlsiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9mYXEvZmFxLmNvbnN0YW50cy50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJleHBvcnQgY29uc3QgRkFRX0NPTlNUQU5UUyA9IHtcbiAgLy8gRmllbGQgbGVuZ3RoIGxpbWl0c1xuICBRVUVTVElPTl9NQVhfTEVOR1RIOiAyMDAsXG4gIEFOU1dFUl9NQVhfTEVOR1RIOiAyMDAwLFxuXG4gIC8vIE51bWVyaWMgY29uc3RyYWludHNcbiAgT1JERVJfTUlOX1ZBTFVFOiAwLFxuICBWSUVXX0NPVU5UX01JTl9WQUxVRTogMCxcblxuICAvLyBEZWZhdWx0IHZhbHVlc1xuICBERUZBVUxUX1BPUFVMQVJfTElNSVQ6IDEwLFxuICBERUZBVUxUX1BBR0VfTElNSVQ6IDIwLFxuXG4gIC8vIEhUTUwgY29udGVudCBsaW1pdHNcbiAgQU5TV0VSX0hUTUxfTUFYX1NJWkVfS0I6IDEwLFxuICBBTlNXRVJfSFRNTF9NQVhfU0laRV9CWVRFUzogMTAgKiAxMDI0LCAvLyAxMEtCXG5cbiAgLy8gUmF0ZSBsaW1pdGluZ1xuICBWSUVXX0lOQ1JFTUVOVF9SQVRFX0xJTUlUX1dJTkRPV19NUzogNjAgKiAxMDAwLCAvLyAxIG1pbnV0ZVxuICBWSUVXX0lOQ1JFTUVOVF9NQVhfUkVRVUVTVFNfUEVSX1dJTkRPVzogNSxcblxuICAvLyBTZWFyY2ggZGVib3VuY2VcbiAgU0VBUkNIX0RFQk9VTkNFX01TOiA1MDAsXG59IGFzIGNvbnN0O1xuXG5leHBvcnQgY29uc3QgRkFRX0NBVEVHT1JZX0NPTlNUQU5UUyA9IHtcbiAgLy8gRmllbGQgbGVuZ3RoIGxpbWl0c1xuICBOQU1FX01BWF9MRU5HVEg6IDEwMCxcbiAgREVTQ1JJUFRJT05fTUFYX0xFTkdUSDogNTAwLFxuXG4gIC8vIE51bWVyaWMgY29uc3RyYWludHNcbiAgT1JERVJfTUlOX1ZBTFVFOiAwLFxufSBhcyBjb25zdDtcbiJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztJQWVFO0lBQUFBLGNBQUEsWUFBQUEsQ0FBQTtNQUFBLE9BQUFDLGNBQUE7SUFBQTtFQUFBO0VBQUEsT0FBQUEsY0FBQTtBQUFBO0FBQUFELGNBQUE7QUFBQUEsY0FBQSxHQUFBRSxDQUFBOzs7Ozs7Ozs7QUFmV0MsT0FBQSxDQUFBQyxhQUFhLEdBQUc7RUFDM0I7RUFDQUMsbUJBQW1CLEVBQUUsR0FBRztFQUN4QkMsaUJBQWlCLEVBQUUsSUFBSTtFQUV2QjtFQUNBQyxlQUFlLEVBQUUsQ0FBQztFQUNsQkMsb0JBQW9CLEVBQUUsQ0FBQztFQUV2QjtFQUNBQyxxQkFBcUIsRUFBRSxFQUFFO0VBQ3pCQyxrQkFBa0IsRUFBRSxFQUFFO0VBRXRCO0VBQ0FDLHVCQUF1QixFQUFFLEVBQUU7RUFDM0JDLDBCQUEwQixFQUFFLEVBQUUsR0FBRyxJQUFJO0VBQUU7RUFFdkM7RUFDQUMsbUNBQW1DLEVBQUUsRUFBRSxHQUFHLElBQUk7RUFBRTtFQUNoREMsc0NBQXNDLEVBQUUsQ0FBQztFQUV6QztFQUNBQyxrQkFBa0IsRUFBRTtDQUNaO0FBQUM7QUFBQWYsY0FBQSxHQUFBRSxDQUFBO0FBRUVDLE9BQUEsQ0FBQWEsc0JBQXNCLEdBQUc7RUFDcEM7RUFDQUMsZUFBZSxFQUFFLEdBQUc7RUFDcEJDLHNCQUFzQixFQUFFLEdBQUc7RUFFM0I7RUFDQVgsZUFBZSxFQUFFO0NBQ1QiLCJpZ25vcmVMaXN0IjpbXX0=

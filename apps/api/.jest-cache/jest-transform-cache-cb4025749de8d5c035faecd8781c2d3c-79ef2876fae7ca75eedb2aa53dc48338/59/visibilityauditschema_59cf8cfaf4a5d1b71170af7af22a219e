@@ -1,0 +1,59 @@
+bea8cab9e27ef7d4bc56c355a7c1c192
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.VisibilityAuditSchema = exports.VisibilityAudit = void 0;
+const mongoose_1 = require("@nestjs/mongoose");
+const mongoose_2 = require("mongoose");
+const system_config_schema_1 = require("./system-config.schema");
+let VisibilityAudit = class VisibilityAudit {
+    configId;
+    section;
+    previousState;
+    newState;
+    changedBy;
+    changeReason;
+    ipAddress;
+};
+exports.VisibilityAudit = VisibilityAudit;
+__decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'SystemConfig', required: true }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], VisibilityAudit.prototype, "configId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], VisibilityAudit.prototype, "section", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Object, required: true }),
+    __metadata("design:type", system_config_schema_1.SectionVisibility)
+], VisibilityAudit.prototype, "previousState", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Object, required: true }),
+    __metadata("design:type", system_config_schema_1.SectionVisibility)
+], VisibilityAudit.prototype, "newState", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], VisibilityAudit.prototype, "changedBy", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], VisibilityAudit.prototype, "changeReason", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], VisibilityAudit.prototype, "ipAddress", void 0);
+exports.VisibilityAudit = VisibilityAudit = __decorate([
+    (0, mongoose_1.Schema)({ timestamps: true })
+], VisibilityAudit);
+exports.VisibilityAuditSchema = mongoose_1.SchemaFactory.createForClass(VisibilityAudit);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9zeXN0ZW0tY29uZmlnL3NjaGVtYXMvdmlzaWJpbGl0eS1hdWRpdC5zY2hlbWEudHMiLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7O0FBQUEsK0NBQStEO0FBQy9ELHVDQUEyQztBQUMzQyxpRUFBMkQ7QUFLcEQsSUFBTSxlQUFlLEdBQXJCLE1BQU0sZUFBZTtJQUUxQixRQUFRLENBQWlCO0lBR3pCLE9BQU8sQ0FBUztJQUdoQixhQUFhLENBQW9CO0lBR2pDLFFBQVEsQ0FBb0I7SUFHNUIsU0FBUyxDQUFTO0lBR2xCLFlBQVksQ0FBVTtJQUd0QixTQUFTLENBQVU7Q0FDcEIsQ0FBQTtBQXJCWSwwQ0FBZTtBQUUxQjtJQURDLElBQUEsZUFBSSxFQUFDLEVBQUUsSUFBSSxFQUFFLGdCQUFLLENBQUMsUUFBUSxFQUFFLEdBQUcsRUFBRSxjQUFjLEVBQUUsUUFBUSxFQUFFLElBQUksRUFBRSxDQUFDOzhCQUMxRCxnQkFBSyxDQUFDLFFBQVE7aURBQUM7QUFHekI7SUFEQyxJQUFBLGVBQUksRUFBQyxFQUFFLFFBQVEsRUFBRSxJQUFJLEVBQUUsQ0FBQzs7Z0RBQ1Q7QUFHaEI7SUFEQyxJQUFBLGVBQUksRUFBQyxFQUFFLElBQUksRUFBRSxNQUFNLEVBQUUsUUFBUSxFQUFFLElBQUksRUFBRSxDQUFDOzhCQUN4Qix3Q0FBaUI7c0RBQUM7QUFHakM7SUFEQyxJQUFBLGVBQUksRUFBQyxFQUFFLElBQUksRUFBRSxNQUFNLEVBQUUsUUFBUSxFQUFFLElBQUksRUFBRSxDQUFDOzhCQUM3Qix3Q0FBaUI7aURBQUM7QUFHNUI7SUFEQyxJQUFBLGVBQUksRUFBQyxFQUFFLFFBQVEsRUFBRSxJQUFJLEVBQUUsQ0FBQzs7a0RBQ1A7QUFHbEI7SUFEQyxJQUFBLGVBQUksR0FBRTs7cURBQ2U7QUFHdEI7SUFEQyxJQUFBLGVBQUksR0FBRTs7a0RBQ1k7MEJBcEJSLGVBQWU7SUFEM0IsSUFBQSxpQkFBTSxFQUFDLEVBQUUsVUFBVSxFQUFFLElBQUksRUFBRSxDQUFDO0dBQ2hCLGVBQWUsQ0FxQjNCO0FBRVksUUFBQSxxQkFBcUIsR0FBRyx3QkFBYSxDQUFDLGNBQWMsQ0FBQyxlQUFlLENBQUMsQ0FBQyIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvaG9tZS9sdWlzbmV0bzk4L0RvY3VtZW50b3MvQ29kZS9tb25vcmVwby12dGV4L2FwcHMvYXBpL3NyYy9tb2R1bGVzL3N5c3RlbS1jb25maWcvc2NoZW1hcy92aXNpYmlsaXR5LWF1ZGl0LnNjaGVtYS50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBQcm9wLCBTY2hlbWEsIFNjaGVtYUZhY3RvcnkgfSBmcm9tICdAbmVzdGpzL21vbmdvb3NlJztcbmltcG9ydCB7IERvY3VtZW50LCBUeXBlcyB9IGZyb20gJ21vbmdvb3NlJztcbmltcG9ydCB7IFNlY3Rpb25WaXNpYmlsaXR5IH0gZnJvbSAnLi9zeXN0ZW0tY29uZmlnLnNjaGVtYSc7XG5cbmV4cG9ydCB0eXBlIFZpc2liaWxpdHlBdWRpdERvY3VtZW50ID0gVmlzaWJpbGl0eUF1ZGl0ICYgRG9jdW1lbnQ7XG5cbkBTY2hlbWEoeyB0aW1lc3RhbXBzOiB0cnVlIH0pXG5leHBvcnQgY2xhc3MgVmlzaWJpbGl0eUF1ZGl0IHtcbiAgQFByb3AoeyB0eXBlOiBUeXBlcy5PYmplY3RJZCwgcmVmOiAnU3lzdGVtQ29uZmlnJywgcmVxdWlyZWQ6IHRydWUgfSlcbiAgY29uZmlnSWQ6IFR5cGVzLk9iamVjdElkO1xuXG4gIEBQcm9wKHsgcmVxdWlyZWQ6IHRydWUgfSlcbiAgc2VjdGlvbjogc3RyaW5nO1xuXG4gIEBQcm9wKHsgdHlwZTogT2JqZWN0LCByZXF1aXJlZDogdHJ1ZSB9KVxuICBwcmV2aW91c1N0YXRlOiBTZWN0aW9uVmlzaWJpbGl0eTtcblxuICBAUHJvcCh7IHR5cGU6IE9iamVjdCwgcmVxdWlyZWQ6IHRydWUgfSlcbiAgbmV3U3RhdGU6IFNlY3Rpb25WaXNpYmlsaXR5O1xuXG4gIEBQcm9wKHsgcmVxdWlyZWQ6IHRydWUgfSlcbiAgY2hhbmdlZEJ5OiBzdHJpbmc7XG5cbiAgQFByb3AoKVxuICBjaGFuZ2VSZWFzb24/OiBzdHJpbmc7XG5cbiAgQFByb3AoKVxuICBpcEFkZHJlc3M/OiBzdHJpbmc7XG59XG5cbmV4cG9ydCBjb25zdCBWaXNpYmlsaXR5QXVkaXRTY2hlbWEgPSBTY2hlbWFGYWN0b3J5LmNyZWF0ZUZvckNsYXNzKFZpc2liaWxpdHlBdWRpdCk7XG4iXSwidmVyc2lvbiI6M30=

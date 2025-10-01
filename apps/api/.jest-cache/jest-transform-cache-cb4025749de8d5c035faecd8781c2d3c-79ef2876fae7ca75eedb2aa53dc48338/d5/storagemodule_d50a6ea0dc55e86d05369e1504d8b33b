@@ -1,0 +1,26 @@
+b3f56918b659760655c61d822487f32e
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.StorageModule = void 0;
+const common_1 = require("@nestjs/common");
+const config_1 = require("@nestjs/config");
+const storage_service_1 = require("./services/storage.service");
+const storage_config_service_1 = require("./services/storage-config.service");
+const virus_scanner_service_1 = require("./services/virus-scanner.service");
+let StorageModule = class StorageModule {
+};
+exports.StorageModule = StorageModule;
+exports.StorageModule = StorageModule = __decorate([
+    (0, common_1.Module)({
+        imports: [config_1.ConfigModule],
+        providers: [storage_service_1.StorageService, storage_config_service_1.StorageConfigService, virus_scanner_service_1.VirusScannerService],
+        exports: [storage_service_1.StorageService],
+    })
+], StorageModule);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9zdG9yYWdlL3N0b3JhZ2UubW9kdWxlLnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7OztBQUFBLDJDQUF3QztBQUN4QywyQ0FBOEM7QUFDOUMsZ0VBQTREO0FBQzVELDhFQUF5RTtBQUN6RSw0RUFBdUU7QUFPaEUsSUFBTSxhQUFhLEdBQW5CLE1BQU0sYUFBYTtDQUFHLENBQUE7QUFBaEIsc0NBQWE7d0JBQWIsYUFBYTtJQUx6QixJQUFBLGVBQU0sRUFBQztRQUNOLE9BQU8sRUFBRSxDQUFDLHFCQUFZLENBQUM7UUFDdkIsU0FBUyxFQUFFLENBQUMsZ0NBQWMsRUFBRSw2Q0FBb0IsRUFBRSwyQ0FBbUIsQ0FBQztRQUN0RSxPQUFPLEVBQUUsQ0FBQyxnQ0FBYyxDQUFDO0tBQzFCLENBQUM7R0FDVyxhQUFhLENBQUciLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9zdG9yYWdlL3N0b3JhZ2UubW9kdWxlLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IE1vZHVsZSB9IGZyb20gJ0BuZXN0anMvY29tbW9uJztcbmltcG9ydCB7IENvbmZpZ01vZHVsZSB9IGZyb20gJ0BuZXN0anMvY29uZmlnJztcbmltcG9ydCB7IFN0b3JhZ2VTZXJ2aWNlIH0gZnJvbSAnLi9zZXJ2aWNlcy9zdG9yYWdlLnNlcnZpY2UnO1xuaW1wb3J0IHsgU3RvcmFnZUNvbmZpZ1NlcnZpY2UgfSBmcm9tICcuL3NlcnZpY2VzL3N0b3JhZ2UtY29uZmlnLnNlcnZpY2UnO1xuaW1wb3J0IHsgVmlydXNTY2FubmVyU2VydmljZSB9IGZyb20gJy4vc2VydmljZXMvdmlydXMtc2Nhbm5lci5zZXJ2aWNlJztcblxuQE1vZHVsZSh7XG4gIGltcG9ydHM6IFtDb25maWdNb2R1bGVdLFxuICBwcm92aWRlcnM6IFtTdG9yYWdlU2VydmljZSwgU3RvcmFnZUNvbmZpZ1NlcnZpY2UsIFZpcnVzU2Nhbm5lclNlcnZpY2VdLFxuICBleHBvcnRzOiBbU3RvcmFnZVNlcnZpY2VdLFxufSlcbmV4cG9ydCBjbGFzcyBTdG9yYWdlTW9kdWxlIHt9XG4iXSwidmVyc2lvbiI6M30=

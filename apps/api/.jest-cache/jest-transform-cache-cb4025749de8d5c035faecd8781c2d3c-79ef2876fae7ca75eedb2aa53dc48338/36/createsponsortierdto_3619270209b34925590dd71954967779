@@ -1,0 +1,44 @@
+ab009bf5044cec04a7a5c483297601b5
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CreateSponsorTierDto = void 0;
+const class_transformer_1 = require("class-transformer");
+const class_validator_1 = require("class-validator");
+const multilingual_dto_1 = require("@common/dto/multilingual.dto");
+class CreateSponsorTierDto {
+    name;
+    displayName;
+    order;
+    maxPosts;
+}
+exports.CreateSponsorTierDto = CreateSponsorTierDto;
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(50),
+    __metadata("design:type", String)
+], CreateSponsorTierDto.prototype, "name", void 0);
+__decorate([
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => multilingual_dto_1.MultilingualTextDto),
+    __metadata("design:type", multilingual_dto_1.MultilingualTextDto)
+], CreateSponsorTierDto.prototype, "displayName", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.Min)(1),
+    __metadata("design:type", Number)
+], CreateSponsorTierDto.prototype, "order", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.Min)(0),
+    __metadata("design:type", Number)
+], CreateSponsorTierDto.prototype, "maxPosts", void 0);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9zcG9uc29ycy9kdG8vY3JlYXRlLXNwb25zb3ItdGllci5kdG8udHMiLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7O0FBQUEseURBQXlDO0FBQ3pDLHFEQUFxRjtBQUNyRixtRUFBbUU7QUFFbkUsTUFBYSxvQkFBb0I7SUFHL0IsSUFBSSxDQUFTO0lBSWIsV0FBVyxDQUFzQjtJQUlqQyxLQUFLLENBQVM7SUFJZCxRQUFRLENBQVM7Q0FDbEI7QUFoQkQsb0RBZ0JDO0FBYkM7SUFGQyxJQUFBLDBCQUFRLEdBQUU7SUFDVixJQUFBLDJCQUFTLEVBQUMsRUFBRSxDQUFDOztrREFDRDtBQUliO0lBRkMsSUFBQSxnQ0FBYyxHQUFFO0lBQ2hCLElBQUEsd0JBQUksRUFBQyxHQUFHLEVBQUUsQ0FBQyxzQ0FBbUIsQ0FBQzs4QkFDbkIsc0NBQW1CO3lEQUFDO0FBSWpDO0lBRkMsSUFBQSwwQkFBUSxHQUFFO0lBQ1YsSUFBQSxxQkFBRyxFQUFDLENBQUMsQ0FBQzs7bURBQ087QUFJZDtJQUZDLElBQUEsMEJBQVEsR0FBRTtJQUNWLElBQUEscUJBQUcsRUFBQyxDQUFDLENBQUM7O3NEQUNVIiwibmFtZXMiOltdLCJzb3VyY2VzIjpbIi9ob21lL2x1aXNuZXRvOTgvRG9jdW1lbnRvcy9Db2RlL21vbm9yZXBvLXZ0ZXgvYXBwcy9hcGkvc3JjL21vZHVsZXMvc3BvbnNvcnMvZHRvL2NyZWF0ZS1zcG9uc29yLXRpZXIuZHRvLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IFR5cGUgfSBmcm9tICdjbGFzcy10cmFuc2Zvcm1lcic7XG5pbXBvcnQgeyBJc1N0cmluZywgSXNOdW1iZXIsIE1pbiwgTWF4TGVuZ3RoLCBWYWxpZGF0ZU5lc3RlZCB9IGZyb20gJ2NsYXNzLXZhbGlkYXRvcic7XG5pbXBvcnQgeyBNdWx0aWxpbmd1YWxUZXh0RHRvIH0gZnJvbSAnQGNvbW1vbi9kdG8vbXVsdGlsaW5ndWFsLmR0byc7XG5cbmV4cG9ydCBjbGFzcyBDcmVhdGVTcG9uc29yVGllckR0byB7XG4gIEBJc1N0cmluZygpXG4gIEBNYXhMZW5ndGgoNTApXG4gIG5hbWU6IHN0cmluZztcblxuICBAVmFsaWRhdGVOZXN0ZWQoKVxuICBAVHlwZSgoKSA9PiBNdWx0aWxpbmd1YWxUZXh0RHRvKVxuICBkaXNwbGF5TmFtZTogTXVsdGlsaW5ndWFsVGV4dER0bztcblxuICBASXNOdW1iZXIoKVxuICBATWluKDEpXG4gIG9yZGVyOiBudW1iZXI7XG5cbiAgQElzTnVtYmVyKClcbiAgQE1pbigwKVxuICBtYXhQb3N0czogbnVtYmVyO1xufVxuIl0sInZlcnNpb24iOjN9

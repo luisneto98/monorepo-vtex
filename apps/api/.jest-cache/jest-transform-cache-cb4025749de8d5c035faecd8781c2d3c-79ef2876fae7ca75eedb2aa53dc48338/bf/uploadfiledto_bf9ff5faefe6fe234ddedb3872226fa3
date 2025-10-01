@@ -1,0 +1,32 @@
+5e1ad201573958f45e194725b7fac710
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UploadFileDto = exports.SupportedLanguage = void 0;
+const class_validator_1 = require("class-validator");
+const shared_1 = require("@vtexday26/shared");
+Object.defineProperty(exports, "SupportedLanguage", { enumerable: true, get: function () { return shared_1.SupportedLanguage; } });
+class UploadFileDto {
+    language;
+    uploadedBy;
+}
+exports.UploadFileDto = UploadFileDto;
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsEnum)(shared_1.SupportedLanguage),
+    __metadata("design:type", String)
+], UploadFileDto.prototype, "language", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], UploadFileDto.prototype, "uploadedBy", void 0);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9sZWdhbC1wYWdlcy9kdG8vdXBsb2FkLWZpbGUuZHRvLnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7OztBQUFBLHFEQUErRDtBQUMvRCw4Q0FBc0Q7QUFHN0Msa0dBSEEsMEJBQWlCLE9BR0E7QUFFMUIsTUFBYSxhQUFhO0lBR3hCLFFBQVEsQ0FBb0I7SUFJNUIsVUFBVSxDQUFTO0NBQ3BCO0FBUkQsc0NBUUM7QUFMQztJQUZDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsd0JBQU0sRUFBQywwQkFBaUIsQ0FBQzs7K0NBQ0U7QUFJNUI7SUFGQyxJQUFBLDRCQUFVLEdBQUU7SUFDWixJQUFBLDBCQUFRLEdBQUU7O2lEQUNRIiwibmFtZXMiOltdLCJzb3VyY2VzIjpbIi9ob21lL2x1aXNuZXRvOTgvRG9jdW1lbnRvcy9Db2RlL21vbm9yZXBvLXZ0ZXgvYXBwcy9hcGkvc3JjL21vZHVsZXMvbGVnYWwtcGFnZXMvZHRvL3VwbG9hZC1maWxlLmR0by50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBJc0VudW0sIElzTm90RW1wdHksIElzU3RyaW5nIH0gZnJvbSAnY2xhc3MtdmFsaWRhdG9yJztcbmltcG9ydCB7IFN1cHBvcnRlZExhbmd1YWdlIH0gZnJvbSAnQHZ0ZXhkYXkyNi9zaGFyZWQnO1xuXG4vLyBSZS1leHBvcnQgZm9yIGJhY2t3YXJkIGNvbXBhdGliaWxpdHlcbmV4cG9ydCB7IFN1cHBvcnRlZExhbmd1YWdlIH07XG5cbmV4cG9ydCBjbGFzcyBVcGxvYWRGaWxlRHRvIHtcbiAgQElzTm90RW1wdHkoKVxuICBASXNFbnVtKFN1cHBvcnRlZExhbmd1YWdlKVxuICBsYW5ndWFnZTogU3VwcG9ydGVkTGFuZ3VhZ2U7XG5cbiAgQElzTm90RW1wdHkoKVxuICBASXNTdHJpbmcoKVxuICB1cGxvYWRlZEJ5OiBzdHJpbmc7XG59XG4iXSwidmVyc2lvbiI6M30=

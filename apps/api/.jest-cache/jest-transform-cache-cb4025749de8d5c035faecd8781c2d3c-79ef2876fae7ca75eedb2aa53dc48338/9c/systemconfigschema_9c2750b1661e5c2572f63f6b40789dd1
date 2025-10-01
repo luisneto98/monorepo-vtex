@@ -1,0 +1,73 @@
+1d126d2057fe41753f7620a92ee5afb1
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SystemConfigSchema = exports.SystemConfig = exports.SectionVisibility = void 0;
+const mongoose_1 = require("@nestjs/mongoose");
+let SectionVisibility = class SectionVisibility {
+    isVisible;
+    customMessage;
+    scheduledActivation;
+    lastChanged;
+    changedBy;
+    changeReason;
+};
+exports.SectionVisibility = SectionVisibility;
+__decorate([
+    (0, mongoose_1.Prop)({ required: true, default: true }),
+    __metadata("design:type", Boolean)
+], SectionVisibility.prototype, "isVisible", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Object }),
+    __metadata("design:type", Object)
+], SectionVisibility.prototype, "customMessage", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Object }),
+    __metadata("design:type", Object)
+], SectionVisibility.prototype, "scheduledActivation", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", Date)
+], SectionVisibility.prototype, "lastChanged", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], SectionVisibility.prototype, "changedBy", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], SectionVisibility.prototype, "changeReason", void 0);
+exports.SectionVisibility = SectionVisibility = __decorate([
+    (0, mongoose_1.Schema)()
+], SectionVisibility);
+let SystemConfig = class SystemConfig {
+    sections;
+    lastModifiedBy;
+    version;
+};
+exports.SystemConfig = SystemConfig;
+__decorate([
+    (0, mongoose_1.Prop)({ type: Object, required: true }),
+    __metadata("design:type", Object)
+], SystemConfig.prototype, "sections", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], SystemConfig.prototype, "lastModifiedBy", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true, default: 1 }),
+    __metadata("design:type", Number)
+], SystemConfig.prototype, "version", void 0);
+exports.SystemConfig = SystemConfig = __decorate([
+    (0, mongoose_1.Schema)({ timestamps: true })
+], SystemConfig);
+exports.SystemConfigSchema = mongoose_1.SchemaFactory.createForClass(SystemConfig);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9zeXN0ZW0tY29uZmlnL3NjaGVtYXMvc3lzdGVtLWNvbmZpZy5zY2hlbWEudHMiLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7O0FBQUEsK0NBQStEO0FBTXhELElBQU0saUJBQWlCLEdBQXZCLE1BQU0saUJBQWlCO0lBRTVCLFNBQVMsQ0FBVTtJQUduQixhQUFhLENBR1g7SUFHRixtQkFBbUIsQ0FHakI7SUFHRixXQUFXLENBQU87SUFHbEIsU0FBUyxDQUFTO0lBR2xCLFlBQVksQ0FBVTtDQUN2QixDQUFBO0FBeEJZLDhDQUFpQjtBQUU1QjtJQURDLElBQUEsZUFBSSxFQUFDLEVBQUUsUUFBUSxFQUFFLElBQUksRUFBRSxPQUFPLEVBQUUsSUFBSSxFQUFFLENBQUM7O29EQUNyQjtBQUduQjtJQURDLElBQUEsZUFBSSxFQUFDLEVBQUUsSUFBSSxFQUFFLE1BQU0sRUFBRSxDQUFDOzt3REFJckI7QUFHRjtJQURDLElBQUEsZUFBSSxFQUFDLEVBQUUsSUFBSSxFQUFFLE1BQU0sRUFBRSxDQUFDOzs4REFJckI7QUFHRjtJQURDLElBQUEsZUFBSSxFQUFDLEVBQUUsUUFBUSxFQUFFLElBQUksRUFBRSxDQUFDOzhCQUNaLElBQUk7c0RBQUM7QUFHbEI7SUFEQyxJQUFBLGVBQUksRUFBQyxFQUFFLFFBQVEsRUFBRSxJQUFJLEVBQUUsQ0FBQzs7b0RBQ1A7QUFHbEI7SUFEQyxJQUFBLGVBQUksR0FBRTs7dURBQ2U7NEJBdkJYLGlCQUFpQjtJQUQ3QixJQUFBLGlCQUFNLEdBQUU7R0FDSSxpQkFBaUIsQ0F3QjdCO0FBR00sSUFBTSxZQUFZLEdBQWxCLE1BQU0sWUFBWTtJQUV2QixRQUFRLENBT047SUFHRixjQUFjLENBQVM7SUFHdkIsT0FBTyxDQUFTO0NBQ2pCLENBQUE7QUFoQlksb0NBQVk7QUFFdkI7SUFEQyxJQUFBLGVBQUksRUFBQyxFQUFFLElBQUksRUFBRSxNQUFNLEVBQUUsUUFBUSxFQUFFLElBQUksRUFBRSxDQUFDOzs4Q0FRckM7QUFHRjtJQURDLElBQUEsZUFBSSxFQUFDLEVBQUUsUUFBUSxFQUFFLElBQUksRUFBRSxDQUFDOztvREFDRjtBQUd2QjtJQURDLElBQUEsZUFBSSxFQUFDLEVBQUUsUUFBUSxFQUFFLElBQUksRUFBRSxPQUFPLEVBQUUsQ0FBQyxFQUFFLENBQUM7OzZDQUNyQjt1QkFmTCxZQUFZO0lBRHhCLElBQUEsaUJBQU0sRUFBQyxFQUFFLFVBQVUsRUFBRSxJQUFJLEVBQUUsQ0FBQztHQUNoQixZQUFZLENBZ0J4QjtBQUVZLFFBQUEsa0JBQWtCLEdBQUcsd0JBQWEsQ0FBQyxjQUFjLENBQUMsWUFBWSxDQUFDLENBQUMiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9zeXN0ZW0tY29uZmlnL3NjaGVtYXMvc3lzdGVtLWNvbmZpZy5zY2hlbWEudHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgUHJvcCwgU2NoZW1hLCBTY2hlbWFGYWN0b3J5IH0gZnJvbSAnQG5lc3Rqcy9tb25nb29zZSc7XG5pbXBvcnQgeyBEb2N1bWVudCB9IGZyb20gJ21vbmdvb3NlJztcblxuZXhwb3J0IHR5cGUgU3lzdGVtQ29uZmlnRG9jdW1lbnQgPSBTeXN0ZW1Db25maWcgJiBEb2N1bWVudDtcblxuQFNjaGVtYSgpXG5leHBvcnQgY2xhc3MgU2VjdGlvblZpc2liaWxpdHkge1xuICBAUHJvcCh7IHJlcXVpcmVkOiB0cnVlLCBkZWZhdWx0OiB0cnVlIH0pXG4gIGlzVmlzaWJsZTogYm9vbGVhbjtcblxuICBAUHJvcCh7IHR5cGU6IE9iamVjdCB9KVxuICBjdXN0b21NZXNzYWdlPzoge1xuICAgICdwdC1CUic6IHN0cmluZztcbiAgICBlbjogc3RyaW5nO1xuICB9O1xuXG4gIEBQcm9wKHsgdHlwZTogT2JqZWN0IH0pXG4gIHNjaGVkdWxlZEFjdGl2YXRpb24/OiB7XG4gICAgZGF0ZVRpbWU6IERhdGU7XG4gICAgdGltZXpvbmU6IHN0cmluZztcbiAgfTtcblxuICBAUHJvcCh7IHJlcXVpcmVkOiB0cnVlIH0pXG4gIGxhc3RDaGFuZ2VkOiBEYXRlO1xuXG4gIEBQcm9wKHsgcmVxdWlyZWQ6IHRydWUgfSlcbiAgY2hhbmdlZEJ5OiBzdHJpbmc7XG5cbiAgQFByb3AoKVxuICBjaGFuZ2VSZWFzb24/OiBzdHJpbmc7XG59XG5cbkBTY2hlbWEoeyB0aW1lc3RhbXBzOiB0cnVlIH0pXG5leHBvcnQgY2xhc3MgU3lzdGVtQ29uZmlnIHtcbiAgQFByb3AoeyB0eXBlOiBPYmplY3QsIHJlcXVpcmVkOiB0cnVlIH0pXG4gIHNlY3Rpb25zOiB7XG4gICAgc3BlYWtlcnM6IFNlY3Rpb25WaXNpYmlsaXR5O1xuICAgIHNwb25zb3JzOiBTZWN0aW9uVmlzaWJpbGl0eTtcbiAgICBzZXNzaW9uczogU2VjdGlvblZpc2liaWxpdHk7XG4gICAgZmFxOiBTZWN0aW9uVmlzaWJpbGl0eTtcbiAgICByZWdpc3RyYXRpb246IFNlY3Rpb25WaXNpYmlsaXR5O1xuICAgIHNjaGVkdWxlOiBTZWN0aW9uVmlzaWJpbGl0eTtcbiAgfTtcblxuICBAUHJvcCh7IHJlcXVpcmVkOiB0cnVlIH0pXG4gIGxhc3RNb2RpZmllZEJ5OiBzdHJpbmc7XG5cbiAgQFByb3AoeyByZXF1aXJlZDogdHJ1ZSwgZGVmYXVsdDogMSB9KVxuICB2ZXJzaW9uOiBudW1iZXI7XG59XG5cbmV4cG9ydCBjb25zdCBTeXN0ZW1Db25maWdTY2hlbWEgPSBTY2hlbWFGYWN0b3J5LmNyZWF0ZUZvckNsYXNzKFN5c3RlbUNvbmZpZyk7XG4iXSwidmVyc2lvbiI6M30=

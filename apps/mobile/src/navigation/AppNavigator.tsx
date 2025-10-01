@@ -13,7 +13,14 @@ import SessionDetailsScreen from '../screens/SessionDetails/SessionDetailsScreen
 import SpeakerProfileScreen from '../screens/SpeakerProfile/SpeakerProfileScreen';
 import NotificationsListScreen from '../screens/Notifications/NotificationsListScreen';
 import AboutEventScreen from '../screens/AboutEvent/AboutEventScreen';
+import SponsorsListScreen from '../screens/Sponsors/SponsorsListScreen';
+import SponsorDetailsScreen from '../screens/Sponsors/SponsorDetailsScreen';
+import PressMaterialsListScreen from '../screens/PressMaterials/PressMaterialsListScreen';
+import PressMaterialDetailModal from '../screens/PressMaterials/PressMaterialDetailModal';
+import NewsReleasesListScreen from '../screens/NewsReleases/NewsReleasesListScreen';
+import NewsReleaseDetailScreen from '../screens/NewsReleases/NewsReleaseDetailScreen';
 import { useNotifications } from '../contexts/NotificationContext';
+import { PressMaterial } from '@monorepo-vtex/shared/types/press-materials';
 
 export type RootStackParamList = {
   Main: undefined;
@@ -21,6 +28,12 @@ export type RootStackParamList = {
   SpeakerProfile: { speakerId: string; sessionId?: string };
   NotificationsList: undefined;
   AboutEvent: undefined;
+  Sponsors: undefined;
+  SponsorDetails: { sponsorId: string };
+  PressMaterials: undefined;
+  PressMaterialDetail: { material: PressMaterial };
+  NewsReleases: undefined;
+  NewsReleaseDetail: { slug: string };
 };
 
 export type TabParamList = {
@@ -57,6 +70,22 @@ const linking: LinkingOptions<RootStackParamList> = {
         path: 'speaker/:speakerId',
         parse: {
           speakerId: (speakerId: string) => speakerId,
+        },
+      },
+      Sponsors: 'sponsors',
+      SponsorDetails: {
+        path: 'sponsor/:sponsorId',
+        parse: {
+          sponsorId: (sponsorId: string) => sponsorId,
+        },
+      },
+      PressMaterials: 'press-materials',
+      PressMaterialDetail: 'press-material-detail',
+      NewsReleases: 'news',
+      NewsReleaseDetail: {
+        path: 'news/:slug',
+        parse: {
+          slug: (slug: string) => slug,
         },
       },
     },
@@ -162,6 +191,55 @@ export default function AppNavigator() {
           component={AboutEventScreen}
           options={{
             title: 'Sobre o Evento',
+            headerBackTitle: 'Voltar',
+          }}
+        />
+        <Stack.Screen
+          name="Sponsors"
+          component={SponsorsListScreen}
+          options={{
+            title: 'Patrocinadores',
+            headerBackTitle: 'Voltar',
+          }}
+        />
+        <Stack.Screen
+          name="SponsorDetails"
+          component={SponsorDetailsScreen}
+          options={{
+            title: 'Detalhes do Patrocinador',
+            headerBackTitle: 'Voltar',
+          }}
+        />
+        <Stack.Screen
+          name="PressMaterials"
+          component={PressMaterialsListScreen}
+          options={{
+            title: 'Materiais de Imprensa',
+            headerBackTitle: 'Voltar',
+          }}
+        />
+        <Stack.Screen
+          name="PressMaterialDetail"
+          component={PressMaterialDetailModal}
+          options={{
+            title: 'Detalhes do Material',
+            headerBackTitle: 'Voltar',
+            presentation: 'modal',
+          }}
+        />
+        <Stack.Screen
+          name="NewsReleases"
+          component={NewsReleasesListScreen}
+          options={{
+            title: 'Notícias',
+            headerBackTitle: 'Voltar',
+          }}
+        />
+        <Stack.Screen
+          name="NewsReleaseDetail"
+          component={NewsReleaseDetailScreen}
+          options={{
+            title: 'Notícia',
             headerBackTitle: 'Voltar',
           }}
         />

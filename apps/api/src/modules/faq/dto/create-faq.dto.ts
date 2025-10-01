@@ -35,14 +35,15 @@ export class CreateFaqDto {
   @IsMongoId()
   category: string;
 
-  @ApiProperty({
-    description: 'Display order within category',
+  @ApiPropertyOptional({
+    description: 'Display order within category (auto-generated if not provided)',
     example: 1,
-    minimum: 1,
+    minimum: 0,
   })
+  @IsOptional()
   @IsNumber()
-  @Min(1)
-  order: number;
+  @Min(0)
+  order?: number;
 
   @ApiPropertyOptional({
     description: 'FAQ visibility status',

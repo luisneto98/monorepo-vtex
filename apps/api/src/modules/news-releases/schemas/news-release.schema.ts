@@ -194,7 +194,8 @@ NewsReleaseSchema.index(
 // Multikey indexes for array fields
 NewsReleaseSchema.index({ tags: 1 });
 NewsReleaseSchema.index({ categories: 1 });
-NewsReleaseSchema.index({ tags: 1, categories: 1 });
+// Note: Cannot create compound index on two array fields (tags + categories)
+// MongoDB does not support indexing parallel arrays
 
 // Single field indexes for sorting and filtering
 NewsReleaseSchema.index({ createdAt: -1 });

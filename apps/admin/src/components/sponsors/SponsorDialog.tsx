@@ -3,7 +3,6 @@ import type { Sponsor, SponsorTier } from '@shared/types/sponsor.types';
 import { SponsorsService } from '@/services/sponsors.service';
 import { SponsorTiersService } from '@/services/sponsor-tiers.service';
 import { SponsorForm } from './SponsorForm';
-import { UserAccountManager } from './UserAccountManager';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Dialog,
@@ -43,6 +42,7 @@ type SponsorFormData = {
 
 export function SponsorDialog({ sponsor, open, onOpenChange, onSuccess }: SponsorDialogProps) {
   const [loading, setLoading] = useState(false);
+  const [loadingTiers, setLoadingTiers] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [availableTiers, setAvailableTiers] = useState<SponsorTier[]>([]);
 
@@ -54,17 +54,24 @@ export function SponsorDialog({ sponsor, open, onOpenChange, onSuccess }: Sponso
 
   const fetchTiers = async () => {
     try {
+      setLoadingTiers(true);
       const response = await SponsorTiersService.getSponsorTiers({ sort: 'order' });
-      console.log('Raw API response:', response);
-
-      // Handle nested data structure from API response
-      const tiersData = response?.data || response || [];
-      console.log('Extracted tiers data:', tiersData);
-
-      setAvailableTiers(Array.isArray(tiersData) ? tiersData : []);
+      // Handle nested data structure from API response: { data: { data: [...] } }
+      let tiersArray = [];
+      if (response?.data) {
+        // Check if data is nested (data.data) or direct array
+        if (Array.isArray(response.data)) {
+          tiersArray = response.data;
+        } else if (response.data.data && Array.isArray(response.data.data)) {
+          tiersArray = response.data.data;
+        }
+      }
+      setAvailableTiers(tiersArray);
     } catch (err) {
       console.error('Failed to fetch sponsor tiers:', err);
       setError('Failed to load sponsor tiers');
+    } finally {
+      setLoadingTiers(false);
     }
   };
 
@@ -97,6 +104,7 @@ export function SponsorDialog({ sponsor, open, onOpenChange, onSuccess }: Sponso
       };
 
       if (sponsor) {
+        // For updates, send only the modified fields
         await SponsorsService.updateSponsor(sponsor._id || '', cleanedData);
       } else {
         // For new sponsors, generate slug and set order
@@ -105,23 +113,39 @@ export function SponsorDialog({ sponsor, open, onOpenChange, onSuccess }: Sponso
           ? Math.max(...sponsorsInTier.data.map(s => s.orderInTier)) + 1
           : 1;
 
-        await SponsorsService.createSponsor({
+        // Build payload without postsUsed and with proper URL handling
+        const payload: any = {
           name: cleanedData.name,
           tier: cleanedData.tier,
-          logoUrl: cleanedData.logoUrl,
           description: cleanedData.description,
-          websiteUrl: cleanedData.websiteUrl || '',
           adminEmail: cleanedData.adminEmail,
-          contactEmail: cleanedData.contactEmail || '',
-          standLocation: cleanedData.standLocation || '',
-          socialLinks: cleanedData.socialLinks,
-          maxPosts: cleanedData.maxPosts,
           isVisible: cleanedData.isVisible,
           slug: generateSlug(data.name),
           orderInTier: nextOrder,
-          postsUsed: 0,
           tags: [],
-        });
+        };
+
+        // Only add optional fields if they have valid values
+        if (cleanedData.logoUrl && cleanedData.logoUrl.startsWith('http')) {
+          payload.logoUrl = cleanedData.logoUrl;
+        }
+        if (cleanedData.websiteUrl && cleanedData.websiteUrl.startsWith('http')) {
+          payload.websiteUrl = cleanedData.websiteUrl;
+        }
+        if (cleanedData.contactEmail) {
+          payload.contactEmail = cleanedData.contactEmail;
+        }
+        if (cleanedData.standLocation) {
+          payload.standLocation = cleanedData.standLocation;
+        }
+        if (cleanedData.maxPosts) {
+          payload.maxPosts = cleanedData.maxPosts;
+        }
+        if (cleanedData.socialLinks && Object.keys(cleanedData.socialLinks).length > 0) {
+          payload.socialLinks = cleanedData.socialLinks;
+        }
+
+        await SponsorsService.createSponsor(payload);
       }
 
       onSuccess();
@@ -178,7 +202,27 @@ export function SponsorDialog({ sponsor, open, onOpenChange, onSuccess }: Sponso
             </TabsContent>
 
             <TabsContent value="account" className="space-y-6">
-              <UserAccountManager sponsor={sponsor} />
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <div className="rounded-full bg-muted p-4 mb-4">
+                  <svg
+                    className="h-12 w-12 text-muted-foreground"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold mb-2">Em breve</h3>
+                <p className="text-sm text-muted-foreground max-w-sm">
+                  A gestão de contas de usuário para patrocinadores estará disponível em breve.
+                </p>
+              </div>
               <div className="flex justify-end">
                 <button
                   type="button"

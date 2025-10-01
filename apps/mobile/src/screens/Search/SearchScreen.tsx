@@ -22,6 +22,7 @@ function SearchContent() {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const language = 'pt-BR';
 
   useEffect(() => {
     if (activeSection === 'faq' && !searchQuery) {
@@ -38,7 +39,8 @@ function SearchContent() {
       setLoading(true);
       setError(null);
       const response = await FaqService.getPopularFAQs(10);
-      setResults(response.data);
+      const dataToSet = Array.isArray(response.data) ? response.data : [];
+      setResults(dataToSet);
     } catch (err: any) {
       setError(err.message || 'Erro ao carregar FAQs populares');
     } finally {
@@ -120,9 +122,19 @@ function SearchContent() {
     setHasMore(true);
   }, []);
 
-  const renderFaqItem = useCallback(
-    ({ item }: { item: Faq }) => <FaqAccordion faq={item} language="pt-BR" />,
-    []
+  const renderItem = useCallback(
+    ({ item }: { item: any }) => {
+      if (activeSection === 'faq') {
+        return <FaqAccordion faq={item as Faq} language="pt-BR" />;
+      }
+      // For other sections, render appropriate components
+      return (
+        <View style={styles.resultItem}>
+          <Text style={styles.resultTitle}>{item.title?.[language] || item.name?.[language] || 'Item'}</Text>
+        </View>
+      );
+    },
+    [activeSection]
   );
 
   const renderEmptyState = () => {
@@ -146,21 +158,17 @@ function SearchContent() {
       );
     }
 
-    if (activeSection === 'faq') {
+    // Only show "search prompt" when there are no results AND we're not showing popular FAQs
+    if (activeSection !== 'faq') {
       return (
         <View style={styles.emptyContainer}>
-          <Text style={styles.emptyText}>🔍 Busque por FAQs</Text>
-          <Text style={styles.emptySubtext}>Digite sua dúvida no campo acima</Text>
+          <Text style={styles.emptyText}>🔍 Inicie sua busca</Text>
+          <Text style={styles.emptySubtext}>Digite algo no campo acima</Text>
         </View>
       );
     }
 
-    return (
-      <View style={styles.emptyContainer}>
-        <Text style={styles.emptyText}>🔍 Inicie sua busca</Text>
-        <Text style={styles.emptySubtext}>Digite algo no campo acima</Text>
-      </View>
-    );
+    return null;
   };
 
   const renderFooter = () => {
@@ -187,6 +195,7 @@ function SearchContent() {
           selectedCategory={selectedCategory}
           onCategorySelect={handleCategorySelect}
           language="pt-BR"
+          faqs={results as Faq[]}
         />
       )}
 
@@ -199,7 +208,7 @@ function SearchContent() {
       ) : (
         <FlatList
           data={results}
-          renderItem={renderFaqItem}
+          renderItem={renderItem}
           keyExtractor={(item, index) => item._id || `item-${index}`}
           ListEmptyComponent={renderEmptyState}
           ListFooterComponent={renderFooter}
@@ -269,5 +278,16 @@ const styles = StyleSheet.create({
   footerLoader: {
     paddingVertical: 20,
     alignItems: 'center',
+  },
+  resultItem: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E5E5E5',
+    backgroundColor: '#FFFFFF',
+  },
+  resultTitle: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#333333',
   },
 });

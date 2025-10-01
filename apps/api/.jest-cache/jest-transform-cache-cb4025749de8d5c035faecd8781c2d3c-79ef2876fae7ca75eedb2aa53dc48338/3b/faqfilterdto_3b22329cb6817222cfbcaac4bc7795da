@@ -1,0 +1,39 @@
+e22266269d80466c503dcbe2bd6326f6
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.FaqFilterDto = void 0;
+const class_transformer_1 = require("class-transformer");
+const class_validator_1 = require("class-validator");
+const pagination_dto_1 = require("@common/dto/pagination.dto");
+class FaqFilterDto extends pagination_dto_1.PaginationDto {
+    category;
+    isVisible;
+    lang;
+}
+exports.FaqFilterDto = FaqFilterDto;
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsMongoId)(),
+    __metadata("design:type", String)
+], FaqFilterDto.prototype, "category", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsBoolean)(),
+    (0, class_transformer_1.Transform)(({ value }) => value === 'true'),
+    __metadata("design:type", Boolean)
+], FaqFilterDto.prototype, "isVisible", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], FaqFilterDto.prototype, "lang", void 0);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9mYXEvZHRvL2ZhcS1maWx0ZXIuZHRvLnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7OztBQUFBLHlEQUE4QztBQUM5QyxxREFBNkU7QUFDN0UsK0RBQTJEO0FBRTNELE1BQWEsWUFBYSxTQUFRLDhCQUFhO0lBRzdDLFFBQVEsQ0FBVTtJQUtsQixTQUFTLENBQVc7SUFJcEIsSUFBSSxDQUFVO0NBQ2Y7QUFiRCxvQ0FhQztBQVZDO0lBRkMsSUFBQSw0QkFBVSxHQUFFO0lBQ1osSUFBQSwyQkFBUyxHQUFFOzs4Q0FDTTtBQUtsQjtJQUhDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsMkJBQVMsR0FBRTtJQUNYLElBQUEsNkJBQVMsRUFBQyxDQUFDLEVBQUUsS0FBSyxFQUFFLEVBQUUsRUFBRSxDQUFDLEtBQUssS0FBSyxNQUFNLENBQUM7OytDQUN2QjtBQUlwQjtJQUZDLElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsMEJBQVEsR0FBRTs7MENBQ0ciLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9mYXEvZHRvL2ZhcS1maWx0ZXIuZHRvLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IFRyYW5zZm9ybSB9IGZyb20gJ2NsYXNzLXRyYW5zZm9ybWVyJztcbmltcG9ydCB7IElzT3B0aW9uYWwsIElzU3RyaW5nLCBJc0Jvb2xlYW4sIElzTW9uZ29JZCB9IGZyb20gJ2NsYXNzLXZhbGlkYXRvcic7XG5pbXBvcnQgeyBQYWdpbmF0aW9uRHRvIH0gZnJvbSAnQGNvbW1vbi9kdG8vcGFnaW5hdGlvbi5kdG8nO1xuXG5leHBvcnQgY2xhc3MgRmFxRmlsdGVyRHRvIGV4dGVuZHMgUGFnaW5hdGlvbkR0byB7XG4gIEBJc09wdGlvbmFsKClcbiAgQElzTW9uZ29JZCgpXG4gIGNhdGVnb3J5Pzogc3RyaW5nO1xuXG4gIEBJc09wdGlvbmFsKClcbiAgQElzQm9vbGVhbigpXG4gIEBUcmFuc2Zvcm0oKHsgdmFsdWUgfSkgPT4gdmFsdWUgPT09ICd0cnVlJylcbiAgaXNWaXNpYmxlPzogYm9vbGVhbjtcblxuICBASXNPcHRpb25hbCgpXG4gIEBJc1N0cmluZygpXG4gIGxhbmc/OiBzdHJpbmc7XG59XG4iXSwidmVyc2lvbiI6M30=

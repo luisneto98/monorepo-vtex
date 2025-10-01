@@ -1,35 +1,56 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
-import type { FaqCategory } from '@vtexday26/shared';
+import type { FaqCategory, Faq } from '@vtexday26/shared';
 import FaqService from '../../services/FaqService';
 
 interface FaqCategoriesProps {
   selectedCategory: string | null;
   onCategorySelect: (categoryId: string | null) => void;
   language?: 'pt-BR' | 'en';
+  faqs?: Faq[];
 }
 
 export default function FaqCategories({
   selectedCategory,
   onCategorySelect,
   language = 'pt-BR',
+  faqs,
 }: FaqCategoriesProps) {
   const [categories, setCategories] = useState<FaqCategory[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadCategories();
-  }, []);
+  }, [faqs]);
 
   const loadCategories = async () => {
     try {
       setLoading(true);
-      const response = await FaqService.getFAQCategories();
-      // Ensure we always have an array
-      setCategories(Array.isArray(response.data) ? response.data : []);
+
+      // If FAQs are provided, extract unique categories from them
+      if (faqs && faqs.length > 0) {
+        const uniqueCategories = new Map<string, FaqCategory>();
+
+        faqs.forEach((faq) => {
+          if (faq.category && typeof faq.category === 'object') {
+            const cat = faq.category as FaqCategory;
+            if (cat._id && !uniqueCategories.has(cat._id)) {
+              uniqueCategories.set(cat._id, cat);
+            }
+          }
+        });
+
+        const extractedCategories = Array.from(uniqueCategories.values())
+          .sort((a, b) => a.order - b.order);
+
+        setCategories(extractedCategories);
+      } else {
+        // Fallback to API call if no FAQs provided
+        const response = await FaqService.getFAQCategories();
+        setCategories(Array.isArray(response.data) ? response.data : []);
+      }
     } catch (error) {
       console.error('Error loading FAQ categories:', error);
-      // Set empty array on error to prevent crash
       setCategories([]);
     } finally {
       setLoading(false);
@@ -67,9 +88,9 @@ export default function FaqCategories({
           const isActive = selectedCategory === category._id;
           return (
             <TouchableOpacity
-              key={category._id}
+              key={category._id || `cat-${Math.random()}`}
               style={[styles.chip, isActive && styles.chipActive]}
-              onPress={() => onCategorySelect(category._id)}
+              onPress={() => category._id && onCategorySelect(category._id)}
               accessibilityRole="button"
               accessibilityLabel={`Categoria: ${category.name[language]}`}
               accessibilityState={{ selected: isActive }}

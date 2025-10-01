@@ -147,7 +147,7 @@ export function usePressMaterials(params?: PressMaterialPaginationDto) {
   });
 
   return {
-    materials: query.data?.data || [],
+    materials: query.data?.items || [],
     total: query.data?.total || 0,
     page: query.data?.page || 1,
     limit: query.data?.limit || 10,

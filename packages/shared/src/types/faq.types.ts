@@ -18,7 +18,7 @@ export interface Faq extends BaseEntity {
     'pt-BR': string;
     en: string;
   };
-  category: string;
+  category: string | FaqCategory;
   order: number;
   viewCount: number;
   isVisible: boolean;

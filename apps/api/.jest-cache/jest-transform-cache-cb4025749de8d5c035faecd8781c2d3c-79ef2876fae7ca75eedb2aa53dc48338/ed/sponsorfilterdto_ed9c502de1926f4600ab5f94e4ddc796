@@ -1,0 +1,47 @@
+5117800f0379e2204224d1df675de22a
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SponsorFilterDto = void 0;
+const class_transformer_1 = require("class-transformer");
+const class_validator_1 = require("class-validator");
+const pagination_dto_1 = require("@common/dto/pagination.dto");
+class SponsorFilterDto extends pagination_dto_1.PaginationDto {
+    tier;
+    tags;
+    isVisible;
+    standLocation;
+}
+exports.SponsorFilterDto = SponsorFilterDto;
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsMongoId)(),
+    __metadata("design:type", String)
+], SponsorFilterDto.prototype, "tier", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.IsString)({ each: true }),
+    (0, class_transformer_1.Transform)(({ value }) => (typeof value === 'string' ? value.split(',') : value)),
+    __metadata("design:type", Array)
+], SponsorFilterDto.prototype, "tags", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsBoolean)(),
+    (0, class_transformer_1.Transform)(({ value }) => value === 'true'),
+    __metadata("design:type", Boolean)
+], SponsorFilterDto.prototype, "isVisible", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], SponsorFilterDto.prototype, "standLocation", void 0);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9zcG9uc29ycy9kdG8vc3BvbnNvci1maWx0ZXIuZHRvLnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7OztBQUFBLHlEQUE4QztBQUM5QyxxREFBc0Y7QUFDdEYsK0RBQTJEO0FBRTNELE1BQWEsZ0JBQWlCLFNBQVEsOEJBQWE7SUFHakQsSUFBSSxDQUFVO0lBTWQsSUFBSSxDQUFZO0lBS2hCLFNBQVMsQ0FBVztJQUlwQixhQUFhLENBQVU7Q0FDeEI7QUFuQkQsNENBbUJDO0FBaEJDO0lBRkMsSUFBQSw0QkFBVSxHQUFFO0lBQ1osSUFBQSwyQkFBUyxHQUFFOzs4Q0FDRTtBQU1kO0lBSkMsSUFBQSw0QkFBVSxHQUFFO0lBQ1osSUFBQSx5QkFBTyxHQUFFO0lBQ1QsSUFBQSwwQkFBUSxFQUFDLEVBQUUsSUFBSSxFQUFFLElBQUksRUFBRSxDQUFDO0lBQ3hCLElBQUEsNkJBQVMsRUFBQyxDQUFDLEVBQUUsS0FBSyxFQUFFLEVBQUUsRUFBRSxDQUFDLENBQUMsT0FBTyxLQUFLLEtBQUssUUFBUSxDQUFDLENBQUMsQ0FBQyxLQUFLLENBQUMsS0FBSyxDQUFDLEdBQUcsQ0FBQyxDQUFDLENBQUMsQ0FBQyxLQUFLLENBQUMsQ0FBQzs7OENBQ2pFO0FBS2hCO0lBSEMsSUFBQSw0QkFBVSxHQUFFO0lBQ1osSUFBQSwyQkFBUyxHQUFFO0lBQ1gsSUFBQSw2QkFBUyxFQUFDLENBQUMsRUFBRSxLQUFLLEVBQUUsRUFBRSxFQUFFLENBQUMsS0FBSyxLQUFLLE1BQU0sQ0FBQzs7bURBQ3ZCO0FBSXBCO0lBRkMsSUFBQSw0QkFBVSxHQUFFO0lBQ1osSUFBQSwwQkFBUSxHQUFFOzt1REFDWSIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvaG9tZS9sdWlzbmV0bzk4L0RvY3VtZW50b3MvQ29kZS9tb25vcmVwby12dGV4L2FwcHMvYXBpL3NyYy9tb2R1bGVzL3Nwb25zb3JzL2R0by9zcG9uc29yLWZpbHRlci5kdG8udHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgVHJhbnNmb3JtIH0gZnJvbSAnY2xhc3MtdHJhbnNmb3JtZXInO1xuaW1wb3J0IHsgSXNPcHRpb25hbCwgSXNTdHJpbmcsIElzQXJyYXksIElzQm9vbGVhbiwgSXNNb25nb0lkIH0gZnJvbSAnY2xhc3MtdmFsaWRhdG9yJztcbmltcG9ydCB7IFBhZ2luYXRpb25EdG8gfSBmcm9tICdAY29tbW9uL2R0by9wYWdpbmF0aW9uLmR0byc7XG5cbmV4cG9ydCBjbGFzcyBTcG9uc29yRmlsdGVyRHRvIGV4dGVuZHMgUGFnaW5hdGlvbkR0byB7XG4gIEBJc09wdGlvbmFsKClcbiAgQElzTW9uZ29JZCgpXG4gIHRpZXI/OiBzdHJpbmc7XG5cbiAgQElzT3B0aW9uYWwoKVxuICBASXNBcnJheSgpXG4gIEBJc1N0cmluZyh7IGVhY2g6IHRydWUgfSlcbiAgQFRyYW5zZm9ybSgoeyB2YWx1ZSB9KSA9PiAodHlwZW9mIHZhbHVlID09PSAnc3RyaW5nJyA/IHZhbHVlLnNwbGl0KCcsJykgOiB2YWx1ZSkpXG4gIHRhZ3M/OiBzdHJpbmdbXTtcblxuICBASXNPcHRpb25hbCgpXG4gIEBJc0Jvb2xlYW4oKVxuICBAVHJhbnNmb3JtKCh7IHZhbHVlIH0pID0+IHZhbHVlID09PSAndHJ1ZScpXG4gIGlzVmlzaWJsZT86IGJvb2xlYW47XG5cbiAgQElzT3B0aW9uYWwoKVxuICBASXNTdHJpbmcoKVxuICBzdGFuZExvY2F0aW9uPzogc3RyaW5nO1xufVxuIl0sInZlcnNpb24iOjN9

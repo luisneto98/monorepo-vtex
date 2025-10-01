@@ -350,7 +350,9 @@ describe('SpeakersService', () => {
 
       const result = await service.uploadPhoto(speakerId, file);
 
-      expect(result).toBe('https://test-bucket.s3.us-east-1.amazonaws.com/speaker-photos/12345-67890.jpg');
+      expect(result).toBe(
+        'https://test-bucket.s3.us-east-1.amazonaws.com/speaker-photos/12345-67890.jpg',
+      );
       expect(mockSpeakerModel.findOne).toHaveBeenCalledWith({
         _id: speakerId,
         deletedAt: null,
@@ -401,9 +403,7 @@ describe('SpeakersService', () => {
       };
 
       mockSpeakerModel.findOne.mockResolvedValue(mockSpeakerDoc);
-      mockStorageService.uploadFile.mockRejectedValueOnce(
-        new Error('S3 upload failed'),
-      );
+      mockStorageService.uploadFile.mockRejectedValueOnce(new Error('S3 upload failed'));
 
       await expect(service.uploadPhoto(speakerId, file)).rejects.toThrow('S3 upload failed');
       expect(mockSpeakerDoc.save).not.toHaveBeenCalled();

@@ -1,0 +1,38 @@
+3d997b2552ff3be6a13acb1a387510c5
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ContentSanitizationService = void 0;
+const common_1 = require("@nestjs/common");
+const sanitization_util_1 = require("../utils/sanitization.util");
+let ContentSanitizationService = class ContentSanitizationService {
+    sanitizeLocalizedContent(content) {
+        return {
+            title: sanitization_util_1.SanitizationUtil.sanitizeText(content.title),
+            subtitle: content.subtitle ? sanitization_util_1.SanitizationUtil.sanitizeText(content.subtitle) : undefined,
+            content: sanitization_util_1.SanitizationUtil.sanitizeHtml(content.content),
+            metaTitle: content.metaTitle ? sanitization_util_1.SanitizationUtil.sanitizeText(content.metaTitle) : undefined,
+            metaDescription: content.metaDescription
+                ? sanitization_util_1.SanitizationUtil.sanitizeText(content.metaDescription)
+                : undefined,
+            keywords: content.keywords?.map((k) => sanitization_util_1.SanitizationUtil.sanitizeText(k)),
+        };
+    }
+    sanitizeAllContent(content) {
+        return {
+            'pt-BR': this.sanitizeLocalizedContent(content['pt-BR']),
+            en: this.sanitizeLocalizedContent(content['en']),
+            es: this.sanitizeLocalizedContent(content['es']),
+        };
+    }
+};
+exports.ContentSanitizationService = ContentSanitizationService;
+exports.ContentSanitizationService = ContentSanitizationService = __decorate([
+    (0, common_1.Injectable)()
+], ContentSanitizationService);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9uZXdzLXJlbGVhc2VzL3NlcnZpY2VzL2NvbnRlbnQtc2FuaXRpemF0aW9uLnNlcnZpY2UudHMiLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7O0FBQUEsMkNBQTRDO0FBQzVDLGtFQUE4RDtBQUl2RCxJQUFNLDBCQUEwQixHQUFoQyxNQUFNLDBCQUEwQjtJQUNyQyx3QkFBd0IsQ0FBQyxPQUE2QjtRQUNwRCxPQUFPO1lBQ0wsS0FBSyxFQUFFLG9DQUFnQixDQUFDLFlBQVksQ0FBQyxPQUFPLENBQUMsS0FBSyxDQUFDO1lBQ25ELFFBQVEsRUFBRSxPQUFPLENBQUMsUUFBUSxDQUFDLENBQUMsQ0FBQyxvQ0FBZ0IsQ0FBQyxZQUFZLENBQUMsT0FBTyxDQUFDLFFBQVEsQ0FBQyxDQUFDLENBQUMsQ0FBQyxTQUFTO1lBQ3hGLE9BQU8sRUFBRSxvQ0FBZ0IsQ0FBQyxZQUFZLENBQUMsT0FBTyxDQUFDLE9BQU8sQ0FBQztZQUN2RCxTQUFTLEVBQUUsT0FBTyxDQUFDLFNBQVMsQ0FBQyxDQUFDLENBQUMsb0NBQWdCLENBQUMsWUFBWSxDQUFDLE9BQU8sQ0FBQyxTQUFTLENBQUMsQ0FBQyxDQUFDLENBQUMsU0FBUztZQUMzRixlQUFlLEVBQUUsT0FBTyxDQUFDLGVBQWU7Z0JBQ3RDLENBQUMsQ0FBQyxvQ0FBZ0IsQ0FBQyxZQUFZLENBQUMsT0FBTyxDQUFDLGVBQWUsQ0FBQztnQkFDeEQsQ0FBQyxDQUFDLFNBQVM7WUFDYixRQUFRLEVBQUUsT0FBTyxDQUFDLFFBQVEsRUFBRSxHQUFHLENBQUMsQ0FBQyxDQUFDLEVBQUUsRUFBRSxDQUFDLG9DQUFnQixDQUFDLFlBQVksQ0FBQyxDQUFDLENBQUMsQ0FBQztTQUN6RSxDQUFDO0lBQ0osQ0FBQztJQUVELGtCQUFrQixDQUFDLE9BSWxCO1FBQ0MsT0FBTztZQUNMLE9BQU8sRUFBRSxJQUFJLENBQUMsd0JBQXdCLENBQUMsT0FBTyxDQUFDLE9BQU8sQ0FBQyxDQUFDO1lBQ3hELEVBQUUsRUFBRSxJQUFJLENBQUMsd0JBQXdCLENBQUMsT0FBTyxDQUFDLElBQUksQ0FBQyxDQUFDO1lBQ2hELEVBQUUsRUFBRSxJQUFJLENBQUMsd0JBQXdCLENBQUMsT0FBTyxDQUFDLElBQUksQ0FBQyxDQUFDO1NBQ2pELENBQUM7SUFDSixDQUFDO0NBQ0YsQ0FBQTtBQXpCWSxnRUFBMEI7cUNBQTFCLDBCQUEwQjtJQUR0QyxJQUFBLG1CQUFVLEdBQUU7R0FDQSwwQkFBMEIsQ0F5QnRDIiwibmFtZXMiOltdLCJzb3VyY2VzIjpbIi9ob21lL2x1aXNuZXRvOTgvRG9jdW1lbnRvcy9Db2RlL21vbm9yZXBvLXZ0ZXgvYXBwcy9hcGkvc3JjL21vZHVsZXMvbmV3cy1yZWxlYXNlcy9zZXJ2aWNlcy9jb250ZW50LXNhbml0aXphdGlvbi5zZXJ2aWNlLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEluamVjdGFibGUgfSBmcm9tICdAbmVzdGpzL2NvbW1vbic7XG5pbXBvcnQgeyBTYW5pdGl6YXRpb25VdGlsIH0gZnJvbSAnLi4vdXRpbHMvc2FuaXRpemF0aW9uLnV0aWwnO1xuaW1wb3J0IHsgTG9jYWxpemVkTmV3c0NvbnRlbnQgfSBmcm9tICdAdnRleGRheTI2L3NoYXJlZCc7XG5cbkBJbmplY3RhYmxlKClcbmV4cG9ydCBjbGFzcyBDb250ZW50U2FuaXRpemF0aW9uU2VydmljZSB7XG4gIHNhbml0aXplTG9jYWxpemVkQ29udGVudChjb250ZW50OiBMb2NhbGl6ZWROZXdzQ29udGVudCk6IExvY2FsaXplZE5ld3NDb250ZW50IHtcbiAgICByZXR1cm4ge1xuICAgICAgdGl0bGU6IFNhbml0aXphdGlvblV0aWwuc2FuaXRpemVUZXh0KGNvbnRlbnQudGl0bGUpLFxuICAgICAgc3VidGl0bGU6IGNvbnRlbnQuc3VidGl0bGUgPyBTYW5pdGl6YXRpb25VdGlsLnNhbml0aXplVGV4dChjb250ZW50LnN1YnRpdGxlKSA6IHVuZGVmaW5lZCxcbiAgICAgIGNvbnRlbnQ6IFNhbml0aXphdGlvblV0aWwuc2FuaXRpemVIdG1sKGNvbnRlbnQuY29udGVudCksXG4gICAgICBtZXRhVGl0bGU6IGNvbnRlbnQubWV0YVRpdGxlID8gU2FuaXRpemF0aW9uVXRpbC5zYW5pdGl6ZVRleHQoY29udGVudC5tZXRhVGl0bGUpIDogdW5kZWZpbmVkLFxuICAgICAgbWV0YURlc2NyaXB0aW9uOiBjb250ZW50Lm1ldGFEZXNjcmlwdGlvblxuICAgICAgICA/IFNhbml0aXphdGlvblV0aWwuc2FuaXRpemVUZXh0KGNvbnRlbnQubWV0YURlc2NyaXB0aW9uKVxuICAgICAgICA6IHVuZGVmaW5lZCxcbiAgICAgIGtleXdvcmRzOiBjb250ZW50LmtleXdvcmRzPy5tYXAoKGspID0+IFNhbml0aXphdGlvblV0aWwuc2FuaXRpemVUZXh0KGspKSxcbiAgICB9O1xuICB9XG5cbiAgc2FuaXRpemVBbGxDb250ZW50KGNvbnRlbnQ6IHtcbiAgICAncHQtQlInOiBMb2NhbGl6ZWROZXdzQ29udGVudDtcbiAgICBlbjogTG9jYWxpemVkTmV3c0NvbnRlbnQ7XG4gICAgZXM6IExvY2FsaXplZE5ld3NDb250ZW50O1xuICB9KTogYW55IHtcbiAgICByZXR1cm4ge1xuICAgICAgJ3B0LUJSJzogdGhpcy5zYW5pdGl6ZUxvY2FsaXplZENvbnRlbnQoY29udGVudFsncHQtQlInXSksXG4gICAgICBlbjogdGhpcy5zYW5pdGl6ZUxvY2FsaXplZENvbnRlbnQoY29udGVudFsnZW4nXSksXG4gICAgICBlczogdGhpcy5zYW5pdGl6ZUxvY2FsaXplZENvbnRlbnQoY29udGVudFsnZXMnXSksXG4gICAgfTtcbiAgfVxufVxuIl0sInZlcnNpb24iOjN9

@@ -26,15 +26,28 @@ export class FaqService {
       throw new NotFoundException(`FAQ category with ID ${createFaqDto.category} not found`);
     }
 
-    // Check for order conflicts within the category
-    const existingFaq = await this.faqModel.findOne({
-      category: createFaqDto.category,
-      order: createFaqDto.order,
-      deletedAt: null,
-    });
+    // Auto-generate order if not provided
+    if (createFaqDto.order === undefined) {
+      const maxOrderFaq = await this.faqModel
+        .findOne({
+          category: createFaqDto.category,
+          deletedAt: null,
+        })
+        .sort({ order: -1 })
+        .exec();
 
-    if (existingFaq) {
-      throw new ConflictException('Another FAQ with this order already exists in this category');
+      createFaqDto.order = maxOrderFaq ? maxOrderFaq.order + 1 : 0;
+    } else {
+      // Check for order conflicts within the category if order is provided
+      const existingFaq = await this.faqModel.findOne({
+        category: createFaqDto.category,
+        order: createFaqDto.order,
+        deletedAt: null,
+      });
+
+      if (existingFaq) {
+        throw new ConflictException('Another FAQ with this order already exists in this category');
+      }
     }
 
     const createdFaq = new this.faqModel(createFaqDto);
@@ -165,9 +178,9 @@ export class FaqService {
     }
 
     // Check for order conflicts if category or order is being updated
-    if (updateFaqDto.category || updateFaqDto.order) {
+    if (updateFaqDto.category || updateFaqDto.order !== undefined) {
       const categoryId = updateFaqDto.category || faq.category;
-      const order = updateFaqDto.order || faq.order;
+      const order = updateFaqDto.order !== undefined ? updateFaqDto.order : faq.order;
 
       const existingFaq = await this.faqModel.findOne({
         _id: { $ne: id },
@@ -181,8 +194,14 @@ export class FaqService {
       }
     }
 
-    Object.assign(faq, updateFaqDto);
-    return faq.save();
+    // Use findByIdAndUpdate to perform partial update without triggering validation on unchanged required fields
+    const updatedFaq = await this.faqModel.findByIdAndUpdate(
+      id,
+      { $set: updateFaqDto },
+      { new: true, runValidators: false },
+    );
+
+    return updatedFaq;
   }
 
   async removeFaq(id: string, reason?: string, userId?: string): Promise<void> {
@@ -261,31 +280,74 @@ export class FaqService {
       throw new NotFoundException(`FAQ category with ID ${id} not found`);
     }
 
-    // Check for conflicts if name or order is being updated
-    if (updateCategoryDto.name || updateCategoryDto.order) {
-      const conflictQuery: any = {
+    // Check for name conflicts if name is being updated
+    if (updateCategoryDto.name) {
+      const nameConflict = await this.faqCategoryModel.findOne({
         _id: { $ne: id },
-        $or: [],
-      };
-
-      if (updateCategoryDto.name) {
-        conflictQuery.$or.push(
+        $or: [
           { 'name.pt-BR': updateCategoryDto.name['pt-BR'] },
           { 'name.en': updateCategoryDto.name.en },
-        );
-      }
-      if (updateCategoryDto.order) {
-        conflictQuery.$or.push({ order: updateCategoryDto.order });
-      }
+        ],
+      });
 
-      const existingCategory = await this.faqCategoryModel.findOne(conflictQuery);
-      if (existingCategory) {
-        throw new ConflictException('Another category with this name or order already exists');
+      if (nameConflict) {
+        throw new ConflictException('Another category with this name already exists');
       }
     }
 
-    Object.assign(category, updateCategoryDto);
-    return category.save();
+    // Handle order reordering if order is being updated
+    if (updateCategoryDto.order !== undefined && updateCategoryDto.order !== category.order) {
+      const oldOrder = category.order;
+      const newOrder = updateCategoryDto.order;
+
+      // Check if the new order position exists
+      const targetCategory = await this.faqCategoryModel.findOne({
+        _id: { $ne: id },
+        order: newOrder,
+      });
+
+      if (targetCategory) {
+        // Use a temporary negative value to avoid unique constraint violation during swap
+        const tempOrder = -1 - Date.now(); // Guaranteed unique temporary value
+
+        // Step 1: Move current category to temporary value
+        await this.faqCategoryModel.findByIdAndUpdate(id, {
+          $set: { order: tempOrder },
+        });
+
+        // Step 2: Move target category to old position
+        await this.faqCategoryModel.findByIdAndUpdate(targetCategory._id, {
+          $set: { order: oldOrder },
+        });
+
+        // Step 3: Move current category to new position
+        await this.faqCategoryModel.findByIdAndUpdate(id, {
+          $set: { order: newOrder },
+        });
+
+        // If there are other fields to update, apply them now
+        if (updateCategoryDto.name) {
+          const updatedCategory = await this.faqCategoryModel.findByIdAndUpdate(
+            id,
+            { $set: { name: updateCategoryDto.name } },
+            { new: true, runValidators: false },
+          );
+          return updatedCategory;
+        }
+
+        // Return the updated category
+        return this.faqCategoryModel.findById(id);
+      }
+    }
+
+    // Use findByIdAndUpdate to perform partial update without triggering validation on unchanged required fields
+    const updatedCategory = await this.faqCategoryModel.findByIdAndUpdate(
+      id,
+      { $set: updateCategoryDto },
+      { new: true, runValidators: false },
+    );
+
+    return updatedCategory;
   }
 
   async removeCategory(id: string): Promise<void> {

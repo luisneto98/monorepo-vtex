@@ -74,7 +74,8 @@ export function SponsorMultiSelect({
   };
 
   const getTierColor = (tier?: string) => {
-    switch (tier?.toLowerCase()) {
+    const tierStr = typeof tier === 'string' ? tier.toLowerCase() : '';
+    switch (tierStr) {
       case 'diamond':
         return 'bg-purple-100 text-purple-800';
       case 'platinum':
@@ -92,8 +93,8 @@ export function SponsorMultiSelect({
 
   const sortedSponsors = [...sponsors].sort((a, b) => {
     const tierOrder = ['diamond', 'platinum', 'gold', 'silver', 'bronze'];
-    const aTier = a.tier?.toLowerCase() || 'bronze';
-    const bTier = b.tier?.toLowerCase() || 'bronze';
+    const aTier = typeof a.tier === 'string' ? a.tier.toLowerCase() : 'bronze';
+    const bTier = typeof b.tier === 'string' ? b.tier.toLowerCase() : 'bronze';
     return tierOrder.indexOf(aTier) - tierOrder.indexOf(bTier);
   });
 
@@ -189,8 +190,8 @@ export function SponsorMultiSelect({
             {selectedSponsors
               .sort((a, b) => {
                 const tierOrder = ['diamond', 'platinum', 'gold', 'silver', 'bronze'];
-                const aTier = a.tier?.toLowerCase() || 'bronze';
-                const bTier = b.tier?.toLowerCase() || 'bronze';
+                const aTier = typeof a.tier === 'string' ? a.tier.toLowerCase() : 'bronze';
+                const bTier = typeof b.tier === 'string' ? b.tier.toLowerCase() : 'bronze';
                 return tierOrder.indexOf(aTier) - tierOrder.indexOf(bTier);
               })
               .map((sponsor) => (

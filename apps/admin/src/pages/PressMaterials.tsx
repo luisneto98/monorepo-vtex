@@ -1,6 +1,5 @@
-import { useState, useCallback, useMemo } from 'react';
-import { Plus, Grid, List, Download, Upload } from 'lucide-react';
-import { Layout } from '@/components/layout/Layout';
+import { useState, useCallback, useMemo, useEffect } from 'react';
+import { Plus, Grid, List, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
@@ -19,8 +18,7 @@ import { UploadQueue } from '@/components/press-materials/UploadQueue';
 import { MaterialEditModal } from '@/components/press-materials/MaterialEditModal';
 import { PreviewModal } from '@/components/press-materials/PreviewModal';
 import { SearchFilters } from '@/components/press-materials/SearchFilters';
-import { BulkActions } from '@/components/press-materials/BulkActions';
-import { TagAdditionModal } from '@/components/press-materials/TagAdditionModal';
+import { FileMetadataModal, type FileMetadata } from '@/components/press-materials/FileMetadataModal';
 
 // Hooks
 import { usePressMaterials } from '@/hooks/usePressMaterials';
@@ -31,17 +29,17 @@ import { useToast } from '@/hooks/useToast';
 // Types
 import type { PressMaterial, PressMaterialType } from '@shared/types/press-materials';
 import { pressMaterialsService } from '@/services/press-materials.service';
-import DOMPurify from 'dompurify';
 
 export function PressMaterials() {
   const { toast } = useToast();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [activeTab, setActiveTab] = useState<'all' | PressMaterialType>('all');
-  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [showUploadDialog, setShowUploadDialog] = useState(false);
   const [editingMaterial, setEditingMaterial] = useState<PressMaterial | null>(null);
   const [previewMaterial, setPreviewMaterial] = useState<PressMaterial | null>(null);
-  const [showTagModal, setShowTagModal] = useState(false);
+  const [filesAwaitingMetadata, setFilesAwaitingMetadata] = useState<File[]>([]);
+  const [currentMetadataIndex, setCurrentMetadataIndex] = useState(0);
+  const [showMetadataModal, setShowMetadataModal] = useState(false);
 
   // Filters and pagination
   const {
@@ -77,10 +75,6 @@ export function PressMaterials() {
     refetch,
     updateMaterial,
     deleteMaterial,
-    deleteMany,
-    updateStatus,
-    updateAccess,
-    addTags,
   } = usePressMaterials(queryParams);
 
   // File upload
@@ -91,32 +85,9 @@ export function PressMaterials() {
     clearQueue,
     processQueue,
     retryUpload,
+    updateFileMetadata,
   } = useFileUpload();
 
-  // Selection handlers
-  const handleSelect = useCallback((id: string, selected: boolean) => {
-    setSelectedIds(prev => {
-      const newSet = new Set(prev);
-      if (selected) {
-        newSet.add(id);
-      } else {
-        newSet.delete(id);
-      }
-      return newSet;
-    });
-  }, []);
-
-  const handleSelectAll = useCallback((selected: boolean) => {
-    if (selected) {
-      setSelectedIds(new Set(materials.map(m => m._id!)));
-    } else {
-      setSelectedIds(new Set());
-    }
-  }, [materials]);
-
-  const clearSelection = useCallback(() => {
-    setSelectedIds(new Set());
-  }, []);
 
   // Action handlers
   const handleEdit = useCallback((material: PressMaterial) => {
@@ -143,79 +114,147 @@ export function PressMaterials() {
     }
   }, [toast]);
 
-  const handleBulkDownload = useCallback(async () => {
-    if (selectedIds.size === 0) return;
-
-    try {
-      const blob = await pressMaterialsService.downloadMultiple(Array.from(selectedIds));
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      // Sanitize filename to prevent DOM injection
-      const sanitizedFilename = DOMPurify.sanitize('press-materials.zip', {
-        ALLOWED_TAGS: [],
-        ALLOWED_ATTR: []
-      });
-      a.download = sanitizedFilename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-
-      toast({
-        title: 'Download concluído',
-        description: `${selectedIds.size} arquivo(s) baixado(s)`,
-      });
-    } catch (error) {
-      toast({
-        title: 'Erro no download',
-        description: 'Não foi possível baixar os arquivos',
-        variant: 'destructive',
-      });
-    }
-  }, [selectedIds, toast]);
-
-  const handleBulkDelete = useCallback(() => {
-    if (selectedIds.size === 0) return;
-
-    if (confirm(`Tem certeza que deseja excluir ${selectedIds.size} material(is)?`)) {
-      deleteMany(Array.from(selectedIds));
-      clearSelection();
-    }
-  }, [selectedIds, deleteMany, clearSelection]);
-
-  const handleBulkStatus = useCallback((status: 'draft' | 'published' | 'archived') => {
-    if (selectedIds.size === 0) return;
-    updateStatus({ ids: Array.from(selectedIds), status });
-    clearSelection();
-  }, [selectedIds, updateStatus, clearSelection]);
-
-  const handleBulkAccess = useCallback((accessLevel: 'public' | 'restricted') => {
-    if (selectedIds.size === 0) return;
-    updateAccess({ ids: Array.from(selectedIds), accessLevel });
-    clearSelection();
-  }, [selectedIds, updateAccess, clearSelection]);
-
-  const handleBulkTags = useCallback(() => {
-    setShowTagModal(true);
+  const handleUpload = useCallback(async (files: File[]) => {
+    // Close upload dialog and show metadata configuration flow
+    setShowUploadDialog(false);
+    setFilesAwaitingMetadata(files);
+    setCurrentMetadataIndex(0);
+    setShowMetadataModal(true);
   }, []);
 
-  const handleAddTags = useCallback((tags: string[]) => {
-    if (tags.length > 0 && selectedIds.size > 0) {
-      addTags({
-        ids: Array.from(selectedIds),
-        tags,
-      });
-      clearSelection();
-    }
-  }, [selectedIds, addTags, clearSelection]);
+  const detectMaterialType = useCallback((file: File): PressMaterialType => {
+    const extension = file.name.split('.').pop()?.toLowerCase();
+    const mimeType = file.type.toLowerCase();
 
-  const handleUpload = useCallback(async (files: File[]) => {
-    await addToQueue(files);
-    setShowUploadDialog(false);
-    await processQueue();
-    refetch();
-  }, [addToQueue, processQueue, refetch]);
+    if (mimeType.startsWith('image/') || ['jpg', 'jpeg', 'png', 'webp'].includes(extension || '')) {
+      return 'photo';
+    }
+    if (mimeType.startsWith('video/') || ['mp4', 'mov', 'webm'].includes(extension || '')) {
+      return 'video';
+    }
+    if (mimeType === 'application/pdf' || extension === 'pdf') {
+      return 'press_kit';
+    }
+    if (mimeType === 'application/zip' || extension === 'zip') {
+      return 'logo_package';
+    }
+    if (mimeType.includes('presentation') || ['ppt', 'pptx'].includes(extension || '')) {
+      return 'presentation';
+    }
+    return 'press_kit';
+  }, []);
+
+  const [filesMetadata, setFilesMetadata] = useState<Map<number, FileMetadata>>(new Map());
+  const [shouldProcessQueue, setShouldProcessQueue] = useState(false);
+
+  // Effect to process queue after files are added with metadata
+  useEffect(() => {
+    if (shouldProcessQueue && uploadQueue.length > 0) {
+      const pendingCount = uploadQueue.filter(f => f.status === 'pending').length;
+      console.log('Effect triggered - uploadQueue length:', uploadQueue.length, 'pending:', pendingCount);
+
+      setShouldProcessQueue(false);
+
+      // Process queue
+      processQueue().then(() => {
+        refetch();
+      });
+    }
+  }, [shouldProcessQueue, uploadQueue, processQueue, refetch]);
+
+  const handleMetadataSave = useCallback(async (metadata: FileMetadata) => {
+    // Move to next file or finish
+    if (currentMetadataIndex < filesAwaitingMetadata.length - 1) {
+      // Store metadata and move to next
+      setFilesMetadata(prev => {
+        const newMap = new Map(prev);
+        newMap.set(currentMetadataIndex, metadata);
+        return newMap;
+      });
+      setCurrentMetadataIndex(currentMetadataIndex + 1);
+    } else {
+      // Last file - store metadata and process all
+      const finalMetadata = new Map(filesMetadata);
+      finalMetadata.set(currentMetadataIndex, metadata);
+
+      // Close modal
+      setShowMetadataModal(false);
+
+      // Add all files to queue with their metadata
+      for (let i = 0; i < filesAwaitingMetadata.length; i++) {
+        const file = filesAwaitingMetadata[i];
+        const fileMetadata = finalMetadata.get(i);
+
+        const validatedFiles = await addToQueue([file]);
+        const fileInQueue = validatedFiles[0];
+
+        if (fileInQueue && fileInQueue.status === 'pending' && fileMetadata) {
+          // Update the file with custom metadata (always public)
+          updateFileMetadata(fileInQueue.id, {
+            type: fileMetadata.type,
+            title: fileMetadata.title,
+            description: fileMetadata.description,
+            status: fileMetadata.status,
+            accessLevel: 'public',
+          });
+        }
+      }
+
+      // Reset state
+      setFilesAwaitingMetadata([]);
+      setCurrentMetadataIndex(0);
+      setFilesMetadata(new Map());
+
+      // Trigger queue processing via useEffect
+      setShouldProcessQueue(true);
+    }
+  }, [filesAwaitingMetadata, currentMetadataIndex, filesMetadata, addToQueue, updateFileMetadata]);
+
+  const handleMetadataSkip = useCallback(async () => {
+    // Move to next file or finish
+    if (currentMetadataIndex < filesAwaitingMetadata.length - 1) {
+      // Just move to next, don't store metadata (will use default)
+      setCurrentMetadataIndex(currentMetadataIndex + 1);
+    } else {
+      // Last file - process all with stored metadata (skipped files will use defaults)
+      setShowMetadataModal(false);
+
+      // Add all files to queue
+      for (let i = 0; i < filesAwaitingMetadata.length; i++) {
+        const file = filesAwaitingMetadata[i];
+        const fileMetadata = filesMetadata.get(i);
+
+        const validatedFiles = await addToQueue([file]);
+        const fileInQueue = validatedFiles[0];
+
+        if (fileInQueue && fileInQueue.status === 'pending' && fileMetadata) {
+          // Update the file with custom metadata (only for files that were configured, always public)
+          updateFileMetadata(fileInQueue.id, {
+            type: fileMetadata.type,
+            title: fileMetadata.title,
+            description: fileMetadata.description,
+            status: fileMetadata.status,
+            accessLevel: 'public',
+          });
+        }
+        // Files without metadata will use defaults from addToQueue (also public)
+      }
+
+      // Reset state
+      setFilesAwaitingMetadata([]);
+      setCurrentMetadataIndex(0);
+      setFilesMetadata(new Map());
+
+      // Trigger queue processing via useEffect
+      setShouldProcessQueue(true);
+    }
+  }, [filesAwaitingMetadata, currentMetadataIndex, filesMetadata, addToQueue, updateFileMetadata]);
+
+  const handleMetadataCancel = useCallback(() => {
+    setShowMetadataModal(false);
+    setFilesAwaitingMetadata([]);
+    setCurrentMetadataIndex(0);
+  }, []);
 
   // Tab counts
   const tabCounts = useMemo(() => {
@@ -231,29 +270,15 @@ export function PressMaterials() {
   }, [materials, total]);
 
   return (
-    <Layout>
-      <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6">
         {/* Header */}
         <div>
           <div className="flex items-center justify-between mb-2">
             <h1 className="text-2xl font-bold">Materiais de Imprensa</h1>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" onClick={() => {
-                // TODO: Implement export functionality
-                toast({
-                  title: 'Em desenvolvimento',
-                  description: 'Funcionalidade de exportação será implementada em breve',
-                  variant: 'default',
-                });
-              }}>
-                <Download className="w-4 h-4 mr-2" />
-                Exportar Lista
-              </Button>
-              <Button onClick={() => setShowUploadDialog(true)}>
-                <Upload className="w-4 h-4 mr-2" />
-                Upload de Arquivos
-              </Button>
-            </div>
+            <Button onClick={() => setShowUploadDialog(true)}>
+              <Upload className="w-4 h-4 mr-2" />
+              Upload de Arquivos
+            </Button>
           </div>
           <p className="text-gray-600">
             Gerencie materiais de imprensa, logos, fotos e vídeos do evento
@@ -321,19 +346,6 @@ export function PressMaterials() {
             onClear={clearFilters}
           />
 
-          {/* Bulk Actions */}
-          {selectedIds.size > 0 && (
-            <BulkActions
-              selectedCount={selectedIds.size}
-              onDelete={handleBulkDelete}
-              onDownload={handleBulkDownload}
-              onStatusChange={handleBulkStatus}
-              onAccessChange={handleBulkAccess}
-              onTagAdd={handleBulkTags}
-              onClear={clearSelection}
-            />
-          )}
-
           {/* Upload Queue */}
           {uploadQueue.length > 0 && (
             <UploadQueue
@@ -366,8 +378,6 @@ export function PressMaterials() {
             ) : viewMode === 'grid' ? (
               <MaterialsGrid
                 materials={materials}
-                selectedIds={selectedIds}
-                onSelect={handleSelect}
                 onEdit={handleEdit}
                 onDelete={deleteMaterial}
                 onPreview={handlePreview}
@@ -377,9 +387,6 @@ export function PressMaterials() {
             ) : (
               <MaterialsList
                 materials={materials}
-                selectedIds={selectedIds}
-                onSelectAll={handleSelectAll}
-                onSelect={handleSelect}
                 onEdit={handleEdit}
                 onDelete={deleteMaterial}
                 onPreview={handlePreview}
@@ -444,14 +451,32 @@ export function PressMaterials() {
           onDownload={handleDownload}
         />
 
-        {/* Tag Addition Modal */}
-        <TagAdditionModal
-          open={showTagModal}
-          onClose={() => setShowTagModal(false)}
-          onAddTags={handleAddTags}
-          selectedCount={selectedIds.size}
-        />
-      </div>
-    </Layout>
+        {/* File Metadata Configuration Modal */}
+        {filesAwaitingMetadata.length > 0 && (
+          <FileMetadataModal
+            open={showMetadataModal}
+            fileName={filesAwaitingMetadata[currentMetadataIndex]?.name || ''}
+            currentIndex={currentMetadataIndex}
+            totalFiles={filesAwaitingMetadata.length}
+            defaultMetadata={{
+              type: detectMaterialType(filesAwaitingMetadata[currentMetadataIndex]),
+              title: {
+                pt: filesAwaitingMetadata[currentMetadataIndex]?.name.replace(/\.[^/.]+$/, '') || '',
+                en: filesAwaitingMetadata[currentMetadataIndex]?.name.replace(/\.[^/.]+$/, '') || '',
+                es: filesAwaitingMetadata[currentMetadataIndex]?.name.replace(/\.[^/.]+$/, '') || '',
+              },
+              description: {
+                pt: '',
+                en: '',
+                es: '',
+              },
+              status: 'draft',
+            }}
+            onSave={handleMetadataSave}
+            onSkip={handleMetadataSkip}
+            onCancel={handleMetadataCancel}
+          />
+        )}
+    </div>
   );
 }

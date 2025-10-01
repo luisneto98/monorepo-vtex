@@ -1,0 +1,82 @@
+ffb34a9d356b1f55ac40e6a690eccafb
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CreateFaqDto = void 0;
+const swagger_1 = require("@nestjs/swagger");
+const class_transformer_1 = require("class-transformer");
+const class_validator_1 = require("class-validator");
+const multilingual_dto_1 = require("@common/dto/multilingual.dto");
+class CreateFaqDto {
+    question;
+    answer;
+    category;
+    order;
+    isVisible;
+}
+exports.CreateFaqDto = CreateFaqDto;
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'FAQ question in multiple languages',
+        example: {
+            'pt-BR': 'Como posso participar do evento?',
+            en: 'How can I participate in the event?',
+        },
+        type: multilingual_dto_1.MultilingualTextDto,
+    }),
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => multilingual_dto_1.MultilingualTextDto),
+    __metadata("design:type", multilingual_dto_1.MultilingualTextDto)
+], CreateFaqDto.prototype, "question", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'FAQ answer in multiple languages (supports HTML)',
+        example: {
+            'pt-BR': '<p>Você pode se inscrever através do nosso site oficial.</p>',
+            en: '<p>You can register through our official website.</p>',
+        },
+        type: multilingual_dto_1.MultilingualTextDto,
+    }),
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => multilingual_dto_1.MultilingualTextDto),
+    __metadata("design:type", multilingual_dto_1.MultilingualTextDto)
+], CreateFaqDto.prototype, "answer", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'MongoDB ID of the FAQ category',
+        example: '507f1f77bcf86cd799439015',
+    }),
+    (0, class_validator_1.IsMongoId)(),
+    __metadata("design:type", String)
+], CreateFaqDto.prototype, "category", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        description: 'Display order within category (auto-generated if not provided)',
+        example: 1,
+        minimum: 0,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.Min)(0),
+    __metadata("design:type", Number)
+], CreateFaqDto.prototype, "order", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        description: 'FAQ visibility status',
+        type: Boolean,
+        default: true,
+        example: true,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], CreateFaqDto.prototype, "isVisible", void 0);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9mYXEvZHRvL2NyZWF0ZS1mYXEuZHRvLnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7OztBQUFBLDZDQUFtRTtBQUNuRSx5REFBeUM7QUFDekMscURBQWtHO0FBQ2xHLG1FQUFtRTtBQUVuRSxNQUFhLFlBQVk7SUFXdkIsUUFBUSxDQUFzQjtJQVk5QixNQUFNLENBQXNCO0lBTzVCLFFBQVEsQ0FBUztJQVVqQixLQUFLLENBQVU7SUFVZixTQUFTLENBQVc7Q0FDckI7QUFuREQsb0NBbURDO0FBeENDO0lBVkMsSUFBQSxxQkFBVyxFQUFDO1FBQ1gsV0FBVyxFQUFFLG9DQUFvQztRQUNqRCxPQUFPLEVBQUU7WUFDUCxPQUFPLEVBQUUsa0NBQWtDO1lBQzNDLEVBQUUsRUFBRSxxQ0FBcUM7U0FDMUM7UUFDRCxJQUFJLEVBQUUsc0NBQW1CO0tBQzFCLENBQUM7SUFDRCxJQUFBLGdDQUFjLEdBQUU7SUFDaEIsSUFBQSx3QkFBSSxFQUFDLEdBQUcsRUFBRSxDQUFDLHNDQUFtQixDQUFDOzhCQUN0QixzQ0FBbUI7OENBQUM7QUFZOUI7SUFWQyxJQUFBLHFCQUFXLEVBQUM7UUFDWCxXQUFXLEVBQUUsa0RBQWtEO1FBQy9ELE9BQU8sRUFBRTtZQUNQLE9BQU8sRUFBRSw4REFBOEQ7WUFDdkUsRUFBRSxFQUFFLHVEQUF1RDtTQUM1RDtRQUNELElBQUksRUFBRSxzQ0FBbUI7S0FDMUIsQ0FBQztJQUNELElBQUEsZ0NBQWMsR0FBRTtJQUNoQixJQUFBLHdCQUFJLEVBQUMsR0FBRyxFQUFFLENBQUMsc0NBQW1CLENBQUM7OEJBQ3hCLHNDQUFtQjs0Q0FBQztBQU81QjtJQUxDLElBQUEscUJBQVcsRUFBQztRQUNYLFdBQVcsRUFBRSxnQ0FBZ0M7UUFDN0MsT0FBTyxFQUFFLDBCQUEwQjtLQUNwQyxDQUFDO0lBQ0QsSUFBQSwyQkFBUyxHQUFFOzs4Q0FDSztBQVVqQjtJQVJDLElBQUEsNkJBQW1CLEVBQUM7UUFDbkIsV0FBVyxFQUFFLGdFQUFnRTtRQUM3RSxPQUFPLEVBQUUsQ0FBQztRQUNWLE9BQU8sRUFBRSxDQUFDO0tBQ1gsQ0FBQztJQUNELElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsMEJBQVEsR0FBRTtJQUNWLElBQUEscUJBQUcsRUFBQyxDQUFDLENBQUM7OzJDQUNRO0FBVWY7SUFSQyxJQUFBLDZCQUFtQixFQUFDO1FBQ25CLFdBQVcsRUFBRSx1QkFBdUI7UUFDcEMsSUFBSSxFQUFFLE9BQU87UUFDYixPQUFPLEVBQUUsSUFBSTtRQUNiLE9BQU8sRUFBRSxJQUFJO0tBQ2QsQ0FBQztJQUNELElBQUEsNEJBQVUsR0FBRTtJQUNaLElBQUEsMkJBQVMsR0FBRTs7K0NBQ1EiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL2hvbWUvbHVpc25ldG85OC9Eb2N1bWVudG9zL0NvZGUvbW9ub3JlcG8tdnRleC9hcHBzL2FwaS9zcmMvbW9kdWxlcy9mYXEvZHRvL2NyZWF0ZS1mYXEuZHRvLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEFwaVByb3BlcnR5LCBBcGlQcm9wZXJ0eU9wdGlvbmFsIH0gZnJvbSAnQG5lc3Rqcy9zd2FnZ2VyJztcbmltcG9ydCB7IFR5cGUgfSBmcm9tICdjbGFzcy10cmFuc2Zvcm1lcic7XG5pbXBvcnQgeyBJc0Jvb2xlYW4sIElzT3B0aW9uYWwsIElzTnVtYmVyLCBNaW4sIFZhbGlkYXRlTmVzdGVkLCBJc01vbmdvSWQgfSBmcm9tICdjbGFzcy12YWxpZGF0b3InO1xuaW1wb3J0IHsgTXVsdGlsaW5ndWFsVGV4dER0byB9IGZyb20gJ0Bjb21tb24vZHRvL211bHRpbGluZ3VhbC5kdG8nO1xuXG5leHBvcnQgY2xhc3MgQ3JlYXRlRmFxRHRvIHtcbiAgQEFwaVByb3BlcnR5KHtcbiAgICBkZXNjcmlwdGlvbjogJ0ZBUSBxdWVzdGlvbiBpbiBtdWx0aXBsZSBsYW5ndWFnZXMnLFxuICAgIGV4YW1wbGU6IHtcbiAgICAgICdwdC1CUic6ICdDb21vIHBvc3NvIHBhcnRpY2lwYXIgZG8gZXZlbnRvPycsXG4gICAgICBlbjogJ0hvdyBjYW4gSSBwYXJ0aWNpcGF0ZSBpbiB0aGUgZXZlbnQ/JyxcbiAgICB9LFxuICAgIHR5cGU6IE11bHRpbGluZ3VhbFRleHREdG8sXG4gIH0pXG4gIEBWYWxpZGF0ZU5lc3RlZCgpXG4gIEBUeXBlKCgpID0+IE11bHRpbGluZ3VhbFRleHREdG8pXG4gIHF1ZXN0aW9uOiBNdWx0aWxpbmd1YWxUZXh0RHRvO1xuXG4gIEBBcGlQcm9wZXJ0eSh7XG4gICAgZGVzY3JpcHRpb246ICdGQVEgYW5zd2VyIGluIG11bHRpcGxlIGxhbmd1YWdlcyAoc3VwcG9ydHMgSFRNTCknLFxuICAgIGV4YW1wbGU6IHtcbiAgICAgICdwdC1CUic6ICc8cD5Wb2PDqiBwb2RlIHNlIGluc2NyZXZlciBhdHJhdsOpcyBkbyBub3NzbyBzaXRlIG9maWNpYWwuPC9wPicsXG4gICAgICBlbjogJzxwPllvdSBjYW4gcmVnaXN0ZXIgdGhyb3VnaCBvdXIgb2ZmaWNpYWwgd2Vic2l0ZS48L3A+JyxcbiAgICB9LFxuICAgIHR5cGU6IE11bHRpbGluZ3VhbFRleHREdG8sXG4gIH0pXG4gIEBWYWxpZGF0ZU5lc3RlZCgpXG4gIEBUeXBlKCgpID0+IE11bHRpbGluZ3VhbFRleHREdG8pXG4gIGFuc3dlcjogTXVsdGlsaW5ndWFsVGV4dER0bztcblxuICBAQXBpUHJvcGVydHkoe1xuICAgIGRlc2NyaXB0aW9uOiAnTW9uZ29EQiBJRCBvZiB0aGUgRkFRIGNhdGVnb3J5JyxcbiAgICBleGFtcGxlOiAnNTA3ZjFmNzdiY2Y4NmNkNzk5NDM5MDE1JyxcbiAgfSlcbiAgQElzTW9uZ29JZCgpXG4gIGNhdGVnb3J5OiBzdHJpbmc7XG5cbiAgQEFwaVByb3BlcnR5T3B0aW9uYWwoe1xuICAgIGRlc2NyaXB0aW9uOiAnRGlzcGxheSBvcmRlciB3aXRoaW4gY2F0ZWdvcnkgKGF1dG8tZ2VuZXJhdGVkIGlmIG5vdCBwcm92aWRlZCknLFxuICAgIGV4YW1wbGU6IDEsXG4gICAgbWluaW11bTogMCxcbiAgfSlcbiAgQElzT3B0aW9uYWwoKVxuICBASXNOdW1iZXIoKVxuICBATWluKDApXG4gIG9yZGVyPzogbnVtYmVyO1xuXG4gIEBBcGlQcm9wZXJ0eU9wdGlvbmFsKHtcbiAgICBkZXNjcmlwdGlvbjogJ0ZBUSB2aXNpYmlsaXR5IHN0YXR1cycsXG4gICAgdHlwZTogQm9vbGVhbixcbiAgICBkZWZhdWx0OiB0cnVlLFxuICAgIGV4YW1wbGU6IHRydWUsXG4gIH0pXG4gIEBJc09wdGlvbmFsKClcbiAgQElzQm9vbGVhbigpXG4gIGlzVmlzaWJsZT86IGJvb2xlYW47XG59XG4iXSwidmVyc2lvbiI6M30=

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, LayoutAnimation, Platform, UIManager } from 'react-native';
-import type { Faq } from '@vtexday26/shared';
+import type { Faq, FaqCategory } from '@vtexday26/shared';
 import RichTextRenderer from './RichTextRenderer';
 import FaqService from '../../services/FaqService';
 
@@ -13,6 +13,11 @@ interface FaqAccordionProps {
   language?: 'pt-BR' | 'en';
 }
 
+// Helper to extract category ID whether it's a string or populated object
+const getCategoryId = (category: string | FaqCategory): string => {
+  return typeof category === 'string' ? category : (category._id || '');
+};
+
 const FaqAccordion = React.memo(function FaqAccordion({ faq, language = 'pt-BR' }: FaqAccordionProps) {
   const [expanded, setExpanded] = useState(false);
 
@@ -21,7 +26,7 @@ const FaqAccordion = React.memo(function FaqAccordion({ faq, language = 'pt-BR' 
     setExpanded(!expanded);
 
     // Track view count when expanding
-    if (!expanded) {
+    if (!expanded && faq._id) {
       await FaqService.incrementViewCount(faq._id);
     }
   };

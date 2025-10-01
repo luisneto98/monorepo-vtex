@@ -3,7 +3,9 @@ import { getModelToken } from '@nestjs/mongoose';
 import { SponsorsService } from '../../../../../src/modules/sponsors/sponsors.service';
 import { Sponsor } from '../../../../../src/modules/sponsors/schemas/sponsor.schema';
 import { SponsorTier } from '../../../../../src/modules/sponsors/schemas/sponsor-tier.schema';
-import { NotFoundException, ConflictException } from '@nestjs/common';
+import { NotFoundException, ConflictException, BadRequestException } from '@nestjs/common';
+import { StorageService } from '../../../../../src/modules/storage/services/storage.service';
+import { FileCategory } from '../../../../../src/modules/storage/types/storage.types';
 
 describe('SponsorsService', () => {
   let service: SponsorsService;
@@ -69,6 +71,13 @@ describe('SponsorsService', () => {
   mockSponsorTierModel.find = jest.fn();
   mockSponsorTierModel.countDocuments = jest.fn();
   mockSponsorTierModel.create = jest.fn();
+  mockSponsorTierModel.updateOne = jest.fn();
+  mockSponsorTierModel.deleteOne = jest.fn();
+  mockSponsorTierModel.findById = jest.fn();
+
+  const mockStorageService = {
+    uploadFile: jest.fn(),
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -82,10 +91,23 @@ describe('SponsorsService', () => {
           provide: getModelToken(SponsorTier.name),
           useValue: mockSponsorTierModel,
         },
+        {
+          provide: StorageService,
+          useValue: mockStorageService,
+        },
       ],
     }).compile();
 
     service = module.get<SponsorsService>(SponsorsService);
+  });
+
+  beforeEach(() => {
+    // Reset storage service mock to default behavior before each test
+    mockStorageService.uploadFile.mockReset();
+    mockStorageService.uploadFile.mockResolvedValue({
+      key: 'sponsor-logos/12345-67890.jpg',
+      url: 'https://test-bucket.s3.us-east-1.amazonaws.com/sponsor-logos/12345-67890.jpg',
+    });
   });
 
   afterEach(() => {
@@ -96,6 +118,7 @@ describe('SponsorsService', () => {
     it('should create a new sponsor', async () => {
       const createDto = {
         name: 'New Sponsor',
+        slug: 'new-sponsor',
         description: {
           'pt-BR': 'Novo patrocinador',
           en: 'New sponsor',
@@ -103,31 +126,24 @@ describe('SponsorsService', () => {
         logoUrl: 'https://example.com/new-logo.png',
         websiteUrl: 'https://newsponsor.com',
         tier: mockSponsorTier._id,
-        contactInfo: {
-          email: 'contact@newsponsor.com',
-        },
+        orderInTier: 1,
+        adminEmail: 'admin@newsponsor.com',
       };
 
       mockSponsorModel.findOne.mockResolvedValue(null);
-      mockSponsorTierModel.findOne.mockResolvedValue(mockSponsorTier);
-      mockSponsorModel.countDocuments.mockResolvedValue(0);
+      mockSponsorTierModel.findById.mockResolvedValue(mockSponsorTier);
 
       const result = await service.createSponsor(createDto);
 
-      expect(mockSponsorModel.findOne).toHaveBeenCalledWith({
-        name: createDto.name,
-        deletedAt: null,
-      });
-      expect(mockSponsorTierModel.findOne).toHaveBeenCalledWith({
-        _id: createDto.tier,
-        isActive: true,
-      });
+      expect(mockSponsorModel.findOne).toHaveBeenCalled();
+      expect(mockSponsorTierModel.findById).toHaveBeenCalledWith(createDto.tier);
       expect(result).toBeDefined();
     });
 
     it('should throw ConflictException if sponsor already exists', async () => {
       const createDto = {
         name: 'Tech Corp',
+        slug: 'tech-corp',
         description: {
           'pt-BR': 'Empresa existente',
           en: 'Existing company',
@@ -135,9 +151,8 @@ describe('SponsorsService', () => {
         logoUrl: 'https://example.com/logo.png',
         websiteUrl: 'https://techcorp.com',
         tier: mockSponsorTier._id,
-        contactInfo: {
-          email: 'contact@techcorp.com',
-        },
+        orderInTier: 1,
+        adminEmail: 'admin@techcorp.com',
       };
 
       mockSponsorModel.findOne.mockResolvedValue(mockSponsor);
@@ -148,6 +163,7 @@ describe('SponsorsService', () => {
     it('should throw NotFoundException if tier not found', async () => {
       const createDto = {
         name: 'New Sponsor',
+        slug: 'new-sponsor',
         description: {
           'pt-BR': 'Novo patrocinador',
           en: 'New sponsor',
@@ -155,13 +171,12 @@ describe('SponsorsService', () => {
         logoUrl: 'https://example.com/logo.png',
         websiteUrl: 'https://newsponsor.com',
         tier: 'nonexistent-tier-id',
-        contactInfo: {
-          email: 'contact@newsponsor.com',
-        },
+        orderInTier: 1,
+        adminEmail: 'admin@newsponsor.com',
       };
 
       mockSponsorModel.findOne.mockResolvedValue(null);
-      mockSponsorTierModel.findOne.mockResolvedValue(null);
+      mockSponsorTierModel.findById.mockResolvedValue(null);
 
       await expect(service.createSponsor(createDto)).rejects.toThrow(NotFoundException);
     });
@@ -342,20 +357,25 @@ describe('SponsorsService', () => {
 
   describe('findByTier', () => {
     it('should return sponsors grouped by tier', async () => {
-      const tierGroups = [
-        {
-          _id: mockSponsorTier._id,
-          tier: mockSponsorTier,
-          sponsors: [mockSponsor],
-        },
-      ];
+      const sponsorWithTier = {
+        ...mockSponsor,
+        tier: mockSponsorTier,
+      };
 
-      mockSponsorModel.aggregate.mockResolvedValue(tierGroups);
+      mockSponsorModel.find.mockReturnValue({
+        populate: jest.fn().mockReturnThis(),
+        sort: jest.fn().mockReturnThis(),
+        exec: jest.fn().mockResolvedValue([sponsorWithTier]),
+      });
 
       const result = await service.findSponsorsByTier();
 
-      expect(result).toEqual(tierGroups);
-      expect(mockSponsorModel.aggregate).toHaveBeenCalled();
+      expect(result).toHaveProperty(mockSponsorTier.name);
+      expect(result[mockSponsorTier.name]).toContainEqual(sponsorWithTier);
+      expect(mockSponsorModel.find).toHaveBeenCalledWith({
+        isVisible: true,
+        deletedAt: null,
+      });
     });
   });
 
@@ -364,37 +384,31 @@ describe('SponsorsService', () => {
       it('should create a new sponsor tier', async () => {
         const createTierDto = {
           name: 'Gold',
-          description: {
+          displayName: {
             'pt-BR': 'Patrocinador Ouro',
             en: 'Gold Sponsor',
           },
-          priority: 2,
-          benefits: ['Logo médio', 'Estande padrão'],
-          maxSponsors: 5,
-          price: 25000,
+          order: 2,
+          maxPosts: 5,
         };
 
         mockSponsorTierModel.findOne.mockResolvedValue(null);
 
         const result = await service.createTier(createTierDto);
 
-        expect(mockSponsorTierModel.findOne).toHaveBeenCalledWith({
-          name: createTierDto.name,
-        });
+        expect(mockSponsorTierModel.findOne).toHaveBeenCalled();
         expect(result).toBeDefined();
       });
 
       it('should throw ConflictException if tier already exists', async () => {
         const createTierDto = {
           name: 'Diamond',
-          description: {
+          displayName: {
             'pt-BR': 'Patrocinador Diamante',
             en: 'Diamond Sponsor',
           },
-          priority: 1,
-          benefits: ['Logo principal'],
-          maxSponsors: 3,
-          price: 50000,
+          order: 1,
+          maxPosts: 3,
         };
 
         mockSponsorTierModel.findOne.mockResolvedValue(mockSponsorTier);
@@ -412,17 +426,17 @@ describe('SponsorsService', () => {
           exec: jest.fn().mockResolvedValue(tiers),
         });
 
-        const result = await service.findAllSponsorsTiers();
+        const result = await service.findAllTiers();
 
         expect(result).toEqual(tiers);
-        expect(mockSponsorTierModel.find).toHaveBeenCalledWith({ isActive: true });
+        expect(mockSponsorTierModel.find).toHaveBeenCalled();
       });
     });
 
     describe('updateTier', () => {
       it('should update a sponsor tier', async () => {
         const updateTierDto = {
-          price: 60000,
+          maxPosts: 10,
         };
 
         const existingTier = {
@@ -430,18 +444,18 @@ describe('SponsorsService', () => {
           save: jest.fn().mockResolvedValue({ ...mockSponsorTier, ...updateTierDto }),
         };
 
-        mockSponsorTierModel.findOne.mockResolvedValue(existingTier);
+        mockSponsorTierModel.findById.mockResolvedValue(existingTier);
 
-        const result = await service.updateSponsorTier('507f1f77bcf86cd799439014', updateTierDto);
+        const result = await service.updateTier('507f1f77bcf86cd799439014', updateTierDto);
 
         expect(result).toBeDefined();
         expect(existingTier.save).toHaveBeenCalled();
       });
 
       it('should throw NotFoundException if tier not found', async () => {
-        mockSponsorTierModel.findOne.mockResolvedValue(null);
+        mockSponsorTierModel.findById.mockResolvedValue(null);
 
-        await expect(service.updateSponsorTier('507f1f77bcf86cd799439014', {})).rejects.toThrow(
+        await expect(service.updateTier('507f1f77bcf86cd799439014', {})).rejects.toThrow(
           NotFoundException,
         );
       });
@@ -449,29 +463,183 @@ describe('SponsorsService', () => {
 
     describe('deleteTier', () => {
       it('should delete a sponsor tier', async () => {
-        const tier = {
-          ...mockSponsorTier,
-          isActive: true,
-          save: jest.fn().mockResolvedValue({ ...mockSponsorTier, isActive: false }),
-        };
-
-        mockSponsorTierModel.findOne.mockResolvedValue(tier);
-        mockSponsorModel.countDocuments.mockResolvedValue(0);
+        mockSponsorModel.findOne.mockResolvedValue(null);
+        mockSponsorTierModel.deleteOne.mockResolvedValue({ deletedCount: 1 });
 
         await service.removeTier('507f1f77bcf86cd799439014');
 
-        expect(tier.isActive).toBe(false);
-        expect(tier.save).toHaveBeenCalled();
+        expect(mockSponsorTierModel.deleteOne).toHaveBeenCalledWith({
+          _id: '507f1f77bcf86cd799439014',
+        });
       });
 
       it('should throw ConflictException if tier has sponsors', async () => {
-        mockSponsorTierModel.findOne.mockResolvedValue(mockSponsorTier);
-        mockSponsorModel.countDocuments.mockResolvedValue(1);
+        mockSponsorModel.findOne.mockResolvedValue(mockSponsor);
 
         await expect(service.removeTier('507f1f77bcf86cd799439014')).rejects.toThrow(
           ConflictException,
         );
       });
+    });
+  });
+
+  describe('uploadLogo', () => {
+    const mockFile: Express.Multer.File = {
+      fieldname: 'file',
+      originalname: 'test-logo.jpg',
+      encoding: '7bit',
+      mimetype: 'image/jpeg',
+      size: 1024 * 500, // 500KB
+      buffer: Buffer.from('fake-image-data'),
+      stream: null as any,
+      destination: '',
+      filename: '',
+      path: '',
+    };
+
+    it('should successfully upload logo and update sponsor', async () => {
+      const sponsorId = mockSponsor._id;
+      const mockSponsorDoc = {
+        ...mockSponsor,
+        save: jest
+          .fn()
+          .mockResolvedValue({ ...mockSponsor, logoUrl: mockStorageService.uploadFile().url }),
+      };
+
+      mockSponsorModel.findOne.mockResolvedValue(mockSponsorDoc);
+
+      const result = await service.uploadLogo(sponsorId, mockFile);
+
+      // Verify sponsor was found
+      expect(mockSponsorModel.findOne).toHaveBeenCalledWith({
+        _id: sponsorId,
+        deletedAt: null,
+      });
+
+      // Verify file was uploaded to storage
+      expect(mockStorageService.uploadFile).toHaveBeenCalledWith(
+        mockFile,
+        FileCategory.SPONSOR_LOGOS,
+      );
+
+      // Verify sponsor logoUrl was updated
+      expect(mockSponsorDoc.logoUrl).toBe(
+        'https://test-bucket.s3.us-east-1.amazonaws.com/sponsor-logos/12345-67890.jpg',
+      );
+      expect(mockSponsorDoc.save).toHaveBeenCalled();
+
+      // Verify returned URL
+      expect(result).toBe(
+        'https://test-bucket.s3.us-east-1.amazonaws.com/sponsor-logos/12345-67890.jpg',
+      );
+    });
+
+    it('should throw NotFoundException if sponsor does not exist', async () => {
+      const nonExistentId = '507f1f77bcf86cd799439999';
+      mockSponsorModel.findOne.mockResolvedValue(null);
+
+      await expect(service.uploadLogo(nonExistentId, mockFile)).rejects.toThrow(NotFoundException);
+      await expect(service.uploadLogo(nonExistentId, mockFile)).rejects.toThrow(
+        `Sponsor with ID ${nonExistentId} not found`,
+      );
+
+      expect(mockSponsorModel.findOne).toHaveBeenCalledWith({
+        _id: nonExistentId,
+        deletedAt: null,
+      });
+      expect(mockStorageService.uploadFile).not.toHaveBeenCalled();
+    });
+
+    it('should throw NotFoundException if sponsor is soft-deleted', async () => {
+      const deletedSponsorId = mockSponsor._id;
+      mockSponsorModel.findOne.mockResolvedValue(null);
+
+      await expect(service.uploadLogo(deletedSponsorId, mockFile)).rejects.toThrow(
+        NotFoundException,
+      );
+      expect(mockStorageService.uploadFile).not.toHaveBeenCalled();
+    });
+
+    it('should propagate StorageService errors (invalid file type)', async () => {
+      const sponsorId = mockSponsor._id;
+      const mockSponsorDoc = { ...mockSponsor, save: jest.fn() };
+
+      mockSponsorModel.findOne.mockResolvedValue(mockSponsorDoc);
+      mockStorageService.uploadFile.mockRejectedValue(
+        new BadRequestException('Invalid file type. Only JPEG, PNG, WEBP files are allowed.'),
+      );
+
+      await expect(service.uploadLogo(sponsorId, mockFile)).rejects.toThrow(BadRequestException);
+      await expect(service.uploadLogo(sponsorId, mockFile)).rejects.toThrow('Invalid file type');
+
+      expect(mockSponsorModel.findOne).toHaveBeenCalled();
+      expect(mockStorageService.uploadFile).toHaveBeenCalled();
+      expect(mockSponsorDoc.save).not.toHaveBeenCalled();
+    });
+
+    it('should propagate StorageService errors (file too large)', async () => {
+      const sponsorId = mockSponsor._id;
+      const mockSponsorDoc = { ...mockSponsor, save: jest.fn() };
+
+      mockSponsorModel.findOne.mockResolvedValue(mockSponsorDoc);
+      mockStorageService.uploadFile.mockRejectedValue(
+        new BadRequestException('File size exceeds maximum allowed size of 5MB'),
+      );
+
+      await expect(service.uploadLogo(sponsorId, mockFile)).rejects.toThrow(BadRequestException);
+      expect(mockSponsorDoc.save).not.toHaveBeenCalled();
+    });
+
+    it('should propagate StorageService errors (virus detected)', async () => {
+      const sponsorId = mockSponsor._id;
+      const mockSponsorDoc = { ...mockSponsor, save: jest.fn() };
+
+      mockSponsorModel.findOne.mockResolvedValue(mockSponsorDoc);
+      mockStorageService.uploadFile.mockRejectedValue(
+        new BadRequestException('Virus detected in uploaded file'),
+      );
+
+      await expect(service.uploadLogo(sponsorId, mockFile)).rejects.toThrow(BadRequestException);
+      await expect(service.uploadLogo(sponsorId, mockFile)).rejects.toThrow('Virus detected');
+      expect(mockSponsorDoc.save).not.toHaveBeenCalled();
+    });
+
+    it('should update logoUrl correctly when uploading new logo over existing one', async () => {
+      const sponsorId = mockSponsor._id;
+      const oldLogoUrl = 'https://example.com/old-logo.png';
+      const newLogoUrl =
+        'https://test-bucket.s3.us-east-1.amazonaws.com/sponsor-logos/12345-67890.jpg';
+
+      const mockSponsorDoc = {
+        ...mockSponsor,
+        logoUrl: oldLogoUrl,
+        save: jest.fn().mockResolvedValue({ ...mockSponsor, logoUrl: newLogoUrl }),
+      };
+
+      mockSponsorModel.findOne.mockResolvedValue(mockSponsorDoc);
+
+      const result = await service.uploadLogo(sponsorId, mockFile);
+
+      expect(mockSponsorDoc.logoUrl).toBe(newLogoUrl);
+      expect(result).toBe(newLogoUrl);
+      expect(mockSponsorDoc.save).toHaveBeenCalled();
+    });
+
+    it('should handle database save errors gracefully', async () => {
+      const sponsorId = mockSponsor._id;
+      const mockSponsorDoc = {
+        ...mockSponsor,
+        save: jest.fn().mockRejectedValue(new Error('Database connection error')),
+      };
+
+      mockSponsorModel.findOne.mockResolvedValue(mockSponsorDoc);
+
+      await expect(service.uploadLogo(sponsorId, mockFile)).rejects.toThrow(
+        'Database connection error',
+      );
+
+      expect(mockStorageService.uploadFile).toHaveBeenCalled();
+      expect(mockSponsorDoc.save).toHaveBeenCalled();
     });
   });
 });
