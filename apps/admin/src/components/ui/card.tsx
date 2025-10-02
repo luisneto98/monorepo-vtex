@@ -1,18 +1,17 @@
 import { forwardRef, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
-interface CardProps {
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   className?: string;
-  style?: React.CSSProperties;
 }
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ children, className, style }, ref) => {
+  ({ children, className, ...props }, ref) => {
     return (
       <div
         ref={ref}
-        style={style}
+        {...props}
         className={cn('bg-white rounded-lg shadow-sm border border-gray-200', className)}
       >
         {children}

@@ -9,7 +9,9 @@ module.exports = {
   moduleNameMapper: {
     '^react-native$': '<rootDir>/__mocks__/react-native.js',
     '^@/(.*)$': '<rootDir>/src/$1',
-    '^@shared/(.*)$': '<rootDir>/../../packages/shared/src/$1'
+    '^@shared/(.*)$': '<rootDir>/../../packages/shared/src/$1',
+    '^@monorepo-vtex/shared/(.*)$': '<rootDir>/../../packages/shared/src/$1',
+    '^@vtexday26/shared/(.*)$': '<rootDir>/../../packages/shared/src/$1'
   },
   globals: {
     __DEV__: true,
@@ -30,10 +32,6 @@ module.exports = {
       lines: 60,
       statements: 60
     }
-  },
-  moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
-    '^@shared/(.*)$': '<rootDir>/../../packages/shared/src/$1'
   },
   testMatch: [
     '<rootDir>/tests/**/*.test.{ts,tsx}'

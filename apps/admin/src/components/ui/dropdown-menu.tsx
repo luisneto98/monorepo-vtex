@@ -32,7 +32,7 @@ export const DropdownMenuContent = ({ children, align, open, setOpen, triggerRef
       const contentWidth = contentRef.current?.offsetWidth || 200;
 
       let left = rect.left;
-      let top = rect.bottom + sideOffset;
+      const top = rect.bottom + sideOffset;
 
       // Align to end (right align)
       if (align === 'end') {

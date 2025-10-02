@@ -120,10 +120,16 @@ const LegalPages: React.FC = () => {
       if (!response.ok) throw new Error('Upload failed');
 
       const data = await response.json();
-      const updatedPages = pages.map((page) =>
-        page._id === pageId ? data : page
-      );
-      setPages(updatedPages);
+      // Ensure the response has the correct structure
+      if (data && data._id) {
+        const updatedPages = pages.map((page) =>
+          page._id === pageId ? data : page
+        );
+        setPages(updatedPages);
+      } else {
+        // If response format is unexpected, refetch all pages
+        await fetchPages();
+      }
       toast({
         title: 'Success',
         description: 'File uploaded successfully',

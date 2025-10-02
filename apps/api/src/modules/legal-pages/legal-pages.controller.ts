@@ -24,6 +24,7 @@ import { SupportedLanguage } from './dto/upload-file.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { RolesGuard } from '../auth/guards/roles.guard';
+import { Public } from '../auth/decorators/public.decorator';
 import { Throttle } from '@nestjs/throttler';
 import { UserRole } from '@vtexday26/shared';
 
@@ -47,6 +48,52 @@ export class LegalPagesController {
     return this.legalPagesService.findAll(active);
   }
 
+  // PUBLIC ROUTES - Must be defined BEFORE parameterized routes (:id)
+  @Public() // No authentication required for mobile app access
+  @Get('public/list')
+  @Throttle({ default: { limit: 100, ttl: 60 } })
+  async getPublicPages() {
+    return this.legalPagesService.getPublicPages();
+  }
+
+  @Public() // No authentication required for mobile app access
+  @Get('public/:slug/:language/download')
+  @Throttle({ default: { limit: 50, ttl: 60 } })
+  async downloadFile(
+    @Param('slug') slug: string,
+    @Param('language') language: SupportedLanguage,
+    @Res() res: Response,
+  ) {
+    try {
+      const { stream, metadata } = await this.legalPagesService.getFileStream(slug, language);
+
+      res.set({
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment; filename="${metadata.originalName}"`,
+        'Content-Length': metadata.size.toString(),
+      });
+
+      stream.pipe(res);
+    } catch (error: any) {
+      if (error.status) {
+        res.status(error.status).json({ message: error.message });
+      } else {
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: 'Error downloading file' });
+      }
+    }
+  }
+
+  @Public() // No authentication required for mobile app access
+  @Get('public/:slug/:language/url')
+  @Throttle({ default: { limit: 100, ttl: 60 } })
+  async getDownloadUrl(
+    @Param('slug') slug: string,
+    @Param('language') language: SupportedLanguage,
+  ) {
+    return this.legalPagesService.getSignedDownloadUrl(slug, language);
+  }
+
+  // PROTECTED ROUTES - Parameterized routes come AFTER specific routes
   @Get(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.SUPER_ADMIN, UserRole.PRODUCER)
@@ -108,46 +155,5 @@ export class LegalPagesController {
   async remove(@Param('id') id: string) {
     await this.legalPagesService.remove(id);
     return { message: 'Legal page deleted successfully' };
-  }
-
-  @Get('public/list')
-  @Throttle({ default: { limit: 100, ttl: 60 } })
-  async getPublicPages() {
-    return this.legalPagesService.getPublicPages();
-  }
-
-  @Get('public/:slug/:language/download')
-  @Throttle({ default: { limit: 50, ttl: 60 } })
-  async downloadFile(
-    @Param('slug') slug: string,
-    @Param('language') language: SupportedLanguage,
-    @Res() res: Response,
-  ) {
-    try {
-      const { stream, metadata } = await this.legalPagesService.getFileStream(slug, language);
-
-      res.set({
-        'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="${metadata.originalName}"`,
-        'Content-Length': metadata.size.toString(),
-      });
-
-      stream.pipe(res);
-    } catch (error: any) {
-      if (error.status) {
-        res.status(error.status).json({ message: error.message });
-      } else {
-        res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: 'Error downloading file' });
-      }
-    }
-  }
-
-  @Get('public/:slug/:language/url')
-  @Throttle({ default: { limit: 100, ttl: 60 } })
-  async getDownloadUrl(
-    @Param('slug') slug: string,
-    @Param('language') language: SupportedLanguage,
-  ) {
-    return this.legalPagesService.getSignedDownloadUrl(slug, language);
   }
 }

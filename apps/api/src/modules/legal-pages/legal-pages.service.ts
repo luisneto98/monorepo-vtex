@@ -162,14 +162,17 @@ export class LegalPagesService {
     const pages = await this.legalPageModel
       .find({ isActive: true })
       .select('slug type title files')
+      .lean() // Convert to plain JavaScript object to avoid Mongoose metadata
       .exec();
+
+    const validLanguages = ['pt', 'en', 'es']; // Valid SupportedLanguage values
 
     return pages.map((page) => ({
       slug: page.slug,
       type: page.type,
       title: page.title,
       availableLanguages: page.files
-        ? Object.keys(page.files).filter((lang) => page.files[lang])
+        ? Object.keys(page.files).filter((lang) => validLanguages.includes(lang) && page.files[lang])
         : [],
     }));
   }

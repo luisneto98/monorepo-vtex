@@ -19,8 +19,11 @@ import PressMaterialsListScreen from '../screens/PressMaterials/PressMaterialsLi
 import PressMaterialDetailModal from '../screens/PressMaterials/PressMaterialDetailModal';
 import NewsReleasesListScreen from '../screens/NewsReleases/NewsReleasesListScreen';
 import NewsReleaseDetailScreen from '../screens/NewsReleases/NewsReleaseDetailScreen';
+import LegalPagesListScreen from '../screens/LegalPages/LegalPagesListScreen';
+import LegalPageViewerModal from '../screens/LegalPages/LegalPageViewerModal';
 import { useNotifications } from '../contexts/NotificationContext';
-import { PressMaterial } from '@monorepo-vtex/shared/types/press-materials';
+import { PressMaterial } from '@shared/types/press-materials';
+import { SupportedLanguage } from '@shared/types/legal-pages';
 
 export type RootStackParamList = {
   Main: undefined;
@@ -34,6 +37,8 @@ export type RootStackParamList = {
   PressMaterialDetail: { material: PressMaterial };
   NewsReleases: undefined;
   NewsReleaseDetail: { slug: string };
+  LegalPages: undefined;
+  LegalPageViewer: { slug: string; language: SupportedLanguage; title: string };
 };
 
 export type TabParamList = {
@@ -88,6 +93,8 @@ const linking: LinkingOptions<RootStackParamList> = {
           slug: (slug: string) => slug,
         },
       },
+      LegalPages: 'legal-pages',
+      LegalPageViewer: 'legal-page-viewer',
     },
   },
 };
@@ -241,6 +248,23 @@ export default function AppNavigator() {
           options={{
             title: 'Notícia',
             headerBackTitle: 'Voltar',
+          }}
+        />
+        <Stack.Screen
+          name="LegalPages"
+          component={LegalPagesListScreen}
+          options={{
+            title: 'Termos e Privacidade',
+            headerBackTitle: 'Voltar',
+          }}
+        />
+        <Stack.Screen
+          name="LegalPageViewer"
+          component={LegalPageViewerModal}
+          options={{
+            title: 'Documento Legal',
+            headerBackTitle: 'Voltar',
+            presentation: 'modal',
           }}
         />
       </Stack.Navigator>

@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Upload, Download, Trash2, FileText, Globe } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Upload, Download, Trash2, FileText, Globe, Smartphone, HelpCircle } from 'lucide-react';
 
 interface FileInfo {
   filename: string;
@@ -59,6 +60,28 @@ const getTypeLabel = (type: string) => {
   return labels[type] || type;
 };
 
+// Mobile-recognized slug patterns for legal pages
+const MOBILE_SLUG_PATTERNS = {
+  terms: ['terms-of-use', 'termos-de-uso', 'terms', 'termos'],
+  privacy: ['privacy-policy', 'politica-de-privacidade', 'privacy', 'privacidade'],
+  cookies: ['cookies-policy', 'politica-de-cookies', 'cookies'],
+};
+
+const isMobileCompatibleSlug = (slug: string): boolean => {
+  const normalizedSlug = slug.toLowerCase();
+  return Object.values(MOBILE_SLUG_PATTERNS).some(patterns =>
+    patterns.some(pattern => pattern.toLowerCase() === normalizedSlug)
+  );
+};
+
+const getMobileSlugRecommendations = (): string[] => {
+  return [
+    'terms-of-use, termos-de-uso (Terms)',
+    'privacy-policy, politica-de-privacidade (Privacy)',
+    'cookies-policy, politica-de-cookies (Cookies)',
+  ];
+};
+
 export const LegalPagesList: React.FC<LegalPagesListProps> = ({
   pages,
   onUpload,
@@ -73,25 +96,69 @@ export const LegalPagesList: React.FC<LegalPagesListProps> = ({
     es: 'Spanish',
   };
 
+  const isMobileCompatible = (slug: string) => isMobileCompatibleSlug(slug);
+
   return (
-    <div className="space-y-4">
-      {pages.map((page) => (
-        <Card key={page._id}>
-          <CardHeader>
-            <div className="flex justify-between items-start">
+    <TooltipProvider>
+      <div className="space-y-4">
+        {/* Mobile Slug Help Banner */}
+        <Card className="bg-blue-50 border-blue-200">
+          <CardContent className="pt-4">
+            <div className="flex items-start gap-3">
+              <HelpCircle className="h-5 w-5 text-blue-600 mt-0.5" />
               <div>
-                <CardTitle className="flex items-center gap-2">
-                  <FileText className="h-5 w-5" />
-                  {page.title.en || page.slug}
-                </CardTitle>
-                <div className="flex gap-2 mt-2">
-                  <Badge variant="outline">{getTypeLabel(page.type)}</Badge>
-                  <Badge variant={page.isActive ? 'default' : 'secondary'}>
-                    {page.isActive ? 'Active' : 'Inactive'}
-                  </Badge>
-                  <code className="text-sm text-muted-foreground">{page.slug}</code>
-                </div>
+                <h4 className="text-sm font-semibold text-blue-900 mb-1">Mobile App Compatibility</h4>
+                <p className="text-sm text-blue-800 mb-2">
+                  Legal pages with the following slugs will be displayed in the mobile app:
+                </p>
+                <ul className="text-xs text-blue-700 space-y-1 ml-4 list-disc">
+                  {getMobileSlugRecommendations().map((rec, idx) => (
+                    <li key={idx}><code className="bg-blue-100 px-1 rounded">{rec}</code></li>
+                  ))}
+                </ul>
               </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {pages.map((page) => {
+          // Defensive check for malformed data
+          if (!page || !page._id || !page.title) {
+            return null;
+          }
+
+          const mobileCompatible = isMobileCompatible(page.slug);
+
+          return (
+          <Card key={page._id}>
+            <CardHeader>
+              <div className="flex justify-between items-start">
+                <div>
+                  <CardTitle className="flex items-center gap-2">
+                    <FileText className="h-5 w-5" />
+                    {page.title.en || page.title.pt || page.title.es || page.slug}
+                  </CardTitle>
+                  <div className="flex gap-2 mt-2">
+                    <Badge variant="outline">{getTypeLabel(page.type)}</Badge>
+                    <Badge variant={page.isActive ? 'default' : 'secondary'}>
+                      {page.isActive ? 'Active' : 'Inactive'}
+                    </Badge>
+                    {mobileCompatible && (
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Badge variant="default" className="bg-green-600 hover:bg-green-700">
+                            <Smartphone className="h-3 w-3 mr-1" />
+                            Mobile
+                          </Badge>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>This page will be displayed in the mobile app</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    )}
+                    <code className="text-sm text-muted-foreground">{page.slug}</code>
+                  </div>
+                </div>
               <div className="flex items-center gap-2">
                 <Switch
                   checked={page.isActive}
@@ -107,7 +174,7 @@ export const LegalPagesList: React.FC<LegalPagesListProps> = ({
                 </Button>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button variant="destructive" size="sm">
+                    <Button variant="destructive" size="sm" data-testid={`delete-page-${page._id}`}>
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </AlertDialogTrigger>
@@ -120,7 +187,7 @@ export const LegalPagesList: React.FC<LegalPagesListProps> = ({
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction onClick={() => onDelete(page._id)}>
+                      <AlertDialogAction onClick={() => onDelete(page._id)} data-testid="confirm-delete-page">
                         Delete
                       </AlertDialogAction>
                     </AlertDialogFooter>
@@ -164,7 +231,7 @@ export const LegalPagesList: React.FC<LegalPagesListProps> = ({
                           </Button>
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
-                              <Button variant="outline" size="sm">
+                              <Button variant="outline" size="sm" data-testid={`delete-file-${page._id}-${lang}`}>
                                 <Trash2 className="h-3 w-3" />
                               </Button>
                             </AlertDialogTrigger>
@@ -177,7 +244,7 @@ export const LegalPagesList: React.FC<LegalPagesListProps> = ({
                               </AlertDialogHeader>
                               <AlertDialogFooter>
                                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={() => onDeleteFile(page._id, lang)}>
+                                <AlertDialogAction onClick={() => onDeleteFile(page._id, lang)} data-testid="confirm-delete-file">
                                   Delete
                                 </AlertDialogAction>
                               </AlertDialogFooter>
@@ -196,14 +263,16 @@ export const LegalPagesList: React.FC<LegalPagesListProps> = ({
             </div>
           </CardContent>
         </Card>
-      ))}
-      {pages.length === 0 && (
-        <Card>
-          <CardContent className="text-center py-8 text-muted-foreground">
-            No legal pages created yet. Click "Add Legal Page" to create one.
-          </CardContent>
-        </Card>
-      )}
-    </div>
+          );
+        })}
+        {pages.length === 0 && (
+          <Card>
+            <CardContent className="text-center py-8 text-muted-foreground">
+              No legal pages created yet. Click "Add Legal Page" to create one.
+            </CardContent>
+          </Card>
+        )}
+      </div>
+    </TooltipProvider>
   );
 };

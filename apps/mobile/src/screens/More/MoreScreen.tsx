@@ -59,6 +59,10 @@ export default function MoreScreen() {
     }
   };
 
+  const handleLegalPages = () => {
+    navigation.navigate('LegalPages');
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -121,6 +125,25 @@ export default function MoreScreen() {
                   : permissionStatus === 'denied'
                   ? 'Desativadas'
                   : 'Não configuradas'}
+              </Text>
+            </View>
+          </View>
+          <Text style={styles.menuItemArrow}>›</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.menuItem}
+          onPress={handleLegalPages}
+          accessibilityLabel="Ver termos e privacidade"
+          accessibilityHint="Toque para ver documentos legais do evento"
+          accessibilityRole="button"
+        >
+          <View style={styles.menuItemLeft}>
+            <Text style={styles.menuIcon}>📄</Text>
+            <View>
+              <Text style={styles.menuItemTitle}>Termos e Privacidade</Text>
+              <Text style={styles.menuItemSubtitle}>
+                Documentos legais do evento
               </Text>
             </View>
           </View>

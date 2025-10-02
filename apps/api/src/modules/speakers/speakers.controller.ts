@@ -289,13 +289,7 @@ export class SpeakersController {
   async uploadPhoto(
     @Param('id') id: string,
     @UploadedFile() file: Express.Multer.File,
-    @Req() req: Request,
   ) {
-    console.log('🎯 Upload endpoint hit');
-    console.log('👤 User:', req.user);
-    console.log('📁 File:', file ? 'present' : 'missing');
-    console.log('🆔 Speaker ID:', id);
-
     if (!file) {
       throw new BadRequestException('No file provided');
     }
